@@ -1,0 +1,11 @@
+<!-- .discussion[ -->
+<!-- Discuss in groups of three and then as a large group. -->
+
+<!-- - What are your first reactions to the curriculum we just described for an intro data science course?  -->
+<!-- - Which components can you see yourself (or do you already) include in an intro data science curriculum? -->
+<!-- - Which components do you have reservations about, and why? -->
+<!-- ] -->
+
+<!-- ```{r echo=FALSE} -->
+<!-- countdown(minutes = 3) -->
+<!-- ``` -->

@@ -1,0 +1,17 @@
+# load packages ----------------------------------------------------------------
+
+library(xaringanthemer)
+
+# set colors -------------------------------------------------------------------
+style_duo_accent(
+  primary_color = "#4C566B",
+  secondary_color = "#C16069",
+  inverse_header_color = "#FFFFFF",
+  # primary_color      = "#0F4C81", # pantone classic blue
+  # secondary_color    = "#A2B8D4", # pantone cashmere blue
+  header_font_google = google_font("Raleway"),
+  text_font_google   = google_font("Raleway", "300", "300i"),
+  code_font_google   = google_font("Fira Code"),
+  # text_font_size     = "30px",
+  outfile            = "css/xaringan-themer.css"
+)

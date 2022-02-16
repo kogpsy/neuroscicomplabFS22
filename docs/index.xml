@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>neuroscicomplab</title>
+    <link>https://kogpsy.github.io/neuroscicomplab</link>
+    <atom:link href="https://kogpsy.github.io/neuroscicomplab/index.xml" rel="self" type="application/rss+xml"/>
+    <description>Neurowissenschaft im Computerlab
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Mon, 21 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Lösung zur Übung 6</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-06-22-solution-6</link>
+      <description>Die Lösung zur Übung 6 finden Sie unter Lösungen.</description>
+      <category>uebungen</category>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-06-22-solution-6</guid>
+      <pubDate>Mon, 21 Jun 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Lösung zur Übung 5</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-06-08-solution-5</link>
+      <description>Die Lösung zur Übung 5 finden Sie unter Lösungen.</description>
+      <category>uebungen</category>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-06-08-solution-5</guid>
+      <pubDate>Tue, 08 Jun 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Übung 6</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-05-21-uebung-6</link>
+      <description>Übung 6 ist online.</description>
+      <category>uebungen</category>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-05-21-uebung-6</guid>
+      <pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Lösung zur Übung 4</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-05-20-solution-4</link>
+      <description>Die Lösung zur zweiten Übung finden Sie unter Lösungen.</description>
+      <category>uebungen</category>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-05-20-solution-4</guid>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Online Experiment</title>
+      <dc:creator>Gerda Wyssen</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-05-03-mental-rotation-task</link>
+      <description>Mentale Rotation unter verschiedenen Strategien.</description>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-05-03-mental-rotation-task</guid>
+      <pubDate>Tue, 04 May 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Übung 5</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-05-04-uebung-5</link>
+      <description>Übung 5 ist online.</description>
+      <category>uebungen</category>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-05-04-uebung-5</guid>
+      <pubDate>Tue, 04 May 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Übung 4</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-04-20-uebung-4</link>
+      <description>Die vierte Übung ist online.</description>
+      <category>uebungen</category>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-04-20-uebung-4</guid>
+      <pubDate>Tue, 20 Apr 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Lösung zur Übung 2</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-04-09-solution-2</link>
+      <description>Die Lösung zur zweiten Übung finden Sie unter Lösungen</description>
+      <category>uebungen</category>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-04-09-solution-2</guid>
+      <pubDate>Fri, 09 Apr 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Übung 2</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-03-25-uebung-2</link>
+      <description>Die zweite Übung ist online.</description>
+      <category>uebungen</category>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-03-25-uebung-2</guid>
+      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Lösung zur Übung 1</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-03-22-solution-1</link>
+      <description>Die Lösung zur ersten Übung finden Sie unter Lösungen</description>
+      <category>uebungen</category>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-03-22-solution-1</guid>
+      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Übung 1</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-03-04-uebung-1</link>
+      <description>Die erste Übung ist online.</description>
+      <category>uebungen</category>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-03-04-uebung-1</guid>
+      <pubDate>Thu, 04 Mar 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Rstan und brms installieren</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-03-02-install-rstan</link>
+      <description>Eine Anleitung zur Installation der `rstan` und `brms` R packages.</description>
+      <category>rstan</category>
+      <category>brms</category>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-03-02-install-rstan</guid>
+      <pubDate>Tue, 02 Mar 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Zoom Links</title>
+      <dc:creator>Andrew Ellis</dc:creator>
+      <link>https://kogpsy.github.io/neuroscicomplab/posts/2021-03-01-zoom</link>
+      <description>Zoom URLs für die Vor- und Nachmittagssitzungen.</description>
+      <guid>https://kogpsy.github.io/neuroscicomplab/posts/2021-03-01-zoom</guid>
+      <pubDate>Mon, 01 Mar 2021 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

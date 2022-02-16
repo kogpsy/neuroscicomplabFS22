@@ -1,0 +1,375 @@
+---
+title: "Übung 5: Lösung"
+description: |
+  Zusammenhang zwischen Attentional Load und Pupillengrösse.
+date: "`r Sys.Date()`" 
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/solution-5.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+
+# Aufgabenstellung
+
+Wir untersuchen in dieser Aufgabe den Zusammenhang zwischen Attentional Load und Pupillengrösse. Wir verwenden dafür die Daten aus der Studie von @wahnPupilSizesScale2016. Es ist bekannt, dass die Grösse unserer Pupillen mit dem einfallenden Licht zusammenhängt. Es wird jedoch auch seit längerem vermutet, dass die Pupillengrösse mit kognitiven Prozessen zusammenhängt.  
+
+<aside>
+Mehr Information über Untersuchungen zur Pupillengrösse finden Sie bei @mathotPupillometryPsychologyPhysiology2018.
+</aside>
+
+In dieser Studie untersuchten @wahnPupilSizesScale2016 den Einfluss des "attentional load" auf die Pupillengrösse von 20 Versuchspersonen anhand eines "Multiple Object Tracking" (MOT) Tasks.
+
+Ein Beispieltrial ist in Grafik \@ref(fig:mot-task) dargestellt. 
+
+```{r mot-task, echo=FALSE, fig.cap="Beispieltrial eines Multiple Object Tracking Tasks. Versuchspersonen sahen zuerst 18 Objekte auf einem Bildschirm (A). Danach wurden zwischen 0 und 5 dieser Objekte anhand einer Markierung ausgewählt (B)---diese Objekte mussten visuell verfolgt werden. Die Markierungen verschwand wieder (C), und die Objekte fingen an, sich während 11 Sekunden zu bewegen (D). Am Ende des Trials mussten die Versuchspersonen angeben, welche Objekte sie verfolgt hatten. Die Anzahl der zu verfolgenden Objekte gilt als Mass für attentional load."}
+knitr::include_graphics("images/mot-task.png")
+```
+
+
+Üblicherweise wird in Pupillengrössen Exerimenten die Anteilsmässige Veränderung der Pupillengrössen in Prozent angegeben. Wir verwenden hier jedoch der Einfachheit halber die Rohwerte (gemittelt über beide Augen). Wir nehmen an, dass ein grösserer attentional load zu einer Erweiterung der Pupillen führt, und zwar nehmen wir hier an, dass der Zusammenhang zwischen attentional load und Pupillengrösse linear ist.
+
+
+
+## Daten laden
+
+Wir laden zuerst die benötigten Packages, und die Daten. Die Personenvariable wird zu einem Faktor konvertiert. Ausserdem erstellen wir einen Faktor `attentional_load`, damit wir die Daten einfacher grafisch darstellen können.
+
+```{r load-packages, include=TRUE, warning=FALSE}
+library(tidyverse)
+library(brms)
+
+# mehrere Cores parallel für sampling
+options(mc.cores = parallel::detectCores())
+# ggplot Optionen
+theme_set(theme_grey(base_size = 14) +
+            theme(panel.grid = element_blank()))
+```
+
+
+```{r}
+pupilsize <- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/df_pupil_complete.csv") %>% 
+  mutate(subj = as_factor(subj),
+         attentional_load = as_factor(load))
+
+glimpse(pupilsize)
+```
+
+Die Variable ` p_size` ist die Pupillengrösse, `load` ist der attentional load als numerische Variable mit den Werten 0-5. `attentional_load` ist der Faktor. `subj` ist die Versuchspersonennummer, und `trial` die Durchgangsnummer.
+
+
+Wir haben pro Person eine unterschiedliche Anzahl Trials. Bei Vpn `701` handelt es sich wohl um Daten aus einer Pilotstudie.
+
+```{r}
+pupilsize %>% 
+  group_by(subj) %>% 
+  count()
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+pupilsize %>% 
+  ggplot(aes(attentional_load, p_size, color = attentional_load, fill = attentional_load)) +
+  geom_violin(alpha = 0.6) +
+  geom_jitter(color = "black", width = 0.1) +
+  scale_fill_viridis_d() +
+  scale_color_viridis_d() +
+  facet_wrap(~subj)
+```
+
+## Aufgaben 
+
+:::exercise
+**Aufgabe 1**
+
+a) Fassen Sie die Daten für jede Person pro attentional load Bedingung zusammen (Mittelwert, Standardfehler), und speichern Sie dies als Dataframe (benutzen Sie den `attentional_load` Faktor, d.h. `group_by(subj, attentional_load))`.
+
+b) Stellen Sie Mittelwert plus Fehlerbalken für jede Person in jeder Bedingung dar. Dies ist einfacher, als es sich anhört (benutzen Sie `facet_wrap(~subj, scales = "free_y")`). Stellen Sie  `attentional_load` auf der X-Achse dar, die mittlere Pupillengrösse auf der Y-Achse.
+
+c) Beschreiben Sie in Worten (kurz) was sie hier sehen. Ist eine Tendenz ersichtlich? Ist diese bei jeder Person feststellbar? Gibt es Unterschiede zwischen den Personen?
+:::
+
+
+```{r eval=FALSE, include=FALSE}
+se <- function(x) sd(x)/sqrt(length(x))
+
+funs <- list(mean = mean, median = median, sd = sd, se = se)
+
+by_subj <- pupilsize %>% 
+  group_by(subj, attentional_load) %>% 
+  summarise(across(p_size, funs, .names = "{.fn}"))
+```
+```{r}
+se <- function(x) sd(x)/sqrt(length(x))
+
+by_subj <- pupilsize %>% 
+  group_by(subj, attentional_load) %>% 
+  summarise(mean = mean(p_size), 
+            median = median(p_size), 
+            sd = sd(p_size), 
+            se = se(p_size))
+```
+
+```{r layout="l-body-outset", fig.width=6, fig.height=6}
+by_subj %>% 
+  ggplot(aes(attentional_load, mean)) +
+  geom_line(aes(group = 1), linetype = 3) +    
+  geom_errorbar(aes(ymin = mean-se, ymax = mean+se),
+                width = 0.2, size=1, color="blue") +
+  geom_point(size = 2) +
+  facet_wrap(~subj, scales = "free_y")
+```
+
+Es ist ersichtlich, dass die Pupillengrösse mit steigendem attentional load zunimmt, und zwar bei fast allen Personen. Ausnahmen sind Personen 710 und 716---bei diesen müsste man wohl genauer hinschauen. Zudem ist erkennbar, dass der Zusammenhang zwischen load und Pupillengrösse bei den meisten nicht linear zu sein scheint. Wir müssten dies auch untersuchen. In dieser Übung beschränken wir uns jedoch auf den linearen Zusammenhang.
+
+
+:::exercise
+**Aufgabe 2**
+
+Sie sehen hier die mittlere Pupillengrösse pro attentional load Bedingung, aggregiert über Versuchspersonen. Die Fehlerbalken sind Standardfehler, welche die Messwiederholung berücksichtigen.
+
+Beschreiben Sie in Worten (kurz) was sie hier sehen. Ist eine Tendenz ersichtlich? 
+:::
+
+
+```{r eval=TRUE, include=TRUE}
+agg <- Rmisc::summarySEwithin(by_subj,
+                               measurevar = "mean",
+                               withinvars = "attentional_load",
+                               idvar = "subj",
+                               na.rm = FALSE,
+                               conf.interval = .95)
+```
+
+```{r eval=TRUE, include=TRUE}
+agg %>% 
+  ggplot(aes(attentional_load, mean)) +
+  geom_line(aes(group = 1), linetype = 3) +    
+  geom_errorbar(aes(ymin = mean-se, ymax = mean+se),
+                width = 0.2, size=1, color="blue") +
+  geom_point(size = 4)
+```
+
+Aggregiert über die Personen ist ein klarer Anstieg der Pupillengrösse in Abhängigkeit des attentional load erkennbar. Dieser Effekt scheint im Mittel nicht linear zu sein---der Anstieg ist am grössten zwischen 0 und 1, und flacht dann ab, so dass es scheinbar keinen Unterschied zwischen den attentional load 3-5 gibt.
+
+
+
+
+Wir benutzen nun den Prädiktor `load`, um die Pupillengrösse mit einem Bayesianischen Multilevel vorherzusagen. Wir nehmen an, dass die Pupillengrösse bedingt normalverteilt ist (Diese Annahme ist vertretbar; obwohl eine Grösse niemals negativ sein darf, sind hier weit genug weg von 0).
+
+Da die Personen sich ähnlich sind, sich jedoch in ihrer Pupillengrösse aufgrund ihrer Anatomie unterscheiden, benutzen wir ein **partial-pooling** Modell. 
+
+Annahmen:
+
+1) Die Outcome variable ist bedingt normalverteilt (oder die Fehler sind normalverteilt).
+2) Es gibt einen linearen Zusammenhang zwischen attentional load und Pupillengrösse.
+3) Die Personen stammen alle aus derselben Gruppe, aber unterschieden sich voneinander. Wir versuchen, den Mittelwert dieser Gruppe zu schätzen, und gleichzeitig, die Abweichung vom Mittelwert für jede Person.
+
+
+Um die Interpretation eines Intercepts einfacher zu machen, zentrieren wir die Prädiktorvariable `load`, und speichern die zentrierte Variable als `c_load`. Der Intercept entspricht damit in unserem Regressionsmodell dem erwarteten Wert der abhängigen Variable bei einem mittleren attentional load (an der Stelle 0 von `c_load`).
+
+```{r}
+pupilsize <- pupilsize %>%
+   mutate(c_load = load - mean(load))
+```
+
+
+
+:::exercise
+**Aufgabe 3**
+
+
+a) Schreiben Sie die Formel für dieses Modell auf. Sie wollen die erwartete Pupillengrösse als lineare Funktion des attentional load vorhersagen, mit "varying effects" für den Achsenabschnitt und den Koeffizienten von `c_load`.
+
+b) Untersuchen Sie mit `get_prior()` die Default Priors.
+:::
+
+
+Die Formel, welche wir hier benutzen ist:
+
+```{r}
+p_size ~ 1 + c_load + (1 + c_load | subj)
+```
+
+Die *fixed efects* sind `1 + c_load`, die *varying effects* der Versuchspersonen sind `(1 + c_load | subj)`.
+
+
+
+Die Prior Verteuliungen sind:
+
+```{r}
+get_prior(p_size ~ 1 + c_load + (1 + c_load | subj), data = pupilsize)
+```
+
+
+Wählen Sie für den Koeffizienten von `c_load` eine Normalverteilung mit Mittelwert 0 und einer Standardabweichung von 100. Dies bedeutet, dass wir mit 95% Sicherheit erwarten, dass der Effekt von `c_load` ungefähr im Bereich [-200, 200] liegt. Genauer können wir das so ausdrücken:
+
+
+```{r eval=TRUE, include=TRUE}
+qnorm(c(.025, .975), mean = 0, sd = 100)
+```
+
+
+
+
+:::exercise
+**Aufgabe 4**
+
+
+a) Schätzen Sie das Modell mit Ihrer Formel und dem Prior für den Regressionskoeffizienten mit brms. Benutzen Sie das Argument `control = list(max_treedepth = 12)`, damit Sie von Stan keine Warnungen erhalten.
+
+b) Schauen Sie sich die `summary()` an. Ist alles in Ordnung?
+
+c) Stellen Sie die Population-Level Effects grafisch dar (siehe Code weiter unten). Versuchen Sie, diese zu interpretieren.
+:::
+
+
+```{r}
+m1 <- brm(p_size ~ 1 + c_load + (1 + c_load | subj),
+          data = pupilsize,
+          prior = prior(normal(0, 100), class = b),
+          control = list(max_treedepth = 12),
+          file = "models/ex5-m1",
+          file_refit = "on_change") 
+```
+
+
+
+```{r}
+summary(m1)
+```
+
+Der `Intercept` repräsentiert die erwartete durschnittliche Pupillengrösse beim  Wert 0 des zentrierten Prädiktors, welcher wiederum den Mittelwert des unzentrierten Prädiktor darstellt. Deshalb ist der erwartete Wert beim mittleren attentional load $5651.47$ (95% Credible Interval: [4492.21, 6835.70]). Der Koeffizient `c_load` mit einem Mittelwert von $60.59$ (95% Credible Interval: [27.78, 93.51]) ist der erwartete Zuwachs in per Pupillengrösse, wenn wir den attentional load um eine Einheit erhöhen.
+
+Mit folgendem Code können Sie die Population-Level Effects darstellen.
+
+
+```{r}
+library(patchwork)
+
+p_intercept <- m1 %>% 
+  mcmc_plot("b_Intercept", point_est = "mean", prob = 0.8, prob_outer = 0.95)
+
+p_attentionalload <- m1 %>% 
+  mcmc_plot("b_c_load", point_est = "mean", prob = 0.8, prob_outer = 0.95)
+
+p_intercept / p_attentionalload
+```
+
+
+
+Mit der Funktion `conditional_effects()` können Sie den bedingten Efekt des Prädiktors auf die abhängige Variable darstellen, mit einem 95% Credible Interval.
+
+```{r}
+conditional_effects(m1, prob = 0.95)
+```
+
+
+:::exercise
+**Aufgabe 5**
+
+a) Schätzen Sie mit der Savage-Dickey Methode einen Bayes Factor für die Hypothese, dass der Effekt von attentional load > 0 ist. Um diese Hypothese auszudrücken benutzen wir den Prior `prior(normal(0, 100), class = b, lb = 0)`. Das Argument `lb = 0` heisst hier, der Parameter hat einen _lower bound_ (Untergrenze) von 0. Dies führt dazu, dass alle Werte $\leq 0$ unmöglich sind, da sie eine Wahrscheinlichkeitsdichte von 0 haben. Vergessen Sie nicht das Argument `sample_prior = TRUE`, damit die Samples aus den Prior Verteilungen gespeichert werden.
+
+b) Berichten Sie den Bayes Factor (Wenn Sie den Ouput der `hypothesis()` Funktion als `bf` speichern, dann ist der BF `1/bf$hypothesis$Evid.Ratio`).
+:::
+
+
+
+```{r}
+m_savage_dickey <- brm(p_size ~ 1 + c_load + (1 + c_load | subj),
+          prior = prior(normal(0, 100), class = b, lb = 0),
+          data = pupilsize,
+          sample_prior = TRUE,
+          control = list(max_treedepth = 12),
+          file = "models/ex5-m_savage_dickey",
+          file_refit = "on_change") 
+```
+
+```{r}
+bf <- hypothesis(m_savage_dickey, "c_load = 0")
+1/bf$hypothesis$Evid.Ratio
+```
+
+Wir erhalten einen Bayes Factor $BF_{10}$ für die Alternativhypothese dass der Effekt positiv ist. Die Daten sind unter dieser Hypothese ca. 86 mal wahrscheinlicher als unter der Nullhypothese.
+
+
+:::puzzle
+**Optionale Aufgabe**
+
+
+Versuchen Sie, mit der Funktion `bayes_factor()` einen Bayes Factor für die Hypothese, dass der Effekt von attentional load > 0 ist. Sie brauchen dafür zwei Modelle; eines mit dem Population-Level Effekt von `c_load`, das andere ohne diesen Effekt (aber sonst in jeder Hinsicht identisch).
+
+Sie brauchen die zusätzlichen Argumente `iter = 1e4`, `warmup = 1000` und `save_pars = save_pars(all = TRUE)`. Mit dem ersteren erhalten Sie 10000 Samples aus dem Posterior, mit zweiterem sagen Sie, dass Sie 9000 Samples behalten wollen, und mit dem letzten Argument speichern Sie alle Parameter (diese werden für den bridge sampling Algorithmus gebraucht).
+:::
+
+
+
+```{r}
+iterations <- 1e4
+```
+
+
+```{r}
+m_positive <- brm(p_size ~ 1 + c_load + (1 + c_load | subj),
+                  prior = prior(normal(0, 100), class = b, lb = 0) +
+                          prior(lkj(2), class = cor),
+                  data = pupilsize,
+                  iter = iterations, warmup = 1000,
+                  cores = 4,
+                  save_pars = save_pars(all = TRUE),
+                  control = list(max_treedepth = 12),
+                  file = "models/ex5-m_positive",
+                  file_refit = "on_change") 
+```
+
+Zusätzlich müssen wir das Nullmodell explizit definieren. Da uns der Fixed Effect von der zentrierten attentional load Variable interessiert, lassen wir diesen beim Nullmodel weg, lassen alles andere aber gleich. Da der Fixed Effect nicht mehr im Modell ist, brauchen wir auch den Prior `normal(0, 100)` nicht mehr.
+
+
+
+```{r}
+m_null <- brm(p_size ~ 1 + (1 + c_load | subj),
+                  prior = prior(lkj(2), class = cor),
+                  data = pupilsize,
+                  iter = iterations, warmup = 1000,
+                  cores = 4,
+                  save_pars = save_pars(all = TRUE),
+                  control = list(max_treedepth = 12),
+                  file = "models/ex5-m_null",
+                  file_refit = "on_change") 
+```
+
+Den Bayes Factor für unsere Alternativhypothese erhalten wir mit der Funktion `bayes_factor()`. Diese liefert uns den Bayes Factor für das erste Argument, in diesem Fall also `m_positive`.  
+
+```{r echo=TRUE, results='hide', message=FALSE, warning=FALSE}
+BF <- bayes_factor(m_positive, m_null, 
+                   maxiter = 2e3, 
+                   silent = TRUE,
+                   cores = 4)
+```
+
+
+
+```{r}
+BF
+```
+
+
+Wir erhalten hier einen Bayes Factor von ca. `r round(BF$bf, 2)`. Dies bedeutet, dass die Daten unter der Hypothese, dass der lineare Effekt von attentional positiv ist, rund `r round(BF$bf)` mal wahrscheinlicher als unter der Nullhypothese sind.
+
+:::note
+Sowohl der erste Bayes Factor (Savage-Dickey) als der zweite (bridge sampling) sind relativ gross ("strong" bis "decisive"), und demonstrieren Evidenz gegen die Nullhypothese. Die Werte der erhaltenen Bayes Factors sind ziemlich variabel, obschon sie relativ zuverlässig Evidenz für die Alternativhypothese und gegen die Nullhypothese liefern. Generell ist die bridge sampling Methode etwas robuster, aber es wäre hier angebracht, die Modelle mehrere Male zu schätzen, und dann die resultierenden Bayes Factors zu ermitteln, um die Variabilität berichten zu können.
+:::

@@ -1,0 +1,43 @@
+---
+title: "Zoom Links"
+description: |
+  Zoom URLs für die Vor- und Nachmittagssitzungen.
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936s
+date: 03-01-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Vormittag
+
+**Zeit**: 10:15 - 12:00
+
+**URL**: [https://unibe-ch.zoom.us/j/93649599809?pwd=ekI1R0JiWS9WVmMySW4rSTZESzhTdz09](https://unibe-ch.zoom.us/j/93649599809?pwd=ekI1R0JiWS9WVmMySW4rSTZESzhTdz09)
+
+**Meeting ID**: 936 4959 9809
+
+**Passcode**: 16068
+
+## Nachmittag
+
+**Zeit**: 14:15 - 16:00
+
+**URL**: [https://unibe-ch.zoom.us/j/92669720311?pwd=OUdiTVVOMk51eFZ4U0tzWXpNMkMyUT09
+](https://unibe-ch.zoom.us/j/92669720311?pwd=OUdiTVVOMk51eFZ4U0tzWXpNMkMyUT09
+)
+
+**Meeting ID**: 926 6972 0311
+
+**Passcode**: 35651

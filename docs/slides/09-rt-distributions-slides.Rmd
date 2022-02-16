@@ -1,0 +1,145 @@
+---
+title: "Datenanalyse"
+session: 11
+subtitle: "Teil 9 <br/> Reaktionszeitverteilungen"
+author: "Andrew Ellis"
+# institute: "Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"
+institute: "Methodenkurs Neurowissenschaft im Computerlab"
+date: "2021-04-27"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["css/xaringan-themer.css", "css/slides-style.css"]
+    nature
+      highlightStyle: github #solarized-light # github
+      highlightLines: true
+      ratio: 16:10
+      countIncrementalSlides: false
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+---
+
+```{r child = "setup.Rmd"}
+```
+
+```{r load-packages, include=FALSE, warning=FALSE}
+library(tidyverse)
+library(rmarkdown)
+library(kableExtra)
+library(countdown)
+
+theme_set(theme_grey(base_size = 14) +
+            theme(panel.grid = element_blank()))
+```
+
+
+
+## Reaktionszeiten
+
+Reaktionszeiten sind neben binären Daten ebenfalls sehr häufig anzutreffen in der experimentellen Psychologie/Neuroscience
+
+- Reaction tasks
+- Go/No Go tasks
+- Discrimination tasks
+
+
+Wir gehen davon, aus, dass die Zeit, die benötigt wird, um einen Task auszuführen, bedeutsam ist.
+
+
+---
+
+## Beipiel
+
+Daten aus einem Experiement mit 3 Blöcken:
+
+1) Reaction task
+
+Versuchspersonen drücken SPACE-Taste wenn ein Stimulus erscheint (Quadrat oder Kreis).
+Outcome Variable: Reaktionszeit
+
+
+2) Go/No-Go task
+
+Versuchspersonen drücken SPACE-Taste wenn Target erscheint (entweder Quadrat oder Kreis)
+Outcome Variable: Reaktionszeit und Antwort
+
+3) Discrimination task
+
+Versuchspersonen drücken F-Taste wenn ein Quadrat erscheint, J-Taste wenn ein Kreis erscheint.
+Outcome Variable: Reaktionszeit und Antwort
+
+
+**Annahme**: Versuchspersonen brauchen im Reaction task am wenigsten Zeit, um eine korrekte Antwort zu geben, gefolgt vom Go/No-Go task. Im Discrimination task brauchen Versuchspersonen länger, um korrekte Antworten zu geben.
+
+---
+
+
+.panelset[
+.panel[.panel-name[Daten laden]
+
+
+```{r}
+mentalchronometry <- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/mental-chronometry.csv") %>% 
+  mutate(across(c(subj, block, stimulus, handedness, gender), ~as_factor(.)))
+```
+
+]
+
+.panel[.panel-name[Zufällig Vpn auswählen]
+
+```{r message=FALSE, warning=FALSE}
+subjects <- sample(levels(mentalchronometry$subj), 6)
+df <- mentalchronometry %>% 
+  filter(subj %in% subjects)
+```
+
+]
+
+.panel[.panel-name[Histogramme]
+
+
+```{r message=FALSE, warning=FALSE}
+df %>% 
+  ggplot(aes(RT, fill = block)) +
+  geom_histogram(alpha = 1.0, position = "identity") + 
+  scale_fill_viridis_d(end = 0.8) +
+  facet_grid(block ~ subj, scales = "free_x") +
+  theme(legend.position = "none")
+```
+
+]
+
+.panel[.panel-name[Violin Plots]
+
+
+
+```{r}
+df %>% 
+  filter(subj %in% subjects) %>% 
+  ggplot(aes(y = RT, x = block, fill = block)) +
+  geom_violin(alpha = 0.6) +
+  geom_jitter(width = 0.1) +
+  scale_fill_viridis_d(end = 0.8) +
+  facet_wrap(~ subj, scales = "free_x") +
+  theme(legend.position = "none")
+```
+
+
+]]
+
+---
+
+
+.your-turn[
+
+1) Überlegen Sie sich, was Sie mit diesen Daten machen können
+
+2) Welche Kennzahlen eignen sich gut, um die Daten zu beschreiben?
+
+3) Berechnen Sie die mittlere Reaktionszeit pro Block für jede Person individuell.
+
+4) Berechnen Sie die mittlere Reaktionszeit pro Block über alle Personen aggregiert.
+]

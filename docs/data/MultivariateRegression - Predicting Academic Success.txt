@@ -1,0 +1,37 @@
+title: Predicting Academic Success
+description: Are high school grades and SAT scores significant predictors of early academic success? A multivariate regression analysis.
+source: "Moore, McCabe, Craig (2012). Introduction to the Practice of Statistics (7th ed.). New York, NY: W.H. Freeman and Company, Chapter 11, p. 574; from Campbell,P.F. & McCabe, G.P. (1984). Prediciting the success of freshmen in a computer science major. Communications of the ACM, 27, 1108-1113.
+hypothesis of interest: Are high school math grade, high school science grade, high school English grade, SAT Mathematics, SAT Verbal scores, and gender significant predictors of early academic success for computer sciece majors?
+
+tags:
+  - MultivariateRegression
+
+variables:
+
+  - name: GPA
+    type: Continuous
+    description: Cumulatie grade point average after three semesters
+    
+  - name: High School Math
+    type: Ordinal
+    description: High school mathematics grade
+    
+  - name: High School Science
+    type: Ordinal
+    description: High school science grade
+    
+  - name: High School English
+    type: Ordinal
+    description: High school English grade
+    
+  - name: SAT Math
+    type: Continuous
+    description: SAT mathematics score
+    
+  - name: SAT Verbal
+    type: Ordinal
+    description: SAT verbal score
+    
+  - name: Gender
+    type: Nominal
+    description: 1=man; 0=woman

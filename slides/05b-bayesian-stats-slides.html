@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Bayesianische Statistik</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Ellis" />
+    <meta name="date" content="2021-04-27" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#bf616a"],"pen_size":3,"eraser_size":30}) })</script>
+    <script src="libs/mark.js/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-right","caseSensitive":false,"showIcon":false,"autoSearch":true}) })</script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="css/xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="css/slides-style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Bayesianische Statistik
+## Teil 5b <br/> Bayes Factors
+### Andrew Ellis
+### Methodenkurs Neurowissenschaft im Computerlab
+### 2021-04-27
+
+---
+
+
+
+
+
+
+
+layout: true
+  
+&lt;!-- Home icon --&gt;
+&lt;div class="my-footer"&gt;
+&lt;span&gt;
+&lt;a href="https://kogpsy.github.io/neuroscicomplab" target="_blank"&gt;<svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:#0F4C81;overflow:visible;position:relative;"><path d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"/></svg>&lt;/a&gt; Methodenkurs Neurowissenschaft im Computerlab
+&lt;/span&gt;
+&lt;/div&gt;
+
+
+&lt;!-- Name (left) --&gt;
+&lt;!-- &lt;div class="my-footer"&gt; --&gt;
+&lt;!-- &lt;span&gt; --&gt;
+&lt;!-- Andrew Ellis - &lt;a href="https://kogpsy.github.io/neuroscicomplab" target="_blank"&gt;kogpsy.github.io/neuroscicomplab&lt;/a&gt; --&gt;
+&lt;!-- &lt;/span&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+&lt;!-- slide separator (for xaringan) --&gt;
+---
+
+
+
+
+
+## Schätzung von Bayes Factors
+
+1) Savage-Dickey Density Ratio
+
+2) `bridge sampling` Package
+
+3) `BayesFactor` Package
+
+4) JASP: [jasp-stats.org/download](https://jasp-stats.org/download/)
+
+
+---
+
+Wir nehme als Beispiel einen simulierten Datensatz vom Package [bcogsci](https://github.com/bnicenboim/bcogsci). Falls Sie das Package nicht installieren können, können Sie einfach das File `df_contrasts1.rda` von hier [downloaden](https://github.com/bnicenboim/bcogsci/tree/master/data).
+
+Wir haben eine abhängige Variable `DV` (Reaktionzeit) in 2 Gruppen, F1 mit `\(\mu_1=0.8\)` Sekunden. und F2 mit `\(\mu_2=0.4\)` Sekunden. Die Daten sind von 10 simulierten Vpn.
+
+---
+
+
+.panelset[
+.panel[.panel-name[Daten laden]
+
+
+```r
+library(bcogsci)
+data("df_contrasts1") 
+df_contrasts1
+```
+
+```
+## # A tibble: 10 x 3
+##    F        DV    id
+##    &lt;fct&gt; &lt;dbl&gt; &lt;int&gt;
+##  1 F1    0.636     1
+##  2 F1    0.841     2
+##  3 F1    0.555     3
+##  4 F1    1.03      4
+##  5 F1    0.938     5
+##  6 F2    0.123     6
+##  7 F2    0.304     7
+##  8 F2    0.659     8
+##  9 F2    0.469     9
+## 10 F2    0.444    10
+```
+]
+
+.panel[.panel-name[Daten laden (Alternativmethode)]
+
+
+```r
+df_contrasts1 &lt;- load("data/df_contrasts1.rda")
+df_contrasts1
+```
+]
+
+.panel[.panel-name[Daten zusammenfassen]
+
+
+```r
+df_contrasts1_sum &lt;- df_contrasts1 %&gt;% 
+  group_by(F) %&gt;% 
+  summarise(mean = mean(DV),
+            sd = sd(DV),
+            se = sd/sqrt(n()))
+df_contrasts1_sum
+```
+
+```
+## # A tibble: 2 x 4
+##   F      mean    sd     se
+##   &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 F1      0.8 0.200 0.0894
+## 2 F2      0.4 0.200 0.0894
+```
+
+]
+
+.panel[.panel-name[Plot]
+
+```r
+df_contrasts1_sum %&gt;% 
+  ggplot(aes(F, mean)) +
+  geom_errorbar(aes(ymin = mean-se, ymax = mean+se),
+                width = 0.2, size=1, color="blue") +
+  geom_point(size = 4) +
+  geom_line(aes(group = 1), linetype = 3)
+```
+
+&lt;img src="05b-bayesian-stats-slides_files/figure-html/unnamed-chunk-5-1.png" width="100%" /&gt;
+
+]]
+
+
+---
+
+## Parameterschätzung
+
+
+
+```r
+library(brms)
+
+get_prior(DV ~ 1 + F,
+          data = df_contrasts1)
+```
+
+```
+##                   prior     class coef group resp dpar nlpar bound       source
+##                  (flat)         b                                       default
+##                  (flat)         b  FF2                             (vectorized)
+##  student_t(3, 0.6, 2.5) Intercept                                       default
+##    student_t(3, 0, 2.5)     sigma                                       default
+```
+
+---
+
+## Parameterschätzung
+
+
+
+```r
+priors &lt;- prior(normal(0, 1), class = b)
+```
+
+
+```r
+fit1 &lt;- brm(DV ~ 1 + F,
+            data = df_contrasts1,
+            family = gaussian(),
+            prior = priors,
+            cores = parallel::detectCores(),
+            file = "models/BF_fit_F1", 
+            file_refit = "on_change") 
+```
+
+
+
+---
+
+
+
+```r
+round(fixef(fit1),3)
+```
+
+```
+##           Estimate Est.Error   Q2.5  Q97.5
+## Intercept    0.794     0.112  0.551  1.023
+## FF2         -0.391     0.158 -0.699 -0.074
+```
+
+
+
+```r
+mcmc_plot(fit1)
+```
+
+&lt;img src="05b-bayesian-stats-slides_files/figure-html/unnamed-chunk-10-1.png" width="100%" /&gt;
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[1]
+]
+.pull-right-wide[
+  .larger[
+  Savage-Dickey Density Ratio
+  ]
+]
+
+---
+
+## Savage-Dickey Density Ratio
+
+
+
+
+```r
+fit2 &lt;- brm(DV ~ 1 + F,
+            data = df_contrasts1,
+            family = gaussian(),
+            prior = priors,
+*           sample_prior = TRUE,
+            cores = parallel::detectCores(),
+            file = "models/BF_fit_F2", 
+            file_refit = "on_change") 
+```
+
+
+
+---
+
+## Savage-Dickey Density Ratio
+
+
+```r
+fit2 %&gt;% 
+  mcmc_plot(c("b_FF2", "prior_b"))
+```
+
+&lt;img src="05b-bayesian-stats-slides_files/figure-html/unnamed-chunk-12-1.png" width="100%" /&gt;
+
+
+
+---
+
+## Savage-Dickey Density Ratio
+
+
+
+```r
+h1 &lt;- fit2 %&gt;% 
+  hypothesis("FF2 = 0")
+h1
+```
+
+```
+## Hypothesis Tests for class b:
+##   Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob Star
+## 1  (FF2) = 0    -0.39      0.15    -0.69     -0.1       0.26      0.21    *
+## ---
+## 'CI': 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
+## '*': For one-sided hypotheses, the posterior probability exceeds 95%;
+## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
+## Posterior probabilities of point hypotheses assume equal prior probabilities.
+```
+
+---
+
+## Savage-Dickey Density Ratio
+
+
+```r
+BF01 &lt;- h1$hypothesis$Evid.Ratio
+BF01
+```
+
+```
+## [1] 0.2647813
+```
+
+```r
+BF10 &lt;- 1/BF01
+BF10
+```
+
+```
+## [1] 3.776701
+```
+
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[2]
+]
+.pull-right-wide[
+  .larger[
+  Bridge sampling
+  ]
+]
+
+---
+
+
+## Bridge sampling
+
+
+
+```r
+fit3 &lt;- brm(DV ~ 1 + F,
+            data = df_contrasts1,
+            family = gaussian(),
+            prior = priors,
+*           save_pars = save_pars(all = TRUE),
+*           iter = 1e4,
+            cores = parallel::detectCores(),
+            file = "models/BF_fit_F3", 
+            file_refit = "on_change") 
+```
+
+
+---
+
+## Bridge sampling
+
+Nullmodell (Vergleichsmodell) mit default Priors für Intercept und sigma.
+
+
+```r
+fit4 &lt;- brm(DV ~ 1,
+            data = df_contrasts1,
+            family = gaussian(),
+*           save_pars = save_pars(all = TRUE),
+*           iter = 1e4,
+            cores = parallel::detectCores(),
+            file = "models/BF_fit_F4", 
+            file_refit = "on_change") 
+```
+
+
+
+---
+
+## Bridge sampling
+
+
+```r
+BF &lt;- bayes_factor(fit3, fit4)
+```
+
+
+```r
+BF
+```
+
+```
+## Estimated Bayes factor in favor of fit3 over fit4: 3.30777
+```
+
+
+Bayes factor für Nullmodell: `\(BF_{01}\)`
+
+
+```r
+# Estimated Bayes factor in favor of fit4 over fit3
+1/BF$bf
+```
+
+```
+## [1] 0.3023181
+```
+
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[3]
+]
+.pull-right-wide[
+  .larger[
+  BayesFactor Package
+  ]
+]
+
+---
+
+## BayesFactor Package
+
+
+```r
+library(BayesFactor)
+bf = ttestBF(formula = DV ~ F, data = df_contrasts1)
+
+bf
+```
+
+```
+## Bayes factor analysis
+## --------------
+## [1] Alt., r=0.707 : 4.29645 ±0%
+## 
+## Against denominator:
+##   Null, mu1-mu2 = 0 
+## ---
+## Bayes factor type: BFindepSample, JZS
+```
+
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[4]
+]
+.pull-right-wide[
+  .larger[
+   JASP
+  ]
+]
+
+---
+
+## JASP
+
+- Daten als CSV exportieren:
+
+```r
+library(readr)
+
+df_contrasts1 &lt;- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/df_contrasts1.csv")
+
+df_contrasts1 %&gt;% 
+  write_csv(file = "data/df_contrasts1.csv")
+```
+
+- Öffnen Sie den Datensatz in JASP
+
+---
+
+.your-turn[
+Versuchen Sie, in JASP einen Bayes Factor zu schätzen.
+
+- Sie sollten zuerst den BF vom `BayesFactor` Package replizieren.
+- Stellen Sie Prior und Posterior grafisch dar.
+- F¨ühren Sie eine **Robustness Check** durch.
+- Führen Sie eine **Sequential Analysis** durch.
+]
+
+<div class="countdown" id="timer_60874064" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+
+
+---
+
+## Bayesian Anova 
+
+.your-turn[
+Öffnen Sie in JASP den `Bugs` Datensatz (ANOVA), und versuchen Sie Bayes Factors zu schätzen.
+
+Vpn mussten Ratings angeben, wie sehr sie [Arthropoden](https://de.wikipedia.org/wiki/Gliederf%C3%BC%C3%9Fer) töten wollten.
+
+- Versuchen Sie, eine repeated-measures Bayesian ANOVA durchzuführen.
+- Einen Beispielbericht finden Sie hier: [https://osf.io/wae57/](https://osf.io/wae57/).
+]
+
+<div class="countdown" id="timer_6087428f" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:10",
+"countIncrementalSlides": false,
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n  <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n  </div>\n</div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,321 @@
+---
+title: "Übung 1: Lösung"
+description: |
+  Schätzen des Parameters $\theta$ einer Binomialverteilung.
+date: "`r Sys.Date()`"
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/solution-1.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Aufgabenstellung
+
+Sie verabreichen einen Test, der aus 10 Fragen besteht. Die Fragen sind etwa gleich schwierig, und Sie sind sich sicher, dass die Fragen weder zu leicht noch zu schwierig für Ihre Schüler sind. Beim Betrachten der Resultate fällt Ihnen das Ergebnis eines Schülers besonders auf.
+
+Bisher hatten Sie 4 solcher Tests verabreicht. Dieser Schüler schneidet normalerweise unterdurchschnittlich ab, mit Ergebnissen  von $4/10$, $3/10$, $2/10$ und $4/10$ richtigen Antworten. Sie haben sich schon vorgenommen, die Elter des Schülers zu kontaktieren, da Sie sich Sorgen machen. 
+
+```{r}
+library(tidyverse)
+```
+
+
+Im folgenden werden die vorherigen 4 Testresultate als Balkendiagramm dargestellt. Die Leistungen des Schülers sehen nicht besonders befriedigend aus.
+
+```{r message=FALSE, warning=FALSE}
+tibble(Test = as_factor(1:5), Resultate = c(4/10, 3/10, 2/10, 4/10, NA)) %>% 
+  ggplot(aes(Test, Resultate, fill = Test)) +
+  geom_bar(stat = 'identity') +
+  scale_fill_viridis_d(end = 0.8) +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  ggtitle("Bisherige Leistungen")
+```
+
+
+Beim aktuellen Test sehen die Antworten aber so aus:
+
+
+```{r}
+answers <- c(1, 1, 1, 1, 0, 1, 1, 1, 1, 1)
+```
+
+<aside>
+`1` bedeutet, die Frage wurde richtig beantwortet, `0` steht für eine inkorrekte Antwort.
+</aside>
+
+> Berechnen Sie die Anzahl korrekter Antworten, sowie die Anzahl korrekter Antworten in den bisherigen Tests.
+
+```{r}
+ncorrect <- sum(answers)
+nquestions <- length(answers)
+prior_ncorrect <- 4 + 3 + 2 + 4
+prior_nquestions <- 4 * 10
+prior_nwrong <- prior_nquestions - prior_ncorrect
+```
+
+
+Sie freuen sich---vielleicht hat sich der Schüler bei diesem Test besonders Mühe gegeben. Sie überlegen sich, ob Sie nun warten sollen, oder doch mit den Eltern einen Termin für ein Gespräch abmachen sollen.
+
+
+Vielleicht kann Ihnen Bayesianische Inferenz helfen? 
+
+# Aufgaben
+
+Versuchen Sie, mit Hilfe Ihres Vorwissens über die Leistungen des Schülers seine Fähigkeit (ability), Fragen richtig zu beantworten, zu schätzen. Da Sie wissen, dass Sie die Fähigkeit nur ungenau schätzen können, wollen Sie Ihre Unsicherheit mit einer Posterior Distribution quantifizieren. 
+
+
+Wir definieren zuerst einen Vektor, der alle möglichen Werte des Parameters $\theta$ enthält, d.h. alle Werte zwischen 0 und 1. Da wir hier genau sein wollen, nehmen wir 100 Zahlen zwischen 0 und 1---an diesen Stellen wollen wir die Prior- und Posterior Wahrscheinlichkeiten untersuchen.
+
+```{r}
+n_points <- 100
+theta_grid <- seq(from = 0 , to = 1 , length.out = n_points)
+theta_grid
+```
+
+
+
+## Aufgabe 1
+
+> Berechnen Sie nun die Wahrscheinlichkeit, das Testergebnis des Schülers zu erreichen, d.h. die Wahrscheinlichkeit der Daten für jeden möglichen Parameterwert.
+
+Wir wollen hier für jeden möglichen $\theta$-Wert wissen, was die Wahrscheinlichkeit wäre, gegeben diesen Wert, 9 von 10 Fragen richtig zu beantworten.
+
+```{r eval=TRUE, include=TRUE}
+likelihood <- dbinom(x = ncorrect , size = nquestions , prob = theta_grid)
+```
+
+Der $\theta$-Wert, für den diese Wahrscheinlichkeit am grössten ist, ist die Maximum-Likelihood Schätzung für die Wahrscheinlichkeit des Schülers, eine Frage richtig zu beantworten (Diese Wahrscheinlichkeit verstehen wir als Fähigkeit des Schülers).
+
+
+Sie können diese Wahrscheinlichkeit so graphisch darstellen.
+
+
+```{r eval=FALSE, include=TRUE}
+tibble(theta_grid, likelihood) %>% 
+  ggplot(aes(x = theta_grid, y = likelihood)) +
+  geom_line()
+```
+
+
+## Aufgabe 2
+
+> Wenn Sie kein Vorwissen über die bisherigen Testresultate des Schülers hätten: Was würden Sie als Schätzung der Fähigkeit des Schülers benutzen?
+
+<aside>
+Sie haben nur das aktuelle Resultat zur Verfügung (9 richtige Antowrten in 10 Fragen).
+</aside>
+
+Wenn wir nur den aktuellen Test haben, können wir entweder diese Maximum-Likelihood Schätzung nehmen, oder unser fehlendes Vorwissen als uniformen Prior über $\theta$ ausdrücken.
+
+### Maximum-Likelihood Schätzung
+
+Wir suchen zuerst die grösste Wahrscheinlichkeit:
+
+
+```{r}
+maxlik <- max(likelihood)
+```
+
+
+Und suchen dann den Wert im `theta_grid`, für welchen die Wahrscheinlichkeit der grössten Wahrscheinlichkeit entspricht.
+
+
+```{r}
+theta_maxlik <- theta_grid[likelihood == maxlik]
+theta_maxlik
+```
+Dieser Wert beträgt hier `r theta_maxlik`. Natürlich wissen wir, dass dieser Wert $9/10$ beträgt---diese Ungenauigkeit ist eine Folge der Grid Approximation. 
+
+
+
+## Aufgabe 3
+> Versuchen Sie nun, Ihr Vorwissen über die Leistungen des Schülers in Form einer Prior-Verteilung auszudrücken.
+
+
+Hier benutzen wir unsere bisherigen Testergebnisse. Die Parameter der Beta Verteilung können so verstanden werden. $\alpha$ entspricht den bisherigen Erfolgen, und $\beta$ den bisherigen Misserfolgen. Die Erfolgen waren $4 + 3 + 2 + 4$, oder `prior_ncorrect`, die Misserfolge `prior_ncorrect` ergeben sich aus der Anzahle Fragen minus der Anzahl Erfolge.
+
+
+
+```{r}
+prior <- dbeta(x = theta_grid, shape1 = prior_ncorrect,  shape2 = prior_nquestions)
+```
+
+<aside>
+Was wir hier sehen, ist dass Bayes Theorem sequentiell anwendbar ist: wir könnten die Anzahl richtiger und falscher Antworten aus dem ersten Test als Prior für den zweiten Test verwenden, oder die ersten beiden Tests als Prior für den dritten. Solange wir dieselbe Information benutzen, und dieselben Daten, erhalten wir immer dasselbe Ergebnis. 
+</aside>
+
+## Aufgabe 4
+
+> Berechnen Sie die Posterior-Verteilung als Produkt von Likelihood und Ihrem Prior.
+
+Die nicht normalisierte Posterior Verteilung erhalten wir einfach durch Multiplikation von Prior und Likelihood. 
+
+$$ P(\theta|Data) \propto P(Data|\theta) * P(\theta) $$
+
+
+oder 
+
+
+$$ \text{posterior} \propto \text{likelihood} * \text{prior} $$
+
+Einfach ausgedrückt: Der Posterior Belief für jeden Wert von `theta_grid` ist das Produkt dessen A-Priori Wahrscheinlichkeit und der Wahrscheinlichkeit, gegeben diesen Wert, ein Ergebnis von $9/10$ zu erhalten.
+
+
+```{r}
+unstandardized_posterior <- likelihood * prior
+
+posterior <- unstandardized_posterior / sum(unstandardized_posterior)
+
+posterior
+```
+
+
+## Aufgabe 5
+
+> Stellen Sie Prior, Likelihood und Posterior grafisch dar
+
+```{r}
+df <- tibble(theta_grid, prior, likelihood, posterior)
+
+df %>%
+  pivot_longer(-theta_grid, names_to = "distribution", values_to = "density") %>% 
+  mutate(distribution = as_factor(distribution)) %>% 
+  ggplot(aes(theta_grid, density, color = distribution)) +
+  geom_line(size = 1.5) +
+  geom_vline(xintercept = 9/10, linetype = "dashed") +
+  scale_color_viridis_d(end = 0.8) +
+  xlab("Theta Werte") +
+  ylab("") +
+  facet_wrap(~distribution, scales = "free_y") +
+  theme_bw()
+```
+Wenn wir unseren Prior Belief durch eine Beta Verteilung mit den bisherigen Ergebnissen als Parameter $\alpha$ und $\beta$ ausdrücken, dann ist unsere Posterior Verteilung ziemlich weit weg von von der Maximum-Likelihood Schätzung (gestrichelte Linie)---unser Vorwissen wird hier stark gewichtet, so dass das aktuelle Testergebnis eine geringe Auswirkung auf den Posterior hat.
+
+Wenn wir im Vergleich dazu einen uniformen Prior benutzen, liegt der höchste Wert des Posteriors auf der Maximum-Likelihood Linie. Der Posterior sieht genau gleich aus wie die Likelihood, weil die Likelihood die einzige Informationsquelle ist. 
+
+```{r}
+prior <- dbeta(x = theta_grid, shape1 = 1,  shape2 = 1)
+unstandardized_posterior <- likelihood * prior
+posterior <- unstandardized_posterior / sum(unstandardized_posterior)
+
+tibble(theta_grid, prior, likelihood, posterior) %>%
+  pivot_longer(-theta_grid, names_to = "distribution", values_to = "density") %>% 
+  mutate(distribution = as_factor(distribution)) %>% 
+  ggplot(aes(theta_grid, density, color = distribution)) +
+  geom_line(size = 1.5) +
+  geom_vline(xintercept = 9/10, linetype = "dashed") +
+  scale_color_viridis_d(end = 0.8) +
+  xlab("Theta Werte") +
+  ylab("") +
+  facet_wrap(~distribution, scales = "free_y") +
+  theme_bw()
+```
+
+Wenn wir annehmen, der Schüler sei nicht ganz so schlecht, wie die bisherigen Testergebnisse vermuten lassen, können wir einen `Beta(4, 4)` Prior anehmen. Dieser drückt aus, dass wir erwarten, das der Schüler ungefähr die Hälfte der Fragen richtig beantworten kann. Dann liegt der Posterior links neben der Likelihood.
+
+```{r}
+prior <- dbeta(x = theta_grid, shape1 = 4,  shape2 = 4)
+unstandardized_posterior <- likelihood * prior
+posterior <- unstandardized_posterior / sum(unstandardized_posterior)
+
+tibble(theta_grid, prior, likelihood, posterior) %>%
+  pivot_longer(-theta_grid, names_to = "distribution", values_to = "density") %>% 
+  mutate(distribution = as_factor(distribution)) %>% 
+  ggplot(aes(theta_grid, density, color = distribution)) +
+  geom_line(size = 1.5) +
+  geom_vline(xintercept = 9/10, linetype = "dashed") +
+  scale_color_viridis_d(end = 0.8) +
+  xlab("Theta Werte") +
+  ylab("") +
+  facet_wrap(~distribution, scales = "free_y") +
+  theme_bw()
+```
+
+## Aufgabe 6
+
+> Was ist die Warscheinlichkeit, dass jemand mit solchen Vorleistungen mindestens 9 Fragen von 10 beantwortet, falls die Vorleistungen tatsächlich die wahre Fähigkeiten der Schüler messen?
+
+Hier ist die kumulative Wahrscheinlichkeit gefragt, 9 oder 10 Fragen richtig zu beantworten, und zwar bevor wir die neuen Daten des Schülers berücksichtigen. 
+
+Diese kumulative Wahrscheinlichkeit können wir mit der Funktion `pbinom` berechnen. Wir nehmen hier an, die Punktschätzung von `r prior_ncorrect/prior_nquestions` aus den bisherigen Tests genügt hier. Falls wir hier schon eine Posterior Verteilung aus den ersten 4 Tests hätten, könnten wir damit unsere Unsicherheit ausdrücken---diese Verteilung fehlt uns aber hier.
+
+Wir berechen zuerst die kumulative Wahrscheinlichkeit 1, 2, 3, 4, 5, 6, 7 oder 8 Fragen richtig zu beantworten:
+
+```{r}
+pbinom(q = ncorrect-1,
+       size = nquestions, 
+       prob = prior_ncorrect/prior_nquestions)
+```
+Diese Wahrscheinlichkeit ist `r round(pbinom(q = ncorrect-1, size = nquestions, prob = prior_ncorrect/prior_nquestions), 4)`
+
+Die Wahrscheinlichkeit, mehr als 8 Fragen richtig zu beantworten, ist 
+
+
+```{r}
+1 - pbinom(q = ncorrect-1, 
+           size = nquestions, 
+           prob = prior_ncorrect/prior_nquestions)
+```
+
+
+oder 
+
+
+```{r}
+pbinom(q = ncorrect-1, 
+       size = nquestions, 
+       prob = prior_ncorrect/prior_nquestions,
+       lower.tail = FALSE)
+```
+und beträgt ungefähr `r round(1 - pbinom(q = ncorrect-1, size = nquestions, prob = prior_ncorrect/prior_nquestions), 4)`. Wir sind also sehr überrascht, wenn dieser Schüler plötzlich so viele Fragen richtig beantwortet. Vielleicht hatte der Schüler sich vorher keine Mühe gegeben, oder nicht gelernt---in diesem Fall wäre unsere Schätzung seiner Fähigkeit schlecht, und müsste revidiert werden. Eine andere Möglichkeit ist, dass der Schüler geschummelt hat---die Frage können wir hier aber nicht beantworten.
+
+Eine andere Möglichkeit, die kumulative Wahrscheinlichkeit zu berechnen, ist einfach die Wahrscheinlichkeiten von 9 und von 10 Richtigen zu addieren.
+
+```{r}
+dbinom(x = 9, 
+       size = nquestions, 
+       prob = prior_ncorrect/prior_nquestions) +
+  dbinom(x = 10, 
+       size = nquestions, 
+       prob = prior_ncorrect/prior_nquestions) 
+```
+
+oder 
+
+
+```{r}
+sum(dbinom(x = 9:10, 
+       size = nquestions, 
+       prob = prior_ncorrect/prior_nquestions))
+```
+
+
+### Bemerkung 
+
+Einige von Ihnen haben versucht, den Posterior zusammenzufassen, z.B. so:
+
+
+```{r}
+sum(posterior[theta_grid > 0.9])
+```
+
+Dies ist natürlich möglich, beantwortet aber eine andere Frage, und zwar: Was ist die Posterior Wahrscheinlichkeit von $\theta$, gegeben unsere Prior Beliefs und das Testresultat? Die Frage in Aufgabe 6 lautete aber: Was ist die Wahrscheinlichkeit, gegeben der Fähigkeit des Schülers, dass er 9 oder 10 Fragen richtig beantwortet?  Das wäre die Frage, die wir uns stellen, wenn wir frequentistische Statistik machen---die Frage nach der Wahrscheinlichkeit der Parameter dürfen wir uns dann gar nicht stellen.

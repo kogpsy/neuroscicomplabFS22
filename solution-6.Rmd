@@ -1,0 +1,329 @@
+---
+title: "Übung 6"
+description: |
+  Path Rotation Task - Daten aus dem Online Experiment.
+date: 06-21-2021 
+author:
+  - first_name: "Gerda"
+    last_name: "Wyssen"
+    url: https://github.com/gwyssen
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0001-7427-3149
+citation_url: https://kogpsy.github.io/neuroscicomplab/solution-6.html
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## Hintergrund
+Mentale Rotation, also das Drehen von Gegenständen, Personen oder unserer eigenen Position mittels der eigenen Vorstellungskraft, ist eine wichtige Fähigkeit von Menschen. Sie ermöglicht es uns die Perspektive zu wechseln, uns vorzustellen, wie wir ein Problem lösen können und Werkzeuge zu benutzen. Wir verwenden mentale Rotation beispielsweise um einem Freund den Weg aus seiner Sicht zu erklären oder um die Anleitung zum Zusammenbau eines Möbels zu verstehen. Mentale Rotationsaufgaben beanspruchen das räumliche Arbeitsgedächtnis und können, wie folgende Grafik zeigt, ganz unterschiedlich aussehen:
+
+```{r mr-tasks, echo=FALSE, fig.cap="Experimentalparadigmen zum Untersuchen von Mentaler Rotation. (A) Shepard-Metzler Figuren (Shepard & Metzler, 1971) (B) Koerper-, Hand- oder Buchstabenstimuli (Falconer & Mast, 2012) (C) Path Rotation Stimuli aus dem Online Experiment."}
+knitr::include_graphics("images/mrtasks.png")
+```
+
+
+Mentale Rotation kann mit unterschiedlichen Strategien ausgeführt werden: Man kann sich selber mental rotieren (egozentrische Rotation) oder ein Objekt (allozentrische Rotation). Diese Strategien beruhen auf unterschiedlichen Referenzsystemen im Gehirn und unterscheiden sich auf neuronaler Ebene [@tomasinoEffectsStimulusType2016]. 
+
+Bestimmte Patientengruppen wie beispielsweise Kinder mit ADHD oder Patienten mit Erkrankungen des Gleichgewichtorgans (vestibuläre Patienten) zeigen im Vergleich zu Kontrollgruppen schlechtere Leistungen in mentalen Rotationsaufgaben (z.B.[@feldmanNewSpinSpatial2020; @grabherrMentalTransformationAbilities2011]). Interessanterweise unterscheiden sich vestibuläre Patienten aber nur in der egozentrischen nicht in der allozentrischen Strategie von der Kontrollgruppe. 
+
+Dies wirft die Frage auf, wie die Information aus dem Gleichgewichtsorgan das Ausführen von mentalen Rotationen beeinflusst. Dieser Einfluss wurde in zahlreichen Experimenten im Labor und auch im Magnetresonanztomographen (MRT) untersucht. Für die fMRT Studien wurden meist je nach Strategie unterschiedliches Stimulus-Material verwendet, was es schwierig macht die Fehler, Reaktionszeiten sowie die Hirnaktivierungen in den beiden Strategien direkt zu vergleichen. Bei gleichem Stimulusmaterial besteht die Problematik, dass oft nicht klar ist, welche Strategie gewählt wurde.
+
+:::fyi
+Ein gutes Paradigma (bestehend aus Aufgabe, Stimulusmaterial, Timing und Instruktion) ist fundamental wichtig für neurowissenschaftliche Experimente. Es sollte den Prozess den wir untersuchen wollen auslösen und messbar machen. Dies ist oft schwieriger als es tönt. Das Erstellen, Optimieren und Austesten eines Paradigmas ist ein wichtiger Teil der Arbeit eines Neurowissenschaftlers.
+:::
+
+## Path Rotation Experiment 
+In diesem Experiment wurde eine mentale Rotationsaufgabe mit zwei verschiedenen Strategien gelöst. In beiden Strategien muss entweder mit rechts oder links geantwortet werden. Das Stimulusmaterial wurde so hergestellt, dass die Stimuli für beide Strategien visuell identisch sind, aber die Antwort aufzeigt, mit welcher Strategie die Aufgabe gelöst wurde.
+
+1. Die **allozentrische Strategie** erfordert das Drehen des Bildes, so dass der kurze Weg nach oben zeigt. Dann muss die Versuchsperson entscheiden, ob der Pfeil zur rechten oder zur linken Seite zeigt. Die egozentrische Strategie hingegen erfordert das Drehen der eigenen Perspektive. 
+
+2. Die **egozentrische Strategie** erfordert das Drehen der eigenen Perspektive, so dass vom kurzen Pfadstück aus beurteilt werden kann, in welche Richtung der Weg an der Kreuzung abbiegt Richtung Pfeil.
+
+## Fragestellungen
+Das Ziel dieser Onlinestudie ist es das neue Stimulusmaterial zu validieren. Hierfür interessieren uns folgende Fragen:
+
+1. Erhöhen sich die Antwortzeiten mit zunehmendem Rotationswinkel?
+
+2. Unterscheiden sich die Antwortzeiten zwischen den beiden Bedingungen in typischer Weise (egozentrisch schneller als allozentrisch)?
+
+3. Eignet sich dieses Paradigma für den Vergleich der Strategien in einem fMRI Experiment?
+
+## Daten laden
+
+```{r}
+library(tidyverse)
+library(viridis)
+
+# ggplot Optionen
+theme_set(theme_grey(base_size = 14) +
+            theme(panel.grid = element_blank()))
+```
+
+Wir laden den Datensatz mit folgende Informationen:
+
+- `id` : Identifikationsnummer für jede Versuchsperson
+- `condition` : verwendete Strategie (allocentric, egocentric)
+- `angle` : Rotationswinkel (°)
+- `rt` : Antwortzeit (ms)
+- `accuracy` : 1 wenn Antwort richtig, 0 wenn Antwort falsch
+- `trial` : Trialnummer
+
+Alter, Geschlecht und Händigkeit wurden aus Datenschutzgründen aus dem Datensatz entfernt. Wir laden die Variablen `id`, `condition` sowie die absoluten Winkelwerte (d.h. 45° links und 45° rechts werden aggregiert) `fc_angle` als Faktoren und schauen uns kurz den Datensatz an:
+
+
+
+
+```{r load dataframe}
+pathrotation <- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/PathRotation.csv") %>%
+  mutate(id = as_factor(id),
+         condition = as_factor(condition),
+         fc_angle = as_factor(abs(angle)))
+
+glimpse(pathrotation)
+```
+
+## Data Cleaning
+
+Schliessen Sie alle Versuchspersonen aus, welche nicht das ganze Experiment durchgeführt haben.
+
+```{r  vp exclusion incomplete solution, echo = TRUE}
+# find id numbers of complete datasets
+exclusion_incomplete <- pathrotation %>% 
+  group_by(id) %>% 
+  count() %>%
+  filter(n == max(n))
+
+# keep complete datasets in dataframe
+pathrotation <- pathrotation %>%
+  filter(id %in% exclusion_incomplete$id)
+```
+
+Schliessen Sie alle Versuchspersonen aus, welche in mindestens einer der Bedingungen über 25% der Trials falsch beantwortet haben (50% ist Rateniveau). Die Aufgabe kann erfahrungsgemäss relativ korrekt gelöst werden. Die Versuchspersonen wurden instruiert, möglichst richtig (nicht möglichst schnell) zu antworten, deshalb weist eine Accuracy von weniger als 75% auf falsches Verständnis der Instruktion hin.
+
+```{r vp exclusion accuracy solution, echo = TRUE}
+# find id numbers of complete datasets
+exclusion_rt <- pathrotation %>% 
+  group_by(id, condition) %>% 
+  summarize(mean_acc = mean(accuracy)) %>%
+  filter(mean_acc >= 0.75)
+
+# keep complete datasets in dataframe
+pathrotation <- pathrotation %>%
+  filter(id %in% exclusion_rt$id)
+```
+
+Schauen Sie sich die Antwortzeiten an, insbesondere die maximale Zeitdauer. Was fällt Ihnen auf?
+
+```{r rts solution, echo = TRUE}
+# bar plot
+pathrotation %>% 
+  ggplot(aes(rt, fill = condition)) +
+  geom_histogram(alpha = 1.0, position = "identity", color = "black") + 
+  scale_fill_viridis(discrete=TRUE, option="cividis") +
+  facet_grid(fc_angle ~ condition, scales = "free_x") +
+  theme(legend.position = "none")
+```
+
+Teilweise hatten die Versuchspersonen bis 8 Sekunden um die Aufgabe zu lösen. Das ist sehr lange, diese Reaktionszeiten weisen in dieser Aufgabe auf fehlende Konzentration hin. Schliessen Sie alle Antwortzeiten aus, welche grösser als 4000ms sind. Auch Reaktionszeiten unter 100ms sind physiologisch unplausibel und werden ausgeschlossen.
+
+```{r trial exclusion rt solution, echo = TRUE}
+# exclude trials with rt > 4000ms
+pathrotation <- pathrotation %>%
+  filter(rt <= 4000, rt > 100)
+```
+
+
+## Daten visualisieren
+
+:::exercise
+Stellen Sie die Reaktionszeiten von drei zufällig ausgewählten Versuchspersonen für Rotationswinkel und Strategie grafisch dar. 
+:::
+
+```{r f1 visualization solution, echo = TRUE}
+set.seed(100)
+
+subjects <- sample(levels(pathrotation$id), 3)
+df <- pathrotation %>% 
+  filter(id %in% subjects)
+
+# plot response times
+df %>% 
+  ggplot(aes(rt, fc_angle, color = condition)) +
+  geom_point() + 
+  scale_color_viridis(discrete=TRUE, option="cividis") +
+  facet_grid(id ~ condition, scales = "free_x") +
+  theme(legend.position = "none")
+```
+
+:::exercise
+Zusatzaufgabe: Verwenden Sie nun einen Violin Plot um die Reaktionszeiten für Winkel und Bedingung darzustellen:
+:::
+
+```{r f1 violin plot solution, echo = TRUE}
+# violin plot
+df %>%
+  group_by(id, fc_angle, condition) %>%
+  ggplot(aes(y = fc_angle, x = rt, fill = condition)) +
+  geom_violin(alpha = 0.6) +
+  geom_jitter(width = 0.1) +
+  scale_fill_viridis(discrete=TRUE, option="cividis") +
+  facet_wrap(~ id, scales = "free_x") +
+  theme(legend.position = "none")
+```
+
+:::exercise
+Schauen Sie sich die Grafiken an. Was fällt Ihnen auf?
+:::
+
+Was Sie hier sehen hängt natürlich davon ab, welche Personen Sie sich anschauen. Bei den drei dargestellten Versuchspersonen wird ersichtlich, dass die Antwortzeiten mit zunehmendem Rotationswinkeln zunehmen. Die Versuchspersonen hatten zudem eher länger um die Aufgabe mit allozentrischer Strategie zu lösen als mit egozentrischer.
+
+
+### Daten zusammenfassen
+
+:::exercise
+Fassen Sie nun die Daten zusammen und stellen Sie sie für jeden Winkel und jede Bedingung mit Mittelwert und Standardfehler dar. 
+:::
+
+
+```{r f1 data summary solution, echo = TRUE}
+by_id <- pathrotation %>%
+  group_by(id, fc_angle, condition) %>% 
+  dplyr::summarise(mean = mean(rt),
+                   median = median(rt),
+                   sd = sd(rt))
+
+
+# calculate standard error
+agg <- Rmisc::summarySEwithin(
+  by_id,
+  measurevar = "mean",
+  withinvars = c("fc_angle", "condition"),
+  idvar = "id",
+  na.rm = FALSE,
+  conf.interval = .95
+)
+
+# plot mean and standard errors for angle and condition
+agg %>% 
+  ggplot(aes(fc_angle, mean)) +
+  geom_point(alpha = 0.8) +
+  geom_line(aes(group = 1), linetype = 3) +   
+  geom_errorbar(aes(ymin = mean-se, ymax = mean+se),
+                width = 0.1, size=1, color="black") +
+  scale_fill_viridis(discrete=TRUE, option="cividis") +
+  facet_wrap( ~ condition) +
+  theme(legend.position = "none")
+```
+:::exercise
+Schauen Sie sich die Plots an. Was wird mit den Punkten dargestellt? Was bedeuten die Balken? 
+:::
+
+Die Punkte beschreiben den Mittelwert der Antwortzeiten, die Balken den Standardfehler.
+
+:::fyi
+Es ist hilfreich sich beim Anschauen von Grafiken in wissenschaftlichen Artikeln immer kurz bewusst zu machen, was die Grafiken wirklich zeigen. Punkte stellen oft Mittelwerte oder Mediane dar. Balken können Standardfehler, Standardabweichungen, Konfidenzintervalle, Credible Intervals, u.v.m. darstellen. In der Übung haben viele fälschlicherweise angenommen, dass diese Balken Standardabweichungen sind.
+:::
+
+Sie haben nun sowohl einen Teil der Rohdaten, wie auch die zusammengefassten Daten angeschaut. Was können Sie bezüglich der am Anfang genannten Fragestellungen nun aussagen? (Auch ohne Hypothesentests können Sie mit diesen Grafiken einigermassen sicher sein, ob die Personen die Aufgabe verstanden und gelöst haben oder ob Sie den Task nicht verwenden können.)
+
+:::exercise
+**Fragestellung 1: Erhöhen sich die Antwortzeiten mit zunehmendem Rotationswinkel?**
+
+Sehen Sie in den Daten den erwarteten Rotationseffekt, also dass die Versuchspersonen länger brauchen, wenn sie weiter rotieren müssen (bei grössenen Winkeln)?
+:::
+
+Ja, der Rotationseffekt ist sichtbar. Er ist nicht monoton, also stetig (oder linear) sondern ist unterschiedlich abgestuft. Dies ist bei der egozentrischen Rotation zu erwarten, bei der allozentrischen sollte der Anstieg aber monoton sein. Das könnte auf ein Problem im Paradigma hinweisen.
+
+:::exercise
+**Fragestellung 2: Unterscheiden sich die Antwortzeiten zwischen den beiden Bedingungen in typischer Weise (egozentrisch schneller als allozentrisch)?**
+
+Sehen Sie eine Verlangsamung in der Bedingung *allozentrisch* im Vergleich zu *egozentrisch*?
+:::
+
+Ja, es ist ein Strategieffekt sichtbar. Allerdings ist der Effekt auch bei keiner Rotation (also bei 0 Grad) vorhanden. Das deutet darauf hin, dass die Aufgabe an sich schwieriger ist und nicht die Rotationsstrategie alleine die Verlangsamung generiert.
+ 
+### Explorative Datenanalyse: Shift Function
+
+Vergleichen Sie anhand einer hierarchischen Shift Function die beiden Rotationsbedinungen (separat) bei den Rotationswinkeln 45 Grad, 90 Grad und 180 Grad.
+
+
+:::exercise
+Berechnen Sie die Shift Functions und stellen Sie den Output grafisch dar. Versuchen Sie, die Grafiken zu interpretieren. Erkennen Sie ein Muster?
+:::
+
+```{r echo = TRUE}
+shiftfun45 <- pathrotation %>% 
+    filter(fc_angle == 45) %>% 
+    rogme::hsf_pb(rt ~ condition + id)
+
+p_shiftfun45  <- shiftfun45 %>% 
+    rogme::plot_hsf_pb(interv = "ci")
+
+p_shiftfun45
+```
+
+Die schwarzen Punkte verbunden durch die schwarze Linie stellen die mittlere Shift Function dar. In Farbe wurden die Shift Functions aller Personen geplottet. Die Differenz ist bei jedem Dezil negativ und scheint steig grösser zu werden. Bei keinem Dezil ist die Null im Konfidenzinterval enthalten. Wir können nach dieser Methode also davon ausgehen, dass die erste Bedingung (egozentrisch) insgesamt (bei schnellen und langsameren Reaktionszeiten) kürzere Reaktionszeiten als die zweite Bedingung (allozentrisch) hat. Die Differenz wird konstant grösser mit zunehmender Antwortzeit. Ab dem 7. Dezil ist ausserdem zu sehen, dass die Differenz grösser wird. Das könnte darauf hinweisen, dass in der zweiten Bedingung die Personen nicht nur insgesamt langsamer sind, sondern auch variabler. Dieser Effekt gilt jedoch nicht bei allen Personen.
+
+```{r eval=FALSE, echo=TRUE}
+shiftfun90 <- pathrotation %>% 
+    filter(fc_angle == 90) %>% 
+    rogme::hsf_pb(rt ~ condition + id)
+
+p_shiftfun90  <- shiftfun90 %>% 
+    rogme::plot_hsf_pb(interv = "ci")
+
+p_shiftfun90 
+```
+
+Hier sieht es ähnlich aus wie beim ersten Plot, nur dass die Differenz über die Dezile hinweg konstanter bleibt.
+
+
+```{r echo = TRUE}
+shiftfun180 <- pathrotation %>% 
+    filter(fc_angle == 180) %>% 
+    rogme::hsf_pb(rt ~ condition + id)
+
+p_shiftfun180  <- shiftfun180 %>% 
+    rogme::plot_hsf_pb(interv = "ci")
+
+p_shiftfun180
+```
+
+Hier scheint die Differenz noch konstanter zu werden, wenn man die mittlere Shift Function betracheten. Die individuellen Abweichungen hingegen werden grösser.
+
+
+## Fazit
+Das Ziel der Datenerhebung war es, das Stimulusmaterial zu validieren. Wir haben angeschaut, ob wir den typischen Winkeleffekt finden und ob sich die Strategien wie erwartet unterscheiden.
+
+:::exercise
+Wie würden Sie sich aufgrund der Daten entscheiden, verwenden Sie das Stimulusmaterial in ihrer fMRI Studie oder suchen Sie eine andere Lösung?
+:::
+
+Für die Planung eines fMRI Experimentes haben wir folgende Erkenntnisse gewonnen:
+
+- Über alle Versuchspersonen hinweg ist der *Winkeleffekt* ersichtlich. Das heisst, die Leute scheinen die Instruktion zu verstehen und mentale Rotation zu verwenden. In der allozentrischen Bedingung fiel aber auf, dass der Anstieg der Antwortzeiten nicht monoton ist. Dies müsste nochmals genau angeschaut und allenfalls nachgetestet werden.
+
+- Auch der *Strategieeffekt*, also der Unterschied zwischen egozentrischer und allozentrischer Strategie, wird über alle Versuchspersonen hinweg deutlich und zwar in die richtige Richtung (allozentrisch langsamer als egozentrisch). So können wir sicher sein, dass die Personen die Aufgabe nicht einfach mit derselben Strategie gelöst haben. Genauer betrachtet werden müsste, weshalb sich die Antwortzeiten auch ohne Rotation zwischen den Bedingungen unterscheiden. Dies könnte in einem fMRI Experiment zum Störfaktor werden, da dann eine Bedingung viel länger dauert. Wir möchten möglichst zwei ähnliche Bedingungen, die sich *ausschliesslich* durch die Strategie während der Rotation unterscheiden. 
+
+- In den *Shift Functions* wird erkennbar, dass der Strategieeffekt über alle Versuchspersonen hinweg eine relativ konstante Verlangsamung der Antwortzeiten bewirkt. Die Verteilung der Antwortzeiten bleibt also einigermassen gleich, verschiebt sich einfach nach rechts. Ebenfalls wird deutlich, dass es grosse interindividuelle Unterschiede gibt. Dies ist sehr wichtig, insbesondere wenn die Antwortzeiten mit den funktionalen MRI Daten in Verbindung gebracht werden sollen. Grundsätzlich wäre es sicher besser einen Task zu verwenden in dem die Leute eine homogeneren Effekt zeigen würden. Wenn die interindividuellen Unterschiede bewusst einbezogen werden, kann dies aber auch interessante Aufschlüsse ermöglichen.
+
+- Die Stichprobe umfasste in diesem Experiment - nach Ausschluss der unvollständigen Datensätze - 39 Versuchspersonen. fMRI Studien müssen oft mit weniger Probanden auskommen. Um zu entscheiden, ob das Paradigma geeignet ist, könnte man sich anschauen, ob der Effekt auch bei weniger Personen genug gross ist um gefunden zu werden.
+
+- Grundsätzlich zeigten die Versuchspersonen eine gute Accuracy, was zeigt, dass der Task lösbar ist und die Instruktionen genug gut sind.
+Die vorliegenden Daten können nun verwendet werden, um Daten für den fMRI Task zu simulieren und die erforderliche Stichprobengrösse zu berechnen. Auch kann so im vorhinein bestimmt werden, welche Ausschlusskriterien angewandt werden sollten für die spätere Analyse (z.B. Antwortzeiten über 4000ms).
+

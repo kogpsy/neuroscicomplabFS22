@@ -1,0 +1,376 @@
+---
+title: "Bayesianische Statistik"
+session: 7
+subtitle: "Teil 5b <br/> Bayes Factors"
+author: "Andrew Ellis"
+# institute: "Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"
+institute: "Methodenkurs Neurowissenschaft im Computerlab"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["css/xaringan-themer.css", "css/slides-style.css"]
+    nature:
+      highlightStyle: github #solarized-light # github
+      highlightLines: true
+      ratio: 16:10
+      countIncrementalSlides: false
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+---
+
+```{r child = "setup.Rmd"}
+```
+
+```{r load-packages, include=FALSE, warning=FALSE}
+library(tidyverse)
+library(rmarkdown)
+library(kableExtra)
+library(countdown)
+
+theme_set(theme_grey(base_size = 14) +
+            theme(panel.grid = element_blank()))
+```
+
+
+
+## Schätzung von Bayes Factors
+
+1) Savage-Dickey Density Ratio
+
+2) `bridge sampling` Package
+
+3) `BayesFactor` Package
+
+4) JASP: [jasp-stats.org/download](https://jasp-stats.org/download/)
+
+
+---
+
+Wir nehme als Beispiel einen simulierten Datensatz vom Package [bcogsci](https://github.com/bnicenboim/bcogsci). Falls Sie das Package nicht installieren können, können Sie einfach das File `df_contrasts1.rda` von hier [downloaden](https://github.com/bnicenboim/bcogsci/tree/master/data).
+
+Wir haben eine abhängige Variable `DV` (Reaktionzeit) in 2 Gruppen, F1 mit $\mu_1=0.8$ Sekunden. und F2 mit $\mu_2=0.4$ Sekunden. Die Daten sind von 10 simulierten Vpn.
+
+---
+
+
+.panelset[
+.panel[.panel-name[Daten laden]
+
+```{r}
+library(bcogsci)
+data("df_contrasts1") 
+df_contrasts1
+```
+]
+
+.panel[.panel-name[Daten laden (Alternativmethode)]
+
+```{r include=TRUE, eval=FALSE}
+df_contrasts1 <- load("data/df_contrasts1.rda")
+df_contrasts1
+```
+]
+
+.panel[.panel-name[Daten zusammenfassen]
+
+```{r}
+df_contrasts1_sum <- df_contrasts1 %>% 
+  group_by(F) %>% 
+  summarise(mean = mean(DV),
+            sd = sd(DV),
+            se = sd/sqrt(n()))
+df_contrasts1_sum
+```
+
+]
+
+.panel[.panel-name[Plot]
+```{r}
+df_contrasts1_sum %>% 
+  ggplot(aes(F, mean)) +
+  geom_errorbar(aes(ymin = mean-se, ymax = mean+se),
+                width = 0.2, size=1, color="blue") +
+  geom_point(size = 4) +
+  geom_line(aes(group = 1), linetype = 3)
+```
+
+]]
+
+
+---
+
+## Parameterschätzung
+
+
+```{r}
+library(brms)
+
+get_prior(DV ~ 1 + F,
+          data = df_contrasts1)
+
+```
+
+---
+
+## Parameterschätzung
+
+
+```{r}
+priors <- prior(normal(0, 1), class = b)
+```
+
+```{r}
+fit1 <- brm(DV ~ 1 + F,
+            data = df_contrasts1,
+            family = gaussian(),
+            prior = priors,
+            cores = parallel::detectCores(),
+            file = "models/BF_fit_F1", 
+            file_refit = "on_change") 
+```
+
+
+
+---
+
+
+```{r}
+round(fixef(fit1),3)
+```
+
+
+```{r}
+mcmc_plot(fit1)
+```
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[1]
+]
+.pull-right-wide[
+  .larger[
+  Savage-Dickey Density Ratio
+  ]
+]
+
+---
+
+## Savage-Dickey Density Ratio
+
+
+
+```{r}
+fit2 <- brm(DV ~ 1 + F,
+            data = df_contrasts1,
+            family = gaussian(),
+            prior = priors,
+            sample_prior = TRUE, #<<
+            cores = parallel::detectCores(),
+            file = "models/BF_fit_F2", 
+            file_refit = "on_change") 
+```
+
+
+
+---
+
+## Savage-Dickey Density Ratio
+
+```{r}
+fit2 %>% 
+  mcmc_plot(c("b_FF2", "prior_b"))
+```
+
+
+
+---
+
+## Savage-Dickey Density Ratio
+
+
+```{r}
+h1 <- fit2 %>% 
+  hypothesis("FF2 = 0")
+h1
+```
+
+---
+
+## Savage-Dickey Density Ratio
+
+```{r}
+BF01 <- h1$hypothesis$Evid.Ratio
+BF01
+```
+```{r}
+BF10 <- 1/BF01
+BF10
+```
+
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[2]
+]
+.pull-right-wide[
+  .larger[
+  Bridge sampling
+  ]
+]
+
+---
+
+
+## Bridge sampling
+
+
+```{r}
+fit3 <- brm(DV ~ 1 + F,
+            data = df_contrasts1,
+            family = gaussian(),
+            prior = priors,
+            save_pars = save_pars(all = TRUE), #<<
+            iter = 1e4, #<<
+            cores = parallel::detectCores(),
+            file = "models/BF_fit_F3", 
+            file_refit = "on_change") 
+```
+
+
+---
+
+## Bridge sampling
+
+Nullmodell (Vergleichsmodell) mit default Priors für Intercept und sigma.
+
+```{r}
+fit4 <- brm(DV ~ 1,
+            data = df_contrasts1,
+            family = gaussian(),
+            save_pars = save_pars(all = TRUE), #<<
+            iter = 1e4, #<<
+            cores = parallel::detectCores(),
+            file = "models/BF_fit_F4", 
+            file_refit = "on_change") 
+```
+
+
+
+---
+
+## Bridge sampling
+
+```{r echo=TRUE, results='hide'}
+BF <- bayes_factor(fit3, fit4)
+```
+
+```{r}
+BF
+```
+
+
+Bayes factor für Nullmodell: $BF_{01}$
+
+```{r}
+# Estimated Bayes factor in favor of fit4 over fit3
+1/BF$bf
+```
+
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[3]
+]
+.pull-right-wide[
+  .larger[
+  BayesFactor Package
+  ]
+]
+
+---
+
+## BayesFactor Package
+
+```{r message=FALSE, warning=FALSE}
+library(BayesFactor)
+bf = ttestBF(formula = DV ~ F, data = df_contrasts1)
+
+bf
+```
+
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[4]
+]
+.pull-right-wide[
+  .larger[
+   JASP
+  ]
+]
+
+---
+
+## JASP
+
+- Daten als CSV exportieren:
+```{r}
+library(readr)
+
+df_contrasts1 <- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/df_contrasts1.csv")
+
+df_contrasts1 %>% 
+  write_csv(file = "data/df_contrasts1.csv")
+```
+
+- Öffnen Sie den Datensatz in JASP
+
+---
+
+.your-turn[
+Versuchen Sie, in JASP einen Bayes Factor zu schätzen.
+
+- Sie sollten zuerst den BF vom `BayesFactor` Package replizieren.
+- Stellen Sie Prior und Posterior grafisch dar.
+- F¨ühren Sie eine **Robustness Check** durch.
+- Führen Sie eine **Sequential Analysis** durch.
+]
+
+```{r echo=FALSE}
+countdown(minutes = 15)
+```
+
+
+
+---
+
+## Bayesian Anova 
+
+.your-turn[
+Öffnen Sie in JASP den `Bugs` Datensatz (ANOVA), und versuchen Sie Bayes Factors zu schätzen.
+
+Vpn mussten Ratings angeben, wie sehr sie [Arthropoden](https://de.wikipedia.org/wiki/Gliederf%C3%BC%C3%9Fer) töten wollten.
+
+- Versuchen Sie, eine repeated-measures Bayesian ANOVA durchzuführen.
+- Einen Beispielbericht finden Sie hier: [https://osf.io/wae57/](https://osf.io/wae57/).
+]
+
+```{r echo=FALSE}
+countdown(minutes = 15)
+```

@@ -1,0 +1,21 @@
+---
+title: "Lösung zur Übung 6"
+description: |
+    Die Lösung zur Übung 6 finden Sie unter Lösungen.
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+date: 06-21-2021
+categories:
+  - uebungen
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Die Lösung finden Sie im Menu: [Lösungen > Übung 6: Lösung](https://kogpsy.github.io/neuroscicomplab/solution-6.html). 

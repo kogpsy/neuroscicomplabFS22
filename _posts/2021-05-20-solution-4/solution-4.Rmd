@@ -1,0 +1,20 @@
+---
+title: "Lösung zur Übung 4"
+description: |
+    Die Lösung zur zweiten Übung finden Sie unter Lösungen.
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+date: 05-18-2021
+categories:
+  - uebungen
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+Die Lösung finden Sie im Menu: [Lösungen > Übung 4: Lösung](https://kogpsy.github.io/neuroscicomplab/solution-4.html). 

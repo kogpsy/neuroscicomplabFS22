@@ -1,0 +1,844 @@
+---
+title: "Übung 2: Lösung"
+description: |
+  Parameterschätzung, Posterior zusammenfassen, und lineare Modelle.
+date: "`r Sys.Date()`"
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/solution-2.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+
+
+:::note
+**Bemerkungen**
+
+- Bitte bei den Übungen das Rmarkdown File (mit der File Endung "Rmd") abgeben, und nicht ein HTML File.
+- Bei Unklarheiten oder Fragen bitte Zulip benutzen. Bitte *frühzeitig* fragen.
+- Packages müssen nur einmal installiert werden. Im Rmarkdown werden sie anschliessend mit `library()` geladen.
+- Code chunks: In einem Chunk können mehrere Zeilen Code stehen, nur neue Chunks machen, wenn es auch Sinn macht. Gut ist es zudem, den Chunk zu benennen, dann ist die Fehlermeldung klarer.
+:::
+
+
+# Aufgabe 1
+
+In der ersten Aufgabe untersuchen Sie einen Datensatz einer Studie, bei der die Arbeitsgedächtnisleitung mittels eines N-Back Tasks bei $21$ Kindern mit einer ADHS Diagnose untersucht wurde. Gleichzeitig wurde derselbe Task mit einer Kontrollgruppe ($n=30$) durchgeführt. Die behavioralen Resultate wurde parallel zu einer fMRI Untersuchung erhoben, damit im Antwortverhalten der Kinder ein Unterschied zur Kontrollgruppe gezeigt werden konnte.
+
+Bei einem N-Back Test wird den Versuchspersonen eine Serie von Stimuli dargeboten (z.B. Buchstaben), und man muss mit einem Tastendruck reagieren, wenn der aktuelle Stimulus gleich dem N-letzten Stimulus war.
+
+:::note
+Hier sehen Sie ein Beispiel für einen **3-Back Test**. Bei den gelb markierten Buchstaben muss die Versuchsperson reagieren. 
+
+
+<br>
+T A A F <mark>A</mark> G H R Y Z <mark>R</mark> V D ...
+:::
+
+
+<aside>
+Mehr Information zu N-Back Tasks finden Sie auf [Wikipedia](https://en.wikipedia.org/wiki/N-back), oder in @meuleReportingInterpretingWorking2017.
+</aside>
+
+
+
+Bei diesem Task untersuchen wir die Reaktionszeiten der Versuchspersonen bei korrekten Antworten. Im Datensatz sind die gemittelten Reaktionszeiten in Sekunden der Kinder in der `ADHD` und der `Control` Gruppe.
+
+
+## Daten vorbereiten
+
+Wir laden die Daten:
+
+
+```{r}
+library(tidyverse)
+
+nback1 <- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/adhd-nback.csv")
+```
+
+
+Bevor man anfängt, ist es immer eine gute Idee, einen Blick auf die Daten zu werfen.
+
+
+```{r}
+glimpse(nback1)
+```
+
+
+Die Gruppierungsvariable `group` ist ein character Vektor, sollte aber ein Faktor sein.
+
+
+```{r}
+nback1 <- nback1 %>% 
+  mutate(group = as_factor(group))
+```
+
+
+Nun macht es Sinn, als Referenzkategorie die `control group` zu bestimmen. Mit `fct_relevel()` verändern wir die Reihenfolgen der Faktorstufen:
+
+```{r}
+levels(nback1$group)
+```
+
+```{r}
+nback1 <- nback1 %>% 
+  mutate(group = fct_relevel(group, "control"))
+```
+
+
+`control` ist nun die erste Stufe, und wir automatisch zur Referenzkategorie, wenn wir die Variable dummy-kodieren.
+
+```{r}
+levels(nback1$group)
+```
+
+
+
+:::exercise
+**Aufgabe 1.1**
+
+Berechnen Sie Mittelwerte und SD pro Gruppe.    
+:::
+
+Zusätzlich berechnen wir gleich noch die Standardfehler, damit wir die Gruppenmittelwerte grafisch darstellen können.
+Diese Funktion definiere ich hier selber, da sie in base R nicht exisitiert.
+
+
+```{r}
+se <- function(x) sd(x)/sqrt(length(x))
+```
+
+
+
+```{r summarise-nback1}
+nback1_summary <- nback1 %>% 
+  group_by(group) %>% 
+  summarise(mean = mean(rt),
+            sd = sd(rt),
+            se = se(rt))
+
+nback1_summary
+```
+
+
+
+
+
+## Daten visualisieren
+
+:::exercise
+**Aufgabe 1.2**
+
+Stellen Sie die Daten mit grafisch dar, zum Beispiel mit Histogrammen, Boxplots oder Violin Plots.
+:::
+
+
+
+
+```{r}
+library(patchwork)
+
+p1 <- nback1 %>% 
+  ggplot(aes(rt)) +
+  geom_histogram(fill = "steelblue", bins = 15) +
+  facet_wrap(~group) +
+  theme_bw(base_size = 14)
+
+p2 <- nback1 %>% 
+  ggplot(aes(group, rt, fill = group)) +
+    geom_violin(alpha = 0.4) +
+    geom_boxplot(alpha = 0.6) +
+  geom_jitter() +
+  scale_fill_viridis_d(end = 0.8) +
+    theme_bw()
+
+p1 + p2
+```
+
+
+Zusätzlich erstellen wir einen Plot mit eingezeichneten Standardfehlern.
+
+```{r}
+nback1_summary %>% 
+  ggplot(aes(group, mean)) +
+  geom_errorbar(aes(ymin = mean-se, ymax = mean+se),
+                width = 0.2, size=1, color="blue") +
+  geom_point(size = 4) +
+  theme_bw(base_size = 14)
+```
+oder 
+
+```{r}
+nback1_summary %>% 
+  ggplot(aes(group, mean)) +
+  geom_linerange(aes(ymin = mean-se, ymax = mean+se)) +
+  geom_point(size = 4) +
+  theme_bw(base_size = 14)
+```
+
+
+
+
+## Frequentistische Analyse
+
+:::exercise
+**Aufgabe 1.3**
+
+Mit welcher Methode würden Sie diese Daten analysieren? Beschreiben Sie Ihre Wahl in 1-2 Sätzen und führen Sie einen Test durch. Was können Sie damit aussagen?
+:::
+
+Wir können hier annehmen, dass die Kinder in der `adhd` Gruppe länger brauchen. Dies bedeutet, dass wir eine gerichtete Hypothese testen. Es ist in den meisten Fällen sinnvoll, einen Welch Test durchzuführen. Dies ist auch der Default in R (wenn wir einen t-Test wünschen, müssen wir dies explizit angeben,  mit `var.eq = TRUE`).
+
+<aside>
+Für eine ausführliche Begründung können Sie hier nachschauen:
+[Why use a Welch Test?](http://daniellakens.blogspot.com/2015/01/always-use-welchs-t-test-instead-of.html)
+</aside>
+
+```{r}
+t.test(rt ~ group,
+       data = nback1,
+       alternative = "less")
+```
+
+Selbst wenn wir einen gerichteten t-Test durchführen, erhalten wir einen p-Wert von 0.0687. Dies bedeutet, dass wir unter Verwendung von $\alpha = 0.05$ die Nullhypothese nicht ablehnen dürfen. Falls Sie hier ungerichtet getestet haben, haben Sie einen p-Wert von $0.1375$ erhalten (entspricht dem doppeltem einseitigen p-Wert).
+
+```{r}
+t.test(rt ~ group,
+       data = nback1)
+```
+
+
+In beiden Fällen können wir also die Nullhypothese nicht ablehnen. Diese sagt aus, dass die beiden Gruppen in Bezug auf die Teststatistik nicht unterscheiden, d.h. in Bezug auf dem Gruppenmittelwert. Mehr können wir mit diesem t-Test nicht aussagen. Dies ist etwas unglücklich, da unser Ziel wahrscheinlich war, einen Unterschied mit funktioneller Bildgebung zu untersuchen. 
+
+Selbstverständlich hätten wir grössere Stichproben nehmen sollen; dies ist aber in fMRI Studien nicht immer möglich, und führt dazu, dass viele Studien *under-powered* sind.
+
+
+## Bayesianische Analyse
+
+Wir wollen nun die beiden Gruppenmittelwerte Bayesianisch schätzen. Sie haben zwei Möglichkeiten kennengelernt, die Formel zu spezifieren.
+
+
+:::exercise
+**Aufgabe 1.4**
+
+Entscheiden Sie sich für eine der beiden, und schätzen sie die Mittelwerte mit brms. Schauen Sie sich vorher mit der Funktion `get_prior` die Default Prior Verteilungen an. Wenn sie wollen, können Sie anstelle der Defaults eigene Priors spezifieren. Falls Sie das tun, begründen Sie kurz Ihre Wahl.
+:::
+
+Mit den zwei Möglichkeiten sind die folgenden gemeint:
+
+```r
+rt ~ 1 + group
+```
+
+und
+
+```r
+rt ~ 0 + group
+```
+
+
+Die beiden Formeln können wir so verstehen:
+
+
+```r
+rt ~ 1 + group
+```
+
+wird zu 
+
+```r
+rt ~ b0 * 1 + b_group * group
+```
+
+Wir haben also einen Achsenabschnitt (Intercept) `b0` und einen Regressionskoeffizienten `b_group`. Wenn die Variable `group` dummy kodiert ist, dann ist `b_group` der Unterschied zwischen den Gruppen.
+
+
+Die Formel 
+```r
+rt ~ 0 + group
+```
+wird zu 
+```r
+rt ~ b0 * 0 + b_groupcontrol * groupcontrol + b_groupadhd * groupadhd
+```
+
+Hier haben wir keinen Achsenabschnitt, so dass wir beide Indikatorvariablen verwenden können. Die beiden Koeffizienten repräsentieren deshalb die beiden Gruppenmittelwerte.
+
+
+
+:::note
+
+Etwas, das oft falsch gemacht wurde: Mit der Formel `rt ~ 1` wird ein Achsenabschnitt geschätzt. Dies wäre das Nullmodell, denn hier wird die Gruppierungsvariable weggelassen, und wir schätzen den Gesamtmittelwert.
+:::
+
+
+Nun schauen wir uns für beide Möglichkeiten die Priors an. Wenn wir `rt ~ 1 + group` oder einfach `rt ~ group` verwenden, dann erhalten wir einen `student_t(3, 1.2, 2.5)` Prior für den Intercept, und einen flachen Prior für den Unterschied.
+
+```{r message=FALSE, warning=FALSE}
+library(brms)
+
+get_prior(rt ~ 1 + group,
+          data = nback1)
+```
+
+
+Wenn wir den Intercept weglassen, erhalten wir für beide Gruppen flache Priors:
+
+```{r}
+get_prior(rt ~ 0 + group,
+          data = nback1)
+```
+
+
+
+Wenn wir uns hier für die ersten Variante entscheiden, können wir eine besseren Prior spezifieren. Z.B. könnten wir a priori 95% sicher sein, dass der Gruppenunterschied zwischen -10 und +10 liegt. Dies können wir mit dem Prior `normal(0, 5)` ausdrücken.
+
+
+
+```{r}
+priors <- prior(normal(0, 5), class = b)
+```
+
+
+:::exercise
+**Aufgabe 1.5**
+
+Schätzen Sie nun die Parameter Ihres Modells.
+
+- Schauen sich sich mit `summary` den Output an.
+- Überprüfen Sie, ob die `Rhat` Werte in Ordnung sind.
+- Fassen Sie die relevanten Parameter in 1-2 Sätzen zusammen. Je nachdem, wie Sie die Formel spezifiert haben, erhalten Sie die beiden Mittelwerte, oder einen Differenzen Parameter. Was bedeuten die Parameter?
+:::
+
+
+```{r message=FALSE, warning=FALSE}
+m1 <- brm(rt ~ group,
+          prior = priors,
+          data = nback1,
+          file = "nback1")
+```
+
+
+
+```{r}
+summary(m1)
+```
+
+
+
+Es werden hier 3 Parameter geschätzt: `Intercept`, `groupadhd` und `sigma`. Letzter ist die Standardabweichung der Residuuen. Alle 3 Parameter haben ein Rhat von `1.00`. Wir sollten darauf achten, dass Rhat nicht >1.05 ist. Dies würde bedeuten, dass die 4 Chains, welche unabhängig voneinander sind, nicht dieselbe Posterior Verteilung geschätzt haben, was natürlich nicht das ist, was wir wollen.
+
+
+Wir haben hier nur ein `sigma` geschätzt, was bedeutet, dass wir für beide Gruppen dieselbe Standardabweichung annehmen. Diese Annahme ist nicht nötig, wir könnten genausogut auch 2 Standardabweichungen schätzen. Dies würde so aussehen:
+
+```{r}
+m1b <- brm(bf(rt ~ group, sigma ~ group),
+          prior = priors,
+          data = nback1,
+          file = "nback1-b")
+```
+
+
+In diesem Modell sagen wir sowohl den Mittelwert als auch die Standardabweichung anhand der Gruppenzugehörigkeit vorher. Das heisst, dass wir hier relitiv flexibel unser Modell spezifizieren können, und zwar so dass wir die interessierenden Parameter besser schätzen können. Dies soll an dieser Stelle einfach mal die Flexibilität von Bayesianischer Inferenz illustrieren --- dieses Vorgehen wäre mit frequentistischer Statistik nicht möglich. Wir bräuchten ein eigens dafür entwickeltes Verfahren, und müssten hoffen, dass jemand ein R Package dafür schreibt.
+
+
+
+
+:::note
+
+Alle Parameter, welche wir in unserem Modell spezifiziert haben, erscheinen nun auch im Ouput.
+:::
+
+
+Die beiden Parameter `Intercept`, `groupadhd` interessieren uns hier besonders. Der Intercept
+ist der erwartete Wert der Kontrollgruppe, während `groupadhd` der Unterschied zwischen den Gruppen ist.
+
+
+
+:::puzzle
+Optionale Aufgabe: fassen Sie die Posterior Verteilung des/der relevanten Parameter(s) mit Hilfe der Funtion `mean_qi()` im `tidybayes` Packages zusammen.
+:::
+
+```{r}
+library(tidybayes)
+
+samples1 <- m1 %>% 
+  posterior_samples() %>% 
+  transmute(Differenz = b_groupadhd) 
+
+samples1 %>% 
+  mean_qi()
+```
+
+
+
+## Grafische Darstellung
+
+Anstatt sich nur eine Tabelle anzuschauen, ist es hilfreich, die Verteilungen grafisch darzustellen.
+
+
+:::exercise
+**Aufgabe 1.6**
+
+Stellen Sie die Posterior Verteilung(en) grafisch dar. Sie können dies entweder mit der Funktion `mcmc_plots()` im `brms` Package, oder (optional) mit dem `tidybayes` Package machen. Eine Anleitung für das `tidybayes` Package finden Sie im [3. Kapitel](https://kogpsy.github.io/neuroscicomplab/03-bayesian-stats.html#posterior-samples-extrahieren) des Skripts.
+:::
+
+Mit der Funktion `mcmc_plot()` können wir eigentlich alles darstellen. Entweder alle Koeffizienten, die beiden Regressionkoeffizienten, oder nur den Unterschiedskoeffizienten.
+
+
+```{r}
+m1 %>% 
+  mcmc_plot()
+```
+
+```{r}
+m1 %>% 
+  mcmc_plot("b")
+```
+Wir können auch die Breite des Credible Intervals ändern, so dass wir die 50% und 95% Credible Intervals erhalten.
+
+```{r}
+m1 %>% 
+  mcmc_plot("b_group", prob = 0.5, prob_outer = 0.95)
+```
+
+
+
+## Diskussion
+
+:::exercise
+**Aufgabe 1.7**
+
+- Wie können Sie die Resultate der Analyse interpretieren? 
+- Was können Sie aussagen? 
+- Welche Aussagen dürfen Sie **nicht** machen?
+:::
+
+Diese Frage ist nicht ganz einfach. Mit der Frage "Welche Aussagen dürfen Sie **nicht** machen?" ist natürlich gemeint, dass wir hier bisher noch keine Hypothese getestet haben, oder zumindest nicht explizit. Implizit haben wir hier zwar die Hypothese, dass es einen Unterschied gibt, den wir schätzen können (mehr dazu später). In diesem einen Modell können wir nun aussagen, in welchen Bereich sich die wahrscheinlichen Werte des Unterschieds befinden. Laut dem Output sind wir 95% sicher, dass der Gruppenunterschied zwischen $-0.02$ und $0.34$ liegt. Der Unterschied ist am ehesten > 0. Wir können sogar genau quantifizieren, wie sicher wir uns dessen sind.
+
+Wir berechnen einfach den Anteil der Samples, für welche die Differenz > 0 ist. 
+
+
+```{r}
+samples1 %>% 
+  count(Differenz > 0) %>% 
+  mutate(probability = n / sum(n))
+```
+
+Dies bedeutet, dass wir uns uns 95.5% sicher, dass die Differenz positiv ist. Da wir aber das Nullmodell nicht geschätzt haben, können wir an dieser Stelle keinen Modellvergleich machen. Das Nullmodell ist nämlich dasjenige Modell, in dem die Differenz auf den Wert 0 fixiert wird, d.h. nicht geschätzt wird. Nur wenn wir die beiden Modelle in Bezug auf ihre prädiktiven Fähigkeiten vergleichen, können wir eine Hypothese testen. Etwas, das wir aber hier nicht tun müssen, ist eine binäre Entscheidung zu treffen (Nullhypothese ablehen oder nicht). Diese Entscheidung braucht nämlich eine sogenannte Nutzenfunktion, und diese ist in der frequentistischen Statistik die 5% Fehlerwahrscheinlichkeit. Dies bedeutet, dass Sie bei einem NHST bereit sind, im Schnitt bei jeder 20. Entscheidung einen Fehler zu machen. Dies ist aber nicht zwingend notwendig, da wir auch einfach Evidenz für oder gegen Hypothesen quantifizieren können. Dafür brauchen wir aber z.B. Bayes Factors.
+
+Ganz entscheidend ist hier: wir schätzen hier bedingt auf die Daten die wahrscheinlichen Werte für die Differenz der beiden Gruppen, welche diese Daten generiert haben könnten. In einem NHST wird mehr gemacht. Dort nehmen wir eine Stichprobe, fassen diese anhand von "summary statistics" zusammmen, und schauen uns dann die theoretische Verteilung der summary statistics (in diesem Fall die Mittelwertsdifferenz) unter der Nullhypothese an. Diese Prozedur erlaubt uns auszusagen, wie wahrscheinlich es ist, eine solch grosse Differenz zu erhalten (p-Wert). Anhand dieses p-Wertes kann eine Entscheidung getroffen werden---ob dies eine gute Idee ist, sei dahingestellt. Auf jeden Fall ist die Grenze $\alpha = 0.05$ willkürlich gewählt, und bedeutet einfach, dass wir bei jeder 20. Entscheidung einen Fehler in Kauf nehmen.
+
+
+:::note
+Es gibt einen Trick, wie wir einfach zu dem Anteil der Posterior Samples kommen, welcher über einem Schwellenwert liegt. Wir können einfach die Funktion `hypothesis()` benutzen!
+:::
+
+Diese verwenden wir so: wir spezifieren unsere "Hypothese" (in Anführungszeichen, weil der Begriff hier nicht ganz richtig verwendet wird) so: `"groupadhd > 0"`, und erhalten im Oouput ein Evidence Ratio (`Evid.Ratio`). In diesem Fall beträgt dieses 21.22, was genau der Wahrscheinlichkeit von `"groupadhd > 0"` geteilt durch die Gegenwahrscheinlichkeit 
+`"groupadhd <= 0"` entspricht. Sie erhalten auch die `Post.Prob`; dies ist `P("groupadhd > 0")`.
+
+```{r}
+m1 %>% 
+  hypothesis("groupadhd > 0")
+```
+
+
+<aside>
+Was der Stern hier soll ist mir nicht ganz klar. Der steht da, wenn die `Post.Prob` grösser als 95% ist, aber das ist meiner Meinung nach ein wenig fragwürdig.
+</aside>
+
+
+
+
+
+
+# Aufgabe 2
+
+
+In der zweiten Aufgabe untersuchen wir einen Datensatz einer Studie, bei der die Arbeitsgedächtnisleitung mittels eines N-Back Tasks bei 20 gesunden Erwachsenen unter verschiedenen Cognitive Loads untersucht wurde. Ziel dieser Studie war es, die Auswirkung von Cognitive Load auf den Präfrontalen Cortex mittels fMRI zu untersuchen. Wir erwarten, dass bei höherem Cognitive Load die Versuchspersonen länger brauchen, um beim N-Back Task eine korrekte Antwort zu geben.
+
+:::note
+Der letzte Satz lässt darauf schliessen, dass wir eine gerichtete Hypothese haben.
+:::
+
+## Daten vorbereiten
+
+Wir laden die Daten:
+
+```{r}
+library(tidyverse)
+library(rmarkdown)
+
+nback2 <- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/cognitive-load-nback.csv") %>% 
+  mutate(across(-rt, as_factor))
+nback2 %>% paged_table()
+```
+
+
+
+
+Wir haben 20 Personen
+
+
+```{r}
+nback2 %>% 
+  summarize(n_subjects = n_distinct(id))
+```
+
+
+
+
+mit 60 Trials pro Person pro Bedingung. Für jeden Trial haben wir die Reaktionszeit in Millisekunden.
+
+```{r}
+nback2 %>% 
+  group_by(id, load) %>% 
+  count() %>% 
+  rmarkdown::paged_table()
+```
+
+
+
+
+
+## Daten zusammenfassen
+
+
+Da die Standardfehler Funktion in R nicht existiert, schreiben wir selber eine (haben wir weiter oben schon gemacht):
+
+```{r}
+se <- function(x) sd(x)/sqrt(length(x))
+```
+
+
+:::exercise
+**Aufgabe 2.1**
+
+Fassen Sie die Daten mit Mittelwert, Standardabweichung und Standardfehler pro Person pro Bedingung zusammen.
+:::
+
+
+Mit diesem Code kann ich gleichzeitig 3 Funktionen anwenden (ist effizienter):
+
+
+```{r summarise-nback2-broken, eval=FALSE, include=FALSE}
+funs <- list(mean = mean, sd = sd, se = se)
+
+nback2 %>% 
+  group_by(id, load) %>% 
+  summarise(across(rt, funs))
+```
+
+```{r summarise-nback2}
+nback2 %>% 
+  group_by(id, load) %>% 
+  summarise(mean = mean(rt),
+            sd = sd(rt), 
+            se = se(rt))
+```
+
+Wir erhalten so die mittlere Reaktionszeit für jede Person in jeder Bedingung, plus die SD und die Standardfehler.   
+
+:::exercise
+**Aufgabe 2.2**
+
+Sie haben die Kennzahlen für jede Person berechnet. Meistens wollen wir aber nicht nur die Effekte der experimentellen Manipulationen für Individuen, sondern für die ganze Gruppe.
+
+Berechnen Sie die mittlere RT für die beiden Bedingungen, aggregiert über Personen. Wie würden Sie vorgehen? Überlegen Sie sich, was die Vor- und Nachteile eines solches Vorgehens sind, und beschreiben Sie sie kurz.
+:::
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+aggregated <- nback2 %>% 
+  group_by(id, load) %>% 
+  summarise(rt = mean(rt)) %>% 
+  group_by(load) %>% 
+  summarise(mean = mean(rt))
+aggregated
+```
+Meistens wollen wir eine generalisierte Aussage machen können---eine Manipulation soll nicht nur bei einzelnen Individuen einen Effekt haben, sondern in einer Population von gleichen Individuen. Wir haben hier nur den mittlere RT aggregiert über Personen berechnet. Für die Berechnung der Standardfehler müssen wir berücksichtigen, dass die Manipulation des cognitive loads eine "within" Manipulation ist. Dies können wir mit der Funktion  `summarySEwithin()` aus dem `Rmisc` Package machen.
+
+```{r}
+agg <- Rmisc::summarySEwithin(nback2,
+                        measurevar = "rt",
+                        withinvars = "load",
+                        idvar = "id",
+                        na.rm = FALSE,
+                        conf.interval = 0.95)
+agg
+```
+
+
+Selbst wenn wir berücksichtigen, dass die `load` Bedingung within manipuliert wurde, so haben wir trotzdem noch foglendes Problem: die unsicherheit, die wir bei der Aggregation der RTs der einzelnen Personen haben, wrd einfach ignoriert---wir ersetzen ja die einzelnen Messwerte einfach durch den personenspezifischen Mittelwert für die beiden Bedingungen. Das heisst, anstelle der Verteilung von RTs, welche ziemlich variieren können, nehmen wir einfach den Mittelwert, und hoffen, dass dieser die RTs ausreichend gut zusammenfasst. Dies ist bei RTs leider oft nicht der Fall, da sie eine ausgeprägt Rechtsschiefe aufweisen können.
+
+Diese Aggregation führt dazu, dass wir uns viel zu sicher sind, und die über die Personen aggregegierten Mittelwerte uns ein falsches Gefühl von Sicherheit vermitteln, in dem Sinne, dass sie viel weniger präzise sind, als wir glauben. 
+
+Eine sehr gute Methode, um damit umzugehen, ist die Verwendung von Multilevel Modellen---wir bevorzugen hier den Ansatz, die beide Ebenen (Level 1 und Level 2) gleichzeitig zu schätzen, so dass die Unsichersheit nicht einfach weggeworfen wird.
+
+
+## Daten visualisieren
+
+Auch hier ist es sinnvoll, die Daten zuerst grafisch darzustellen. 
+
+:::exercise
+**Aufgabe 2.3**
+
+Stellen Sie die mittleren RTs für jede Bedingung aggregiert über Personen grafisch dar.
+:::
+
+```{r}
+aggregated %>% 
+  ggplot(aes(load, mean)) +
+  geom_line(aes(group = 1), linetype = 3) +
+  geom_point(size = 4) +
+  theme_bw()
+```
+
+<aside>
+Hier auch noch mit Standarfehlern.
+</aside>
+
+```{r}
+agg %>%
+    ggplot(aes(x = load, y = rt, group = 1)) +
+    geom_line() +
+    geom_errorbar(width =.05, aes(ymin = rt-ci, ymax = rt+ci)) +
+    geom_point(shape = 21, size = 3, fill = "white") + 
+    theme_bw()
+
+```
+
+
+
+## Frequentistische Analyse
+
+:::exercise
+**Aufgabe 2.4**
+
+Überlegen Sie sich, wie Sie diesen Datensatz frequentistisch analysieren könnten. Beschreiben Sie in 1-2 Sätzen, was Sie tun würden, und welche Aussagen Sie damit machen könnten.
+:::
+
+
+
+Die einfachste Möglichkeit ist ein **paired-samples** t-Test.
+
+```{r}
+t.test(rt ~ load, 
+       data = nback2, 
+       alternative = "greater",
+       paired = TRUE)
+```
+
+Dieser zeigt uns an, dass wir eine Mittelwertsdifferenz zwischen den cognitive load Bedingungen von 48.72 haben, und dass diese Differenz signifikant ist. Das bedeutet genau, dass die Wahrscheinlichkeit, einen t-Wert von 47.772 unter Nullhypotheses zu erhalten klein genug ist, um mit einem Fehlerrisiko von $\alpha = 0.05$ die Nullhypothese abzulehnen.
+
+
+Wir könnten hier aber auch ein Multilevel-Modell benutzen:
+
+
+Es ist sinnvoll, die low cognitive load Bedingung als Referenz zu wählen.
+
+```{r}
+nback2 <-  nback2 %>% 
+  mutate(load = fct_relevel(load, "lo"))
+```
+
+```{r }
+library(lme4)
+library(lmerTest)
+
+m_mle_1 <- lmer(rt ~ load + (1 | id),
+           data = nback2,
+           REML = TRUE)
+```
+
+Nun erhalten wir den Parameter `loadhi`, welcher die Differenz zwischen den Bedingungen repräsentiert, nachdem wir die Messwiederholung innerhalb der Personen berücksichtigt haben.
+
+```{r}
+summary(m_mle_1)
+```
+
+
+Wir könnten hier auch annehmen, dass die Personen sich auch im Effekt der Bedinungung unterscheiden (random intercept und random slope Modell):
+
+```{r}
+m_mle_2 <- lmer(rt ~ load + (1 + load | id),
+           data = nback2,
+           REML = TRUE)
+summary(m_mle_2)
+```
+
+
+
+## Bayesianische Analyse
+
+Wir wollen nun die **population-level** Effects mit `brms` schätzen, und zwar die Mittelwerte der beiden Cognitive Load Bedingungen. Dafür benutzen wir die Formel `~ 0 + load`. Die  **population-level** Effects entsprechen den **Fixed effects** im Output von `lme4`.
+
+
+
+Wir erhalten folgende Default Priors:
+
+```{r}
+get_prior(rt ~ 0 + load + (1 | id),
+          data = nback2)
+```
+
+Die beiden flachen Priors der Parameter `loadhi` und `loadlo` wollen wir nun durch eigene Priors ersetzen. Wir nehmen hier einfach Normalverteilungen, mit einem Mittelwert, der dem Gesamtmittelwert entspricht, und einer etwas arbiträr gewählten Standardabweichung von $10$.
+
+```{r}
+grandmean <- round(mean(nback2$rt), 0)
+grandmean
+```
+
+Priors können mit `set_prior()` oder einfach nur `prior()` definiert werden. 
+
+<aside>
+Beachten Sie die unterschiedliche Benutzung von `set_prior()` und `prior()`.
+</aside>
+
+```{r}
+priors <- set_prior("normal(822, 10)", class = "b")
+# oder
+priors <- prior(normal(822, 10), class = b)
+```
+
+
+Wir schätzen das Model nun mit unseren Prior Verteilungen. 
+
+<aside>
+Das Modell ist nicht ideal---Sie werden in den nachfolgenden Sitzungen erfahren, wie wir es besser machen können. Es hat damit zu tun, dass die RTs gar nicht normalverteilt sein können, weil wir sonst negative RTs vorhersagen würden. Eine Möglichkeit, dies zu umgehen wäre, die RTs zu logarithmieren.
+</aside>
+
+
+<aside>
+Wir könnten auch hier varying effects der Load Bedingung annehmen.
+</aside>
+
+```{r}
+m2 <- brm(rt ~ 0 + load + (1 | id),
+          prior = priors,
+          data = nback2,
+          file = "nback2")
+```
+
+
+
+
+## Posterior zusammenfassen und Grafische Darstellung
+
+
+
+:::exercise
+**Aufgabe 2.5**
+
+Überprüfen Sie, ob die `Rhat` Werte in Ordnung sind. Falls ja, fassen Sie die Posterior Verteilung der wichtigen Parameter zusammen. Stellen Sie die Posterior Verteilungen der beiden Bedingungsparameter grafisch dar, z.B. mit `mcmc_plot()`.
+:::
+
+```{r}
+summary(m2)
+```
+
+Die Rhat Werte sind in Ordnung. Wir erhalten die Parameter `loadhi`, `loadlo`, `sigma` und `sd(Intercept)`. `sd(Intercept)` ist die Standardabweichung der personenspezifischen Abweichungen von Achsenabschnitt. Das ist vielleicht etwas verwirrend, denn wir haben hier keinen Achsenabschnitt. Eigentlich sind das aber einfach die Abweichungen von den beiden Population-Level Effects. `sigma` ist die Standardabweichung der Residuen. `loadhi` und `loadlo` sind die Mittelwerte der beiden Bedingungen.
+
+<aside>
+Falls die `Rhat` Werte über $1.01$ liegen, ist das ein Hinweis darauf, dass das Modell falsch spezifiert wurde. In diesem Fall kann man die Prior Verteilungen anpassen, oder Parameter des Sampling Algorithmus ändern. Wir werden später mehr darüber erfahren.
+</aside>
+
+
+```{r}
+m2 %>% 
+  mcmc_plot("b")
+```
+
+Falls Sie die Verteilung der Differenz wollen, können Sie entweder das Modell so parametrisieren: `~ 1 + load + (1 | id)`, oder die Differenz nachträglich für jede Iteration berechnen. Dies können Sie so machen.
+
+
+```{r}
+samples_m2 <- posterior_samples(m2) %>% 
+    transmute(hi = b_loadhi,
+              lo = b_loadlo, 
+              Differenz = hi - lo)
+```
+
+
+
+Diese Differenz können Sie jetzt auch zusammenfassen
+
+```{r}
+library(tidybayes)
+
+samples_m2 %>% 
+  select(Differenz) %>% 
+  median_qi()
+```
+ und grafisch darstellen.
+
+
+
+```{r}
+samples_m2 %>% 
+  select(Differenz) %>% 
+  ggplot(aes(x = Differenz)) +
+  stat_halfeye(point_interval = median_qi) +
+  theme_tidybayes()
+```
+## Diskussion
+
+:::exercise
+**Aufgabe 2.6**
+
+- Wie können Sie die Resultate der Analyse interpretieren? 
+- Was können Sie aussagen? 
+- Welche Aussagen dürfen Sie **nicht** machen?
+:::
+
+Auch hier dient dieser behaviorale Task dazu, die fMRI Analyse zu unterstützen. Wenn wir Unterschiedliche Aktivierung im präfrontalen Cortex in abhängigkeit des congitve load demonstrieren wollen, dann ist es vorteilhaft, auch behavioral einen Effekt zu zeigen.
+
+
+Wir können wieder Angaben zur Posterior Verteilung der Parameter machen. Wir sind uns 95% sicher, dass die Differenz zwischen 46.54	und 50.39 liegt (das sind diejenigen Werte, welche am ehesten einen solchen Datensatz generienen). Weiter können wir sagen, welcher Anteil der Verteilung der Differenz positiv ist:
+
+
+```{r}
+samples_m2 %>% 
+  count(Differenz > 0) %>% 
+  mutate(probability = n / sum(n))
+```
+
+Oder wieder mit der `hypothesis()` Funktion:
+
+```{r}
+m2 %>% 
+  hypothesis("loadhi > loadlo")
+```
+
+Die Wahrscheinlichkeit, dass in der `high` Bedingung die RTs grösser sind, ist also 1.
+
+Auch hier müssen wir aber festhalten, dass wir noch keine Hypothese getestet haben. Dafür brauchen wir ein Nullmodell, in welchem wir die Load Bedingung weglassen (aud 0 fixieren).
+
+Der grosse Unterschied zwischen Bayesianischer und frequentistischer Statistik ist (etwas vereinfacht) ausgedrückt: 
+
+Bei der frequentistischen Statistik erhalten wir nur eine Punktschätzung der Parameter, ohne etwas über deren Vereilung aussagen zu können (sie haben gar keine Verteilung). Wir würde evtl. gerne etwas darüber aussagen, aber wir dürfen nicht.
+
+Bei der Bayesianischen Statistik erhalten wir eine Verteilung über alle möglichen Werte. Dies alleine erlaubt es uns schon, sehr informative Aussagen zu machen, bevor wir überhaupt daran denken, eine Hypothese mittels Modellvergleich zu testen.

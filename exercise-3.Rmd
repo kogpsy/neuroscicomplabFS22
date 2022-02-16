@@ -1,0 +1,188 @@
+---
+title: "Übung 3"
+description: |
+   Modelle spezifizieren.
+date: "`r Sys.Date()`"
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/exercise-3.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+
+:::fyi
+Diese Übung ist nicht obligatorisch, und muss **nicht** abgegeben werden.
+:::
+
+
+
+# Aufgabe 1
+
+In dieser Studie wurden 17 Patienten mit Schizophrenie und 24 gesunde Kontrollprobanden untersucht. Die Aufgabe bestand aus einer Arbeitsgedächtnisaufgabe. Den Probanden wurden Wörter mit verschiedenen Farben präsentiert. Sie mussten sich die Wörter einer bestimmten Farbe merken. 
+
+Nach einer kurzen Pause sahen die Probanden ein Wort. Falls dieses in der vorherigen Präsentation die gewünschte Farbe gehabt hatte, sollten sie Ja drücken, sonst Nein. Interessiert waren die Forscher in die Reaktionszeit der richtigen Antworten. 
+
+Die Daten sind inspiriert von der Stude von @smithIntactImpairedCognitivecontrol2011. In diesem Studie gingen die Forscher davon aus, dass die 17 Patienten eine verminderte Arbeitsgedächtnisleistung gegenüber den Kontrollprobanden haben würden.  Sie interessieren sich aber nur dafür, ob sich die beiden Gruppen in der Antwortgeschwindigkeit unterscheiden.
+
+Die Variablen im Datensatz sehen wie folgt aus:
+
+```
+id: Versuchspersonennummer
+rt: mittlere Reaktionszeiten der richtigen Antworten in Millisekunden
+group: Gruppenzugehörigkeit: entweder «schizophrenia» oder «control»
+```
+
+
+```{r}
+library(tidyverse)  
+```
+
+```{r}
+d1 <- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/schizophrenia-wm.csv")
+```
+
+```{r}
+glimpse(d1)
+```
+
+```{r}
+d1 <- d1 %>%
+  mutate(group = as_factor(group))
+```
+
+
+
+
+:::exercise
+- Spezifieren Sie nun ein lineares Modell, mit dem Sie den Unterschied zwischen den Patienten und den Kontrollprobanden untersuchen können.
+
+- Spezifieren Sie zudem ein geeignetes Nullmodell.
+:::
+
+
+
+
+
+# Aufgabe 2
+
+In dieser Studie wurden 34 ältere Personen mit anodaler (aktivierender) tDCS über dem linken temporoparietalen Kortex (TPJ) stimuliert. Die Probanden wurden instruiert, Assoziationen zwischen Bildern und Pseudowörtern zu lernen (angelehnt an [@antonenkoTDCSinducedEpisodicMemory2019]).
+
+Die episodische Gedächtnisleistung wurde so anhand von %-korrekt erinnerten Wortpaaren erfasst. Ausserdem haben Sie die RT für korrekte Antworten.
+
+Es gab 5 Durchgänge mit TPJ Stimulation und 5 Durchgänge mit Kontrollstimulation.
+
+Die Variablen im Datensatz sehen wie folgt aus:
+
+```
+subject: Versuchspersonennummer
+stimulation: TPJ oder control
+block: Durchgang
+age: Alter
+correct: Anteil richtiger Antworten pro Durchgang (5 pro Bedingung, insgesamt 10 pro Person)
+rt: mittlere Reaktionszeiten für korrekte Antworten
+```
+
+Sie interessieren sich dafür, ob die Personen während der tDCS Stimulation bessere Gedächtnisleistungen erbringen als in der Kontrollbedingung.
+
+
+```{r}
+d2 <- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/tdcs-tpj.csv")
+```
+
+
+```{r}
+glimpse(d2)
+```
+
+```{r}
+d2 <- d2 %>% 
+  mutate(across(c(subject, stimulation, block), ~as_factor(.)))
+```
+
+
+
+:::exercise
+- Spezifieren Sie nun ein lineares Modell, mit dem Sie den Unterschied zwischen der tDCS Stimulation und den Kontrollbedingung untersuchen können.
+
+- Spezifieren Sie zudem ein geeignetes Nullmodell.
+
+- Versuchen Sie, für das Alter der Personen zu kontrollieren.
+:::
+
+
+
+
+# Aufgabe 3
+
+Mental rotation
+
+
+In einem Experiment von @ganisNewSetThreeDimensional2015 mussten 54 Vpn entscheiden ob zwei 3-D Stimuli, welche zuneinander um 0, 50, 100, oder 150 Grad rotiert waren, identisch oder nicht waren.
+
+
+
+```
+id: Versuchspersonennummer
+angle: Rotationswinkel
+rt: Reaktionszeiten
+accuracy: Indikator für korrekte Antwort
+```
+
+Sie interessieren sich dafür, ob die Personen bei steigendem Rotationswinkel länger brauchen, um eine korrekte Antwort zu geben, und ob die Personen bei steigendem Rotationswinkel mehr Fehler machen.
+
+
+```{r}
+d3 <- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/mental-rotation.csv")
+```
+
+
+Zuerst fassen wir die Rohdaten zusammen:
+
+```{r}
+d3 <- d3 %>% 
+  mutate(id = as_factor(id))
+  
+rts <- d3 %>% 
+  group_by(id, angle, accuracy) %>% 
+  summarise(rt = mean(rt)) %>% 
+  filter(accuracy == 1) %>% 
+  select(-accuracy)
+
+acc <- d3 %>% 
+  group_by(id, angle) %>% 
+  summarise(accuracy = mean(accuracy))
+```
+
+```{r}
+d3sum <- acc %>% 
+  left_join(rts)
+```
+
+:::exercise
+- Spezifieren Sie ein lineares Modell, mit dem Sie den Zusamenhang zwischen Rotationswinkel und RT untersuchen können.
+
+- Spezifieren Sie ein lineares Modell, mit dem Sie den Zusamenhang zwischen Rotationswinkel und Fehlerrate untersuchen können.
+
+- Falls Sie das zu kompliziert finden, können Sie sich auf nur 2 der 5 Rotationswinkel konzentrieren, z.B. 50 und 150.
+:::
+
+
+```{r}
+d3red <- d3sum %>% 
+  filter(angle %in% c(50, 150)) %>% 
+  mutate(angle = as_factor(angle))
+```
+

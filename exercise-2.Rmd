@@ -1,0 +1,544 @@
+---
+title: "Übung 2"
+description: |
+  Parameterschätzung, Posterior zusammenfassen, und lineare Modelle.
+date: "`r Sys.Date()`"
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/exercise-2.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+
+:::exercise
+
+Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen.
+
+Sie haben für diese Übung 10 Tage Zeit. Laden Sie Ihre Lösung als Rmarkdown File bis **Sonntag, 4. April um 00:00 Uhr**, in den Order für Übung 2 auf ILIAS. Falls Rmarkdown nicht funkionieren sollte, werden auch Lösungen in Form eines R Skriptes akzeptiert. Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-2.Rmd* oder *Matrikelnummer_Nachname_uebung-2.R*, z. B. *15-172-874_Nachname_uebung-2.Rmd*.
+
+Bevor Sie einreichen, vergewissern Sie sich bitte, dass Ihr Rmarkdown File geknittet werden kann, und dass der R Code ohne Fehler läuft.
+:::
+
+
+
+
+
+# Aufgabe 1
+
+In der ersten Aufgabe untersuchen Sie einen Datensatz einer Studie, bei der die Arbeitsgedächtnisleitung mittels eines N-Back Tasks bei $21$ Kindern mit einer ADHS Diagnose untersucht wurde. Gleichzeitig wurde derselbe Task mit einer Kontrollgruppe ($n=30$) durchgeführt. Die behavioralen Resultate wurde parallel zu einer fMRI Untersuchung erhoben, damit im Antwortverhalten der Kinder ein Unterschied zur Kontrollgruppe gezeigt werden konnte.
+
+Bei einem N-Back Test wird den Versuchspersonen eine Serie von Stimuli dargeboten (z.B. Buchstaben), und man muss mit einem Tastendruck reagieren, wenn der aktuelle Stimulus gleich dem N-letzten Stimulus war.
+
+:::note
+Hier sehen Sie ein Beispiel für einen **3-Back Test**. Bei den gelb markierten Buchstaben muss die Versuchsperson reagieren. 
+
+
+<br>
+T A A F <mark>A</mark> G H R Y Z <mark>R</mark> V D ...
+:::
+
+
+<aside>
+Mehr Information zu N-Back Tasks finden Sie auf [Wikipedia](https://en.wikipedia.org/wiki/N-back), oder in @meuleReportingInterpretingWorking2017.
+</aside>
+
+
+
+Bei diesem Task untersuchen wir die Reaktionszeiten der Versuchspersonen bei korrekten Antworten. Im Datensatz erhalten Sie die gemittelten Reaktionszeiten der Kinder in der `ADHD` und der `Control` Gruppe.
+
+
+## Daten vorbereiten
+
+Laden Sie zuerst die Daten:
+
+```{r}
+library(tidyverse)
+
+nback1 <- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/adhd-nback.csv")
+```
+
+```{r}
+glimpse(nback1)
+```
+
+
+Konvertieren Sie die Gruppierungsvariable `group` zu einem Faktor:
+
+
+```{}
+nback1 <- nback1 %>% 
+  mutate(group = as_factor(group))
+```
+
+
+
+Verändern Sie die Reihenfolgen der Faktorstufen:
+
+```{r}
+levels(nback1$group)
+```
+
+```{r}
+nback1 <- nback1 %>% 
+  mutate(group = fct_relevel(group, "control"))
+```
+
+```{r}
+levels(nback1$group)
+```
+
+
+Einen kurzen Blick auf die Daten werfen:
+
+```{r}
+glimpse(nback1)
+```
+
+:::exercise
+**Aufgabe 1.1**
+
+Berechnen Sie Mittelwerte und SD pro Gruppe.    
+:::
+
+```{r include = FALSE}
+nback1 %>% 
+  group_by(group) %>% 
+  summarise(mean = mean(rt),
+            sd = sd(rt))
+```
+
+```{r eval=FALSE, include=TRUE}
+nback1 %>% 
+  group_by(group) %>% 
+  summarise(___,
+            ---)
+```
+
+
+
+
+## Daten visualisieren
+
+:::exercise
+**Aufgabe 1.2**
+
+Stellen Sie die Daten mit grafisch dar, zum Beispiel mit Histogrammen, Boxplots oder Violin Plots.
+:::
+
+
+Sie sollte ungefähr solche Grafiken erhalten:
+
+```{r echo=FALSE}
+library(patchwork)
+
+p1 <- nback1 %>% 
+  ggplot(aes(rt)) +
+  geom_histogram(fill = "skyblue3", bins = 15) +
+  facet_wrap(~group) +
+  theme_bw(base_size = 14)
+
+p2 <- nback1 %>% 
+  ggplot(aes(group, rt, fill = group)) +
+    geom_violin(alpha = 0.4) +
+    geom_boxplot(alpha = 0.6) +
+  geom_jitter() +
+  scale_fill_viridis_d(end = 0.8) +
+    theme_bw()
+
+p1 + p2
+```
+
+
+Vielleicht hilft Ihnen folgender Code Block:
+
+```{r eval=FALSE, include=TRUE}
+nback1 %>% 
+  ggplot(aes(rt)) +
+  geom_histogram(bins = 15) +
+  facet_wrap(~group) +
+  theme_bw(base_size = 14)
+```
+
+
+
+
+## Frequentistische Analyse
+
+:::exercise
+**Aufgabe 1.3**
+
+Mit welcher Methode würden Sie diese Daten analysieren? Beschreiben Sie Ihre Wahl in 1-2 Sätzen und führen Sie einen Test durch. Was können Sie damit aussagen?
+:::
+
+
+```{r eval=FALSE, include=FALSE}
+t.test(rt ~ group,
+       data = nback1,
+       alternative = "greater")
+```
+
+
+
+
+## Bayesianische Analyse
+
+
+Wir wollen nun die beiden Gruppenmittelwerte Bayesianisch schätzen. Sie haben zwei Möglichkeiten kennengelernt, die Formel zu spezifieren.
+
+
+:::exercise
+**Aufgabe 1.4**
+
+Entscheiden Sie sich für eine der beiden, und schätzen sie die Mittelwerte mit brms. Schauen Sie sich vorher mit der Funktion `get_prior` die Default Prior Verteilungen an. Wenn sie wollen, können Sie anstelle der Defaults eigene Priors spezifieren. Falls Sie das tun, begründen Sie kurz Ihre Wahl.
+:::
+
+
+
+
+```{r eval=FALSE, include=TRUE}
+library(brms)
+
+get_prior(rt ~ ___,
+          data = nback1)
+```
+
+
+
+```{r message=FALSE, warning=FALSE, eval=TRUE, include=FALSE}
+library(brms)
+m1 <- brm(rt ~ group,
+          data = nback1,
+          file = "nback1")
+```
+
+
+:::exercise
+**Aufgabe 1.5**
+
+Schätzen Sie nun die Parameter Ihres Modells.
+
+- Schauen sich sich mit `summary` den Output an.
+- Überprüfen Sie, ob die `Rhat` Werte in Ordnung sind.
+- Fassen Sie die relevanten Parameter in 1-2 Sätzen zusammen. Je nachdem, wie Sie die Formel spezifiert haben, erhalten Sie die beiden Mittelwerte, oder einen Differenzen Parameter. Was bedeuten die Parameter?
+:::
+
+
+```{r message=FALSE, warning=FALSE, eval=FALSE, include=TRUE}
+library(brms)
+m1 <- brm(___ ~ ___,
+          data = nback1,
+          file = "nback1")
+```
+
+:::puzzle
+Optionale Aufgabe: fassen Sie die Posterior Verteilung des/der relevanten Parameter(s) mit Hilfe der Funtion `mean_qi()` im `tidybayes` Packages zusammen.
+:::
+
+
+
+
+
+## Grafische Darstellung
+
+Anstatt sich nur eine Tabelle anzuschauen, ist es hilfreich, die Verteilungen grafisch darzustellen.
+
+
+:::exercise
+**Aufgabe 1.6**
+
+Stellen Sie die Posterior Verteilung(en) grafisch dar. Sie können dies entweder mit der Funktion `mcmc_plots()` im `brms` Package, oder (optional) mit dem `tidybayes` Package machen. Eine Anleitung für das `tidybayes` Package finden Sie im [3. Kapitel](https://kogpsy.github.io/neuroscicomplab/03-bayesian-stats.html#posterior-samples-extrahieren) des Skripts.
+:::
+
+
+
+```{r eval=FALSE, include=TRUE}
+m1 %>% 
+  mcmc_plot(___)
+```
+
+
+
+## Diskussion
+
+:::exercise
+**Aufgabe 1.7**
+
+- Wie können Sie die Resultate der Analyse interpretieren? 
+- Was können Sie aussagen? 
+- Welche Aussagen dürfen Sie **nicht** machen?
+:::
+
+
+
+
+# Aufgabe 2
+
+
+In der zweiten Aufgabe untersuchen Sie einen Datensatz einer Studie, bei der die Arbeitsgedächtnisleitung mittels eines N-Back Tasks bei 20 gesunden Erwachsenen unter verschiedenen Cognitive Loads untersucht wurde. Ziel dieser Studie war es, die Auswirkung von Cognitive Load auf den Präfrontalen Cortex mittels fMRI zu untersuchen. Wir erwarten, dass bei höherem Cognitive Load die Versuchspersonen länger brauchen, um beim N-Back Task eine korrekte Antwort zu geben.
+
+
+## Daten vorbereiten
+
+Wir laden die Daten:
+
+```{r}
+library(tidyverse)
+library(rmarkdown)
+
+nback2 <- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/cognitive-load-nback.csv") %>% 
+  mutate(across(-rt, as_factor))
+nback2 %>% paged_table()
+```
+
+
+
+
+Wir haben 20 Personen
+
+
+```{r}
+nback2 %>% 
+  summarize(n_subjects = n_distinct(id))
+```
+
+
+
+
+mit 60 Trials pro Person pro Bedingung. Für jeden Trial haben wir die Reaktionszeit in Millisekunden.
+
+```{r}
+nback2 %>% 
+  group_by(id, load) %>% 
+  count() %>% 
+  rmarkdown::paged_table()
+```
+
+
+
+
+
+## Daten zusammenfassen
+
+
+Da die Standardfehler Funktion in R nicht existiert, schreiben wir selber eine:
+
+```{r}
+se <- function(x) sd(x)/sqrt(length(x))
+```
+
+
+:::exercise
+**Aufgabe 2.1**
+
+Fassen Sie die Daten mit Mittelwert, Standardabweichung und Standardfehler pro Person pro Bedingung zusammen.
+:::
+
+
+```{r eval=FALSE, include=FALSE}
+funs <- list(mean = mean, sd = sd, se = se)
+
+nback2 %>% 
+  group_by(id, load) %>% 
+  summarise(across(rt, funs))
+```
+
+:::exercise
+**Aufgabe 2.2**
+
+Sie haben die Kennzahlen für jede Person berechnet. Meistens wollen wir aber nicht nur die Effekte der experimentellen Manipulationen für Individuen, sondern für die ganze Gruppe.
+
+Berechnen Sie die mittlere RT für die beiden Bedingungen, aggregiert über Personen. Wie würden Sie vorgehen? Überlegen Sie sich, was die Vor- und Nachteile eines solches Vorgehens sind, und beschreiben Sie sie kurz.
+:::
+
+
+
+
+
+## Daten visualisieren
+
+Auch hier ist es sinnvoll, die Daten zuerst grafisch darzustellen. 
+
+:::exercise
+**Aufgabe 2.3**
+
+Stellen Sie die mittleren RTs für jede Bedingung aggregiert über Personen grafisch dar.
+:::
+
+
+Sie brauchen wahrscheinlich folgenden Code:
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+aggregated <- nback2 %>% 
+  group_by(id, load) %>% 
+  summarise(rt = mean(rt)) %>% 
+  group_by(load) %>% 
+  summarise(mean = mean(rt))
+```
+
+```{r eval=FALSE, include=TRUE}
+aggregated <- nback2 %>% 
+  group_by(id, load) %>% 
+  summarise(rt = mean(rt)) %>% 
+  group_by(load) %>% 
+  summarise(mean = mean(rt))
+```
+
+```{r}
+aggregated %>% 
+  ggplot(aes(load, mean)) +
+  geom_line(aes(group = 1), linetype = 3) +
+  geom_point(size = 4) +
+  theme_bw()
+```
+
+<aside>
+Normalerweise würden wir in einer solchen Grafik unbedingt Standardfehler darstellen. Diese lassen wir hier der Einfachheit halber weg.
+</aside>
+
+
+## Frequentistische Analyse
+
+:::exercise
+**Aufgabe 2.4**
+
+Überlegen Sie sich, wie Sie diesen Datensatz frequentistisch analysieren könnten. Beschreiben Sie in 1-2 Sätzen, was Sie tun würden, und welche Aussagen Sie damit machen könnten.
+:::
+
+
+```{r eval=FALSE, include=FALSE}
+library(lme4)
+
+m_mle <- lmer(rt ~ load + (1 | id),
+           data = nback2)
+```
+
+
+
+
+## Bayesianische Analyse
+
+Wir wollen nun die **population-level** Effects mit `brms` schätzen, und zwar die Mittelwerte der beiden Cognitive Load Bedingungen. Dafür benutzen wir die Formel `~ 0 + load`. 
+
+
+
+Wir erhalten folgende Default Priors:
+
+```{r}
+get_prior(rt ~ 0 + load + (1 | id),
+          data = nback2)
+```
+
+Die beiden flachen Priors der Parameter `loadhi` und `loadlo` wollen wir nun durch eigene Priors ersetzen. Wir nehmen hier einfach Normalverteilungen, mit einem Mittelwert, der dem Gesamtmittelwert entspricht, und einer etwas arbiträr gewählten Standardabweichung von $10$.
+
+```{r}
+grandmean <- round(mean(nback2$rt), 0)
+grandmean
+```
+
+Priors können mit `set_prior()` oder einfach nur `prior()` definiert werden. 
+
+<aside>
+Beachten Sie die unterschiedliche Benutzung von `set_prior()` und `prior()`.
+</aside>
+
+```{r}
+priors <- set_prior("normal(822, 10)", class = "b")
+# oder
+priors <- prior(normal(822, 10), class = b)
+```
+
+
+Wir schätzen das Model nun mit unseren Prior Verteilungen. 
+
+<aside>
+Das Modell ist nicht ideal---Sie werden in den nachfolgenden Sitzungen erfahren, wie wir es besser machen können.
+</aside>
+
+
+```{r}
+m2 <- brm(rt ~ 0 + load + (1 | id),
+          prior = priors,
+          data = nback2,
+          file = "nback2")
+```
+
+
+
+
+## Posterior zusammenfassen und Grafische Darstellung
+
+
+
+:::exercise
+**Aufgabe 2.5**
+
+Überprüfen Sie, ob die `Rhat` Werte in Ordnung sind. Falls ja, fassen Sie die Posterior Verteilung der wichtigen Parameter zusammen. Stellen Sie die Posterior Verteilungen der beiden Bedingungsparameter grafisch dar, z.B. mit `mcmc_plot()`.
+:::
+
+<aside>
+Falls die `Rhat` Werte über $1.01$ liegen, ist das ein Hinweis darauf, dass das Modell falsch spezifiert wurde. In diesem Fall kann man die Prior Verteilungen anpassen, oder Parameter des Sampling Algorithmus ändern. Wir werden später mehr darüber erfahren.
+</aside>
+
+Falls Sie die Verteilung der Differenz wollen, können Sie entweder das Modell so parametrisieren: `~ 1 + load + (1 | id)`, oder die Differenz nachträglich für jede Iteration berechnen. Dies können Sie so machen.
+
+
+```{r}
+samples_m2 <- posterior_samples(m2) %>% 
+    transmute(hi = b_loadhi,
+              lo = b_loadlo, 
+              diff = hi - lo)
+```
+
+
+
+Diese Differenz können Sie jetzt auch zusammenfassen
+
+```{r}
+library(tidybayes)
+
+samples_m2 %>% 
+  select(diff) %>% 
+  median_qi()
+```
+ und grafisch darstellen.
+
+
+
+```{r}
+samples_m2 %>% 
+  select(diff) %>% 
+  ggplot(aes(x = diff)) +
+  stat_halfeye(point_interval = median_qi) +
+  theme_tidybayes()
+```
+## Diskussion
+
+:::exercise
+**Aufgabe 2.6**
+
+- Wie können Sie die Resultate der Analyse interpretieren? 
+- Was können Sie aussagen? 
+- Welche Aussagen dürfen Sie **nicht** machen?
+:::

@@ -1,0 +1,32 @@
+---
+title: "Übung 2"
+description: |
+  Die zweite Übung ist online.
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+date: 03-25-2021
+categories:
+  - uebungen
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Die Übung finden Sie im Menu: [Übungen > Übung 2](https://kogpsy.github.io/neuroscicomplab/exercise-2.html). 
+
+Sie haben für diese Übung Zeit bis **4. April, 00:00 Uhr**. Laden Sie Ihre Lösung als Rmarkdown File in den Order für Übung 2 auf ILIAS. Falls Rmarkdown nicht funkionieren sollte, werden auch Lösungen in Form eines R Skriptes akzeptiert. Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-2.Rmd* oder *Matrikelnummer_Nachname_uebung-2.R*, z. B. *15-172-874_Nachname_uebung-2.Rmd*.
+
+
+> Bevor Sie einreichen, vergewissern Sie sich bitte, dass Ihr Rmarkdown File geknittet werden kann, und dass der R Code ohne Fehler läuft.
+
+

@@ -1,0 +1,31 @@
+---
+title: "Übung 5"
+description: |
+  Übung 5 ist online.
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+date: "`r Sys.Date()`"
+categories:
+  - uebungen
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Die Übung finden Sie im Menu: [Übungen > Übung 5](https://kogpsy.github.io/neuroscicomplab/exercise-5.html). 
+
+Sie haben für diese Übung 8 Tage Zeit. Laden Sie bitte diesmal Ihre Lösung als ZIP File bis **Donnerstag, 13. Mai um 00:00 Uhr**, in den Order für Übung 5 auf ILIAS. Das ZIP File sollte sowohl das Rmarkdown File als auch das generierte HTML File enthalten.
+
+Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-5.zip*.
+
+> Bei dieser Übung werden keine Lösungen akzeptiert, bei denen nichts geschrieben wurde. Dies bedeutet: wenn in der Aufgabe steht "Bitte schreiben Sie kurz..." dann erwarte ich auch, dass etwas geschrieben wird.

@@ -1,0 +1,86 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = TRUE,
+                      fig.width=9, fig.height=3.5, fig.retina=3,
+                      out.width = "100%",
+                      dpi = 300,
+                      cache = FALSE,
+                      echo = TRUE,
+                      message = FALSE, 
+                      warning = FALSE,
+                      fig.show = TRUE,
+                      hiline = TRUE)
+options(htmltools.dir.version = FALSE)
+
+# fontawesome
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+
+# htmltools::tagList(
+#   xaringanExtra::use_clipboard(
+#     button_text = "<i class=\"fa fa-clipboard\"></i>",
+#     success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+#     error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+#   ),
+#   rmarkdown::html_dependency_font_awesome()
+# )
+
+# magick
+# dev.off <- function(){
+#   invisible(grDevices::dev.off())
+# }
+# set seed
+# set.seed(324)
+```
+
+```{r xaringanthemer, include=FALSE}
+library(xaringanthemer)
+# style_duo_accent(
+#   primary_color = "#4C566B",
+#   secondary_color = "#C16069",
+#   inverse_header_color = "#FFFFFF"
+# )
+
+style_duo_accent(
+  # primary_color = "#5e81ac", # "#4C566B",
+  # secondary_color = "#d08770",
+  # inverse_header_color = "#FFFFFF",
+  primary_color      = "#0F4C81", # pantone classic blue
+  secondary_color    = "#A2B8D4", # pantone cashmere blue
+  header_font_google = google_font("Raleway"),
+  text_font_google   = google_font("Raleway", "300", "300i"),
+  code_font_google   = google_font("Fira Code"),
+  # text_font_size     = "30px",
+  outfile            = "css/xaringan-themer.css"
+)
+
+xaringanExtra::use_tile_view()
+xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+xaringanExtra::use_scribble(pen_color = "#bf616a")
+xaringanExtra::use_search(show_icon = FALSE,
+                          position = "bottom-right",
+                          auto_search = TRUE)
+```
+
+layout: true
+  
+<!-- Home icon -->
+<div class="my-footer">
+<span>
+<a href="https://kogpsy.github.io/neuroscicomplab" target="_blank">`r fontawesome::fa(name = "home", fill = "#0F4C81")`</a> Methodenkurs Neurowissenschaft im Computerlab
+</span>
+</div>
+
+
+<!-- Name (left) -->
+<!-- <div class="my-footer"> -->
+<!-- <span> -->
+<!-- Andrew Ellis - <a href="https://kogpsy.github.io/neuroscicomplab" target="_blank">kogpsy.github.io/neuroscicomplab</a> -->
+<!-- </span> -->
+<!-- </div> -->
+
+<!-- slide separator (for xaringan) -->
+---

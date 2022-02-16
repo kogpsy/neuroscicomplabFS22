@@ -1,0 +1,43 @@
+---
+title: "Leistungskontrollen"
+description: |
+  Es gibt __6__ Übungen geben, von denen __5__ bestanden werden müssen.
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936s
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Leistungskontrolle
+<!-- `r fontawesome::fa(name = "grin-beam-sweat", fill = "steelblue")`  -->
+
+Leistungskontrollen werden in Form von Übungen erbracht. Es wird __6__ Übungen geben, von denen
+__5__ bestanden werden müssen. 
+
+Es gibt die Möglichkeit, Übungen falls nötig (nach Verbesserung) ein zweites Mal einzureichen.
+
+Übungen werden in einem entsprechenden Ordner auf ILIAS hochgeladen, und zwar in
+Form eines R Scripts, oder, noch besser, als [Rmarkdown](rmarkdown.html) File.
+
+<aside> Ein gute Einführung in [Rmarkdown](https://rmarkdown.rstudio.com/) finden Sie z.B. [hier](https://rmd4sci.njtierney.com/).</aside>
+
+Falls Datenfiles dazugehören, sollte alles in einem ZIP File komprimiert werden.
+Sowohl das R Script als auch das RMarkdown File sollten _self-contained_ sein, d.h. es
+ist möglich, den Code unabhängig vom Rechner, auf dem der Code geschrieben wurde, auszuführen. Deswegen ist
+es empfehlenswert, die Übungen als [RStudio Projekt](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) hochzuladen.
+
+<aside> Eine Einführung in RStudio finden Sie [hier](https://methodenlehre.github.io/einfuehrung-in-R/rstudio-workflow.html#arbeiten-mit-rstudio). </aside>
+
+
+
+

@@ -1,0 +1,574 @@
+---
+title: "brms case studies"
+author: "Andrew Ellis"
+date: "`r Sys.Date()`"
+output:
+  html_notebook: 
+    toc: yes
+    theme: cosmo
+bibliography: references.bib
+---
+
+
+## brms
+An R package for Bayesian generalized (non-)linear multivariate multilevel models using 'Stan'
+
+
+
+
+## Case study 1: Smart drug
+
+```{r}
+library(magrittr)
+library(tidyverse)
+library(brms)
+library(tidybayes)
+library(ggridges)
+library(ggstance)
+library(patchwork)
+```
+
+
+```{r}
+TwoGroupIQ <- read_csv("data/SmartDrug.csv")
+```
+
+
+```{r, echo = FALSE, include = FALSE}
+ttest <- t.test(IQ ~ Group,
+       data = TwoGroupIQ,
+		 var.equal = FALSE,
+	 alternative = "less")
+```
+
+Let's return to the IQ example.
+
+- Our hypothesis: the 'smart drug' group have higher IQ scores than the placebo group.
+
+- We obtained a p-value of `r round(ttest$p.value, 3)` (Welch test)
+
+- (Even after removing outliers, p is > 0.05. This appproach is tricky.)
+
+```{r echo = FALSE}
+p_iq_dotplot <- TwoGroupIQ %>%
+   ggplot(aes(x = IQ, fill = Group)) +
+      geom_dotplot(binwidth = 1) + facet_wrap(~Group) +
+      scale_fill_manual(values = c("#0288b7", "#a90010"), guide = FALSE) +
+      # scale_x_continuous(breaks = seq(1, 10, 1)) +
+      scale_y_continuous(breaks = NULL) +
+      labs(y = "Count", x = "IQ") +
+      facet_wrap(~ Group, nrow = 2) +
+      theme(panel.grid.major.x = element_blank())
+
+p_iq_ridges <- TwoGroupIQ %>%
+   ggplot(aes(x = IQ, y = fct_rev(Group), fill = Group)) +
+     stat_density_ridges(quantile_lines = TRUE,
+                       quantiles = 2,
+                       scale = 3, color = "white") +
+      scale_fill_manual(values = c("#0288b7", "#a90010"), guide = FALSE) +
+      scale_x_continuous(breaks = seq(0, 10, 2)) +
+      labs(x = "IQ", y = NULL,
+         subtitle = "White line shows median rating")
+
+
+p_iq_dotplot +
+    p_iq_ridges +
+  plot_annotation(title = "IQ difference",
+                  subtitle = "Smart drug vs placebo",
+                  theme = theme(plot.title = element_text(face = "bold",
+                                                          size = rel(1.5))))
+```
+
+
+### Bayes factor to the rescue?
+
+We might want to compute a Bayes factor. Can we at least quantify evidence for the null hypothesis?
+
+Not in this case. The data provide *little evidence either for or against* our hypothesis.
+
+- The maximally attainable Bayes factor in favour of our hypothesis is $\sim 1.8$.
+
+- Bayes factor are not all we can do.
+
+- A benefit of going Bayesian is the ability to flexibly specify our generative model. We can make the model [robust against outliers](https://solomonkurz.netlify.com/post/robust-linear-regression-with-the-robust-student-s-t-distribution/).
+
+
+### brms: equal variance model
+
+- Whilst this is very powerful, and for simple models also pretty easy, it gets tedious for complex models.
+
+- Fortunately, `brms` simplifies this process, by allowing us to specify a model using `lme4` style formula notation.
+
+- `brms` then generates `Stan` code, and provides several convience functions for accessing the marginal posterior distributions.
+
+- `brms` allows specification of non-linear models. A simple linear regression looks like this:
+
+```{r echo=TRUE}
+fit_eqvar <- brm(IQ ~ Group,
+                 data = TwoGroupIQ,
+                 file = here::here("models/fit_iq-eqvar"))
+
+```
+
+```{r}
+summary(fit_eqvar)
+```
+
+- In this model, we let `brms` set priors.
+
+
+### Estimated parameter
+
+Marginal posterior distribution of the regression parameter $\beta$
+
+```{r eval = TRUE, echo=TRUE}
+fit_eqvar %>%
+    gather_draws(b_GroupSmartDrug) %>%
+    ggplot(aes(y = .variable, x = .value)) +
+    geom_halfeyeh(fill = "Steelblue4") +
+    geom_vline(xintercept = 0, color = "white", linetype = 1, size = 1) +
+    ylab("") +
+    xlab("Estimated difference") +
+    theme_classic()
+```
+
+
+### Posterior predictions: normal model
+
+We can plot the predicted marginal means and the predictive bands alongside the data
+
+```{r}
+grid <- TwoGroupIQ %>%
+    modelr::data_grid(Group)
+
+fits_IQ <- grid %>%
+    add_fitted_draws(fit_eqvar)
+
+preds_IQ <- grid %>%
+    add_predicted_draws(fit_eqvar)
+
+pp_eqvar <- TwoGroupIQ %>%
+    ggplot(aes(x = IQ, y = Group)) +
+    geom_halfeyeh(aes(x = .value),
+                  relative_scale = 0.7,
+                  position = position_nudge(y = 0.1),
+                  data = fits_IQ,
+                  .width = c(.66, .95, 0.99)) +
+    stat_intervalh(aes(x = .prediction),
+                   data = preds_IQ,
+                   .width = c(.66, .95, 0.99)) +
+    scale_x_continuous(limits = c(75, 125)) +
+    geom_point(data = TwoGroupIQ) +
+    scale_color_brewer() +
+	labs(title = "Equal variance model predictions")
+
+pp_eqvar
+```
+
+### Robust model
+
+- The normal equal variance model does not predict the data well. We can use a t distribution instead of a normal distribution to make the model more robust.
+
+- The t distribution has three parameters: location, (positive) scale, and a (positive) normality parameter, $\nu$. As $\nu$ increases, a t distribution starts to resemble a normal distribution
+
+```{r echo=FALSE}
+tibble(x = seq(from = -6, to = 6, by = .01)) %>%
+  expand(x, nu = c(1, 2.5, 5, 10, 100, Inf)) %>%
+  mutate(density = dt(x = x, df = nu),
+         nu      = factor(nu, levels = c("Inf", "100", "10", "5", "2.5", "1"))) %>%
+
+  ggplot(aes(x = x, y = density, group = nu, color = nu)) +
+  geom_line() +
+  scale_color_viridis_d(expression(nu),
+                        direction = 1, option = "C", end = .85) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  coord_cartesian(xlim = -5:5) +
+  xlab(NULL) +
+  theme(panel.grid = element_blank())
+```
+
+<br>
+
+We have now have an extra parameter, for which we need a prior. A recommened distribution is the gamma distribution:
+
+```{r echo=FALSE}
+tibble(x = seq(from = 0, to = 60, by = .1)) %>%
+    # gamma(alpha = 1, beta = 1/29) is equal to exponential(1/29)
+    expand(x, nesting(alpha = c(1, 2, 4),
+                      beta  = c(1/29, 0.1, 1))) %>%
+    mutate(density = dgamma(x, alpha, beta),
+           group   = rep(letters[1:3], times = n() / 3)) %>%
+    ggplot(aes(x = x, ymin = 0, ymax = density)) +
+    geom_ribbon(aes(group = group, fill = group),
+                size = 0, alpha = 3/4) +
+    annotate("text", x = 9.5, y = 0.1, label = "gamma(4, 1)") +
+    annotate("text", x = 20, y = 0.04, label = "gamma(2, 0.1)") +
+    scale_fill_viridis_d(option = "B", direction = -1,
+                         begin = 1/3, end = 3/3) +
+    scale_y_continuous(NULL, breaks = NULL) +
+    coord_cartesian(xlim = 0:50) +
+    theme(panel.grid      = element_blank(),
+          legend.position = "none")
+```
+
+### brms: robust model
+
+
+```{r echo = TRUE}
+priors <- set_prior("normal(100, 10)", class = "b") +
+        set_prior("cauchy(0, 1)", class = "b", dpar = "sigma") +
+        set_prior("gamma(2, 0.1)", class = "nu")
+
+fit_robust_1 <- brm(bf(IQ ~ 0 + Group, sigma ~ Group),
+                  family = student,
+                  data = TwoGroupIQ,
+                  prior = priors,
+                  cores = parallel::detectCores(),
+                  file = here::here("models/fit_iq-robust_1"))
+```
+
+
+```{r}
+summary(fit_robust_1)
+```
+
+
+
+### Posterior estimates: robust model
+
+```{r eval = TRUE, echo=TRUE}
+fit_robust_1 %>%
+    spread_draws(b_GroupSmartDrug, b_GroupPlacebo) %>%
+    mutate(`SmartDrug - Placebo` = b_GroupSmartDrug - b_GroupPlacebo) %>%
+    gather(variable, difference, `SmartDrug - Placebo`) %>%
+    ggplot(aes(y = variable, x = difference)) +
+    geom_halfeyeh(fill = "Steelblue4") +
+    geom_vline(xintercept = 0, color = "white", linetype = 1, size = 1) +
+    ylab("") +
+    xlab("Estimated difference") +
+    theme_tidybayes()
+```
+
+### Posterior predictions: robust model
+
+```{r echo = FALSE}
+grid <- TwoGroupIQ %>%
+    modelr::data_grid(Group)
+
+fits_IQ <- grid %>%
+    add_fitted_draws(fit_robust_1)
+preds_IQ <- grid %>%
+    add_predicted_draws(fit_robust_1)
+
+pp_robust <- TwoGroupIQ %>%
+    ggplot(aes(x = IQ, y = Group)) +
+    geom_halfeyeh(aes(x = .value),
+                  relative_scale = 0.7,
+                  position = position_nudge(y = 0.1),
+                  data = fits_IQ,
+                  .width = c(.66, .95, 0.99)) +
+    stat_intervalh(aes(x = .prediction),
+                   data = preds_IQ,
+                   .width = c(.66, .95, 0.99)) +
+    scale_x_continuous(limits = c(75, 125)) +
+    geom_point(data = TwoGroupIQ) +
+    scale_color_brewer() +
+	labs(title = "Robust model predictions")
+```
+
+
+```{r echo=, message=FALSE, warning=FALSE}
+pp_eqvar / pp_robust
+```
+
+
+### Model comparison
+We can use the `loo` package to carry out Pareto smoothed importance-sampling leave-one-out cross-validation (PSIS-LOO)
+
+```{r echo = TRUE}
+fit_eqvar %<>% add_loo() 
+fit_robust_1 %<>% add_loo()
+loo_compare(fit_eqvar, fit_robust_1)
+```
+
+
+
+```{r echo = FALSE}
+get_pareto_k <- function(l) {
+    l$diagnostics$pareto_k %>%
+        as_tibble() %>%
+        mutate(i = 1:n()) %>%
+        rename(pareto_k = value)
+}
+
+loo_1 <- loo(fit_eqvar)
+loo_2 <- loo(fit_robust_1)
+
+tibble(name = str_c("loo_", 1:2)) %>%
+    mutate(loo_object = map(name, get)) %>%
+    mutate(pareto_k = map(loo_object, get_pareto_k)) %>%
+    unnest(pareto_k) %>%
+    mutate(fit = rep(c("Normal model", "Robust model"), each = n() / 2)) %>%
+
+    ggplot(aes(x = i, y = pareto_k)) +
+    geom_hline(yintercept = c(.5, .7),
+               color = "grey", linetype = 3, alpha = 0.6) +
+    geom_point(alpha = .5, size = 2) +
+    geom_text(data = tibble(i = c(3, 6, 2),
+                          pareto_k = c(.45, .65, .95),
+                          label = c("good", "[just] ok", "bad"),
+                          fit = "Normal model"),
+            aes(label = label),
+            color = "grey50") +
+    scale_y_continuous(breaks = c(0, .5, .7)) +
+    theme(panel.grid   = element_blank(),
+          axis.title.x = element_text(face = "italic", family = "Times")) +
+    facet_wrap(~fit)
+```
+
+
+
+### Bayes factors: Savage Dickey
+
+For the robust model, we can obtain a Bayes factor using either the Savage-Dickey density ratio, or a recently implemented approach called bridge sampling.
+
+```{r}
+priors <- prior(normal(100, 10), class = b, coef = intercept) +
+          prior(cauchy(0, 0.707), class = b, coef = GroupSmartDrug) +
+          prior(cauchy(0, 1), class = b, dpar = sigma) + 
+          prior(gamma(2, 0.1), class = nu)
+```
+
+```{r}
+fit_robust_bf <- brm(bf(IQ ~ 0 + intercept + Group,
+                        sigma ~ Group),
+                     family = student,
+                     data = TwoGroupIQ,
+                     prior = priors,
+                     cores = parallel::detectCores(),
+                     sample_prior = TRUE,
+                     file = here::here("models/fit_iq-robust_bf"))
+```
+
+```{r}
+BF <- hypothesis(fit_robust_bf,
+                hypothesis = 'GroupSmartDrug = 0')
+1/BF$hypothesis$Evid.Ratio
+```
+
+
+
+
+### Bayes factors: Bridge sampling
+
+```{r}
+priors <- prior(normal(100, 10), class = b, coef = intercept) +
+          prior(cauchy(0, 0.707), class = b, coef = GroupSmartDrug) +
+          prior(cauchy(0, 1), class = b, dpar = sigma) + 
+          prior(gamma(2, 0.1), class = nu)
+
+fit_robust_bridge <- brm(bf(IQ ~ 0 + intercept + Group,
+                            sigma ~ Group),
+                         family = student,
+                         data = TwoGroupIQ,
+                         prior = priors,
+                         cores = parallel::detectCores(),
+                         save_all_pars = TRUE,
+                         iter = 1e4,
+                         file = here::here("models/fit_iq-robust_bridge"))
+```
+
+
+We have to specify a null model (leaving out the `Group` variable):
+
+```{r}
+priors <- prior(normal(100, 10), class = b, coef = intercept) +
+          prior(cauchy(0, 1), class = b, dpar = sigma) + 
+          prior(gamma(2, 0.1), class = nu)
+
+fit_robust_bridge_null <- brm(bf(IQ ~ 0 + intercept,
+                                 sigma ~ Group),
+                              family = student,
+                              data = TwoGroupIQ,
+                              prior = priors,
+                              cores = parallel::detectCores(),
+                              save_all_pars = TRUE,
+                              iter = 1e4,
+                              file = here::here("models/fit_iq-robust_bridge-null"))
+```
+
+
+```{r warning = FALSE, message = FALSE}
+BF_bridge <- bayes_factor(fit_robust_bridge, fit_robust_bridge_null)
+BF_bridge$bf
+```
+
+
+
+### Compare OLS and Bayesian estimates
+```{r}
+fit_ols <- lm(IQ ~ Group,
+              data = TwoGroupIQ)
+
+
+d <- broom::tidy(fit_ols, conf.int = TRUE) %>%
+    mutate(
+        low = estimate - std.error,
+        high = estimate + std.error
+    )
+
+linear_results <- fit_ols %>%
+    broom::tidy(conf.int = TRUE) %>%
+    filter(term == "GroupSmartDrug") %>%
+    mutate(model = "OLS")
+
+
+bayes_results <- fit_robust_1 %>%
+    spread_draws(b_GroupSmartDrug, b_GroupPlacebo) %>%
+    mutate(GroupSmartDrug = b_GroupSmartDrug - b_GroupPlacebo) %>%
+    median_qi(GroupSmartDrug) %>%
+    gather(term, estimate, GroupSmartDrug) %>%
+    to_broom_names() %>%
+    mutate(model = "Robust Bayesian model")
+
+
+bind_rows(linear_results, bayes_results) %>%
+    mutate(term = term) %>%
+    ggplot(aes(y = term,
+               x = estimate,
+               xmin = conf.low,
+               xmax = conf.high,
+               color = model)) +
+    geom_pointrangeh(position = position_dodgev(height = .3)) +
+    geom_vline(xintercept = 0, linetype = 3,
+               color = "grey", alpha = 0.8) +
+    scale_color_viridis_d(option = "B", direction = -1,
+                          begin = 1/3, end = 2/3) +
+    scale_y_discrete(breaks = NULL) +
+    ylab("Comparison: SmartDrug - Placebo")
+```
+
+
+
+
+
+
+
+
+
+
+## Case study 2: Oxytocin and spirituality:
+
+The following example is taken from [@quintanaBayesianAlternativesCommon2018]. The data and the Jasp file are available from the [Open Science Framework](https://osf.io/emz4r/) project page.
+
+
+
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+```{r}
+spirituality <- read_csv("data/Cappellen.csv") %>%
+  mutate_at(vars(OT_condition), ~as_factor(.))
+```
+
+```{r echo=TRUE}
+spirituality %$%
+  cor.test(Spirituality, Age)
+```
+
+
+
+```{r echo = TRUE}
+library(brms)
+library(tidybayes)
+
+priors <- prior(normal(0, 100), class = Intercept) +
+          prior(normal(0, 100), class = sigma, resp = Age) +
+          prior(normal(0, 100), class = sigma, resp = Spirituality) +
+          prior(lkj(1), class = rescor)
+
+fit_cor <- brm(cbind(Age, Spirituality) ~ 1,
+               family = gaussian,
+               data = spirituality,
+               prior = priors,
+               chains = 4,
+               cores = parallel::detectCores(),
+               seed = 123,
+               file = here::here("models/fit-cor-spirituality"))
+```
+
+```{r echo=TRUE}
+summary(fit_cor)
+```
+
+```{r echo=TRUE}
+fit_cor %>%
+  spread_draws(rescor__Age__Spirituality) %>%
+  mean_hdi()
+```
+
+
+```{r echo=TRUE}
+fit_cor %>%
+  spread_draws(rescor__Age__Spirituality) %>%
+  transmute(cor = rescor__Age__Spirituality) %>%
+  mean_qi(.width = c(.95, .8, .5))
+```
+
+
+```{r echo=TRUE}
+fit_cor %>%
+  spread_draws(rescor__Age__Spirituality) %>%
+  point_interval(.point = median)
+```
+
+
+
+```{r echo=TRUE}
+t.test(Spirituality ~ OT_condition,
+       data = spirituality)
+```
+
+```{r echo=TRUE}
+spirituality <- spirituality %>%
+  drop_na(Spirituality) %>%
+  mutate(spirituality = as.ordered(Spirituality),
+         oxytocin = fct_relevel(as_factor(OT_condition), "Placebo"),
+         religious = fct_relevel(as_factor(rel_aff_recode_category), "Non-affiliated"))
+```
+
+```{r}
+fit_ordinal <- brm(spirituality ~ oxytocin + religious,
+                   family = cumulative(),
+                   data = spirituality,
+                   file = here::here("models/fit_ordinal")) %>%
+  add_loo()
+```
+
+```{r echo=TRUE}
+fit_ordinal_interaction <- fit_ordinal %>%
+  update(. ~ . + oxytocin:religious,
+         newdata = spirituality,
+         file = here::here("models/fit_ordinal-interaction")) %>%
+  add_loo()
+```
+
+
+```{r echo=TRUE}
+fitted_ordinal_interaction <- fit_ordinal_interaction$data %>%
+  modelr::data_grid(oxytocin, religious) %>%
+  add_fitted_draws(fit_ordinal_interaction)
+
+fitted_ordinal_interaction %>%
+  ggplot(aes(x = oxytocin, y = .value, color = .category)) +
+  stat_pointinterval(position = position_dodge(width = 0.4)) +
+  facet_wrap(~religious) +
+  scale_color_viridis_d() +
+  theme_tidybayes()
+
+```
+
+
+## References

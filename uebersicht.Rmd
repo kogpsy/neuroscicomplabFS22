@@ -1,0 +1,52 @@
+---
+title: "Übersicht"
+description: | 
+  Inhalt des Kurses und Software.
+date: "`r Sys.Date()`"
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/overview.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: true
+---
+
+# Einleitung
+
+## Inhalt dieses Kurses
+<!-- `r fontawesome::fa(name = "blender", fill = "steelblue")` -->
+In diesem Kurs beschäftigen wir uns im weiteren Sinne mit Model-based Cognitive Neuroscience. Dieses Forschungsgebiet existiert noch nicht sehr lange, und ist aus dem Zusammenschluss von mathematischer Modellierung und neurowissenschaftlichen Methoden entstanden.
+
+In diesem Kurs geht es um den behavioralen/kognitiven Teil dieses Forschungsgebiets---das bedeutet, mathematische Modelle, anhand derer experimentelle Daten analysiert werden können. Es gibt ein sehr gutes Lehrbuch [@forstmannModelBasedCognitiveNeuroscience2015] zum Thema Model-based Cognitive Neuroscience; wir werden einzelne Kapitel daraus verwenden. Das Buch ist auf SpringerLink verfügbar: [An Introduction to Model-Based Cognitive Neuroscience]((https://link.springer.com/book/10.1007%2F978-1-4939-2236-9)). Ausserdem werden wir Beispiele aus dem Buch von @farrellIntroductionCognitiveModeling2015 benutzten. Dieses Buch ist leider nicht frei erhältlich---es gibt jedoch eine Website mit Code und Übungen: [Computational Modeling of Cognition and Behavior](https://psy-farrell.github.io/computational-modelling/). Wir werden uns ab Mitte des Semesters mit Modellen von Entscheidungsverhalten und kognitiven Modellen beschäftigen, darunter sogennante Bayesian Models of cognition. Damit ist gemeint, dass wir Bayesianische Inferenz als rationales Verhalten betrachten, und Abweichungen davon in menschlichem Verhalten zu suchen.
+
+@wilsonTenSimpleRules2019a geben eine sehr gute Einführung in die Prinzipen der Modellierung, obschon das Paper nicht ganz so "simple" ist, wie der Titel verspricht. 
+
+Bevor wir zu den kognitiven Modellen kommen, werden wir uns im ersten Teil des Kurses mit Bayesianischer Inferenz beschäftigen, und mit Bayesianischer Datenanalyse. Dies ist nicht mit Bayesianischen Models of Cognition zu verwechslen---Bayesianische Models of Cognition sind Modelle menschlichen Verhaltens, oder der Funktionsweise von Gehirnen, während Bayesianische (oder auch frequentistische) Datenanalyse dazu benutzt wird, die Parameter solcher Modelle zu schätzen.
+
+Bayesianische Datenanalyse bietet gegenüber der frequentistischen Statistik viele Vorteile, erfordert aber auch ein Umdenken. Wir werden lernen, wie wir statistische Modelle als lineare Modelle formulieren können, entweder als allgemeine lineare Modelle (ALM), oder verallgemeinerte lineare Modelle (generalized linear models, GLM). Als nächtes folgen dann Multilevel Modelle, mit denen wir häufig verwendete Daten, wie binäre Antworten, oder Reaktionszeiten untersuchen können.
+
+Die Themen sind also: 
+
+- Einführung in die Bayesianische Datenanalyse
+- Bayesianische Multilevel Modelle
+- Mathematische Modelle von Entscheidungsverhalten
+- Modelle von kognitiven Prozessen (Bayesianische und andere)
+
+## Software
+<!-- `r fontawesome::fa(name = "laptop-code", fill = "steelblue")` -->
+Wir werden in diesem Kurs vor allem mit R arbeiten, aber wenn es um Bayesianische Datenanalyse geht, verwenden wir [Stan](https://mc-stan.org/). Dies ist eine probabilistische Programmiersprache, mit der man Monte Carlo Sampling in einfachen bis sehr komplexen Modellen durchführen kann.
+
+Glücklicherweise gibt es ein R Package, mit dem man von R aus Stan benutzen kann: [RStan](https://mc-stan.org/users/interfaces/rstan). Noch viel einfacher wird es, wenn wir [brms](https://github.com/paul-buerkner/brms) oder [rstanarm](https://mc-stan.org/rstanarm/) verwenden. Mit diesen Packages lassen sich Bayesianische statistische Modelle mit (fast) derselben Syntax wie frequentistische Modelle schätzen.
+
+

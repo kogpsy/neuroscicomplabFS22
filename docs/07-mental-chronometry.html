@@ -1,0 +1,3736 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>neuroscicomplab: Datenanalyse</title>
+
+  <meta property="description" itemprop="description" content="Teil 7: Mental Chronometry (Reaktionszeiten)"/>
+
+  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-05-11"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-05-11"/>
+  <meta name="article:author" content="Andrew Ellis"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="neuroscicomplab: Datenanalyse"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Teil 7: Mental Chronometry (Reaktionszeiten)"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:site_name" content="neuroscicomplab"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="neuroscicomplab: Datenanalyse"/>
+  <meta property="twitter:description" content="Teil 7: Mental Chronometry (Reaktionszeiten)"/>
+
+  <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+  <meta name="citation_title" content="neuroscicomplab: Datenanalyse"/>
+  <meta name="citation_fulltext_html_url" content="https://kogpsy.github.io/neuroscicomplab/07-mental-chronometry.html"/>
+  <meta name="citation_fulltext_world_readable" content=""/>
+  <meta name="citation_online_date" content="2021/05/11"/>
+  <meta name="citation_publication_date" content="2021/05/11"/>
+  <meta name="citation_author" content="Andrew Ellis"/>
+  <meta name="citation_author_institution" content="Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"/>
+  <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=Reaction Time Distributions;citation_publication_date=2021;citation_author=Jonas Kristoffer Lindeløv"/>
+  <meta name="citation_reference" content="citation_title=A few simple steps to improve the description of group results in neuroscience;citation_publication_date=2016;citation_volume=44;citation_doi=10.1111/ejn.13400;citation_issn=1460-9568;citation_author=Guillaume A. Rousselet;citation_author=John J. Foxe;citation_author=J. Paul Bolam"/>
+  <meta name="citation_reference" content="citation_title=On the linear relation between the mean and the standard deviation of a response time distribution.;citation_publication_date=2007;citation_volume=114;citation_doi=10.1037/0033-295X.114.3.830;citation_issn=1939-1471, 0033-295X;citation_author=Eric-Jan Wagenmakers;citation_author=Scott Brown"/>
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","bibliography","output"]}},"value":[{"type":"character","attributes":{},"value":["Datenanalyse"]},{"type":"character","attributes":{},"value":["Teil 7: Mental Chronometry (Reaktionszeiten)\n"]},{"type":"character","attributes":{},"value":["2021-05-11"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Andrew"]},{"type":"character","attributes":{},"value":["Ellis"]},{"type":"character","attributes":{},"value":["https://github.com/awellis"]},{"type":"character","attributes":{},"value":["Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"]},{"type":"character","attributes":{},"value":["https://www.kog.psy.unibe.ch"]},{"type":"character","attributes":{},"value":["0000-0002-2788-936X"]}]}]},{"type":"character","attributes":{},"value":["https://kogpsy.github.io/neuroscicomplab/07-mental-chronometry.html"]},{"type":"character","attributes":{},"value":["bibliography.bib"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]},{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
+
+  <script type="application/javascript">
+
+    window.headroom_prevent_pin = false;
+
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+
+      // initialize headroom for banner
+      var header = $('header').get(0);
+      var headerHeight = header.offsetHeight;
+      var headroom = new Headroom(header, {
+        tolerance: 5,
+        onPin : function() {
+          if (window.headroom_prevent_pin) {
+            window.headroom_prevent_pin = false;
+            headroom.unpin();
+          }
+        }
+      });
+      headroom.init();
+      if(window.location.hash)
+        headroom.unpin();
+      $(header).addClass('headroom--transition');
+
+      // offset scroll location for banner on hash change
+      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+      window.addEventListener("hashchange", function(event) {
+        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+      });
+
+      // responsive menu
+      $('.distill-site-header').each(function(i, val) {
+        var topnav = $(this);
+        var toggle = topnav.find('.nav-toggle');
+        toggle.on('click', function() {
+          topnav.toggleClass('responsive');
+        });
+      });
+
+      // nav dropdowns
+      $('.nav-dropbtn').click(function(e) {
+        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+        $(this).parent().siblings('.nav-dropdown')
+           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $("body").click(function(e){
+        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $(".nav-dropdown").click(function(e){
+        e.stopPropagation();
+      });
+    });
+  </script>
+
+  <style type="text/css">
+
+  /* Theme (user-documented overrideables for nav appearance) */
+
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #0F2E3D;
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  .distill-site-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .distill-site-nav a:hover {
+    color: white;
+  }
+
+  @media print {
+    .distill-site-nav {
+      display: none;
+    }
+  }
+
+  .distill-site-header {
+
+  }
+
+  .distill-site-footer {
+
+  }
+
+
+  /* Site Header */
+
+  .distill-site-header {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+
+  .distill-site-header .nav-left {
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 0;
+    }
+  }
+
+
+  .distill-site-header .nav-right {
+    float: right;
+    margin-right: 8px;
+  }
+
+  .distill-site-header a,
+  .distill-site-header .title {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 10px 14px 10px;
+  }
+
+  .distill-site-header .title {
+    font-size: 18px;
+    min-width: 150px;
+  }
+
+  .distill-site-header .logo {
+    padding: 0;
+  }
+
+  .distill-site-header .logo img {
+    display: none;
+    max-height: 20px;
+    width: auto;
+    margin-bottom: -4px;
+  }
+
+  .distill-site-header .nav-image img {
+    max-height: 18px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+
+
+
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .logo img {
+      display: inline-block;
+    }
+    .distill-site-header .nav-left {
+      margin-left: 20px;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 20px;
+    }
+    .distill-site-header .title {
+      padding-left: 12px;
+    }
+  }
+
+
+  .distill-site-header .nav-toggle {
+    display: none;
+  }
+
+  .nav-dropdown {
+    display: inline-block;
+    position: relative;
+  }
+
+  .nav-dropdown .nav-dropbtn {
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 16px 10px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    margin-top: 1px;
+    z-index: 2;
+  }
+
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .nav-dropdown-content hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-dropdown-active {
+    display: block;
+  }
+
+  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+    color: black;
+    padding: 6px 24px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  .nav-dropdown-content .nav-dropdown-header {
+    display: block;
+    padding: 5px 24px;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #999999;
+    white-space: nowrap;
+  }
+
+  .nav-dropdown:hover .nav-dropbtn {
+    color: white;
+  }
+
+  .nav-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .nav-right .nav-dropdown-content {
+    margin-left: -45%;
+    right: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+    .distill-site-header a.nav-toggle {
+      float: right;
+      display: block;
+    }
+    .distill-site-header .title {
+      margin-left: 0;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 0;
+    }
+    .distill-site-header {
+      overflow: hidden;
+    }
+    .nav-right .nav-dropdown-content {
+      margin-left: 0;
+    }
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
+    .distill-site-header.responsive a.nav-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .distill-site-header.responsive a,
+    .distill-site-header.responsive .nav-dropdown {
+      display: block;
+      text-align: left;
+    }
+    .distill-site-header.responsive .nav-left,
+    .distill-site-header.responsive .nav-right {
+      width: 100%;
+    }
+    .distill-site-header.responsive .nav-dropdown {float: none;}
+    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+
+  /* Site Footer */
+
+  .distill-site-footer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 3;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+
+  /* Headroom */
+
+  d-title {
+    padding-top: 6rem;
+  }
+
+  @media print {
+    d-title {
+      padding-top: 4rem;
+    }
+  }
+
+  .headroom {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .headroom--transition {
+    transition: all .4s ease-in-out;
+  }
+
+  .headroom--unpinned {
+    top: -100px;
+  }
+
+  .headroom--pinned {
+    top: 0;
+  }
+
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+
+  </style>
+
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+  <script type="application/javascript">
+
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+
+  function createFuseIndex() {
+
+    // create fuse index
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
+    var fuse = new window.Fuse([], options);
+
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+
+    createFuseIndex()
+      .then(function(fuse) {
+
+        // make search box visible
+        searchEl.classList.remove('hidden');
+
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description || ''}
+                  </div>
+                  <div class="search-item-preview">
+                    ${img}
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+  });
+
+  </script>
+
+  <style type="text/css">
+
+  .nav-search {
+    font-size: x-small;
+  }
+
+  /* Algolioa Autocomplete */
+
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #0F2E3D solid;
+    width: 180px;
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      display: none;
+      visibility: hidden;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  </style>
+
+
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure img {
+    width: 100%;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <style type="text/css">
+  /* base variables */
+
+  /* Edit the CSS properties in this file to create a custom
+     Distill theme. Only edit values in the right column
+     for each row; values shown are the CSS defaults.
+     To return any property to the default,
+     you may set its value to: unset
+     All rows must end with a semi-colon.                      */
+
+  /* Optional: embed custom fonts here with `@import`          */
+  /* This must remain at the top of this file.                 */
+
+
+
+  html {
+    /*-- Main font sizes --*/
+    --title-size:      50px;
+    --body-size:       1.06rem;
+    --code-size:       14px;
+    --aside-size:      12px;
+    --fig-cap-size:    13px;
+    /*-- Main font colors --*/
+    --title-color:     #000000;
+    --header-color:    rgba(0, 0, 0, 0.8);
+    --body-color:      rgba(0, 0, 0, 0.8);
+    --aside-color:     rgba(0, 0, 0, 0.6);
+    --fig-cap-color:   rgba(0, 0, 0, 0.6);
+    /*-- Specify custom fonts ~~~ must be imported above   --*/
+    --heading-font:    sans-serif;
+    --mono-font:       monospace;
+    --body-font:       sans-serif;
+    --navbar-font:     sans-serif;  /* websites + blogs only */
+  }
+
+  /*-- ARTICLE METADATA --*/
+  d-byline {
+    --heading-size:    0.6rem;
+    --heading-color:   rgba(0, 0, 0, 0.5);
+    --body-size:       0.8rem;
+    --body-color:      rgba(0, 0, 0, 0.8);
+  }
+
+  /*-- ARTICLE TABLE OF CONTENTS --*/
+  .d-contents {
+    --heading-size:    18px;
+    --contents-size:   13px;
+  }
+
+  /*-- ARTICLE APPENDIX --*/
+  d-appendix {
+    --heading-size:    15px;
+    --heading-color:   rgba(0, 0, 0, 0.65);
+    --text-size:       0.8em;
+    --text-color:      rgba(0, 0, 0, 0.5);
+  }
+
+  /*-- WEBSITE HEADER + FOOTER --*/
+  /* These properties only apply to Distill sites and blogs  */
+
+  .distill-site-header {
+    --title-size:       18px;
+    --text-color:       rgba(255, 255, 255, 0.8);
+    --text-size:        15px;
+    --hover-color:      white;
+    --bkgd-color:       #0F2E3D;
+  }
+
+  .distill-site-footer {
+    --text-color:       rgba(255, 255, 255, 0.8);
+    --text-size:        15px;
+    --hover-color:      white;
+    --bkgd-color:       #0F2E3D;
+  }
+
+  /*-- Additional custom styles --*/
+  /* Add any additional CSS rules below                      */
+  </style>
+  <style type="text/css">
+  /* base variables */
+
+  /* Edit the CSS properties in this file to create a custom
+     Distill theme. Only edit values in the right column
+     for each row; values shown are the CSS defaults.
+     To return any property to the default,
+     you may set its value to: unset
+     All rows must end with a semi-colon.                      */
+
+  /* Optional: embed custom fonts here with `@import`          */
+  /* This must remain at the top of this file.                 */
+
+  /* Optional: embed custom fonts here with `@import`          */
+  /* This must remain at the top of this file.                 */
+  @import url('https://fonts.googleapis.com/css2?family=Lato');
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat');
+
+  html {
+    /*-- Main font sizes --*/
+    --title-size:      50px;
+    --body-size:       1.06rem;
+    --code-size:       14px;
+    --aside-size:      12px;
+    --fig-cap-size:    13px;
+    /*-- Main font colors --*/
+    --title-color:     #000000;
+    --header-color:    rgba(0, 0, 0, 0.8);
+    --body-color:      rgba(0, 0, 0, 0.8);
+    --aside-color:     rgba(0, 0, 0, 0.6);
+    --fig-cap-color:   rgba(0, 0, 0, 0.6);
+    /*-- Specify custom fonts ~~~ must be imported above   --*/
+    /* --heading-font:    sans-serif;
+    --mono-font:       monospace;
+    --body-font:       sans-serif;
+    --navbar-font:     sans-serif;  websites + blogs only */
+
+      /*-- Specify custom fonts ~~~ must be imported above   --*/
+    --heading-font:    'Lato', sans-serif;         /* edited */
+    --mono-font:       'Fira Code', monospace;     /* edited */
+    --body-font:       'Lato', sans-serif;         /* edited */
+    --navbar-font:     'Montserrat', sans-serif;   /* edited */
+  }
+  }
+
+  /*-- ARTICLE METADATA --*/
+  d-byline {
+    --heading-size:    0.6rem;
+    --heading-color:   rgba(0, 0, 0, 0.5);
+    --body-size:       0.8rem;
+    --body-color:      rgba(0, 0, 0, 0.8);
+  }
+
+  /*-- ARTICLE TABLE OF CONTENTS --*/
+  .d-contents {
+    --heading-size:    18px;
+    --contents-size:   13px;
+  }
+
+  /*-- ARTICLE APPENDIX --*/
+  d-appendix {
+    --heading-size:    15px;
+    --heading-color:   rgba(0, 0, 0, 0.65);
+    --text-size:       0.8em;
+    --text-color:      rgba(0, 0, 0, 0.5);
+  }
+
+  /*-- WEBSITE HEADER + FOOTER --*/
+  /* These properties only apply to Distill sites and blogs  */
+
+  .distill-site-header {
+    --title-size:       18px;
+    --text-color:       rgba(255, 255, 255, 0.8);
+    --text-size:        16px;
+    --hover-color:      #638CC7; /*#241926; /* #1D2645FF */
+    --bkgd-color:       #0F4C81; /*#B33F53; /*#AE93BEFF;*/
+    --letter-spacing:   2px;
+    --text-transform:   uppercase;
+  }
+
+  .distill-site-header .logo img{
+    max-height: 20px; /* Makes logo bigger, default was 20px */
+  }
+
+  .distill-site-footer {
+    --text-color:       rgba(255, 255, 255, 0.8);
+    --text-size:        12px;
+    --hover-color:      #638CC7; /*#241926; /* #1D2645FF */
+    --bkgd-color:       #0F4C81; /*#B33F53; /*#AE93BEFF;*/
+  }
+
+  /* Change the appearance of in-line code chunks */
+  code {
+    font-family: 'Fira Code', sans-serif;
+    color: #000000;
+    background: #ffffff;
+    font-weight: 400;
+    font-size: 0.9em;
+  }
+
+  /*-- Additional custom styles --*/
+  /* Add any additional CSS rules below                      */
+  </style>
+  <style type="text/css">
+  /* base style */
+
+  /* FONT FAMILIES */
+
+  :root {
+    --heading-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono-default: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    --body-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  body,
+  .posts-list .post-preview p,
+  .posts-list .description p {
+    font-family: var(--body-font), var(--body-default);
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  .posts-list .post-preview h2,
+  .posts-list .description h2 {
+    font-family: var(--heading-font), var(--heading-default);
+  }
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: var(--mono-font), var(--mono-default);
+  }
+
+
+  /*-- TITLE --*/
+  d-title h1,
+  .posts-list > h1 {
+    color: var(--title-color, black);
+  }
+
+  d-title h1 {
+    font-size: var(--title-size, 50px);
+  }
+
+  /*-- HEADERS --*/
+  d-article h1,
+  d-article h2,
+  d-article h3,
+  d-article h4,
+  d-article h5,
+  d-article h6 {
+    color: var(--header-color, rgba(0, 0, 0, 0.8));
+  }
+
+  /*-- BODY --*/
+  d-article > p,  /* only text inside of <p> tags */
+  d-article > ul, /* lists */
+  d-article > ol {
+    color: var(--body-color, rgba(0, 0, 0, 0.8));
+    font-size: var(--body-size, 1.06rem);
+  }
+
+
+  /*-- CODE --*/
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-size: var(--code-size, 14px);
+  }
+
+  /*-- ASIDE --*/
+  d-article aside {
+    font-size: var(--aside-size, 12px);
+    color: var(--aside-color, rgba(0, 0, 0, 0.6));
+  }
+
+  /*-- FIGURE CAPTIONS --*/
+  figure .caption,
+  figure figcaption,
+  .figure .caption {
+    font-size: var(--fig-cap-size, 13px);
+    color: var(--fig-cap-color, rgba(0, 0, 0, 0.6));
+  }
+
+  /*-- METADATA --*/
+  d-byline h3 {
+    font-size: var(--heading-size, 0.6rem);
+    color: var(--heading-color, rgba(0, 0, 0, 0.5));
+  }
+
+  d-byline {
+    font-size: var(--body-size, 0.8rem);
+    color: var(--body-color, rgba(0, 0, 0, 0.8));
+  }
+
+  d-byline a,
+  d-article d-byline a {
+    color: var(--body-color, rgba(0, 0, 0, 0.8));
+  }
+
+  /*-- TABLE OF CONTENTS --*/
+  .d-contents nav h3 {
+    font-size: var(--heading-size, 18px);
+  }
+
+  .d-contents nav a {
+    font-size: var(--contents-size, 13px);
+  }
+
+  /*-- APPENDIX --*/
+  d-appendix h3 {
+    font-size: var(--heading-size, 15px);
+    color: var(--heading-color, rgba(0, 0, 0, 0.65));
+  }
+
+  d-appendix {
+    font-size: var(--text-size, 0.8em);
+    color: var(--text-color, rgba(0, 0, 0, 0.5));
+  }
+
+  d-appendix d-footnote-list a.footnote-backlink {
+    color: var(--text-color, rgba(0, 0, 0, 0.5));
+  }
+
+  /*-- WEBSITE HEADER + FOOTER --*/
+  .distill-site-header .title {
+    font-size: var(--title-size, 18px);
+    font-family: var(--navbar-font), var(--heading-default);
+  }
+
+  .distill-site-header a,
+  .nav-dropdown .nav-dropbtn {
+    font-family: var(--navbar-font), var(--heading-default);
+  }
+
+  .nav-dropdown .nav-dropbtn {
+    color: var(--text-color, rgba(255, 255, 255, 0.8));
+    font-size: var(--text-size, 15px);
+  }
+
+  .distill-site-header a:hover,
+  .nav-dropdown:hover .nav-dropbtn {
+    color: var(--hover-color, white);
+  }
+
+  .distill-site-header {
+    font-size: var(--text-size, 15px);
+    color: var(--text-color, rgba(255, 255, 255, 0.8));
+    background-color: var(--bkgd-color, #0F2E3D);
+  }
+
+  .distill-site-footer {
+    font-size: var(--text-size, 15px);
+    color: var(--text-color, rgba(255, 255, 255, 0.8));
+    background-color: var(--bkgd-color, #0F2E3D);
+  }
+
+  .distill-site-footer a:hover {
+    color: var(--hover-color, white);
+  }</style>
+  <!--/radix_placeholder_distill-->
+  <script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <style type="text/css">
+  /* -----------div tips------------- */
+
+    div.puzzle {
+      padding: 1em;
+      margin: 1em 0;
+      padding-left: 100px;
+      background-size: 70px;
+      background-repeat: no-repeat;
+      background-position: 15px center;
+      min-height: 120px;
+      color: #000000;
+      background-color: #d08770;
+      border: dashed 5px #ffffff;
+    }
+
+  div.example {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 120px;
+    color: #000000;
+    background-color: #ffffff;
+    border: dashed 5px #a3be8c;
+  }
+
+
+  div.fyi {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 120px;
+    color: #000000;
+    background-color: #ebcb8b;
+    border: dashed 5px #ffffff;
+  }
+
+  div.exercise {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 40px;
+    color: #000000;
+    background-color: #ebcb8b;
+    border: dashed 5px #ffffff;
+  }
+
+  div.note {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 40px;
+    color: #000000;
+    background-color: #e5e9f0;
+    border: dashed 5px #ffffff;
+  }
+
+
+  div.apply {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 120px;
+    color: #000000;
+    background-color: #b48ead;
+    border: dashed 5px #ffffff;
+  }
+
+  div.puzzle {
+    background-image: url("../images/fontawesome/solid/puzzle-piece.svg");
+  }
+
+  div.fyi {
+   background-image: url("../images/fontawesome/solid/info-circle.svg");
+  }
+
+  div.exercise {
+    background-image: url("../images/fontawesome/solid/code.svg");
+  }
+
+  div.note {
+    background-image: url("../images/fontawesome/solid/comment.svg");
+  }
+
+  div.example {
+    background-image: url("../images/fontawesome/solid/hand-point-right.svg");
+  }
+
+  div.apply {
+    background-image: url("../images/fontawesome/solid/wrench.svg");
+  }
+
+
+
+
+  /* Custom boxes */
+  /* .discussion, .your-turn, .alert {
+    padding: 5px 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .discussion{
+    border-left: solid 5px var(--baby-blue);
+    background-color: var(--baby-blue-30);
+  }
+  .discussion:before{
+    content: "Discussion";
+    font-size: 150%;
+    font-weight: bold;
+    color: var(--monument);
+    margin-bottom: 10px;
+  }
+  .your-turn {
+    border-left: solid 5px var(--cornhusk);
+    background-color: var(--cornhusk-30);
+  }
+  .your-turn:before{
+    content: "Your turn!";
+    font-size: 150%;
+    font-weight: bold;
+    color: var(--stucco);
+    margin-bottom: 10px;
+  }
+  .alert {
+    border-right: solid 5px var(--peach-quartz);
+    background-color: var(--peach-quartz-30);
+  } */
+
+  </style>
+  <!--/radix_placeholder_site_in_header-->
+
+  <link rel="stylesheet" href="css/style.css" type="text/css"/>
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Datenanalyse","description":"Teil 7: Mental Chronometry (Reaktionszeiten)","authors":[{"author":"Andrew Ellis","authorURL":"https://github.com/awellis","affiliation":"Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern","affiliationURL":"https://www.kog.psy.unibe.ch","orcidID":"0000-0002-2788-936X"}],"publishedDate":"2021-05-11T00:00:00.000+00:00","citationText":"Ellis, 2021"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="index.html" class="title">neuroscicomplab</a>
+<a href="index.html">
+<i class="fa fa-home" aria-hidden="true"></i>
+</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Syllabus
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="uebersicht.html">Übersicht</a>
+<a href="leistungskontrolle.html">Leistungskontrolle</a>
+<a href="rmarkdown.html">Rmarkdown</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Übungen
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="exercise-1.html">Übung 1</a>
+<a href="exercise-2.html">Übung 2</a>
+<a href="exercise-3.html">Übung 3 (nicht abgeben)</a>
+<a href="exercise-4.html">Übung 4</a>
+<a href="exercise-5.html">Übung 5</a>
+<a href="exercise-6.html">Übung 6</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Lösungen
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="solution-1.html">Übung 1: Lösung</a>
+<a href="solution-2.html">Übung 2: Lösung</a>
+<a href="solution-3.html">Übung 3: Lösung</a>
+<a href="solution-4.html">Übung 4: Lösung</a>
+<a href="solution-5.html">Übung 5: Lösung</a>
+<a href="solution-6.html">Übung 6: Lösung</a>
+</div>
+</div>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
+</div>
+<div class="nav-right">
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Kapitel
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="01-intro-bayesian-stats.html">1. Einführung in Bayesianische Statistik</a>
+<a href="02-bayesian-stats.html">2. Bayesianische Statistik: Von Grid Approximation zu Sampling</a>
+<a href="03-bayesian-stats.html">3. Bayesianische Statistik: Lineare Modelle mit `brms`</a>
+<a href="04-bayesian-stats.html">4. Bayesianische Statistik: Hierarchische Modelle mit `brms`</a>
+<a href="05-bayesian-stats.html">5. Bayesianische Statistik: Modellvergleiche und Hypothesentests</a>
+<a href="06-choices.html">6. Binäre Daten: Choices &amp; Accuracy</a>
+<a href="07-mental-chronometry.html">7. Mental Chronometry: Reaktionszeiten</a>
+<a href="08-ddm.html">8. Diffusion Decision Model of Decision Making</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Slides
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="slides/02-bayesian-stats-slides.html">2. Bayesianische Statistik: Von Grid Approximation zu Sampling</a>
+<a href="slides/03-bayesian-stats-slides.html">3. Bayesianische Statistik: Lineare Modelle mit `brms`</a>
+<a href="slides/04-bayesian-stats-slides.html">4. Bayesianische Statistik: Hierarchische Modelle mit `brms`</a>
+<a href="slides/05-bayesian-stats-slides.html">5a. Bayesianische Statistik: Modellvergleiche und Hypothesentests</a>
+<a href="slides/05b-bayesian-stats-slides.html">5b. Bayesianische Statistik: Bayes Factors</a>
+<a href="slides/06-choices-slides.html">6. Binäre Daten: Choices &amp; Accuracy</a>
+<a href="slides/07-mental-chronometry-slides.html">7. Mental Chronometry: Reaktionszeiten</a>
+</div>
+</div>
+<a href="https://github.com/kogpsy/neuroscicomplab">
+<i class="fab fa-github" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Datenanalyse</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>Teil 7: Mental Chronometry (Reaktionszeiten)</p></p>
+</div>
+
+<div class="d-byline">
+  
+  true
+  
+<br/>2021-05-11
+</div>
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#reaktionszeiten">Reaktionszeiten</a>
+<ul>
+<li><a href="#eigenschaften-von-reaktionszeiten">Eigenschaften von Reaktionszeiten</a></li>
+<li><a href="#beipiel">Beipiel</a></li>
+<li><a href="#daten-zusammenfassen">Daten zusammenfassen</a></li>
+<li><a href="#data-cleaning">Data cleaning</a></li>
+<li><a href="#shift-function">Shift Function</a></li>
+<li><a href="#shift-function-von-hand">Shift Function von Hand</a></li>
+<li><a href="#shift-function-rogme">Shift Function (rogme)</a></li>
+<li><a href="#shift-function-beispiel">Shift Function Beispiel</a></li>
+<li><a href="#reaktionszeitverteilungen">Reaktionszeitverteilungen</a></li>
+<li><a href="#shifted-lognormal">Shifted Lognormal</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://sjmgarnier.github.io/viridis/'>viridis</a></span><span class='op'>)</span>
+
+<span class='fu'>theme_set</span><span class='op'>(</span><span class='fu'>theme_grey</span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span> <span class='op'>+</span>
+            <span class='fu'>theme</span><span class='op'>(</span>panel.grid <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h1 id="reaktionszeiten">Reaktionszeiten</h1>
+<p>In diesem Kapitel untersuchen wir Reaktionszeiten, welche, wie binäre Daten, in der kognitiven Neurowissenschaften sehr häufig anzutreffen sind. Drei häufig verwendete Tasks, um Reaktionszeiten zu messen sind</p>
+<ul>
+<li>Reaction tasks</li>
+<li>Go/No Go tasks</li>
+<li>Discrimination tasks</li>
+</ul>
+<p>Bei <em>Reaction tasks</em> muss auf einen Reiz reagiert werden, bei Go/No Go tasks muss zwischen zwei Reizen unterschieden, und nur auf einen reagiert werden. Discrimination tasks erfordern komplexere kognitive Leistungen, da eine von zwei Antworten gegeben werden muss, in Abhängigkeit des Reizes.</p>
+<p>Wenn wir Reaktionszeiten messen , gehen wir gehen davon aus, dass die Zeit, die benötigt wird, um einen Task auszuführen, uns über den kognitiven Prozess Auskunft gibt. Dabei ist es aber wichtig, dass die Versuchsperson in dieser Zeit wirklich genau den Task ausführt, und nicht nebenher noch andere Prozesse die Rektionszeit beeinflussen, da diese sonst bedeutungslos wäre. Leider ist dies nicht immer der Fall. Bei vielen repetitiven Tasks sind <em>attentional lapses</em> nicht zu vermeiden, und nur bei den einfachsten Tasks ist es möglich, sicherzustellen, dass die VP auch wirklich den intendierten Task ausführt.</p>
+<h2 id="eigenschaften-von-reaktionszeiten">Eigenschaften von Reaktionszeiten</h2>
+<p>Die wichtigsten Merkmale von Reaktionszeiten sind</p>
+<ol type="1">
+<li>Sie sind rechtsschief</li>
+<li>Sie sind nicht normalverteilt</li>
+<li>Streuung (Standardabweichung) steigt ungefähr linear mit wachsendem Mittelwert <span class="citation" data-cites="wagenmakersLinearRelationMean2007">(<a href="#ref-wagenmakersLinearRelationMean2007" role="doc-biblioref">Wagenmakers and Brown 2007</a>)</span></li>
+</ol>
+<p>Die Rechtschiefe ist eine natürliche Konsequenz der Tatsache, dass es viele Möglichkeiten gibt, langsamer zu werden, aber nur wenige Möglichkeiten, schneller zu werden. Ausserdem gibt es eine Untergrenze, welche durch unsere Physiologie bestimmt ist. Schellere Reaktionszeiten als 200 Millisekunden sind kaum möglich, und Reaktionszeiten können nicht negativ werden.</p>
+<p>Die Konsequenz daraus ist dass Reaktionszeiten nicht normalverteilt sind. In folgender Grafik sind zwei Verteilungen dargestellt. Die gelbe Verteilung ist eine Normalverteilung mit <span class="math inline">\(\mu = 1\)</span> und <span class="math inline">\(\sigma = 0.4\)</span>, während die graue Vreteilung eine LogNormal Verteilung darstellt.</p>
+<aside>
+Eine LogNormal-Verteilung bedeutet, dass der Logarithmus einer Zufallsvariablen normalverteilt ist.
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+</div>
+<p>Obwohl die Normalverteilung so aussieht, als könne sie Reaktionszeiten repräsentieren, ist der Wertebereich von $[-, ] nicht dafür geeignet. Ausserdem erlaubt die Normalverteilung keine extremen Werte, und ist nicht asymmetrisch.</p>
+<h2 id="beipiel">Beipiel</h2>
+<p>Wir illustrieren anhand eines Beispiels, wie Reaktionszeiten dennoch häufig analysiert werden, wie wenn sie normalverteilt wären. Reaktionszeiten werden häufig mit ihrem Mittelwert oder Median zusammengefasst.</p>
+<p>Wir untersuchen Daten aus einem Online-Experiement mit 3 Blöcken. In jedem Block mussten Versuchspersonen einen anderen Task ausführen.</p>
+<ol type="1">
+<li>Reaction task</li>
+</ol>
+<p>Versuchspersonen drücken SPACE-Taste wenn ein Stimulus erscheint (Quadrat oder Kreis). Outcome Variable ist die Reaktionszeit.</p>
+<ol start="2" type="1">
+<li>Go/No-Go task</li>
+</ol>
+<p>Versuchspersonen drücken SPACE-Taste wenn Target erscheint (entweder Quadrat oder Kreis). Outcome Variablen sind Reaktionszeit und Antwort.</p>
+<ol start="3" type="1">
+<li>Discrimination task</li>
+</ol>
+<p>Versuchspersonen drücken F-Taste wenn ein Quadrat erscheint, J-Taste wenn ein Kreis erscheint. Outcome Variable sind Reaktionszeit und Antwort.</p>
+<p><strong>Annahme</strong>: Versuchspersonen brauchen im Reaction task am wenigsten Zeit, um eine korrekte Antwort zu geben, gefolgt vom Go/No-Go task. Im Discrimination task brauchen Versuchspersonen länger, um korrekte Antworten zu geben.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/mental-chronometry.csv"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>subj</span>, <span class='va'>block</span>, <span class='va'>stimulus</span>, <span class='va'>handedness</span>, <span class='va'>gender</span><span class='op'>)</span>, <span class='op'>~</span><span class='fu'>as_factor</span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>98</span><span class='op'>)</span>
+<span class='va'>subjects</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>mentalchronometry</span><span class='op'>$</span><span class='va'>subj</span><span class='op'>)</span>, <span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>subj</span> <span class='op'>%in%</span> <span class='va'>subjects</span><span class='op'>)</span>
+
+<span class='va'>df</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>RT</span>, fill <span class='op'>=</span> <span class='va'>block</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_histogram</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.8</span>, position <span class='op'>=</span> <span class='st'>"identity"</span>, color <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>facet_grid</span><span class='op'>(</span><span class='va'>block</span> <span class='op'>~</span> <span class='va'>subj</span>, scales <span class='op'>=</span> <span class='st'>"free_x"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-3-1.png" width="864" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>df</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>subj</span> <span class='op'>%in%</span> <span class='va'>subjects</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>RT</span>, x <span class='op'>=</span> <span class='va'>block</span>, fill <span class='op'>=</span> <span class='va'>block</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_violin</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.6</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_jitter</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span> <span class='va'>subj</span>, scales <span class='op'>=</span> <span class='st'>"free_x"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-4-1.png" width="864" /></p>
+</div>
+<div class="exercise">
+<ol type="1">
+<li><p>Überlegen Sie sich, was Sie mit diesen Daten machen können.</p></li>
+<li><p>Welche Kennzahlen eignen sich gut, um die Daten zu beschreiben?</p></li>
+<li><p>Berechnen Sie die mittlere Reaktionszeit pro Block für jede Person individuell.</p></li>
+<li><p>Berechnen Sie die mittlere Reaktionszeit pro Block über alle Personen aggregiert.</p></li>
+</ol>
+</div>
+<h2 id="daten-zusammenfassen">Daten zusammenfassen</h2>
+<p>Wir können ohne Ausreisser zu behandeln die Date pro Person pro Block mit Mittelwert, Median und Standarabweichung zusammenfassen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>funs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>mean</span>, median <span class='op'>=</span> <span class='va'>median</span>, sd <span class='op'>=</span> <span class='va'>sd</span><span class='op'>)</span>
+
+<span class='va'>by_subj</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>subj</span>, <span class='va'>block</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='va'>RT</span>, <span class='va'>funs</span>, .names <span class='op'>=</span> <span class='st'>"{.fn}"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>by_subj</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>block</span>, <span class='va'>mean</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_jitter</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>by_subj</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>block</span>, <span class='va'>median</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_jitter</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>by_subj</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>block</span>, <span class='va'>sd</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_jitter</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>by_subj</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>mean</span>, <span class='va'>sd</span>, color <span class='op'>=</span> <span class='va'>block</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_color_viridis</a></span><span class='op'>(</span>discrete <span class='op'>=</span> <span class='cn'>TRUE</span>, option <span class='op'>=</span> <span class='st'>"E"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+</div>
+<p>Nun können wir die Mittelwerte einzelnen Blöcke als Mittelwerte der personspezifischen Mittelwerte oder Mediane berechnen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>aggregated_mean</span> <span class='op'>&lt;-</span> <span class='fu'>Rmisc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Rmisc/man/summarySEwithin.html'>summarySEwithin</a></span><span class='op'>(</span><span class='va'>by_subj</span>,
+                                     measurevar <span class='op'>=</span> <span class='st'>"mean"</span>,
+                                     withinvars <span class='op'>=</span> <span class='st'>"block"</span>,
+                                     idvar <span class='op'>=</span> <span class='st'>"subj"</span>,
+                                     na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                                     conf.interval <span class='op'>=</span> <span class='fl'>.95</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>aggregated_mean</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>block</span>, <span class='va'>mean</span>, fill <span class='op'>=</span> <span class='va'>block</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_col</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>group <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span>   
+  <span class='fu'>geom_errorbar</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>mean</span><span class='op'>-</span><span class='va'>se</span>, ymax <span class='op'>=</span> <span class='va'>mean</span><span class='op'>+</span><span class='va'>se</span><span class='op'>)</span>,
+                width <span class='op'>=</span> <span class='fl'>0.1</span>, size<span class='op'>=</span><span class='fl'>1</span>, color<span class='op'>=</span><span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-11-1.png" width="624" /></p>
+</div>
+<p>Sowohl Mittelwert als auch Median sind jedoch problematisch als Masse der zentralen Tendenz für asymmetrische Verteilungen. Der Mittelwert kann durch eine hohe Schiefe und Ausreissern verschoben werden, und repräsentiert die zentrale Tendenz der Verteilung nicht besonders gut. Der Median ist ein besseres Mass für eine typische Beobachtung aus dieser Verteilung, ist jedoch nicht immer erwartungstreu.</p>
+<h2 id="data-cleaning">Data cleaning</h2>
+<p>Wir können versuchen Ausreisser zu identifizieren.</p>
+<h3 id="cleaning-by-subject">Cleaning by subject</h3>
+<p>Unser Ziel ist es, die Daten einer Versuchsperson zu entfernen, falls diese Person in einer experimentellen Bedingung eine mittlere RT hat, welche mehr als 2 Standardabweichungen vom Gesamtmittelwert liegt.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># summary stats (means) for participants</span>
+<span class='va'>sum_stats_participants</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>subj</span>, <span class='va'>block</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>
+    mean_P <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>RT</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># summary stats (means and SDs) for conditions</span>
+<span class='va'>sum_stats_conditions</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>block</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>
+    mean_C <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>RT</span><span class='op'>)</span>,
+    sd_C <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span><span class='op'>(</span><span class='va'>RT</span><span class='op'>)</span><span class='op'>)</span>
+  
+<span class='va'>sum_stats_participants</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>full_join</span><span class='op'>(</span>
+    <span class='va'>sum_stats_participants</span>,
+    <span class='va'>sum_stats_conditions</span>,
+    by <span class='op'>=</span> <span class='st'>"block"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    outlier_P <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>mean_P</span> <span class='op'>-</span> <span class='va'>mean_C</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>sd_C</span><span class='op'>)</span>
+
+<span class='co'># show outlier participants</span>
+<span class='va'>sum_stats_participants</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>outlier_P</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>show</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 x 6
+# Groups:   subj [1]
+  subj  block          mean_P mean_C  sd_C outlier_P
+  &lt;fct&gt; &lt;fct&gt;           &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;    
+1 8505  discrimination  1078.   518.  185. TRUE     </code></pre>
+</div>
+<p>Wir haben also eine Person, welche in einer Bedingung (<code>discrimination</code>) eine mittlere RT hat, welche mehr als 2 Standardabweichungen vom Gesamtmittelwert dieser Bedingung liegt.</p>
+<p>Weiter können wir die RT für jeden Trial in jeder Bedingung plotten. Es ist klar, dass die mittlere RT im <code>discrimination</code> aufgrund mehrerer Ausreisser zustande kommt.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>semi_join</span><span class='op'>(</span><span class='va'>sum_stats_participants</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>outlier_P</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>, 
+    by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"subj"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>trial_number</span>, y <span class='op'>=</span> <span class='va'>RT</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>block</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-13-1.png" width="624" /></p>
+</div>
+<p>Wir könnten diese Person ganz ausschliessen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>excluded</span> <span class='op'>&lt;-</span> <span class='va'>sum_stats_participants</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>outlier_P</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>
+
+<span class='va'>excluded</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 x 6
+# Groups:   subj [1]
+  subj  block          mean_P mean_C  sd_C outlier_P
+  &lt;fct&gt; &lt;fct&gt;           &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;    
+1 8505  discrimination  1078.   518.  185. TRUE     </code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry_cleaned</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='op'>(</span><span class='va'>subj</span> <span class='op'>%in%</span> <span class='va'>excluded</span><span class='op'>$</span><span class='va'>subj</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>subj <span class='op'>=</span> <span class='fu'>fct_drop</span><span class='op'>(</span><span class='va'>subj</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h3 id="cleaning-by-trial">Cleaning by trial</h3>
+<p>Nun wollen alle Trials identifizieren, welche mehr als 2 Standardabweichungen vom Bedingungs-Gesamtmittelwert liegen. Ausserdem entfernen wir alle RTs, welche unter 100 Millisekunden liegen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># mark individual trials as outliers</span>
+<span class='va'>mentalchronometry_cleaned</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry_cleaned</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>full_join</span><span class='op'>(</span>
+    <span class='va'>sum_stats_conditions</span>,
+    by <span class='op'>=</span> <span class='st'>"block"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    trial_type <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>RT</span> <span class='op'>-</span> <span class='va'>mean_C</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>sd_C</span> <span class='op'>~</span> <span class='st'>"zu weit vom Mittelwert"</span>,
+      <span class='va'>RT</span> <span class='op'>&lt;</span> <span class='fl'>100</span> <span class='op'>~</span> <span class='st'>"&lt; 100ms"</span>,
+      <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='st'>"OK"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+      <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span>levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"OK"</span>, <span class='st'>"&lt; 100ms"</span>, <span class='st'>"zu weit vom Mittelwert"</span><span class='op'>)</span><span class='op'>)</span>,
+    trial <span class='op'>=</span> <span class='fu'>row_number</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># visualize outlier trials</span>
+
+<span class='va'>mentalchronometry_cleaned</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>trial</span>, y <span class='op'>=</span> <span class='va'>RT</span>, color <span class='op'>=</span> <span class='va'>trial_type</span>, shape <span class='op'>=</span> <span class='va'>trial_type</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.6</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_point</span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>mentalchronometry_cleaned</span>, <span class='va'>trial_type</span> <span class='op'>!=</span> <span class='st'>"OK"</span><span class='op'>)</span>, 
+             alpha <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>facet_grid</span><span class='op'>(</span><span class='op'>~</span><span class='va'>block</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_manual</span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gray70"</span>, <span class='st'>"red"</span>, <span class='st'>"steelblue"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-17-1.png" width="864" /></p>
+</div>
+<p>Wir haben insgesamt 63 Trials, welche nach unseren Kriterien Ausreisser sein könnten.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry_cleaned</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>trial_type</span> <span class='op'>!=</span> <span class='st'>"OK"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 63 x 11
+   subj  trial_number block    stimulus    RT handedness gender mean_C
+   &lt;fct&gt;        &lt;dbl&gt; &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt; &lt;fct&gt;      &lt;fct&gt;   &lt;dbl&gt;
+ 1 8552            11 goNoGo   square     690 Right      male     442.
+ 2 8552            14 goNoGo   square     727 Right      male     442.
+ 3 8552            17 goNoGo   square     697 Right      male     442.
+ 4 8552            18 goNoGo   square     720 Right      male     442.
+ 5 8551             3 reaction square     712 right      male     311.
+ 6 8550            16 reaction square      54 right      male     311.
+ 7 8550             4 goNoGo   circle    1010 right      male     442.
+ 8 8549            11 reaction square    2244 Righthand… male     311.
+ 9 8549            20 reaction square    1087 Righthand… male     311.
+10 8549            12 goNoGo   square     778 Righthand… male     442.
+# … with 53 more rows, and 3 more variables: sd_C &lt;dbl&gt;,
+#   trial_type &lt;fct&gt;, trial &lt;int&gt;</code></pre>
+</div>
+<p>Diese 63 Trials entfernen wir nun.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry_cleaned</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry_cleaned</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>trial_type</span> <span class='op'>==</span> <span class='st'>"OK"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry_cleaned</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>RT</span>, color <span class='op'>=</span> <span class='va'>block</span>, fill <span class='op'>=</span> <span class='va'>block</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_density</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_color_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>by_subj_cleaned</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry_cleaned</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>subj</span>, <span class='va'>block</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='va'>RT</span>, <span class='va'>funs</span>, .names <span class='op'>=</span> <span class='st'>"{.fn}"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>aggregated_cleaned</span> <span class='op'>&lt;-</span> <span class='fu'>Rmisc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Rmisc/man/summarySEwithin.html'>summarySEwithin</a></span><span class='op'>(</span><span class='va'>by_subj_cleaned</span>,
+                                     measurevar <span class='op'>=</span> <span class='st'>"mean"</span>,
+                                     withinvars <span class='op'>=</span> <span class='st'>"block"</span>,
+                                     idvar <span class='op'>=</span> <span class='st'>"subj"</span>,
+                                     na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                                     conf.interval <span class='op'>=</span> <span class='fl'>.95</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>aggregated_cleaned</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>block</span>, <span class='va'>mean</span>, fill <span class='op'>=</span> <span class='va'>block</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_col</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>group <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span>   
+  <span class='fu'>geom_errorbar</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>mean</span><span class='op'>-</span><span class='va'>se</span>, ymax <span class='op'>=</span> <span class='va'>mean</span><span class='op'>+</span><span class='va'>se</span><span class='op'>)</span>,
+                width <span class='op'>=</span> <span class='fl'>0.1</span>, size<span class='op'>=</span><span class='fl'>1</span>, color<span class='op'>=</span><span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-23-1.png" width="624" /></p>
+</div>
+<p>Ein soches Data Cleaning ist zwar in den meisten Fällen notwendig, aber leider etwas willkürlich, und gibt dem Forscher/der Forscherin sehr viele Freiheiten (researcher degrees of freedom). Es ist deshlab wichtig, Ausschlusskriterien für Personen und einzelne Trials vor der Analyse festzulegen, und offen zu berichten.</p>
+<h2 id="shift-function">Shift Function</h2>
+<p>In den Neurowissenschaften wird ein Vergleich zwischen Gruppen oder Bedingungen oft wie oben beschrieben durchgeführt. Wir machen dabei folgende Annahmen:</p>
+<ul>
+<li>Die RT Verteilungen unterscheiden sich nur in ihrer zentralen Tendenz, aber nicht in anderen Aspekten.</li>
+<li>Die typische Beobachtung kann durhc den Mittelwert repräsentiert werden, d.h. der Mittelwert ist eine ausreichende Statistik der Verteilung.</li>
+</ul>
+<p>Diese Annahmen sind sehr stark, und meistens falsch. Es gibt keinen Grund anzunehmen, dass sich Unterschiede in RT Verteilungen nur in der zentralen Tendenz manifestieren.</p>
+<p>Anstelle einer Zusammenfassung anhand von Mittelwert und Standardabweichung können wir auch anhand von Grafiken und informativeren Kennzahlen die Unterschiede zwischen Verteilungen darstellen.</p>
+<ul>
+<li>t-Test und ANOVA sind nicht immer robust gegenüber Verletzungen der Annahmen und Ausreissern.</li>
+<li>Keine Signifikanz ist keine Evidenz für einen fehlenden Effekt</li>
+<li>Verteilungen können dieselbe zentrale Tendenz haben, sich aber in den Extrembereichen unterscheiden.</li>
+</ul>
+<p>Grafik <a href="#fig:rousselet2016">1</a> zeigt eine traditionelle Level 1 / Level 2 Analyse. In diesem Datensatz wurden 2 Gruppen (between) in 2 Bedingungen (within) getest. A) zeigt die Mittelwerte und Standarfehler. Eine ANOVA würde hier eine signifikante Gruppen x Bedingung Interaktion zeigen. B) zeigt die Unterschiede zwischen den Bedingungen für alle Vpn innerhalb der beiden Gruppen. C) zeigt, dass die Scores in Gruppe in Bediungung 2 grösser sind als in Bedingung 1. Weiter scheinen diese Differenzen grösser zu werden, mit wachsendem Score in Bedingung 1. Diese beide Zusammenhänge existieren nicht in Gruppe 2. D) zeigt einen Scatterplot der beiden Bedingungen. Während die Punkte der Gruppe 2 auf der geraden liegen, ist auch hier ersichtlich, dass bei Gruppe 1 der Unterschied zwischen den Bedingungen bei wachsendem SCore in Bedingung 1 ansteigt.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span id="fig:rousselet2016"></span>
+<img src="images/rousselet2016.png" alt="Grafische Darstellung von Reaktionszeiten (aus @rousseletFewSimpleSteps2016a). " width="1650" />
+<p class="caption">
+Figure 1: Grafische Darstellung von Reaktionszeiten (aus <span class="citation" data-cites="rousseletFewSimpleSteps2016a"><a href="#ref-rousseletFewSimpleSteps2016a" role="doc-biblioref">Rousselet, Foxe, and Bolam</a> (<a href="#ref-rousseletFewSimpleSteps2016a" role="doc-biblioref">2016</a>)</span>).
+</p>
+</div>
+</div>
+<p>Dies sind lediglich unterschiedliche Darstellungen derselben Daten. Eine Standardtest, wie z.B. eine ANOVA, bietet in diesem Fall nicht mehr Information als eine grafische Darstellung.</p>
+<p>Sowohl der Mittelwert als auch der Median sind nicht ideal, um schiefe Verteilungen zusammenfassen. Solche Verteilungen sind asymmetrisch, und die Asymmetrie selber kann sich zwischen Bedingungen unterscheiden, so dass Masse der zentralen Tendenz und der Streuung nicht ausreichend sind (keine sogenannten <em>sufficient statistics</em>) <span class="citation" data-cites="rousseletFewSimpleSteps2016a">(<a href="#ref-rousseletFewSimpleSteps2016a" role="doc-biblioref">Rousselet, Foxe, and Bolam 2016</a>)</span>.</p>
+<p>Ein Ansatz, um die ganze Verteilung zu benutzen, anstatt die Verteilung durch eine Kennzahl zusammenzufassen, ist die empirischen Quantile der Daten zu berechnen. Wenn wir zwei Gruppen oder Bedingungen vergleichen möchten, können wir zum Beispiel die Dezile berechen, und dann für jedes Dezil die Differenz berechen. Wenn wir anschliessend die Quantile einer Bedingung gegen die Differenzen plotten, erhalten eine sogennante <strong>Shift Function</strong>. Diese hat ihren Namen, weil sie anzeigt, in welche Richtung und um wieviel man eine Verteilung verschieben muss, um sie einer anderen Verteilung anzugleichen.</p>
+<aside>
+Wir können auch andere, willkürlich gewählte, Quantil benutzen, aber die Dezile sind ein gute Kompromiss. Mit 9 Quantilen können wir die meisten Verteilungen ziemlich gut zusammenfassen.
+</aside>
+<h3 id="beispiel-1-unterschiedliche-streuung">Beispiel 1: unterschiedliche Streuung</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="images/shiftfun-1.png" width="1538" /></p>
+</div>
+<p>Die erste Grafik ziegt 2 RT Verteilungen, welche sich bezüglich ihrer Streuung, aber nicht ihrer zentralen Tendenz unterscheiden. Die eingezeichneten Linien sind die Dezile der Verteilung. Bei Gruppe 2 sind die äusseren Dezile im Vergleich zur Gruppe 1 extremer. Die zweite Grafik zeigt die Dezile der 1. Grupper auf der X-Achse, und die Differenzen der Dezile (Gruppe 1 - Gruppe 2) auf der Y-Achse.</p>
+<p>Wir können die Grafik so lesen: Im Median unterscheiden sich die Gruppen nicht. Bei den oberen Dezilen ist die Differenz negativ, d.h. Gruppe 1 hat kleinere Werte als Gruppe 2. Dies bedeutet, dass man die oberen Dezilen der Gruppe 2 nach links verschieben müsste, um sie gleich der Gruppe 1 zu machen.</p>
+<p>Bei den unteren Dezilen haben wir das umgekehrte Muster. Hier sind die Differenzen positiv, was bedeutet, dass wir wir unteren Quantile der Gruppe 2 nach rechts verschieben müssten. Gruppe 2 hat als schnellere kurze und längere langsame Reaktionszeiten.</p>
+<h3 id="beispiel-2-unterschiedliche-zentrale-tendenz-und-streuung">Beispiel 2: unterschiedliche zentrale Tendenz und Streuung</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="images/shiftfun-2.png" width="1538" /></p>
+</div>
+<p>In diesem Beispiel sind alle Dezile der Gruppe 2 gegenüber der Gruppe 1 nach rechts verschoben. Die Shift Funktion ist dementsprechend beinahe eine gerade Linie. Bei jedem Dezil müssten wir die Gruppe 2 uniform nach links verschieben, um sie der Gruppe 2 anzunähern. Hier kann man also sagen, dass Gruppe 1 schneller als Gruppe 2 ist.</p>
+<h3 id="beispiel-3-positive-right-tail-shift">Beispiel 3: Positive right tail shift</h3>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="images/shiftfun-3.png" width="1538" /></p>
+</div>
+<p>Im dritten Beispiel unterscheiden sich die beiden Gruppen vor allem am rechten Ende der Verteilung, während die Gruppen sich in dem unteren Dezile nicht unterscheiden. Dies führt zu einer Differenz von Null bis zum Median, und einer steigenden Differenz in den oberen Dezilen.</p>
+<h2 id="shift-function-von-hand">Shift Function von Hand</h2>
+<p>Eine Shift Function von Hand zu berechen ist relativ einfach, aber selbstverständlich gibt es dafür ein R Package (<code>rogme</code>). Hier werden wir aber zunächst für eine Person in zwei Bedingungen die Quantile per Hand berechnen, um ein Verständnis dafür zu entwicklen, wie eine Shift Function verwendet werden kann.</p>
+<p>Wir wählen aus dem <code>mentalchronometry</code> Dataframe, aus dem die Ausreisser entfernt wurden, eine Person und die beiden Tasks <code>goNoGo</code> und <code>discrimination</code> aus.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>294</span><span class='op'>)</span>
+<span class='va'>subject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>mentalchronometry_cleaned</span>, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>subj</span><span class='op'>)</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry_cleaned</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>subj</span> <span class='op'>==</span> <span class='va'>subject</span>,
+         <span class='va'>block</span> <span class='op'>!=</span> <span class='st'>"reaction"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>subj <span class='op'>=</span> <span class='fu'>fct_drop</span><span class='op'>(</span><span class='va'>subj</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>deciles</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>0.9</span>, length.out <span class='op'>=</span> <span class='fl'>9</span><span class='op'>)</span>
+
+<span class='va'>quantilefun</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>$</span><span class='va'>RT</span>, probs <span class='op'>=</span> <span class='va'>deciles</span>, type <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>df_quantiles</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>block</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>nest</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>quantiles <span class='op'>=</span> <span class='fu'>map</span><span class='op'>(</span><span class='va'>data</span>, <span class='op'>~</span> <span class='fu'>quantilefun</span><span class='op'>(</span><span class='va'>.x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>quantiles</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pivot_longer</span><span class='op'>(</span><span class='va'>`10%`</span><span class='op'>:</span><span class='va'>`90%`</span>, names_to <span class='op'>=</span> <span class='st'>"quantile"</span>, values_to <span class='op'>=</span> <span class='st'>"RT"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>block</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Eine einfachere Variante ist mit der neuesten Version von <code>summarise</code> möglich. <code>quibble</code> ist hier eine selber definierte Funktion, welche die Quantile berechnet und in einem <code>tibble</code> speichert.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>quibble</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>probs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>tibble</span><span class='op'>(</span>RT <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>probs</span>, type <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span>, quantile <span class='op'>=</span> <span class='va'>probs</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>df_quantiles_2</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>block</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>summarise</span><span class='op'>(</span><span class='fu'>quibble</span><span class='op'>(</span><span class='va'>RT</span>, probs <span class='op'>=</span> <span class='va'>deciles</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p><code>df_quantiles_2</code> ist nun ein Dataframe mit 3 Variablen: <code>block</code>, <code>RT</code> und <code>quantile</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>df_quantiles_2</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 18 x 3
+# Groups:   block [2]
+   block             RT quantile
+   &lt;fct&gt;          &lt;dbl&gt;    &lt;dbl&gt;
+ 1 goNoGo          300.      0.1
+ 2 goNoGo          310.      0.2
+ 3 goNoGo          318.      0.3
+ 4 goNoGo          334.      0.4
+ 5 goNoGo          344.      0.5
+ 6 goNoGo          372.      0.6
+ 7 goNoGo          418.      0.7
+ 8 goNoGo          448.      0.8
+ 9 goNoGo          465.      0.9
+10 discrimination  347.      0.1
+11 discrimination  359       0.2
+12 discrimination  381.      0.3
+13 discrimination  387.      0.4
+14 discrimination  412       0.5
+15 discrimination  436.      0.6
+16 discrimination  449.      0.7
+17 discrimination  461.      0.8
+18 discrimination  500.      0.9</code></pre>
+</div>
+<p>Wir müssen nun den Dataframe ins “wide” Format konvertieren, um zwei Spalten für die “goNoGo” und “discrimination” Bedingungen zu erhalten, und können danach die Differenz berechnen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>df_quantile_differences</span> <span class='op'>&lt;-</span> <span class='va'>df_quantiles_2</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pivot_wider</span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='st'>"block"</span>, values_from <span class='op'>=</span> <span class='st'>"RT"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>`goNoGo - discrimination` <span class='op'>=</span> <span class='va'>goNoGo</span> <span class='op'>-</span> <span class='va'>discrimination</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>df_quantile_differences</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>goNoGo</span>, y <span class='op'>=</span> <span class='va'>`goNoGo - discrimination`</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>0</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_vline</span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='va'>df_quantile_differences</span> <span class='op'>%&gt;%</span> 
+               <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>quantile</span> <span class='op'>==</span> <span class='st'>"50%"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+               <span class='fu'>select</span><span class='op'>(</span><span class='va'>goNoGo</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+               <span class='fu'>pull</span><span class='op'>(</span><span class='op'>)</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>group <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"steelblue"</span>, size <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span>shape <span class='op'>=</span> <span class='fl'>21</span>, color <span class='op'>=</span> <span class='st'>"steelblue"</span>, fill <span class='op'>=</span> <span class='st'>"white"</span>, size <span class='op'>=</span> <span class='fl'>5</span>, stroke <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>coord_cartesian</span><span class='op'>(</span>ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>100</span>, <span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-32-1.png" width="624" /></p>
+</div>
+<p>In diesem Fall erkennen wir, dass die Reaktionszeiten bei jedem Dezil im “discrimination” Task nach rechts verschoben sind. Dies bedeutet, dass im “discrimination” Task sowohl die schnellen als auch die langsamen Antworten langsamer sind als im “goNoGo” Task.</p>
+<aside>
+Es gibt Fälle, in denen sich zwei Bedingungen nicht im Mittelwert unterscheiden, sondern in den schnellen Antworten, oder in den langsamen Antworten.
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>df</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>RT</span>, color <span class='op'>=</span> <span class='va'>block</span>, fill <span class='op'>=</span> <span class='va'>block</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_density</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_color_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-33-1.png" width="624" /></p>
+</div>
+<div class="exercise">
+<p>Versuchen Sie nun, ein Shift Function für zufällig ausgewählte Versuchspersonen in 2 beliebig ausgewählen Bedingungen grafisch darzustellen.</p>
+</div>
+<h2 id="shift-function-rogme">Shift Function (rogme)</h2>
+<p>Mit dem <code>rogme</code> (Robust Graphical Methods For Group Comparisons) Package lassen sich solche Shift Functions ohne grossen Aufwand für Gruppenvergleiche grafisch darstellen. Dies ist sowohl für unabhängige als auch abhängige Gruppen, sowie messwiederholte Bedingungen, möglich.</p>
+<p>Das <code>rogme</code> Package ist nicht auf <code>CRAN</code>, kann aber so installiert werden:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"remotes"</span><span class='op'>)</span>
+<span class='fu'>remotes</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"GRousselet/rogme"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Dies muss nur einmal ausgeführt werden; wenn es installiert ist, müssen wir das Package laden:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/GRousselet/rogme'>rogme</a></span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<aside>
+Ich bevorzuge, das <code>rogme</code> Package nicht zu laden, da es automatisch eine Reihe anderer Packages lädt, welche die <code>dplyr</code> Funktionen überschreiben.
+</aside>
+<p>Für den Vergleich zweier messwiederholter Tasks in nur einer Person benutzen wir die Funktion <code>shiftdhd_pbci()</code>, welche die Quantildifferenzen und Konfodenzintervalle berechnet.</p>
+<div class="fyi">
+<p>Die Konfidenzintervalle werden mit der nichtparametrischen <code>percentile bootstrap</code> Methode geschätzt. Dabei werden die Daten quasi als stellvertetend für die “Population” genommen, und ganz viele Stichproben werden durch Ziehen mit Zurücklegen aus der Originalstichprobe generiert. Aus jeder dieser neuen Stichproben werden Quantile berechnet, und aus der Verteilung der Quantile werden Konfidenzintervalle als [0.025, 0.975] Quantile berechnet.</p>
+</div>
+<p>Für den Vergleich zweier messwiederholter Bedingungen interessieren wir uns dafür, ob und wie sich die typische Reaktionszeiten zwischen den Bedingungen voneinander unterscheiden, und zwar für jede Person einzeln sowie gemittelt über alle Personen. Dies machen wir mit der hierarchischen Version der Shift Function, <code>hsf_pb()</code>.</p>
+<p>Wir simulieren hier Reaktionszeiten von 30 Versuchspersonen, welche in zwei Bedingungen gemesen wurden. Die Reaktionszeiten werden als Zufallszahlen einer Shifted Lognormal Verteilung modelliert.</p>
+<aside>
+Die Shifted LogNormal Verteilung hat 3 Parameter: einen Mittelwert, eine Standardabweichung, und einen Shift Parameter. Letzterer verschiebt die Verteilung entlang der X-Achse. Die Verwendung dieser Verteilung impliziert, dass der Logarithmus der Reaktionszeiten normalverteilt ist.
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>747</span><span class='op'>)</span>
+
+<span class='va'>nt</span> <span class='op'>&lt;-</span> <span class='fl'>100</span> <span class='co'># trials</span>
+<span class='va'>np</span> <span class='op'>&lt;-</span> <span class='fl'>30</span> <span class='co'># participants</span>
+
+<span class='co'># parameters</span>
+<span class='va'>meanlog</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>0.5</span><span class='op'>)</span>
+<span class='va'>sdlog</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>0.2</span><span class='op'>)</span>
+<span class='va'>shift</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='va'>ES</span> <span class='op'>&lt;-</span> <span class='fl'>0.5</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># generate data: matrix participants x trials</span>
+<span class='va'>data1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'>brms</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/brms/man/Shifted_Lognormal.html'>rshifted_lnorm</a></span><span class='op'>(</span><span class='va'>nt</span><span class='op'>*</span><span class='va'>np</span>, 
+                                     <span class='va'>meanlog</span>,
+                                     <span class='va'>sdlog</span>, 
+                                     <span class='va'>shift</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='va'>np</span><span class='op'>)</span>
+<span class='va'>data2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'>brms</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/brms/man/Shifted_Lognormal.html'>rshifted_lnorm</a></span><span class='op'>(</span><span class='va'>nt</span><span class='op'>*</span><span class='va'>np</span>, 
+                                     <span class='fl'>1.1</span> <span class='op'>*</span> <span class='va'>meanlog</span>,
+                                     <span class='fl'>1.1</span> <span class='op'>*</span> <span class='va'>sdlog</span>, 
+                                     <span class='va'>shift</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='va'>np</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>ES</span>
+
+<span class='va'>df_sim</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>rt <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/vector.html'>as.vector</a></span><span class='op'>(</span><span class='va'>data1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>as.vector</a></span><span class='op'>(</span><span class='va'>data2</span><span class='op'>)</span><span class='op'>)</span>,
+             cond <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"cond1"</span>, <span class='va'>nt</span><span class='op'>*</span><span class='va'>np</span><span class='op'>)</span>,
+                             <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"cond2"</span>, <span class='va'>nt</span><span class='op'>*</span><span class='va'>np</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+             id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>np</span><span class='op'>)</span>, <span class='va'>nt</span><span class='op'>*</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>df_sim</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>id</span>, <span class='va'>cond</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>summarise</span><span class='op'>(</span>rt <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span><span class='op'>(</span><span class='va'>rt</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>Rmisc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Rmisc/man/summarySEwithin.html'>summarySEwithin</a></span><span class='op'>(</span>measurevar <span class='op'>=</span> <span class='st'>"rt"</span>,
+                       withinvars <span class='op'>=</span> <span class='st'>"cond"</span>,
+                       idvar <span class='op'>=</span> <span class='st'>"id"</span>,
+                       na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                       conf.interval <span class='op'>=</span> <span class='fl'>.95</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>   cond  N       rt        sd         se         ci
+1 cond1 30 1.844454 0.2037001 0.03719038 0.07606287
+2 cond2 30 2.550013 0.2037001 0.03719038 0.07606287</code></pre>
+</div>
+<p>Nun berechnen wir nach derselben Methode wie oben die Differenzen zwischen den Bedingungen für jedes Quantil für jede Person. Danach berechnet <code>hsf_pb()</code> den 20% getrimmten Mittelwert (“20% trimmed mean”) für jedes Quantil und schätzt Konfidenzintervalle mit der “percentile bootstrap” Methode.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'>rogme</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rogme/man/hsf_pb.html'>hsf_pb</a></span><span class='op'>(</span><span class='va'>df_sim</span>, <span class='va'>rt</span> <span class='op'>~</span> <span class='va'>cond</span> <span class='op'>+</span> <span class='va'>id</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<aside>
+Der 20% trimmed mean wird berechnet als der Mittelwert der Differenzen pro Versuchsperson, abzüglich der 10% kleinsten und 10% grössten Werte.
+</aside>
+<p>Nun können wir mit der Funktion <code>plot_hsf_pb()</code> die mittlere Shift Function, sowie die Shift Functions aller Personen grafisch darstellen. Bei keinem Dezil ist die Null im Konfidenzinterval enthalten. Wir können nach dieser Methode also davon ausgehen, dass sie die erste Bedingung insgesamt (bei schnellen und langsameren Reaktionszeiten) kürzere Reaktionszeiten als die zweite Bedingung hat. Ab dem 7. Dezil ist ausserdem zu sehen, dass die Differenz grösser wird. Das könnte darauf hinweisen, dass in der zweiten Bedingung die Personen nicht nur insgesamt langsamer sind, sondern auch variabler. Dieser Effekt gilt jedoch nicht bei allen Personen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>rogme</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rogme/man/plot_hsf_pb.html'>plot_hsf_pb</a></span><span class='op'>(</span><span class='va'>out</span>, interv <span class='op'>=</span> <span class='st'>"ci"</span><span class='op'>)</span>
+<span class='va'>p</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-40-1.png" width="624" /></p>
+</div>
+<h2 id="shift-function-beispiel">Shift Function Beispiel</h2>
+<p>Wir schauen uns Daten aus einem Lexical Decision Task <span class="citation" data-cites="wagenmakersLinearRelationMean2007">(<a href="#ref-wagenmakersLinearRelationMean2007" role="doc-biblioref">Wagenmakers and Brown 2007</a>)</span> an, bei dem Versuchspersonen Wörter als entweder <code>word</code> oder <code>non-word</code> klassifizieren mussten. Es ist bekannt, dass Wörter welche häufiger vorkommen schneller klassifiziert werden können, als seltene Wörter. In diesem Experiment mussten Versuchspersonen diesen Task unter zwei Bedingungen durchführen. In der <code>speed</code> Bedingung mussten sie sich so schnell wie möglich entscheiden, in der <code>accuracy</code> Bedingung mit so wenig Fehler wie möglich.</p>
+<p>Hier untersuchen wir also den Unterschied in der Reaktionszeit zwischen zwei “within” Bedingungen. Die Daten befinden sich im Package <code>rtdists</code>, welches zuerst installiert werden sollte.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rtdists/rtdists/'>rtdists</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>speed_acc</span><span class='op'>)</span> 
+
+<span class='va'>speed_acc</span> <span class='op'>&lt;-</span> <span class='va'>speed_acc</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span>
+
+
+<span class='va'>df_speed_acc</span> <span class='op'>&lt;-</span> <span class='va'>speed_acc</span> <span class='op'>%&gt;%</span> 
+   <span class='co'># zwischen 180 ms and 3000 ms</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>rt</span> <span class='op'>&gt;</span> <span class='fl'>0.18</span>, <span class='va'>rt</span> <span class='op'>&lt;</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+   <span class='co'># zu Character konvertieren (damit filter funktioniert)</span>
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>stim_cat</span>, <span class='va'>response</span><span class='op'>)</span>, <span class='va'>as.character</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Korrekte Antworten</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>response</span> <span class='op'>!=</span> <span class='st'>'error'</span>, <span class='va'>stim_cat</span> <span class='op'>==</span> <span class='va'>response</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># wieder zu Factor konvertieren</span>
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>stim_cat</span>, <span class='va'>response</span><span class='op'>)</span>, <span class='va'>as_factor</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>df_speed_acc</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 27,936 x 9
+   id    block condition stim  stim_cat frequency   response    rt
+   &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;     &lt;fct&gt; &lt;fct&gt;    &lt;fct&gt;       &lt;fct&gt;    &lt;dbl&gt;
+ 1 1     1     speed     5015  nonword  nw_low      nonword  0.7  
+ 2 1     1     speed     6481  nonword  nw_very_low nonword  0.46 
+ 3 1     1     speed     3305  word     very_low    word     0.455
+ 4 1     1     speed     4468  nonword  nw_high     nonword  0.773
+ 5 1     1     speed     1047  word     high        word     0.39 
+ 6 1     1     speed     5036  nonword  nw_low      nonword  0.603
+ 7 1     1     speed     1111  word     high        word     0.435
+ 8 1     1     speed     6561  nonword  nw_very_low nonword  0.524
+ 9 1     1     speed     1670  word     high        word     0.427
+10 1     1     speed     6207  nonword  nw_very_low nonword  0.456
+# … with 27,926 more rows, and 1 more variable: censor &lt;lgl&gt;</code></pre>
+</div>
+<p>Wir schauen uns vier Versuchspersonen grafisch an:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data_plot</span> <span class='op'>&lt;-</span> <span class='va'>df_speed_acc</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>id</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>8</span>, <span class='fl'>11</span>, <span class='fl'>15</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>data_plot</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>rt</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+    <span class='fu'>geom_histogram</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>fill <span class='op'>=</span> <span class='va'>condition</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>0.5</span>, bins <span class='op'>=</span> <span class='fl'>60</span><span class='op'>)</span> <span class='op'>+</span> 
+    <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>id</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'>coord_cartesian</span><span class='op'>(</span>xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1.6</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete <span class='op'>=</span> <span class='cn'>TRUE</span>, option <span class='op'>=</span> <span class='st'>"E"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-43-1.png" width="624" /></p>
+</div>
+<div class="exercise">
+<p>Was würden Sie anhand dieser vier Histogramme erwarten?</p>
+</div>
+<p>Wir berechnen nun die Differenzen der Dezile zwischen den Bedingungen für jede Versuchsperson.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>out_speed_acc</span> <span class='op'>&lt;-</span> <span class='fu'>rogme</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rogme/man/hsf_pb.html'>hsf_pb</a></span><span class='op'>(</span><span class='va'>df_speed_acc</span>, <span class='va'>rt</span> <span class='op'>~</span> <span class='va'>condition</span> <span class='op'>+</span> <span class='va'>id</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>p_speed_acc</span> <span class='op'>&lt;-</span> <span class='fu'>rogme</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rogme/man/plot_hsf_pb.html'>plot_hsf_pb</a></span><span class='op'>(</span><span class='va'>out_speed_acc</span>, interv <span class='op'>=</span> <span class='st'>"ci"</span><span class='op'>)</span>
+<span class='va'>p_speed_acc</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-45-1.png" width="624" /></p>
+</div>
+<p>In dieser Grafik sehen wir auf der X-Achse die Dezile der <code>accuracy</code> Bedingung und auf er Y-Achse die Differenz <code>accuracy - speed</code>. Die Differenz ist bei jedem Dezil positiv und scheint steig grösser zu werden. Die <code>accuracy</code> Bedingung führt also zu längeren und variableren Reaktionszeiten. Die Bedingungen unterscheiden sich im Median, aber wenn wir nur das berücksichtigt hätten, würden wir verpassen, dass sich die Verteilungen sehr stark am rechten Ende der Verteilung unterscheiden.</p>
+<p>Zum Vergleich berechnen wir noch Bedingungsmittelwerte der Median Reaktionszeiten.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>by_subject</span> <span class='op'>&lt;-</span> <span class='va'>df_speed_acc</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>id</span>, <span class='va'>condition</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>summarise</span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span><span class='op'>(</span><span class='va'>rt</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>agg</span> <span class='op'>&lt;-</span> <span class='fu'>Rmisc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Rmisc/man/summarySEwithin.html'>summarySEwithin</a></span><span class='op'>(</span><span class='va'>by_subject</span>,
+                       measurevar <span class='op'>=</span> <span class='st'>"mean"</span>,
+                       withinvars <span class='op'>=</span> <span class='st'>"condition"</span>,
+                       idvar <span class='op'>=</span> <span class='st'>"id"</span>,
+                       na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                       conf.interval <span class='op'>=</span> <span class='fl'>.95</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>agg</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>condition</span>, <span class='va'>mean</span>, fill <span class='op'>=</span> <span class='va'>condition</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_col</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>group <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span>   
+  <span class='fu'>geom_errorbar</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>mean</span><span class='op'>-</span><span class='va'>se</span>, ymax <span class='op'>=</span> <span class='va'>mean</span><span class='op'>+</span><span class='va'>se</span><span class='op'>)</span>,
+                width <span class='op'>=</span> <span class='fl'>0.1</span>, size<span class='op'>=</span><span class='fl'>1</span>, color<span class='op'>=</span><span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-47-1.png" width="624" /></p>
+</div>
+<h2 id="reaktionszeitverteilungen">Reaktionszeitverteilungen</h2>
+<p>Im nächsten Schritt können wir uns überlegen, wie wir vorgehen würden, wenn wir die ganzen Reaktionszeitverteilungen modellieren wollen. Dabei müssen wir folgende Tatsachen beachten: Reaktionszeiten sind positiv und rechtsschief. Ausserdem müssen wir berücksichtigen, dass Zeiten eine natürliche Untergrenze haben können, welche grösser als Null ist, da es physiologisch unmöglich ist, in weniger als 100-200 Millisekunden zu reagieren. Diese Untergrenze kann aber stark von der Aufgabe abhängig sein, welche ausgeführt wird.</p>
+<p>Es gibt eine Menge Verteilungen, welche eine Wertebereich <span class="math inline">\([0, \infty]\)</span> haben. Eine Teilmenge dieser Verteilungen kommen für Reaktionszeiten besonder in Frage, da sie 3 Parameter haben. Diese Parameter werden häufig als <code>difficulty</code>, <code>scale</code> und <code>shift</code> Parameter bezeichnet.</p>
+<p>Unter dieser <a href="https://raw.githubusercontent.com/lindeloev/shiny-rt/master/rt_cheat_sheet.pdf">URL</a> gibt es eine sehr hilfreiche Übersicht über Reaktionszeitverteilungen.</p>
+<aside>
+Eine Normalverteilung hat 2 Parameter, <span class="math inline">\(\mu\)</span> uns <span class="math inline">\(\sigma\)</span>. <span class="math inline">\(\mu\)</span> ist hier der <code>shift</code> Parameter, welcher die zentrale Tendenz bestimmt, und <span class="math inline">\(\sigma\)</span> ist der <code>scale</code> Parameter.
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>tibble</span><span class='op'>(</span>normal <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1e4</span>, 
+                      mean <span class='op'>=</span> <span class='fl'>1</span>, 
+                      sd <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
+       lognormal <span class='op'>=</span> <span class='fu'>brms</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/brms/man/Shifted_Lognormal.html'>rshifted_lnorm</a></span><span class='op'>(</span><span class='fl'>1e4</span>, 
+                                        meanlog <span class='op'>=</span> <span class='fl'>0.5</span>, 
+                                        sdlog <span class='op'>=</span> <span class='fl'>0.1</span>, 
+                                        shift <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>,
+       shifted_lognormal <span class='op'>=</span> <span class='fu'>brms</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/brms/man/Shifted_Lognormal.html'>rshifted_lnorm</a></span><span class='op'>(</span><span class='fl'>1e4</span>, 
+                                                meanlog <span class='op'>=</span> <span class='fl'>0.5</span>, 
+                                                sdlog <span class='op'>=</span> <span class='fl'>0.1</span>, 
+                                                shift <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pivot_longer</span><span class='op'>(</span><span class='fu'>everything</span><span class='op'>(</span><span class='op'>)</span>, 
+               names_to <span class='op'>=</span> <span class='st'>"Distribution"</span>,
+               values_to <span class='op'>=</span> <span class='st'>"x"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>x</span>, fill <span class='op'>=</span> <span class='va'>Distribution</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_histogram</span><span class='op'>(</span>bins <span class='op'>=</span> <span class='fl'>60</span>, position <span class='op'>=</span> <span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete <span class='op'>=</span> <span class='cn'>TRUE</span>, option <span class='op'>=</span> <span class='st'>"E"</span>, begin <span class='op'>=</span> <span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>xlab</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>ylab</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-48-1.png" width="624" /></p>
+</div>
+<p>Auf derselben Website wie oben finden Sie eine interaktive Webapp, mit welcher Sie verschiede Reaktionszeitverteilungen visualisieren können <span class="citation" data-cites="lindelovReactionTimeDistributions2021">(<a href="#ref-lindelovReactionTimeDistributions2021" role="doc-biblioref">Lindeløv 2021</a>)</span>.</p>
+<div class="exercise">
+<p><a href="https://lindeloev.shinyapps.io/shiny-rt/">Reaction time distributions: an interactive overview</a></p>
+</div>
+<h2 id="shifted-lognormal">Shifted Lognormal</h2>
+<p>Wir interessieren uns hier vor allem für die Shifted Lognormal Verteilung. Diese hat die Dichtefunktion</p>
+<p><span class="math display">\[ f(x) = \frac{1} {(x - \theta)\sigma\sqrt{2\pi}} exp\left[ -\frac{1}{2} \left(\frac{ln(x - \theta) - \mu }{\sigma}  \right)^2  \right] \]</span> mit den drei Paramtern <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span> und <span class="math inline">\(\theta\)</span>. <span class="math inline">\(\theta\)</span> verschiebt die ganze Verteilung entlang der X-Achse, während <span class="math inline">\(\mu\)</span> und <span class="math inline">\(\sigma\)</span> die Form beeinflussen.</p>
+<p><span class="math inline">\(\mu\)</span> wird als <strong>difficulty</strong> Parameter aufgefasst und beeinflusst sowohl Median als auch Mittelwert. Der Median ist <span class="math inline">\(\theta + exp(\mu)\)</span>.</p>
+<p><span class="math inline">\(\sigma\)</span> ist der <strong>scale</strong> Parameter (Standardabweichung) und hat einen Einfluss auf Mittelwert, aber nicht auf den Median.</p>
+<p>Der Mittelwert ist <span class="math inline">\(\theta + exp\left( \mu + \frac{1}{2}\sigma^2\right)\)</span></p>
+<p>Von Interesse ist vor hauptsächlich der Parameter <span class="math inline">\(\mu\)</span>, weil davon ausgegangen wird, dass Änderungen der Task Schwierigkeit sich vor allem darin manifestieren.</p>
+<p>Wir können diese Verteilung mit <code>brms</code> an unsere Date fitten. Wir müssen dabei aber beachten, dass die Parameter <span class="math inline">\(\mu\)</span> und <span class="math inline">\(\sigma\)</span> auf der Logarithmusskala sind. Wenn wir z.B. <span class="math inline">\(\mu\)</span> mit einem linearen Modell vorhersagen, müssen wir die Koeffizienten exponentieren,damit sie wieder auf der RT Skala sind.</p>
+<p><span class="math display">\[ y_i \sim Shifted Lognormal(\mu, \sigma, \theta) \]</span></p>
+<p><span class="math display">\[ log(\mu) = b_0 + b_1 X_1 + ...\]</span> Die Parameter <span class="math inline">\(\sigma\)</span> und <span class="math inline">\(\theta\)</span> können ebenfalls vorhergesagt, oder einfach nur geschätzt werden.</p>
+<p><span class="math display">\[  \sigma \sim Dist(...) \]</span></p>
+<p><span class="math display">\[  \theta \sim Dist(...) \]</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/paul-buerkner/brms'>brms</a></span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Die Default Prior Verteilungen sind:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>priors</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/brms/man/get_prior.html'>get_prior</a></span><span class='op'>(</span><span class='va'>rt</span> <span class='op'>~</span> <span class='va'>condition</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>1</span><span class='op'>|</span><span class='va'>id</span><span class='op'>)</span>, 
+          family <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/brms/man/brmsfamily.html'>shifted_lognormal</a></span><span class='op'>(</span><span class='op'>)</span>,
+          data <span class='op'>=</span> <span class='va'>df_speed_acc</span><span class='op'>)</span>
+
+<span class='va'>priors</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 8 x 4
+  prior                     class     coef             group
+  &lt;chr&gt;                     &lt;chr&gt;     &lt;chr&gt;            &lt;chr&gt;
+1 &quot;&quot;                        b         &quot;&quot;               &quot;&quot;   
+2 &quot;&quot;                        b         &quot;conditionspeed&quot; &quot;&quot;   
+3 &quot;student_t(3, -0.6, 2.5)&quot; Intercept &quot;&quot;               &quot;&quot;   
+4 &quot;uniform(0, min_Y)&quot;       ndt       &quot;&quot;               &quot;&quot;   
+5 &quot;student_t(3, 0, 2.5)&quot;    sd        &quot;&quot;               &quot;&quot;   
+6 &quot;&quot;                        sd        &quot;&quot;               &quot;id&quot; 
+7 &quot;&quot;                        sd        &quot;Intercept&quot;      &quot;id&quot; 
+8 &quot;student_t(3, 0, 2.5)&quot;    sigma     &quot;&quot;               &quot;&quot;   </code></pre>
+</div>
+<p>Der <strong>shift</strong> Parameter <span class="math inline">\(\theta\)</span> heisst hier aus Kompatibilitätsgründen mit anderen Modellen <code>ndt</code> (non-decision time), und hat eine uniforme Verteilung zwischen 0 und der kürzesten Reaktionszeit im Datensatz.</p>
+<p>Der Koeffizient <code>conditionspeed</code> hat per Default einen flachen Prior. Da dieser auf der Logarithmusskala ist, erwarten wir nicht, dass der Betrag sehr gross sein wird.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>priors</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/brms/man/set_prior.html'>prior</a></span><span class='op'>(</span><span class='fu'>normal</span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0.1</span><span class='op'>)</span>, class <span class='op'>=</span> <span class='va'>b</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>m1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/brms/man/brm.html'>brm</a></span><span class='op'>(</span><span class='va'>rt</span> <span class='op'>~</span> <span class='va'>condition</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>1</span><span class='op'>|</span><span class='va'>id</span><span class='op'>)</span>,
+          family <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/brms/man/brmsfamily.html'>shifted_lognormal</a></span><span class='op'>(</span><span class='op'>)</span>,
+          prior <span class='op'>=</span> <span class='va'>priors</span>,
+          data <span class='op'>=</span> <span class='va'>df_speed_acc</span>,
+          file <span class='op'>=</span> <span class='st'>'models/m1_shiftedlognorm'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>m1</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code> Family: shifted_lognormal 
+  Links: mu = identity; sigma = identity; ndt = identity 
+Formula: rt ~ condition + (1 | id) 
+   Data: df_speed_acc (Number of observations: 27936) 
+Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+         total post-warmup samples = 4000
+
+Group-Level Effects: 
+~id (Number of levels: 17) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+sd(Intercept)     0.15      0.03     0.11     0.22 1.01      454
+              Tail_ESS
+sd(Intercept)      885
+
+Population-Level Effects: 
+               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+Intercept         -0.68      0.04    -0.76    -0.61 1.01      352
+conditionspeed    -0.40      0.00    -0.41    -0.39 1.00     1652
+               Tail_ESS
+Intercept           573
+conditionspeed     1676
+
+Family Specific Parameters: 
+      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sigma     0.37      0.00     0.36     0.37 1.00     1536     1559
+ndt       0.17      0.00     0.17     0.18 1.01     1018     1360
+
+Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/brms/man/mcmc_plot.brmsfit.html'>mcmc_plot</a></span><span class='op'>(</span><span class='va'>m1</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-54-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/brms/man/conditional_effects.brmsfit.html'>conditional_effects</a></span><span class='op'>(</span><span class='va'>m1</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-55-1.png" width="624" /></p>
+</div>
+<p>Wir können dieses Modell verbessern, indem wir für jede Person einen eigenen <strong>shift</strong> Parameter <span class="math inline">\(\theta\)</span> schätzen. Da dieser <span class="math inline">\(&gt;0\)</span> sein muss, wird ebenfalls ein lineares Modell auf der Logarithmusskala benutzt.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># intial values für den Mittelwert des shift Parameters</span>
+<span class='va'>inits</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>Intercept_ndt <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1.7</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+
+<span class='va'>m2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/brms/man/brm.html'>brm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/brms/man/brmsformula.html'>bf</a></span><span class='op'>(</span><span class='va'>rt</span> <span class='op'>~</span> <span class='va'>condition</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>1</span><span class='op'>|</span><span class='va'>id</span><span class='op'>)</span>,
+              <span class='va'>ndt</span> <span class='op'>~</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>1</span><span class='op'>|</span><span class='va'>id</span><span class='op'>)</span><span class='op'>)</span>,
+          family <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/brms/man/brmsfamily.html'>shifted_lognormal</a></span><span class='op'>(</span><span class='op'>)</span>,
+          prior <span class='op'>=</span> <span class='va'>priors</span>,
+          data <span class='op'>=</span> <span class='va'>df_speed_acc</span>,
+          inits <span class='op'>=</span> <span class='va'>inits</span>,
+          init_r <span class='op'>=</span> <span class='fl'>0.05</span>,
+          control <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>max_treedepth <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>,
+          file <span class='op'>=</span> <span class='st'>'models/m2_shiftedlognorm_ndt'</span><span class='op'>)</span>
+
+
+<span class='co'># oder ¨äquivalent dazu</span>
+
+<span class='va'>formula</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/brms/man/brmsformula.html'>bf</a></span><span class='op'>(</span><span class='va'>rt</span> <span class='op'>~</span> <span class='va'>condition</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>1</span><span class='op'>|</span><span class='va'>id</span><span class='op'>)</span>,
+              <span class='va'>ndt</span> <span class='op'>~</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>1</span><span class='op'>|</span><span class='va'>id</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>m2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/brms/man/brm.html'>brm</a></span><span class='op'>(</span><span class='va'>formula</span>,
+          family <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/brms/man/brmsfamily.html'>shifted_lognormal</a></span><span class='op'>(</span><span class='op'>)</span>,
+          prior <span class='op'>=</span> <span class='va'>priors</span>,
+          data <span class='op'>=</span> <span class='va'>df_speed_acc</span>,
+          inits <span class='op'>=</span> <span class='va'>inits</span>,
+          init_r <span class='op'>=</span> <span class='fl'>0.05</span>,
+          control <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>max_treedepth <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>,
+          file <span class='op'>=</span> <span class='st'>'models/m2_shiftedlognorm_ndt'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<aside>
+<p>Die <code>bf()</code> Funktion wird benutzt, wenn wir mehrere Parameter haben, welche wir vorhersagen wollen. Die Formel ist somit etwas komplexer, da sie aus mehreren Teilen besteht, und wird deshalb in die <code>bf()</code> Funktion “eingepackt.”</p>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>m2</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code> Family: shifted_lognormal 
+  Links: mu = identity; sigma = identity; ndt = log 
+Formula: rt ~ condition + (1 | id) 
+         ndt ~ 1 + (1 | id)
+   Data: df_speed_acc (Number of observations: 27936) 
+Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+         total post-warmup samples = 4000
+
+Group-Level Effects: 
+~id (Number of levels: 17) 
+                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+sd(Intercept)         0.31      0.06     0.21     0.45 1.00     1115
+sd(ndt_Intercept)     0.32      0.06     0.22     0.47 1.00      897
+                  Tail_ESS
+sd(Intercept)         1351
+sd(ndt_Intercept)     1707
+
+Population-Level Effects: 
+               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+Intercept         -0.86      0.08    -1.01    -0.70 1.01      799
+ndt_Intercept     -1.47      0.08    -1.64    -1.32 1.01      802
+conditionspeed    -0.48      0.01    -0.49    -0.47 1.00     3299
+               Tail_ESS
+Intercept          1234
+ndt_Intercept      1047
+conditionspeed     2383
+
+Family Specific Parameters: 
+      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sigma     0.43      0.00     0.42     0.43 1.00     3451     2812
+
+Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/brms/man/mcmc_plot.brmsfit.html'>mcmc_plot</a></span><span class='op'>(</span><span class='va'>m2</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-58-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/brms/man/conditional_effects.brmsfit.html'>conditional_effects</a></span><span class='op'>(</span><span class='va'>m2</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-59-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/brms/man/conditional_effects.brmsfit.html'>conditional_effects</a></span><span class='op'>(</span><span class='va'>m2</span>, method<span class='op'>=</span><span class='st'>'posterior_predict'</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-60-1.png" width="624" /></p>
+</div>
+<h4 id="posterior-predictive-check">Posterior predictive check</h4>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/brms/man/pp_check.brmsfit.html'>pp_check</a></span><span class='op'>(</span><span class='va'>m2</span>, 
+         type <span class='op'>=</span> <span class='st'>"dens_overlay_grouped"</span>, 
+         group <span class='op'>=</span> <span class='st'>"condition"</span>,
+         nsamples <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="07-mental-chronometry_files/figure-html5/unnamed-chunk-61-1.png" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-lindelovReactionTimeDistributions2021" class="csl-entry" role="doc-biblioentry">
+Lindeløv, Jonas Kristoffer. 2021. <span>“Reaction <span>Time Distributions</span>.”</span> May 18, 2021. <a href="https://lindeloev.shinyapps.io/shiny-rt/">https://lindeloev.shinyapps.io/shiny-rt/</a>.
+</div>
+<div id="ref-rousseletFewSimpleSteps2016a" class="csl-entry" role="doc-biblioentry">
+Rousselet, Guillaume A., John J. Foxe, and J. Paul Bolam. 2016. <span>“A Few Simple Steps to Improve the Description of Group Results in Neuroscience.”</span> <em>European Journal of Neuroscience</em> 44 (9): 2647–51. <a href="https://doi.org/10.1111/ejn.13400">https://doi.org/10.1111/ejn.13400</a>.
+</div>
+<div id="ref-wagenmakersLinearRelationMean2007" class="csl-entry" role="doc-biblioentry">
+Wagenmakers, Eric-Jan, and Scott Brown. 2007. <span>“On the Linear Relation Between the Mean and the Standard Deviation of a Response Time Distribution.”</span> <em>Psychological Review</em> 114 (3): 830–41. <a href="https://doi.org/10.1037/0033-295X.114.3.830">https://doi.org/10.1037/0033-295X.114.3.830</a>.
+</div>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/kogpsy/neuroscicomplab/issues/new">create an issue</a> on the source repository.</p>
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/kogpsy/neuroscicomplab">https://github.com/kogpsy/neuroscicomplab</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+<h3 id="citation">Citation</h3>
+<p>For attribution, please cite this work as</p>
+<pre class="citation-appendix short">Ellis (2021, May 11). neuroscicomplab: Datenanalyse. Retrieved from https://kogpsy.github.io/neuroscicomplab/07-mental-chronometry.html</pre>
+<p>BibTeX citation</p>
+<pre class="citation-appendix long">@misc{ellis2021datenanalyse,
+  author = {Ellis, Andrew},
+  title = {neuroscicomplab: Datenanalyse},
+  url = {https://kogpsy.github.io/neuroscicomplab/07-mental-chronometry.html},
+  year = {2021}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+<p>© Copyright 2021 <a href="https://github.com/awellis">Andrew Ellis</a></p>
+<p>Software licensed under the <a href="https://creativecommons.org/licenses/by/4.0/legalcode">Creative Commons Zero v4.0 Universal</a>.</p>
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+
+</body>
+
+</html>

@@ -56,7 +56,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
 code span.cf { color: #007ba5; } /* ControlFlow */
@@ -77,7 +77,7 @@ code span.kw { color: #007ba5; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
 code span.ot { color: #007ba5; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
@@ -85,35 +85,36 @@ code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
+
   <!--radix_placeholder_meta_tags-->
-  <title>neuroscicomplab: Rmarkdown</title>
+  <title>Computerlab: Rmarkdown</title>
 
   <meta property="description" itemprop="description" content="Arbeiten mit RStudio Projects und Rmarkdown."/>
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-06-22"/>
-  <meta property="article:created" itemprop="dateCreated" content="2021-06-22"/>
+  <meta property="article:published" itemprop="datePublished" content="2022-02-16"/>
+  <meta property="article:created" itemprop="dateCreated" content="2022-02-16"/>
   <meta name="article:author" content="Andrew Ellis"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="neuroscicomplab: Rmarkdown"/>
+  <meta property="og:title" content="Computerlab: Rmarkdown"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="Arbeiten mit RStudio Projects und Rmarkdown."/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="neuroscicomplab"/>
+  <meta property="og:site_name" content="Computerlab"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="neuroscicomplab: Rmarkdown"/>
+  <meta property="twitter:title" content="Computerlab: Rmarkdown"/>
   <meta property="twitter:description" content="Arbeiten mit RStudio Projects und Rmarkdown."/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Rmarkdown"]},{"type":"character","attributes":{},"value":["Arbeiten mit RStudio Projects und Rmarkdown.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Andrew"]},{"type":"character","attributes":{},"value":["Ellis"]},{"type":"character","attributes":{},"value":["https://github.com/awellis"]},{"type":"character","attributes":{},"value":["Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"]},{"type":"character","attributes":{},"value":["https://www.kog.psy.unibe.ch"]},{"type":"character","attributes":{},"value":["0000-0002-2788-936s"]}]}]},{"type":"character","attributes":{},"value":["2021-06-22"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Rmarkdown"]},{"type":"character","attributes":{},"value":["Arbeiten mit RStudio Projects und Rmarkdown.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Andrew"]},{"type":"character","attributes":{},"value":["Ellis"]},{"type":"character","attributes":{},"value":["https://github.com/awellis"]},{"type":"character","attributes":{},"value":["Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"]},{"type":"character","attributes":{},"value":["https://www.kog.psy.unibe.ch"]},{"type":"character","attributes":{},"value":["0000-0002-2788-936s"]}]}]},{"type":"character","attributes":{},"value":["2022-02-16"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -460,7 +461,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   </style>
 
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -1867,7 +1868,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
         window.tippy(this, {
           allowHTML: true,
           content: refHtml,
@@ -2374,7 +2378,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     color: var(--hover-color, white);
   }</style>
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2539,7 +2543,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Rmarkdown","description":"Arbeiten mit RStudio Projects und Rmarkdown.","authors":[{"author":"Andrew Ellis","authorURL":"https://github.com/awellis","affiliation":"Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern","affiliationURL":"https://www.kog.psy.unibe.ch","orcidID":"0000-0002-2788-936s"}],"publishedDate":"2021-06-22T00:00:00.000+00:00","citationText":"Ellis, 2021"}
+{"title":"Rmarkdown","description":"Arbeiten mit RStudio Projects und Rmarkdown.","authors":[{"author":"Andrew Ellis","authorURL":"https://github.com/awellis","affiliation":"Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern","affiliationURL":"https://www.kog.psy.unibe.ch","orcidID":"0000-0002-2788-936s"}],"publishedDate":"2022-02-16T00:00:00.000+01:00","citationText":"Ellis, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2547,7 +2551,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
-<a href="index.html" class="title">neuroscicomplab</a>
+<a href="index.html" class="title">Computerlab</a>
 <a href="index.html">
 <i class="fa fa-home" aria-hidden="true"></i>
 </a>
@@ -2629,7 +2633,7 @@ Slides
 <a href="slides/07-mental-chronometry-slides.html">7. Mental Chronometry: Reaktionszeiten</a>
 </div>
 </div>
-<a href="https://github.com/kogpsy/neuroscicomplab">
+<a href="https://github.com/kogpsy/neuroscicomplabFS22">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
@@ -2651,7 +2655,7 @@ Slides
   
   true
   
-<br/>2021-06-22
+<br/>2022-02-16
 </div>
 
 <div class="d-article">
@@ -2659,45 +2663,85 @@ Slides
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#rstudio-projekte"><svg aria-hidden="true" role="img" viewBox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:steelblue;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg> RStudio Projekte</a></li>
+<li><a
+href="#rstudio-projekte"><svg aria-hidden="true" role="img" viewBox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:steelblue;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg>
+RStudio Projekte</a></li>
 <li><a href="#rmarkdown">Rmarkdown</a></li>
 </ul>
 </nav>
 </div>
-<h2 id="rstudio-projekte"><svg aria-hidden="true" role="img" viewBox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:steelblue;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg> RStudio Projekte</h2>
-<p>Ich empfehle (wie schon in den Statistik Übungen) <strong>immer</strong> in einem RStudio Projekt zu arbeiten. Als Faustregel: jedes Datenanalyseprojekt kriegt ein eigenes RStudio Projekt. Die Vorteile sind:</p>
+<h2
+id="rstudio-projekte"><svg aria-hidden="true" role="img" viewBox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:steelblue;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg>
+RStudio Projekte</h2>
+<p>Ich empfehle (wie schon in den Statistik Übungen)
+<strong>immer</strong> in einem RStudio Projekt zu arbeiten. Als
+Faustregel: jedes Datenanalyseprojekt kriegt ein eigenes RStudio
+Projekt. Die Vorteile sind:</p>
 <ul>
-<li>Man kann das Projekt schliessen und wieder im gleichen Zustand öffnen, d.h. alle offenen Files werden wieder hergestellt. So kann man z.B. eine Woche lang nicht an einem Projekt arbeiten, und danach wieder in dem Zustand weiterfahren, in dem man aufgehört hat.</li>
+<li>Man kann das Projekt schliessen und wieder im gleichen Zustand
+öffnen, d.h. alle offenen Files werden wieder hergestellt. So kann man
+z.B. eine Woche lang nicht an einem Projekt arbeiten, und danach wieder
+in dem Zustand weiterfahren, in dem man aufgehört hat.</li>
 <li>Man muss keine absoluten Pfade benutzen, sondern nur relative.</li>
 </ul>
 <h2 id="rmarkdown">Rmarkdown</h2>
 <!-- `<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:steelblue;overflow:visible;position:relative;"><path d="M448 360V24c0-13.3-10.7-24-24-24H96C43 0 0 43 0 96v320c0 53 43 96 96 96h328c13.3 0 24-10.7 24-24v-16c0-7.5-3.5-14.3-8.9-18.7-4.2-15.4-4.2-59.3 0-74.7 5.4-4.3 8.9-11.1 8.9-18.6zM128 134c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm0 64c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm253.4 250H96c-17.7 0-32-14.3-32-32 0-17.6 14.4-32 32-32h285.4c-1.9 17.1-1.9 46.9 0 64z"/></svg>`{=html} -->
-<p>Rmarkdown ist eine Erweiterung der Markdown Sprache, welche wiederum eine einfache Sprache ist, um Text zu formattieren.</p>
+<p>Rmarkdown ist eine Erweiterung der Markdown Sprache, welche wiederum
+eine einfache Sprache ist, um Text zu formattieren.</p>
 <blockquote>
-<p>Mit Markdown ist es möglich, HTML oder LaTeX zu erstellen, ohne das man selber viel HTML/LaTeX kennen muss. LaTeX ist vor allem dann gut, wenn man viele Formeln benutzt, oder komplizierte Dokumente erstellt.</p>
+<p>Mit Markdown ist es möglich, HTML oder LaTeX zu erstellen, ohne das
+man selber viel HTML/LaTeX kennen muss. LaTeX ist vor allem dann gut,
+wenn man viele Formeln benutzt, oder komplizierte Dokumente
+erstellt.</p>
 </blockquote>
-<p>Rmarkdown erlaubt zusätzlich die Einbindung von R Code; dieser wird zuerst evaluiert, und der Ouput wird zu Markdown konvertiert. Damit lassen sich Paper und Bachelor/Masterarbeiten schreiben, was sehr sinnvoll ist, wenn man mit R arbeitet.</p>
-<p>Ein weiterer Grund, Rmarkdown zu benutzen, ist Reproduzierbarkeit. Man kann Code für Datenanalyse direkt in ein Manuskript einbinden, so dass die Resultate immer up-to-date sind, und nicht zwischen Dokumenten hin-und her kopiert werden müssen (was sehr fehleranfällig ist).</p>
-<p>Ein exzellente Einführung in Rmarkdown finden Sie im Blog von Danielle Navarro: <a href="https://slides.djnavarro.net/starting-rmarkdown/">Einführung in Rmarkdown</a>.</p>
+<p>Rmarkdown erlaubt zusätzlich die Einbindung von R Code; dieser wird
+zuerst evaluiert, und der Ouput wird zu Markdown konvertiert. Damit
+lassen sich Paper und Bachelor/Masterarbeiten schreiben, was sehr
+sinnvoll ist, wenn man mit R arbeitet.</p>
+<p>Ein weiterer Grund, Rmarkdown zu benutzen, ist Reproduzierbarkeit.
+Man kann Code für Datenanalyse direkt in ein Manuskript einbinden, so
+dass die Resultate immer up-to-date sind, und nicht zwischen Dokumenten
+hin-und her kopiert werden müssen (was sehr fehleranfällig ist).</p>
+<p>Ein exzellente Einführung in Rmarkdown finden Sie im Blog von
+Danielle Navarro: <a
+href="https://slides.djnavarro.net/starting-rmarkdown/">Einführung in
+Rmarkdown</a>.</p>
 <div class="fyi">
 <p>Schauen Sie sich die Slides an.</p>
 </div>
 <aside>
-Dieses Skript wird mit Rmarkdown erstellt. Wenn Sie auf das Icon oben rechts klicken, sehen Sie den Source Code.
+Dieses Skript wird mit Rmarkdown erstellt. Wenn Sie auf das Icon oben
+rechts klicken, sehen Sie den Source Code.
 </aside>
-<p>RStudio macht es sehr einfach, mit Rmarkdown zu arbeiten. Un ein neues Dokument zu erstellen, öffnen Sie das <code>File</code> Menu. Dort wählen Sie <code>New File</code> aus, und dann <code>Rmarkdown...</code>.</p>
+<p>RStudio macht es sehr einfach, mit Rmarkdown zu arbeiten. Un ein
+neues Dokument zu erstellen, öffnen Sie das <code>File</code> Menu. Dort
+wählen Sie <code>New File</code> aus, und dann
+<code>Rmarkdown...</code>.</p>
 <p>Sie sehen dann dieses Dialogfenster:</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="images/create-rmarkdown.png" width="473" /></p>
 </div>
-<p>Hier können Sie das Output Format bestimmen: HTML, PDF (LaTeX), oder Word.</p>
-<p>Nachdem Sie <code>OK</code> geklickt haben, erhalten Sie ein Rmarkdown Template. Dies können Sie mit der <code>Knit</code> Funktion zu einem HTML (oder PDF, Word) konvertieren. Zuerst müssen Sie das Dokument jedoch speichern.</p>
+<p>Hier können Sie das Output Format bestimmen: HTML, PDF (LaTeX), oder
+Word.</p>
+<p>Nachdem Sie <code>OK</code> geklickt haben, erhalten Sie ein
+Rmarkdown Template. Dies können Sie mit der <code>Knit</code> Funktion
+zu einem HTML (oder PDF, Word) konvertieren. Zuerst müssen Sie das
+Dokument jedoch speichern.</p>
 <div class="exercise">
-<p>Erstellen Sie ein Rmarkdown Dokument und speichern Sie es. Probieren Sie verschiedene Output Formate, und <code>knitten</code> Sie das Dokument.</p>
+<p>Erstellen Sie ein Rmarkdown Dokument und speichern Sie es. Probieren
+Sie verschiedene Output Formate, und <code>knitten</code> Sie das
+Dokument.</p>
 </div>
-<p>In der nächsten Übung machen wir zwei ganz wichtige Dinge: wir benutzen Rmarkdown, und wir generieren Daten. Genauer gesagt benutzen wir ein statistisches (probabilistisches) Modell, um Zufallszahlen zu generieren. In dieser Übung generieren wir Daten, die dem statistischen Modell eines t-Tests entsprechen.</p>
+<p>In der nächsten Übung machen wir zwei ganz wichtige Dinge: wir
+benutzen Rmarkdown, und wir generieren Daten. Genauer gesagt benutzen
+wir ein statistisches (probabilistisches) Modell, um Zufallszahlen zu
+generieren. In dieser Übung generieren wir Daten, die dem statistischen
+Modell eines t-Tests entsprechen.</p>
 <div class="exercise">
-<p>Fügen Sie folgenden R Code in einen oder (noch besser) mehreren Code Chunks ein. Benützen Sie Markdown Text, um das Ganze zu kommentieren., d.h. die Kommentare zwischen den R Code Zeilen könnten auch als Prosa zwischen R Code Chunks stehen.</p>
+<p>Fügen Sie folgenden R Code in einen oder (noch besser) mehreren Code
+Chunks ein. Benützen Sie Markdown Text, um das Ganze zu kommentieren.,
+d.h. die Kommentare zwischen den R Code Zeilen könnten auch als Prosa
+zwischen R Code Chunks stehen.</p>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2721,31 +2765,45 @@ Dieses Skript wird mit Rmarkdown erstellt. Wenn Sie auf das Icon oben rechts kli
 <span class='va'>sigma</span> <span class='op'>&lt;-</span> <span class='fl'>15</span> 
 
 <span class='co'># Generate data</span>
-<span class='va'>fancyhats</span> <span class='op'>=</span> <span class='fu'>tibble</span><span class='op'>(</span>Creativity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>N_fancyhats</span>, <span class='va'>mu_fancyhats</span>, <span class='va'>sigma</span><span class='op'>)</span>,
+<span class='va'>fancyhats</span> <span class='op'>=</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Creativity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>N_fancyhats</span>, <span class='va'>mu_fancyhats</span>, <span class='va'>sigma</span><span class='op'>)</span>,
                Group <span class='op'>=</span> <span class='st'>"Fancy Hat"</span><span class='op'>)</span>
 
-<span class='va'>nofancyhats</span> <span class='op'>=</span> <span class='fu'>tibble</span><span class='op'>(</span>Creativity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>N_nofancyhats</span>, <span class='va'>mu_nofancyhats</span>, <span class='va'>sigma</span><span class='op'>)</span>,
+<span class='va'>nofancyhats</span> <span class='op'>=</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Creativity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>N_nofancyhats</span>, <span class='va'>mu_nofancyhats</span>, <span class='va'>sigma</span><span class='op'>)</span>,
                  Group <span class='op'>=</span> <span class='st'>"No Fancy Hat"</span><span class='op'>)</span>
 
 
-<span class='va'>FancyHat</span> <span class='op'>&lt;-</span> <span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>fancyhats</span>, <span class='va'>nofancyhats</span><span class='op'>)</span>  <span class='op'>%&gt;%</span>
-    <span class='fu'>mutate</span><span class='op'>(</span>Group <span class='op'>=</span> <span class='fu'>fct_relevel</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>Group</span><span class='op'>)</span>, <span class='st'>"No Fancy Hat"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>FancyHat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>fancyhats</span>, <span class='va'>nofancyhats</span><span class='op'>)</span>  <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Group <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/fct_relevel.html'>fct_relevel</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>Group</span><span class='op'>)</span>, <span class='st'>"No Fancy Hat"</span><span class='op'>)</span><span class='op'>)</span>
 
 
 <span class='co'># plot both groups</span>
-<span class='va'>FancyHat</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_boxplot</span> <span class='op'>(</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>Creativity</span>, x <span class='op'>=</span> <span class='va'>Group</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>labs</span><span class='op'>(</span>title<span class='op'>=</span> <span class='st'>"Box Plot of Creativity Values"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme_bw</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>FancyHat</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span> <span class='op'>(</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>Creativity</span>, x <span class='op'>=</span> <span class='va'>Group</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title<span class='op'>=</span> <span class='st'>"Box Plot of Creativity Values"</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
 <p><img src="rmarkdown_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
 </div>
-<p>Mit diesem Code simulieren Sie zwei experimentelle Gruppen, mit je 50 Teilnehmern. Die eine Gruppe trug “fancy hats”, die andere Gruppe nicht. Wir generieren normalverteilte Zufallszahlen—für die <code>Fancy Hat</code> Gruppe mit <span class="math inline">\(\mu=103\)</span>, für die <code>No Fancy Hat</code> mit <span class="math inline">\(\mu=98\)</span>. Mit <code>bind_rows()</code> fügen wir beide Dataframes zusammen, und am Schluss machen wir einen Boxplot.</p>
-<p>Wenn Sie eine R Code Chunk einfügen, z.B. mit <code>Code</code> &gt; <code>Insert Chunk</code>, erhalten Sie ein <code>Options</code> Icon am oberen rechten Rand des Chunks. Hier können Sie wählen, ob der Code/Output angezeigt wird.</p>
+<p>Mit diesem Code simulieren Sie zwei experimentelle Gruppen, mit je 50
+Teilnehmern. Die eine Gruppe trug “fancy hats”, die andere Gruppe nicht.
+Wir generieren normalverteilte Zufallszahlen—für die
+<code>Fancy Hat</code> Gruppe mit <span
+class="math inline">\(\mu=103\)</span>, für die
+<code>No Fancy Hat</code> mit <span
+class="math inline">\(\mu=98\)</span>. Mit <code>bind_rows()</code>
+fügen wir beide Dataframes zusammen, und am Schluss machen wir einen
+Boxplot.</p>
+<p>Wenn Sie eine R Code Chunk einfügen, z.B. mit <code>Code</code> &gt;
+<code>Insert Chunk</code>, erhalten Sie ein <code>Options</code> Icon am
+oberen rechten Rand des Chunks. Hier können Sie wählen, ob der
+Code/Output angezeigt wird.</p>
 <div class="exercise">
-<p>Führen Sie einen (gerichteten) t-Test in einem Code Chunk durch. Zur Erinnerung: Sie brauchen die Funktion <code>t.test()</code> mit den Argumenten <code>alternative = "less"</code> und <code>var.equal = TRUE</code>.</p>
+<p>Führen Sie einen (gerichteten) t-Test in einem Code Chunk durch. Zur
+Erinnerung: Sie brauchen die Funktion <code>t.test()</code> mit den
+Argumenten <code>alternative = "less"</code> und
+<code>var.equal = TRUE</code>.</p>
 </div>
 <h4 class="unnumbered" id="lösung">Lösung</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -2762,7 +2820,8 @@ mean in group No Fancy Hat    mean in group Fancy Hat
                   99.20888                  100.85606 </code></pre>
 </div>
 <h4 class="unnumbered" id="übung">Übung</h4>
-<p>Das gleiche Modell können Sie (für den ungerichteten Fall) auch als Allgemeines Lineares Modell formulieren.</p>
+<p>Das gleiche Modell können Sie (für den ungerichteten Fall) auch als
+Allgemeines Lineares Modell formulieren.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -2798,12 +2857,13 @@ F-statistic: 0.4056 on 1 and 98 DF,  p-value: 0.5257</code></pre>
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code># A tibble: 1 x 3
+<pre><code># A tibble: 1 × 3
   `No Fancy Hat` `Fancy Hat`  diff
            &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
 1           99.2        101. -1.65</code></pre>
 </div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2826,15 +2886,18 @@ F-statistic: 0.4056 on 1 and 98 DF,  p-value: 0.5257</code></pre>
 <!--radix_placeholder_appendices-->
 <div class="appendix-bottom">
 <h3 id="updates-and-corrections">Corrections</h3>
-<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/kogpsy/neuroscicomplab/issues/new">create an issue</a> on the source repository.</p>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/kogpsy/neuroscicomplabFS22/issues/new">create an issue</a> on the source repository.</p>
 <h3 id="reuse">Reuse</h3>
-<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/kogpsy/neuroscicomplab">https://github.com/kogpsy/neuroscicomplab</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/kogpsy/neuroscicomplabFS22">https://github.com/kogpsy/neuroscicomplabFS22</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
 </div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-<p>© Copyright 2021 <a href="https://github.com/awellis">Andrew Ellis</a></p>
-<p>Software licensed under the <a href="https://creativecommons.org/licenses/by/4.0/legalcode">Creative Commons Zero v4.0 Universal</a>.</p>
+<p>© Copyright 2021 <a href="https://github.com/awellis">Andrew
+Ellis</a></p>
+<p>Software licensed under the <a
+href="https://creativecommons.org/licenses/by/4.0/legalcode">Creative
+Commons Zero v4.0 Universal</a>.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

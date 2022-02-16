@@ -1,8 +1,8 @@
 name: "Neurowissenschaft im Computerlab"
-title: "neuroscicomplab"
-base_url: https://kogpsy.github.io/neuroscicomplab
-repository_url: https://github.com/kogpsy/neuroscicomplab
-source_url: https://github.com/kogpsy/neuroscicomplab
+title: "Computerlab"
+base_url: https://kogpsy.github.io/neuroscicomplabFS22
+repository_url: https://github.com/kogpsy/neuroscicomplabFS22
+source_url: https://github.com/kogpsy/neuroscicomplabFS22
 description: |
   Neurowissenschaft im Computerlab
 include: ["data/"]
@@ -99,7 +99,7 @@ navbar:
           href: slides/07-mental-chronometry-slides.html
 
     - icon: fab fa-github
-      href: https://github.com/kogpsy/neuroscicomplab
+      href: https://github.com/kogpsy/neuroscicomplabFS22
 
 
 output:

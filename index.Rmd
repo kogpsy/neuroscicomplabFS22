@@ -1,5 +1,5 @@
 ---
-title: "Methodenkurs Neurowissenschaft im Computerlab: FS 2021 "
+title: "Methodenkurs Neurowissenschaft im Computerlab: FS 2022"
 site: distill::distill_website
 listing: posts
 ---

@@ -1,10 +1,10 @@
 name: "Neurowissenschaft im Computerlab"
-title: "Computerlab"
+title: "Neurowissenschaft Computerlab"
 base_url: https://kogpsy.github.io/neuroscicomplabFS22
 repository_url: https://github.com/kogpsy/neuroscicomplabFS22
 source_url: https://github.com/kogpsy/neuroscicomplabFS22
 description: |
-  Neurowissenschaft im Computerlab
+  Neurowissenschaft im Computerlab FS 22
 include: ["data/"]
 exclude: ["_do_not_build/", "jasp", "neuroscicomplabFS22.code-workspace"]
 output_dir: "docs"
@@ -12,9 +12,8 @@ theme: css/theme.css
 creative_commons: CC BY
 
 navbar:
-  # left:
-  #   - icon: fas fa-laptop-code
-  #     href: https://www.kog.psy.unibe.ch/
+  logo: images/brain.png
+  
   left:
     - icon: fa-home
       href: index.html
@@ -28,78 +27,34 @@ navbar:
         - text: "Rmarkdown"
           href: rmarkdown.html
 
-    - text: "Übungen"
-      # menu:
-        # - text: "Übung 1"
-        #   href: exercise-1.html
-        # - text: "Übung 2"
-        #   href: exercise-2.html
-        # - text: "Übung 3 (nicht abgeben)"
-        #   href: exercise-3.html
-        # - text: "Übung 4"
-        #   href: exercise-4.html
-        # - text: "Übung 5"
-        #   href: exercise-5.html
-        # - text: "Übung 6"
-        #   href: exercise-6.html
-        # - text: "Übung 7"
-        #   href: exercise-7.html
-
-    - text: "Lösungen"
-      # menu:
-        # - text: "Übung 1: Lösung"
-        #   href: solution-1.html
-        # - text: "Übung 2: Lösung"
-        #   href: solution-2.html
-        # - text: "Übung 3: Lösung"
-        #   href: solution-3.html
-        # - text: "Übung 4: Lösung"
-        #   href: solution-4.html
-        # - text: "Übung 5: Lösung"
-        #   href: solution-5.html
-        # - text: "Übung 6: Lösung"
-        #   href: solution-6.html
+  search: true
 
   right:
     - text: "Kapitel"
-      # menu:
-      #   - text: "1. Einführung in Bayesianische Statistik"
-      #     href: 01-intro-bayesian-stats.html
-      #   - text: "2. Bayesianische Statistik: Von Grid Approximation zu Sampling"
-      #     href: 02-bayesian-stats.html
-      #   - text: "3. Bayesianische Statistik: Lineare Modelle mit `brms`"
-      #     href: 03-bayesian-stats.html
-      #   - text: "4. Bayesianische Statistik: Hierarchische Modelle mit `brms`"
-      #     href: 04-bayesian-stats.html
-      #   - text: "5. Bayesianische Statistik: Modellvergleiche und Hypothesentests"
-      #     href: 05-bayesian-stats.html
-      #   - text: "6. Binäre Daten: Choices & Accuracy"
-      #     href: 06-choices.html
-      #   - text: "7. Mental Chronometry: Reaktionszeiten"
-      #     href: 07-mental-chronometry.html
-      #   - text: "8. Diffusion Decision Model of Decision Making"
-      #     href: 08-ddm.html
-
+      menu:
+        - text: "1. Einführung in Bayesianische Statistik"
+          href: 01-intro-bayesian-stats.html
 
     - text: "Slides"
-      # menu:
-        # - text: "2. Bayesianische Statistik: Von Grid Approximation zu Sampling"
-        #   href: slides/02-bayesian-stats-slides.html
-        # - text: "3. Bayesianische Statistik: Lineare Modelle mit `brms`"
-        #   href: slides/03-bayesian-stats-slides.html
-        # - text: "4. Bayesianische Statistik: Hierarchische Modelle mit `brms`"
-        #   href: slides/04-bayesian-stats-slides.html
-        # - text: "5a. Bayesianische Statistik: Modellvergleiche und Hypothesentests"
-        #   href: slides/05-bayesian-stats-slides.html
-        # - text: "5b. Bayesianische Statistik: Bayes Factors"
-        #   href: slides/05b-bayesian-stats-slides.html
-        # - text: "6. Binäre Daten: Choices & Accuracy"
-        #   href: slides/06-choices-slides.html
-        # - text: "7. Mental Chronometry: Reaktionszeiten"
-        #   href: slides/07-mental-chronometry-slides.html
+      menu:
+        - text: "2. Bayesianische Statistik: Von Grid Approximation zu Sampling"
+          href: slides/02-bayesian-stats-slides.html
 
-    - icon: fab fa-github
-      href: https://github.com/kogpsy/neuroscicomplabFS22
+    - text: "Übungen"
+      menu:
+        - text: "Übung 1"
+          href: exercise-1.html
+
+    - text: "Lösungen"
+      menu:
+        - text: "Übung 1: Lösung"
+          href: solution-1.html
+
+    - icon: fa fa-rss
+      href: index.xml
+
+    # - icon: fab fa-github
+    #   href: https://github.com/kogpsy/neuroscicomplabFS22
 
 
 output:

@@ -11,7 +11,7 @@ author:
     affiliation_url: https://www.kog.psy.unibe.ch
     orcid_id: 0000-0002-2788-936X
 
-citation_url: https://kogpsy.github.io/neuroscicomplab/overview.html
+citation_url: https://kogpsy.github.io/neuroscicomplabFS22/overview.html
 # slug: ellis2021overview
 bibliography: bibliography.bib
 output: 

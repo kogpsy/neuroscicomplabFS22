@@ -87,7 +87,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>Computerlab: Leistungskontrollen</title>
+  <title>Neurowissenschaft Computerlab: Leistungskontrollen</title>
 
   <meta property="description" itemprop="description" content="Es gibt __6__ Übungen geben, von denen __5__ bestanden werden müssen."/>
 
@@ -99,15 +99,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta name="article:author" content="Andrew Ellis"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Computerlab: Leistungskontrollen"/>
+  <meta property="og:title" content="Neurowissenschaft Computerlab: Leistungskontrollen"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="Es gibt __6__ Übungen geben, von denen __5__ bestanden werden müssen."/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Computerlab"/>
+  <meta property="og:site_name" content="Neurowissenschaft Computerlab"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Computerlab: Leistungskontrollen"/>
+  <meta property="twitter:title" content="Neurowissenschaft Computerlab: Leistungskontrollen"/>
   <meta property="twitter:description" content="Es gibt __6__ Übungen geben, von denen __5__ bestanden werden müssen."/>
 
   <!--/radix_placeholder_meta_tags-->
@@ -2119,8 +2119,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   /*-- Additional custom styles --*/
   /* Add any additional CSS rules below                      */
   </style>
-  <style type="text/css">
-  /* base variables */
+  <style type="text/css">/* base variables */
 
   /* Edit the CSS properties in this file to create a custom
      Distill theme. Only edit values in the right column
@@ -2131,12 +2130,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   /* Optional: embed custom fonts here with `@import`          */
   /* This must remain at the top of this file.                 */
-
-  /* Optional: embed custom fonts here with `@import`          */
-  /* This must remain at the top of this file.                 */
-  @import url('https://fonts.googleapis.com/css2?family=Lato');
-  @import url('https://fonts.googleapis.com/css2?family=Fira+Code');
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat');
+  @import url('https://fonts.googleapis.com/css?family=Noto+Serif+JP:300, 300i&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap');
 
   html {
     /*-- Main font sizes --*/
@@ -2146,30 +2142,24 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     --aside-size:      12px;
     --fig-cap-size:    13px;
     /*-- Main font colors --*/
-    --title-color:     #000000;
-    --header-color:    rgba(0, 0, 0, 0.8);
-    --body-color:      rgba(0, 0, 0, 0.8);
+    --title-color:     #ca225e;
+    --header-color:    #ca225e;                    /* edited */
+    --body-color:      #404040;                    /* edited */
     --aside-color:     rgba(0, 0, 0, 0.6);
     --fig-cap-color:   rgba(0, 0, 0, 0.6);
     /*-- Specify custom fonts ~~~ must be imported above   --*/
-    /* --heading-font:    sans-serif;
-    --mono-font:       monospace;
-    --body-font:       sans-serif;
-    --navbar-font:     sans-serif;  websites + blogs only */
-
-      /*-- Specify custom fonts ~~~ must be imported above   --*/
-    --heading-font:    'Lato', sans-serif;         /* edited */
-    --mono-font:       'Fira Code', monospace;     /* edited */
-    --body-font:       'Lato', sans-serif;         /* edited */
-    --navbar-font:     'Montserrat', sans-serif;   /* edited */
-  }
+    --heading-font:    "Noto Serif JP", sans-serif; /* edited */
+    /* --mono-font:       "IBM Plex Mono", monospace;  /* edited  */
+    --mono-font:       'Fira Code', monospace;  
+    --body-font:       "Lato", sans-serif;          /* edited */
+    --navbar-font:     "Lato", sans-serif;          /* edited */
   }
 
   /*-- ARTICLE METADATA --*/
   d-byline {
-    --heading-size:    0.6rem;
+    --heading-size:    0.9rem;                      /* edited */
     --heading-color:   rgba(0, 0, 0, 0.5);
-    --body-size:       0.8rem;
+    --body-size:       0.95rem;                     /* edited */
     --body-color:      rgba(0, 0, 0, 0.8);
   }
 
@@ -2182,9 +2172,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   /*-- ARTICLE APPENDIX --*/
   d-appendix {
     --heading-size:    15px;
-    --heading-color:   rgba(0, 0, 0, 0.65);
-    --text-size:       0.8em;
-    --text-color:      rgba(0, 0, 0, 0.5);
+    --heading-color:   rgba(0, 0, 0, 0.65);      
+    --text-size:       0.9rem;                    /* edited */
+    --text-color:      #1a162d;                   /* edited */
   }
 
   /*-- WEBSITE HEADER + FOOTER --*/
@@ -2192,37 +2182,62 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   .distill-site-header {
     --title-size:       18px;
-    --text-color:       rgba(255, 255, 255, 0.8);
-    --text-size:        16px;
-    --hover-color:      #638CC7; /*#241926; /* #1D2645FF */
-    --bkgd-color:       #0F4C81; /*#B33F53; /*#AE93BEFF;*/
-    --letter-spacing:   2px;
-    --text-transform:   uppercase;
-  }
-
-  .distill-site-header .logo img{
-    max-height: 20px; /* Makes logo bigger, default was 20px */
+    --text-color:       #1f1f1f;                   /* edited */
+    --text-size:        15px;
+    --hover-color:      #787878;                   /* edited */
+    --bkgd-color:       #fff;                      /* edited */
   }
 
   .distill-site-footer {
-    --text-color:       rgba(255, 255, 255, 0.8);
-    --text-size:        12px;
-    --hover-color:      #638CC7; /*#241926; /* #1D2645FF */
-    --bkgd-color:       #0F4C81; /*#B33F53; /*#AE93BEFF;*/
+    --text-color:       #7e7b88;                   /* edited */
+    --text-size:        15px;
+    --hover-color:      white;
+    --bkgd-color:       #ca225d31;                 /* edited */
   }
 
-  /* Change the appearance of in-line code chunks */
+  /*-- Additional custom styles --*/
+
+  ul > li::marker {
+    color: #ca225e;
+  }
+
+  .distill-site-header { 
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: 2px;
+    font-weight: 300;
+  }
+
+  .distill-site-header .logo img{
+    max-height: 40px; /* Makes logo bigger, default was 20px */
+  }
+
+  .distill-site-header {
+    padding-top: 1rem;
+  }
+
+  d-title h1,
+  d-article h2,
+  .posts-list .description h2,
+  .posts-list > h1 {
+      font-weight: 300;
+  }
+
+  d-appendix {
+    background-color: #fdf7f9;
+    border-top: none;
+  }
+
   code {
     font-family: 'Fira Code', sans-serif;
     color: #000000;
     background: #ffffff;
     font-weight: 400;
     font-size: 0.9em;
-  }
-
-  /*-- Additional custom styles --*/
-  /* Add any additional CSS rules below                      */
-  </style>
+  }</style>
   <style type="text/css">
   /* base style */
 
@@ -2551,7 +2566,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
-<a href="index.html" class="title">Computerlab</a>
+<span class="logo">
+<img src="images/brain.png"/>
+</span>
+<a href="index.html" class="title">Neurowissenschaft Computerlab</a>
 <a href="index.html">
 <i class="fa fa-home" aria-hidden="true"></i>
 </a>
@@ -2567,15 +2585,51 @@ Syllabus
 <a href="rmarkdown.html">Rmarkdown</a>
 </div>
 </div>
-<span class="nav-dropdown-header">Übungen</span>
-<span class="nav-dropdown-header">Lösungen</span>
 <input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
-<span class="nav-dropdown-header">Kapitel</span>
-<span class="nav-dropdown-header">Slides</span>
-<a href="https://github.com/kogpsy/neuroscicomplabFS22">
-<i class="fab fa-github" aria-hidden="true"></i>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Kapitel
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="01-intro-bayesian-stats.html">1. Einführung in Bayesianische Statistik</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Slides
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="slides/02-bayesian-stats-slides.html">2. Bayesianische Statistik: Von Grid Approximation zu Sampling</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Übungen
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="exercise-1.html">Übung 1</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Lösungen
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="solution-1.html">Übung 1: Lösung</a>
+</div>
+</div>
+<a href="index.xml">
+<i class="fa fa-rss" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>

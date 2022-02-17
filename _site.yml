@@ -20,7 +20,7 @@ collections:
     categories: true
 
 navbar:
-  logo: images/brain.png
+  logo: images/mind.png
   href: index.html
   
   search: true
@@ -73,3 +73,5 @@ output:
     toc: true
     toc_float: true
     css: css/style.css
+    includes:
+      in_header: giscus.html

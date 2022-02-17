@@ -2270,6 +2270,47 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     background: #ffffff;
     font-weight: 400;
     font-size: 0.9em;
+  }
+
+
+  html {
+    scroll-behavior: auto;
+  }
+  d-article {
+      contain: none;
+  }
+
+  /* the value in left: will allow you to change the left edge gap */
+  /* try using the value I have provided and check if the text goes beyond */
+  /* the edge of the screen when you hover over using the mouse pointer */
+  /* otherwise modify the values till you get a desirable result */
+
+
+
+  /* ** Experimental **  */
+  /* Insert a floating TOC */
+
+  #TOC {
+    position: fixed;
+    z-index: 50;
+    background: none; /* makes the toc background layer transparent */    
+    left: 1.5em; /* changes the left edge gap */
+    top: 6em; /* changes the top edge gap */
+  }
+
+  .d-contents nav a:hover {
+      color: black;
+      transform: scale(1.1); /* change scale to control hover zoom, now it is in 1:7 ratio */
+      padding-left:20%; /* change percentage value to control left gap during hover */
+      background-color: white; /* background colour on hover, kept as white as it is my bg colour */
+      display: block; /* keep it as block to station the text on hover */
+  }
+
+  /* Hide the ToC when resized to mobile or tablet:  480px, 768px, 900px */
+  @media screen and (max-width: 900px) {
+  #TOC {
+      position: relative;
+    }
   }</style>
   <style type="text/css">
   /* base style */
@@ -2436,6 +2477,38 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
+  <script>
+     document.addEventListener("DOMContentLoaded", function () {
+       if (!/posts/.test(location.pathname)) {
+         return;
+       }
+
+       var script = document.createElement("script");
+       script.src = "https://giscus.app/client.js";
+       script.setAttribute("data-repo", "kogpsy/neuroscicomplabFS22");
+       script.setAttribute("data-repo-id", "R_kgDOG2wENQ");
+       script.setAttribute("data-category", "Announcements");
+       script.setAttribute("data-category-id", "DIC_kwDOG2wENc4CBMUW");
+       script.setAttribute("data-mapping", "pathname");
+       script.setAttribute("data-reactions-enabled", "1");
+       script.setAttribute("data-emit-metadata", "0");
+       script.setAttribute("data-theme", "light");
+       script.setAttribute("data-lang", "en");
+
+       /* wait for article to load, append script to article element */
+       var observer = new MutationObserver(function (mutations, observer) {
+         var article = document.querySelector("d-article");
+         if (article) {
+           observer.disconnect();
+           /* HACK: article scroll */
+           article.setAttribute("style", "overflow-y: hidden");
+           article.appendChild(script);
+         }
+       });
+
+       observer.observe(document.body, { childList: true });
+     });
+   </script>
   <style type="text/css">
   /* -----------div tips------------- */
 
@@ -2600,7 +2673,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <span class="logo">
-<img src="images/brain.png"/>
+<img src="images/mind.png"/>
 </span>
 <a href="index.html" class="title">Neurowissenschaft Computerlab</a>
 <input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>

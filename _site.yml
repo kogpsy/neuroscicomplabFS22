@@ -74,4 +74,4 @@ output:
     toc_float: true
     css: css/style.css
     includes:
-      in_header: giscus.html
+      in_header: ["giscus.html", "header.html"]

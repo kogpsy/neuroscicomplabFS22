@@ -11,12 +11,21 @@ output_dir: "docs"
 theme: css/theme.css
 creative_commons: CC BY
 
+collections:
+  posts: 
+    categories: true
+  analyses:
+    categories: true
+
 navbar:
   logo: images/brain.png
+  href: index.html
   
-  left:
-    - icon: fa-home
-      href: index.html
+  search: true
+
+  right:
+    # - icon: fa-home
+    #   href: index.html
 
     - text: "Syllabus"
       menu:
@@ -27,9 +36,6 @@ navbar:
         - text: "Rmarkdown"
           href: rmarkdown.html
 
-  search: true
-
-  right:
     - text: "Kapitel"
       menu:
         - text: "1. Einführung in Bayesianische Statistik"

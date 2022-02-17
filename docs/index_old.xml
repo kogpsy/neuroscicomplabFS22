@@ -3,7 +3,7 @@
   <channel>
     <title>Neurowissenschaft Computerlab</title>
     <link>https://kogpsy.github.io/neuroscicomplabFS22</link>
-    <atom:link href="https://kogpsy.github.io/neuroscicomplabFS22/index.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="https://kogpsy.github.io/neuroscicomplabFS22/index_old.xml" rel="self" type="application/rss+xml"/>
     <description>Neurowissenschaft im Computerlab FS 22
 </description>
     <generator>Distill</generator>

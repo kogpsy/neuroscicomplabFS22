@@ -1,5 +1,18 @@
 ---
-title: "Posts"
+title: "Model-based Cognitive Neuroscience"
+image: "images/mind.png"
+links:
+  # - label: LinkedIn
+  #   url: "https://linkedin.com/"
+  - label: Twitter
+    url: "https://twitter.com/"
+  # - label: GitHub
+  #   url: "https://github.com/kogpsy"
+  - label: Email
+    url: "mailto:andrew.ellis@unibe.ch"
+output:
+  postcards::jolla
 site: distill::distill_website
-listing: posts
 ---
+ 
+I am a classically trained robot.

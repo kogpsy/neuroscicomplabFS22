@@ -14,7 +14,9 @@ creative_commons: CC BY
 collections:
   posts: 
     categories: true
-  analyses:
+  exercises:
+    categories: true
+  solution:
     categories: true
 
 navbar:
@@ -55,6 +57,9 @@ navbar:
       menu:
         - text: "Übung 1: Lösung"
           href: solution-1.html
+    
+    # - text: "About"
+    #   href: about.html
 
     - icon: fa fa-rss
       href: index.xml

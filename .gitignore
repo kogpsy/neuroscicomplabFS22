@@ -39,6 +39,7 @@ vignettes/*.pdf
 .Renviron
 
 playground/
+slides/old/*
 
 Teilnehmer/
 

@@ -1,5 +1,5 @@
 ---
-title: "Rmarkdown"
+title: "Arbeiten mit R und Rmarkdown"
 description: |
   Arbeiten mit RStudio Projects und Rmarkdown.
 author:
@@ -25,6 +25,7 @@ Ich empfehle (wie schon in den Statistik Übungen) **immer** in einem RStudio Pr
 - Man kann das Projekt schliessen und wieder im gleichen Zustand öffnen, d.h. alle offenen Files werden wieder hergestellt. So kann man z.B. eine Woche lang nicht an einem Projekt arbeiten, und danach wieder in dem Zustand weiterfahren, in dem man aufgehört hat.
 - Man muss keine absoluten Pfade benutzen, sondern nur relative.
 
+<aside> Eine Einführung in RStudio finden Sie [hier](https://methodenlehre.github.io/einfuehrung-in-R/rstudio-workflow.html#arbeiten-mit-rstudio). </aside>
 
 
 ## Rmarkdown

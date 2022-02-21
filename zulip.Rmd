@@ -35,10 +35,11 @@ Wir benutzen in dieser Veranstaltung [Zulip](https://neuroscicomplab2022.zulipch
 - Diskussion kann in Echtzeit (synchron) oder offline (asynchron) stattfinden.
 
 Bitte erstellen Sie unter diesem Link einen Account. Sie müssen dafür Ihre Uni Emailadresse verwenden.
-
 Account erstellen 👉 [zulipchat.com/join/hyuinbg3mtcumccnzt3tpsqb/](https://neuroscicomplab2022.zulipchat.com/join/hyuinbg3mtcumccnzt3tpsqb/)
 
 <br>
 Wenn Sie einen Account erstellt haben, können Sie sich unter folgendem Link einloggen.
-
 Zulip Forum 👉 [neuroscicomplab2022.zulipchat.com](https://neuroscicomplab2022.zulipchat.com/")
+
+Ausserdem ist Zulip als Desktop oder Mobile App für alle gängigen Betriebssysteme erhältlich.
+Apps 👉 [zulip.com/apps](https://zulip.com/apps/)

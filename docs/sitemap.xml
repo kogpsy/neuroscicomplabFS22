@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
+    <loc>https://kogpsy.github.io/neuroscicomplabFS22/exercise-01.html</loc>
+    <lastmod>2022-02-21T17:05:44+01:00</lastmod>
+  </url>
+  <url>
     <loc>https://kogpsy.github.io/neuroscicomplabFS22/index_old.html</loc>
     <lastmod>2022-02-17T15:22:11+01:00</lastmod>
   </url>
   <url>
     <loc>https://kogpsy.github.io/neuroscicomplabFS22/</loc>
-    <lastmod>2022-02-21T13:11:58+01:00</lastmod>
+    <lastmod>2022-02-21T16:54:43+01:00</lastmod>
   </url>
   <url>
     <loc>https://kogpsy.github.io/neuroscicomplabFS22/leistungskontrolle.html</loc>
-    <lastmod>2022-02-16T16:37:38+01:00</lastmod>
+    <lastmod>2022-02-21T16:57:08+01:00</lastmod>
   </url>
   <url>
     <loc>https://kogpsy.github.io/neuroscicomplabFS22/rmarkdown.html</loc>
-    <lastmod>2022-02-16T16:37:39+01:00</lastmod>
+    <lastmod>2022-02-21T16:44:59+01:00</lastmod>
   </url>
   <url>
     <loc>https://kogpsy.github.io/neuroscicomplabFS22/uebersicht.html</loc>
@@ -22,6 +26,6 @@
   </url>
   <url>
     <loc>https://kogpsy.github.io/neuroscicomplabFS22/zulip.html</loc>
-    <lastmod>2022-02-21T13:27:27+01:00</lastmod>
+    <lastmod>2022-02-21T16:22:53+01:00</lastmod>
   </url>
 </urlset>

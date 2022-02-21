@@ -43,6 +43,7 @@ style_duo_accent(
   # primary_color = "#5e81ac", # "#4C566B",
   # secondary_color = "#d08770",
   # inverse_header_color = "#FFFFFF",
+  # primary_color      = "#434C5E", # Nord theme
   primary_color      = "#0F4C81", # pantone classic blue
   secondary_color    = "#A2B8D4", # pantone cashmere blue
   header_font_google = google_font("Raleway"),
@@ -70,7 +71,7 @@ layout: true
 <!-- Home icon -->
 <div class="my-footer">
 <span>
-<a href="https://kogpsy.github.io/neuroscicomplab" target="_blank">`r fontawesome::fa(name = "home", fill = "#0F4C81")`</a> Methodenkurs Neurowissenschaft im Computerlab
+<a href="https://kogpsy.github.io/neuroscicomplab" target="_blank">`r fontawesome::fa(name = "home", fill = "#0F4C81")`</a> Neurowissenschaft im Computerlab
 </span>
 </div>
 

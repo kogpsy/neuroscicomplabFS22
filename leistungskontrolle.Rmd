@@ -1,7 +1,7 @@
 ---
 title: "Leistungskontrollen"
 description: |
-  Es gibt __6__ Übungen geben, von denen __5__ bestanden werden müssen.
+  Es gibt wöchentliche Übungen. Davon müssen __6__ Übungen abgegeben werden. Welche dies sind wird im Verlaufe des Semesters bekanntgegeben.
 author:
   - first_name: "Andrew"
     last_name: "Ellis"
@@ -21,22 +21,20 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Leistungskontrolle
 <!-- `r fontawesome::fa(name = "grin-beam-sweat", fill = "steelblue")`  -->
 
-Leistungskontrollen werden in Form von Übungen erbracht. Es wird __6__ Übungen geben, von denen
-__5__ bestanden werden müssen. 
+Leistungskontrollen werden in Form von Übungen erbracht. Es gibt wöchentliche Übungen. Davon müssen __6__ Übungen abgegeben werden. Welche dies sind wird im Verlaufe des Semesters bekanntgegeben.
 
-Es gibt die Möglichkeit, Übungen falls nötig (nach Verbesserung) ein zweites Mal einzureichen.
+Der Zweck dieser Übungen ist, das Gelernte selber anzuwenden, oder dies zumindest zu versuchen. Es gibt für viele dieser Übungen nicht eine definitive, richtige Antwort - es geht vor allem darum, es selber zu versuchen. Bei einzureichenden Übungen gibt es die Möglichkeit, diese falls nötig (nach Verbesserung) ein zweites Mal einzureichen.
 
-Übungen werden in einem entsprechenden Ordner auf ILIAS hochgeladen, und zwar in
-Form eines R Scripts, oder, noch besser, als [Rmarkdown](rmarkdown.html) File.
+Die Übungen sollen jeweils in dem entsprechenden Ordner auf ILIAS hochgeladen werden, und zwar in Form eines R Scripts, oder als [Rmarkdown](rmarkdown.html) File.
+
+ILIAS (Vormittag) 👉 [468703-FS2022-0](https://ilias.unibe.ch/ilias.php?ref_id=2303490&cmd=frameset&cmdClass=ilrepositorygui&cmdNode=11o&baseClass=ilrepositorygui#il_mhead_t_focus)
+
+ILIAS (Nachmittag) 👉 [468703-FS2022-1](https://ilias.unibe.ch/ilias.php?ref_id=2327460&cmd=frameset&cmdClass=ilrepositorygui&cmdNode=11o&baseClass=ilrepositorygui#il_mhead_t_focus)
 
 <aside> Ein gute Einführung in [Rmarkdown](https://rmarkdown.rstudio.com/) finden Sie z.B. [hier](https://rmd4sci.njtierney.com/).</aside>
 
-Falls Datenfiles dazugehören, sollte alles in einem ZIP File komprimiert werden.
-Sowohl das R Script als auch das RMarkdown File sollten _self-contained_ sein, d.h. es
-ist möglich, den Code unabhängig vom Rechner, auf dem der Code geschrieben wurde, auszuführen. Deswegen ist
-es empfehlenswert, die Übungen als [RStudio Projekt](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) hochzuladen.
 
-<aside> Eine Einführung in RStudio finden Sie [hier](https://methodenlehre.github.io/einfuehrung-in-R/rstudio-workflow.html#arbeiten-mit-rstudio). </aside>
+Falls Datenfiles dazugehören, sollte unbedingt alles in einem ZIP File komprimiert werden. Sie können auch eine Word/Libreoffice Datei abgeben; _bitte fügen Sie aber keinen R Code in ein Word Dokument ein_.
 
 
 

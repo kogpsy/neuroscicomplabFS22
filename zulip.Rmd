@@ -27,7 +27,19 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 
-Wir benutzen [Zulip](https://neuroscicomplab2022.zulipchat.com/) als Diskussionforum, anstelle des ILIAS Forums.
+Wir benutzen in dieser Veranstaltung [Zulip](https://neuroscicomplab2022.zulipchat.com/) als Diskussionforum. Zulip hat einige Vorteile gegenüber ILIAS und Email:
 
-Sign up: [Here](https://neuroscicomplab2022.zulipchat.com/join/hyuinbg3mtcumccnzt3tpsqb/)
+- Zulip ist besser geeignet, um Code darzustellen.
+- Wir benutzen dasselbe Forum für die Vormittags- und Nachmittagsveranstaltungen.
+- Die Diskussion ist für alle Teilnehmer sichtbar. 
+- Diskussion kann in Echtzeit (synchron) oder offline (asynchron) stattfinden.
 
+Bitte erstellen Sie unter diesem Link einen Account. Sie müssen dafür Ihre Uni Emailadresse verwenden.
+Account erstellen 👉 [zulipchat.com/join/hyuinbg3mtcumccnzt3tpsqb/](https://neuroscicomplab2022.zulipchat.com/join/hyuinbg3mtcumccnzt3tpsqb/)
+
+<br>
+Wenn Sie einen Account erstellt haben, können Sie sich unter folgendem Link einloggen.
+Zulip Forum 👉 [neuroscicomplab2022.zulipchat.com](https://neuroscicomplab2022.zulipchat.com/")
+
+Ausserdem ist Zulip als Desktop oder Mobile App für alle gängigen Betriebssysteme erhältlich.
+Apps 👉 [zulip.com/apps](https://zulip.com/apps/)

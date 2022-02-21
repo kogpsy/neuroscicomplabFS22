@@ -29,7 +29,7 @@ navbar:
     # - icon: fa-home
     #   href: index.html
 
-    - text: "Syllabus"
+    - text: "Admin"
       menu:
         - text: "Übersicht"
           href: uebersicht.html
@@ -37,6 +37,8 @@ navbar:
           href: leistungskontrolle.html
         - text: "Rmarkdown"
           href: rmarkdown.html
+        - text: "Zulip Forum"
+          href: zulip.html
 
     - text: "Kapitel"
       menu:
@@ -45,8 +47,8 @@ navbar:
 
     - text: "Slides"
       menu:
-        - text: "2. Bayesianische Statistik: Von Grid Approximation zu Sampling"
-          href: slides/02-bayesian-stats-slides.html
+        - text: "1. Sitzung (22.02.2022)"
+          href: slides/session-01.html
 
     - text: "Übungen"
       menu:
@@ -61,8 +63,8 @@ navbar:
     # - text: "About"
     #   href: about.html
 
-    - icon: fa fa-rss
-      href: index.xml
+    # - icon: fa fa-rss
+    #   href: index.xml
 
     # - icon: fab fa-github
     #   href: https://github.com/kogpsy/neuroscicomplabFS22

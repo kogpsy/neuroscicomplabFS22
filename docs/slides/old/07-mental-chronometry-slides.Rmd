@@ -10,7 +10,7 @@ output:
   xaringan::moon_reader:
     lib_dir: libs
     css: ["css/xaringan-themer.css", "css/slides-style.css"]
-    nature
+    nature:
       highlightStyle: github #solarized-light # github
       highlightLines: true
       ratio: 16:10
@@ -26,6 +26,7 @@ output:
 ```
 
 ```{r load-packages, include=FALSE, warning=FALSE}
+
 library(tidyverse)
 library(rmarkdown)
 library(kableExtra)

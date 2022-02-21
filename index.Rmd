@@ -1,18 +1,21 @@
 ---
-title: "Model-based Cognitive Neuroscience"
+title: "Neurowissenschaft im Computerlab"
 image: "images/mind.png"
 links:
   # - label: LinkedIn
   #   url: "https://linkedin.com/"
-  - label: Twitter
-    url: "https://twitter.com/"
+  - label: Zulip Forum
+    url: "https://neuroscicomplab2022.zulipchat.com/"
   # - label: GitHub
   #   url: "https://github.com/kogpsy"
   - label: Email
+    url: "mailto:andrew.ellis@unibe.ch"
+  - label: Technical support
     url: "mailto:andrew.ellis@unibe.ch"
 output:
   postcards::jolla
 site: distill::distill_website
 ---
  
-I am a classically trained robot.
+Frühjahrssemester 2022
+    

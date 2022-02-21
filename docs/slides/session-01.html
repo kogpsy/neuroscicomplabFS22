@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Datenanalyse</title>
+    <title>1. Sitzung</title>
     <meta charset="utf-8" />
     <meta name="author" content="Andrew Ellis" />
-    <meta name="date" content="2021-04-27" />
+    <meta name="date" content="2022-02-21" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
@@ -20,7 +20,7 @@
     <script src="libs/fabric/fabric.min.js"></script>
     <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-scribble/scribble.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#bf616a"],"pen_size":3,"eraser_size":30}) })</script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#bf616a"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
     <script src="libs/mark.js/mark.min.js"></script>
     <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-search/search.js"></script>
@@ -32,11 +32,11 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Datenanalyse
-## Teil 7 <br/> Mentale Chronometry
+# 1. Sitzung
+## Einführung
 ### Andrew Ellis
-### Methodenkurs Neurowissenschaft im Computerlab
-### 2021-04-27
+### Neurowissenschaft im Computerlab FS 22
+### 2022-02-21
 
 ---
 
@@ -67,123 +67,12 @@ layout: true
 ---
 
 
-
-
-
-## Reaktionszeiten
-
-Reaktionszeiten sind neben binären Daten ebenfalls sehr häufig anzutreffen in der experimentellen Psychologie/Neuroscience
-
-- Reaction tasks
-- Go/No Go tasks
-- Discrimination tasks
-
-
-Wir gehen davon, aus, dass die Zeit, die benötigt wird, um einen Task auszuführen, bedeutsam ist.
-
-
----
-
-## Beipiel
-
-Daten aus einem Experiement mit 3 Blöcken:
-
-1) Reaction task
-
-Versuchspersonen drücken SPACE-Taste wenn ein Stimulus erscheint (Quadrat oder Kreis).
-Outcome Variable: Reaktionszeit
-
-
-2) Go/No-Go task
-
-Versuchspersonen drücken SPACE-Taste wenn Target erscheint (entweder Quadrat oder Kreis)
-Outcome Variable: Reaktionszeit und Antwort
-
-3) Discrimination task
-
-Versuchspersonen drücken F-Taste wenn ein Quadrat erscheint, J-Taste wenn ein Kreis erscheint.
-Outcome Variable: Reaktionszeit und Antwort
-
-
-**Annahme**: Versuchspersonen brauchen im Reaction task am wenigsten Zeit, um eine korrekte Antwort zu geben, gefolgt vom Go/No-Go task. Im Discrimination task brauchen Versuchspersonen länger, um korrekte Antworten zu geben.
-
----
-
-
-.panelset[
-.panel[.panel-name[Daten laden]
-
-
-
-```r
-mentalchronometry &lt;- read_csv("https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/mental-chronometry.csv") %&gt;% 
-  mutate(across(c(subj, block, stimulus, handedness, gender), ~as_factor(.)))
-```
-
-]
-
-.panel[.panel-name[Zufällig Vpn auswählen]
-
-
-```r
-subjects &lt;- sample(levels(mentalchronometry$subj), 6)
-df &lt;- mentalchronometry %&gt;% 
-  filter(subj %in% subjects)
-```
-
-]
-
-.panel[.panel-name[Histogramme]
-
-
-
-```r
-df %&gt;% 
-  ggplot(aes(RT, fill = block)) +
-  geom_histogram(alpha = 1.0, position = "identity") + 
-  scale_fill_viridis_d(end = 0.8) +
-  facet_grid(block ~ subj, scales = "free_x") +
-  theme(legend.position = "none")
-```
-
-&lt;img src="07-mental-chronometry-slides_files/figure-html/unnamed-chunk-4-1.png" width="100%" /&gt;
-
-]
-
-.panel[.panel-name[Violin Plots]
+.
 
 
 
 
-```r
-df %&gt;% 
-  filter(subj %in% subjects) %&gt;% 
-  ggplot(aes(y = RT, x = block, fill = block)) +
-  geom_violin(alpha = 0.6) +
-  geom_jitter(width = 0.1) +
-  scale_fill_viridis_d(end = 0.8) +
-  facet_wrap(~ subj, scales = "free_x") +
-  theme(legend.position = "none")
-```
 
-&lt;img src="07-mental-chronometry-slides_files/figure-html/unnamed-chunk-5-1.png" width="100%" /&gt;
-
-
-]]
-
----
-
-
-.your-turn[
-
-1) Überlegen Sie sich, was Sie mit diesen Daten machen können
-
-2) Welche Kennzahlen eignen sich gut, um die Daten zu beschreiben?
-
-3) Berechnen Sie die mittlere Reaktionszeit pro Block für jede Person individuell.
-
-4) Berechnen Sie die mittlere Reaktionszeit pro Block über alle Personen aggregiert.
-]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

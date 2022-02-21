@@ -1,0 +1,33 @@
+---
+title: "Zulip Diskussionforum"
+description: |
+  Für Fragen, technischen Support, etc.
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplabFS22/zulip.html
+# slug: ellis2021overview
+# bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+Wir benutzen [Zulip](https://neuroscicomplab2022.zulipchat.com/) als Diskussionforum, anstelle des ILIAS Forums.
+
+Sign up: [Here](https://neuroscicomplab2022.zulipchat.com/join/hyuinbg3mtcumccnzt3tpsqb/)
+

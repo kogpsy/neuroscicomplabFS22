@@ -42,8 +42,7 @@ navbar:
 
     - text: "Kapitel"
       menu:
-        - text: "1. Einführung in Bayesianische Statistik"
-          href: 01-intro-bayesian-stats.html
+        - text: "TBD"
 
     - text: "Slides"
       menu:
@@ -53,12 +52,12 @@ navbar:
     - text: "Übungen"
       menu:
         - text: "Übung 1"
-          href: exercise-1.html
+          href: exercise-01.html
 
     - text: "Lösungen"
       menu:
-        - text: "Übung 1: Lösung"
-          href: solution-1.html
+        - text: "Noch keine Lösungen"
+          # href: solution-1.html
     
     # - text: "About"
     #   href: about.html

@@ -2,8 +2,6 @@
 title: "Neurowissenschaft im Computerlab"
 image: "images/mind.png"
 links:
-  # - label: LinkedIn
-  #   url: "https://linkedin.com/"
   - label: Zulip Forum
     url: "https://neuroscicomplab2022.zulipchat.com/"
   # - label: GitHub

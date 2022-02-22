@@ -95,7 +95,7 @@ countdown(minutes = 15)
 
 ## Vorwissen
 
-Es wurden zwei verschiede Typen von Vorwissen benutzt. 
+Es wurden zwei verschiedene Typen von Vorwissen benutzt. 
 
 1) A-Priori Wahrscheinlichkeit, dass die Punktwolke sich nach rechts oder nach links bewegte.
 

@@ -33,6 +33,9 @@ library(countdown)
 
 
 ## (Model-based) Cognitive Neuroscience
+
+<br>
+
 .discussion[
 
 1) Was heisst Model-based Neuroscience?
@@ -47,7 +50,6 @@ library(countdown)
 
 ## Model-based Neuroscience: Beispiel
 
-Wir lesen ein Beispielpaper:
 
 Mulder, M. J., Wagenmakers, E.-J., Ratcliff, R., Boekel, W., & Forstmann, B. U. (2012). Bias in the Brain: A Diffusion Model Analysis of Prior Probability and Potential Payoff. Journal of Neuroscience, 32(7), 2335–2343.
 
@@ -88,7 +90,7 @@ knitr::include_graphics("images/ddm-mulder.png")
 ]
 
 ```{r echo=FALSE}
-countdown(minutes = 15)
+countdown(minutes = 10)
 ```
 
 ---

@@ -33,31 +33,49 @@ htmltools::tagList(
 )
 ```
 
-# Einleitung
+<!-- # Einleitung -->
 
-## Inhalt dieses Kurses
+# Inhalt dieses Kurses
 <!-- `r fontawesome::fa(name = "blender", fill = "steelblue")` -->
 In diesem Kurs beschäftigen wir uns im weiteren Sinne mit Model-based Cognitive Neuroscience. Dieses Forschungsgebiet existiert noch nicht sehr lange, und ist aus dem Zusammenschluss von mathematischer Modellierung und neurowissenschaftlichen Methoden entstanden.
 
-In diesem Kurs geht es um den behavioralen/kognitiven Teil dieses Forschungsgebiets---das bedeutet, mathematische Modelle, anhand derer experimentelle Daten analysiert werden können. Es gibt ein sehr gutes Lehrbuch [@forstmannModelBasedCognitiveNeuroscience2015] zum Thema Model-based Cognitive Neuroscience; wir werden einzelne Kapitel daraus verwenden. Das Buch ist auf SpringerLink verfügbar: [An Introduction to Model-Based Cognitive Neuroscience]((https://link.springer.com/book/10.1007%2F978-1-4939-2236-9)). Ausserdem werden wir Beispiele aus dem Buch von @farrellIntroductionCognitiveModeling2015 benutzten. Dieses Buch ist leider nicht frei erhältlich---es gibt jedoch eine Website mit Code und Übungen: [Computational Modeling of Cognition and Behavior](https://psy-farrell.github.io/computational-modelling/). Wir werden uns ab Mitte des Semesters mit Modellen von Entscheidungsverhalten und kognitiven Modellen beschäftigen, darunter sogennante Bayesian Models of cognition. Damit ist gemeint, dass wir Bayesianische Inferenz als rationales Verhalten betrachten, und Abweichungen davon in menschlichem Verhalten zu suchen.
+Wir widmen uns dem behavioralen/kognitiven Teil dieses Forschungsgebiets. Das bedeutet, wir analysieren Daten aus Verhaltensexperimenten --- sowohl mit herkömmlichen statistischen Verfahren, als auch mit mathematischen Modellen. Die Resultate dieser Analysen können wiederum in der Analyse bildgebender Verfahren oder EEG benutzt werden.
 
-@wilsonTenSimpleRules2019a geben eine sehr gute Einführung in die Prinzipen der Modellierung, obschon das Paper nicht ganz so "simple" ist, wie der Titel verspricht. 
+<aside>  Es gibt ein sehr gutes Lehrbuch [@forstmannModelBasedCognitiveNeuroscience2015] zum Thema Model-based Cognitive Neuroscience; wir werden einzelne Themen daraus aufgreifen. Das Buch ist auf SpringerLink verfügbar: [An Introduction to Model-Based Cognitive Neuroscience](https://link.springer.com/book/10.1007%2F978-1-4939-2236-9).</aside>
 
-Bevor wir zu den kognitiven Modellen kommen, werden wir uns im ersten Teil des Kurses mit Bayesianischer Inferenz beschäftigen, und mit Bayesianischer Datenanalyse. Dies ist nicht mit Bayesianischen Models of Cognition zu verwechslen---Bayesianische Models of Cognition sind Modelle menschlichen Verhaltens, oder der Funktionsweise von Gehirnen, während Bayesianische (oder auch frequentistische) Datenanalyse dazu benutzt wird, die Parameter solcher Modelle zu schätzen.
+ 
+Wir werden folgende Themen im Laufe des Semester behandeln:
 
-Bayesianische Datenanalyse bietet gegenüber der frequentistischen Statistik viele Vorteile, erfordert aber auch ein Umdenken. Wir werden lernen, wie wir statistische Modelle als lineare Modelle formulieren können, entweder als allgemeine lineare Modelle (ALM), oder verallgemeinerte lineare Modelle (generalized linear models, GLM). Als nächtes folgen dann Multilevel Modelle, mit denen wir häufig verwendete Daten, wie binäre Antworten, oder Reaktionszeiten untersuchen können.
-
-Die Themen sind also: 
-
+- Erstellen von behavioralen Experimenten
+- Importieren und Bearbeiten von Daten (z.B. binäre Daten, Reaktionszeiten)
+- Graphische Darstellung und explorative Datenanalyse
+- Auswahl von statistischen Verfahren 
 - Einführung in die Bayesianische Datenanalyse
-- Bayesianische Multilevel Modelle
-- Mathematische Modelle von Entscheidungsverhalten
-- Modelle von kognitiven Prozessen (Bayesianische und andere)
+- Analyse messwiederholter Daten anhand von Multilevel Modellen
+- Kognitive Prozessmodelle (mathematische Modelle von Entscheidungsverhalten)
 
-## Software
+
+
+
+
+# Software
 <!-- `r fontawesome::fa(name = "laptop-code", fill = "steelblue")` -->
-Wir werden in diesem Kurs vor allem mit R arbeiten, aber wenn es um Bayesianische Datenanalyse geht, verwenden wir [Stan](https://mc-stan.org/). Dies ist eine probabilistische Programmiersprache, mit der man Monte Carlo Sampling in einfachen bis sehr komplexen Modellen durchführen kann.
 
-Glücklicherweise gibt es ein R Package, mit dem man von R aus Stan benutzen kann: [RStan](https://mc-stan.org/users/interfaces/rstan). Noch viel einfacher wird es, wenn wir [brms](https://github.com/paul-buerkner/brms) oder [rstanarm](https://mc-stan.org/rstanarm/) verwenden. Mit diesen Packages lassen sich Bayesianische statistische Modelle mit (fast) derselben Syntax wie frequentistische Modelle schätzen.
+## Experimente
+Um ein Experiment zu kreieren benutzen wir [PsychoPy](https://www.psychopy.org/). PsychoPy ist ein Python-basiertes Tool, mit dem sich sowohl in einem grapfischen Benutzeroberfläche (GUI) als auch mit Python Code Experimente programmieren lassen.
 
+<!-- <aside> GUI: graphical user interface.</aside> -->
+
+## Datenanalyse
+Um Daten zu verarbeiten (data cleaning), grafisch darzustellen und zu analysieren werden wir R verwenden. Sie sollten daher die aktuelle Version von R installieren, sowie RStudio.
+
+R 👉 [https://cloud.r-project.org/](https://cloud.r-project.org/)
+
+RStudio 👉 [https://www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download)
+
+Für Bayesianische Datenanalyse verwenden wir ausserdem [JASP](https://jasp-stats.org) und [Stan](https://mc-stan.org/). JASP ist ein GUI Programm, ähnlich wie Jamovi, mit dem sich simple Bayesianische Tests durchführen lassen.
+
+JASP 👉 [https://jasp-stats.org/download/](https://jasp-stats.org/download/)
+
+Stan ist eine probabilistische Programmiersprache, welche wir von R aus benutzen. Die dafür benötigte Software werden wir im Verlauf des Semesters installieren.
 

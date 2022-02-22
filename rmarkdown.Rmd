@@ -1,7 +1,7 @@
 ---
-title: "Arbeiten mit R und Rmarkdown"
+title: "Arbeiten mit R"
 description: |
-  Arbeiten mit RStudio Projects und Rmarkdown.
+  Eine kurye Einführung in R, RStudio und Rmarkdown.
 author:
   - first_name: "Andrew"
     last_name: "Ellis"
@@ -17,7 +17,7 @@ output: distill::distill_article
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-
+Wir werden hauptsächlich mit R arbeiten. R ist gleichzeitig eine Programmiersprache und eine Softwareumgebung für Statistical Computing.
 
 ## `r fontawesome::fa(name = "r-project", fill = "steelblue")` RStudio Projekte
 Ich empfehle (wie schon in den Statistik Übungen) **immer** in einem RStudio Projekt zu arbeiten. Als Faustregel: jedes Datenanalyseprojekt kriegt ein eigenes RStudio Projekt. Die Vorteile sind:

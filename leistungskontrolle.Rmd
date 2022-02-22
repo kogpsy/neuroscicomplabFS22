@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-## Leistungskontrolle
+## Leistungskontrollen
 <!-- `r fontawesome::fa(name = "grin-beam-sweat", fill = "steelblue")`  -->
 
 Leistungskontrollen werden in Form von Übungen erbracht. Es gibt wöchentliche Übungen. Davon müssen __6__ Übungen abgegeben werden. Welche dies sind wird im Verlaufe des Semesters bekanntgegeben.
@@ -34,7 +34,7 @@ ILIAS (Nachmittag) 👉 [468703-FS2022-1](https://ilias.unibe.ch/ilias.php?ref_i
 <aside> Ein gute Einführung in [Rmarkdown](https://rmarkdown.rstudio.com/) finden Sie z.B. [hier](https://rmd4sci.njtierney.com/).</aside>
 
 
-Falls Datenfiles dazugehören, sollte unbedingt alles in einem ZIP File komprimiert werden. Sie können auch eine Word/Libreoffice Datei abgeben; _bitte fügen Sie aber keinen R Code in ein Word Dokument ein_.
+Falls mehrere Files abgegeben werden, sollte unbedingt alles in einem ZIP File komprimiert werden. Sie können auch eine Word/Libreoffice Datei abgeben; _bitte fügen Sie aber keinen R Code in ein Word Dokument ein_. 
 
 
 

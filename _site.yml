@@ -33,10 +33,10 @@ navbar:
       menu:
         - text: "Übersicht"
           href: uebersicht.html
-        - text: "Leistungskontrolle"
+        - text: "Leistungskontrollen"
           href: leistungskontrolle.html
-        - text: "Rmarkdown"
-          href: rmarkdown.html
+        # - text: "R/RStudio/Rmarkdown"
+        #   href: rmarkdown.html
         - text: "Zulip Forum"
           href: zulip.html
 

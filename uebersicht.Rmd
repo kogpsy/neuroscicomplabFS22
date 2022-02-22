@@ -62,12 +62,12 @@ Wir werden folgende Themen im Laufe des Semester behandeln:
 <!-- `r fontawesome::fa(name = "laptop-code", fill = "steelblue")` -->
 
 ## Experimente
-Um ein Experiment zu kreieren benutzen wir [PsychoPy](https://www.psychopy.org/). PsychoPy ist ein Python-basiertes Tool, mit dem sich sowohl in einem grapfischen Benutzeroberfläche (GUI) als auch mit Python Code Experimente programmieren lassen.
+Um ein Experiment zu kreieren benutzen wir [PsychoPy](https://www.psychopy.org/). PsychoPy ist ein Python-basiertes Tool, mit dem sich sowohl in einer grafischen Benutzeroberfläche (GUI) als auch mit Python Code Experimente programmieren lassen.
 
 <!-- <aside> GUI: graphical user interface.</aside> -->
 
 ## Datenanalyse
-Um Daten zu verarbeiten (data cleaning), grafisch darzustellen und zu analysieren werden wir R verwenden. Sie sollten daher die aktuelle Version von R installieren, sowie RStudio.
+Um Daten zu verarbeiten (data cleaning), grafisch darzustellen und zu analysieren werden wir R verwenden. Sie sollten daher die aktuelle Version von R installieren (Version `r paste(R.Version()[c("major", "minor")], collapse = ".")`), sowie RStudio.
 
 R 👉 [https://cloud.r-project.org/](https://cloud.r-project.org/)
 

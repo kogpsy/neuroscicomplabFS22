@@ -188,7 +188,7 @@ ul{
   background-color: var(--baby-blue-30);
 }
 .discussion:before{
-  content: "Discussion";
+  content: "🤔";
   font-size: 150%;
   font-weight: bold;
   color: var(--monument);
@@ -199,7 +199,7 @@ ul{
   background-color: var(--cornhusk-30);
 }
 .your-turn:before{
-  content: "Übung";
+  content: "✍️";
   font-size: 150%;
   font-weight: bold;
   color: var(--stucco);

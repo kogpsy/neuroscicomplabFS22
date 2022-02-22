@@ -47,7 +47,7 @@ navbar:
     - text: "Slides"
       menu:
         - text: "1. Sitzung (22.02.2022)"
-          href: slides/session-01.html
+          href: slides/slides-session-01.html
 
     - text: "Übungen"
       menu:

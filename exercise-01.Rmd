@@ -34,4 +34,25 @@ Diese Übung muss nicht abgegeben werden; sie dient als Vorbereitung für die fo
 :::
 
 
-[PsychoPy](https://www.psychopy.org/download.html)
+## Aufgabe 1
+
+Installieren Sie [PsychoPy](https://www.psychopy.org) von der Website. PsychoPy ist ein Open-Source Programm für MacOS, Windows und Linux, mit welchen wir sehr viele verschiedene Verhaltensexperimente (Neuroscience, Psychologie, Psychophysik, Linguistik) programmieren können. Diese lassen sich z.B. mit Eyetracking verbinden, oder im fRMI Scanner und mit EEG verwenden.
+
+PsychoPy 👉 [https://www.psychopy.org/download.html](https://www.psychopy.org/download.html). 
+
+Am einfachsten ist es, das "Standalone package" für MacOS oder Windows zu installieren. 
+
+<aside> Unter MacOS scheint die neueste Version vom Februar 2022 Probleme zu bereiten --- es ist daher (zurzeit noch) besser, die Version **2021.2.3** zu installieren.</aside>
+
+
+
+
+
+## Aufgabe 2 
+
+1) Was verstehen Sie unter folgenen Begriffen:
+  - Model-based Neuroscience
+  - Evidence accumulation
+
+2) Was könnte man unter Vorwissen (prior knowledge) verstehen? In welchen Kontexten könnte es bei Entscheidungen nützlich sein, Vorwissen zu benutzen?
+

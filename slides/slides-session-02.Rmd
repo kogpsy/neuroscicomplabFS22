@@ -1,0 +1,32 @@
+---
+title: "2. Sitzung"
+session: 2
+subtitle: "PsychoPy"
+author: "Andrew Ellis"
+# institute: "Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"
+institute: "Neurowissenschaft im Computerlab FS 22"
+date: "2022-03-01"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["css/xaringan-themer.css", "css/slides-style.css"]
+    nature:
+      highlightStyle: github #solarized-light # github
+      highlightLines: true
+      ratio: 16:10
+      countIncrementalSlides: false
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+---
+
+```{r child = "setup.Rmd"}
+```
+
+```{r load-packages, include=FALSE, warning=FALSE}
+library(tidyverse)
+library(rmarkdown)
+library(countdown)
+```

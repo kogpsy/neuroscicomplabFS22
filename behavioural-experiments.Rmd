@@ -1,0 +1,54 @@
+---
+title: "Verhaltensexperimente"
+description: | 
+  mit PsychoPy
+date: "2022-03-01"
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/behavioural-experiments.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, xaringanExtra-clipboard, echo=FALSE, include=FALSE}
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web. 
+
+Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
+
+
+
+## Presenting Brief Stimuli Precisely
+
+
+The issue is that your monitor operates at a fixed screen refresh rate (typically 60 Hz, so each ‘frame’ lasts for 1/60th of a second, or 16.667 ms). 
+
+
+## Using Degrees of Visual Angle
+
+## Create conditions

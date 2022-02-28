@@ -50,7 +50,6 @@ library(countdown)
 
 ## Model-based Neuroscience: Beispiel
 
-Wir lesen ein Beispielpaper:
 
 Mulder, M. J., Wagenmakers, E.-J., Ratcliff, R., Boekel, W., & Forstmann, B. U. (2012). Bias in the Brain: A Diffusion Model Analysis of Prior Probability and Potential Payoff. Journal of Neuroscience, 32(7), 2335–2343.
 

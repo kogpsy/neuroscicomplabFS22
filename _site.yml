@@ -12,7 +12,7 @@ theme: css/theme.css
 creative_commons: CC BY
 
 collections:
-  posts: 
+  posts:
     categories: true
   exercises:
     categories: true
@@ -22,7 +22,7 @@ collections:
 navbar:
   logo: images/mind.png
   href: index.html
-  
+
   search: true
 
   right:
@@ -48,6 +48,9 @@ navbar:
       menu:
         - text: "1. Sitzung (22.02.2022)"
           href: slides/slides-session-01.html
+        - text: "2. Sitzung (01.03.2022)"
+          href: slides/slides-session-01.html
+
 
     - text: "Übungen"
       menu:
@@ -58,7 +61,7 @@ navbar:
       menu:
         - text: "Noch keine Lösungen"
           # href: solution-1.html
-    
+
     # - text: "About"
     #   href: about.html
 

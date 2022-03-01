@@ -88,7 +88,7 @@ Die Variable `nReps` wird auf `2` gesetzt, so dass alle diese Reihen zweimal dur
 
 ## Daten
 
-Wenn man die default-Einstellungen nicht ändert, speichert PsychoPy automatisch die Daten einem trial-by-trial CSV File. Dieses CSV File erhält einen Namen, der sich aus der Versuchspersonen-ID, dem Namen des Experiments, und dem aktuellen Datum inkl. Uhrzeit zusammensetzt. So ist es möglich, mit derselben ID beliebig oft das Experiment zu wiederholen. Die CSV Files werden in einem Ordner mit dem Name `data` abgelegt.
+Wenn man die default-Einstellungen nicht ändert, speichert PsychoPy automatisch die Daten einem trial-by-trial CSV File. Dieses CSV File erhält einen Namen, der sich aus der _Versuchspersonen-ID_, dem _Namen des Experiments_, und dem aktuellen _Datum inkl. Uhrzeit_ zusammensetzt. So ist es möglich, mit derselben ID beliebig oft das Experiment zu wiederholen. Die CSV Files werden in einem Ordner mit dem Name __data__ abgelegt.
 
 
 # Weitere Informationen

@@ -23,12 +23,7 @@ navbar:
   logo: images/mind.png
   href: index.html
 
-  search: true
-
-  right:
-    # - icon: fa-home
-    #   href: index.html
-
+  left:
     - text: "Admin"
       menu:
         - text: "Übersicht"
@@ -40,22 +35,31 @@ navbar:
         - text: "Zulip Forum"
           href: zulip.html
 
+  search: true
+
+  right:
+    # - icon: fa-home
+    #   href: index.html
+
     - text: "Kapitel"
       menu:
-        - text: "TBD"
+        - text: "Verhaltensexperimente mit PsychoPy"
+          href: test.html
 
     - text: "Slides"
       menu:
         - text: "1. Sitzung (22.02.2022)"
           href: slides/slides-session-01.html
         - text: "2. Sitzung (01.03.2022)"
-          href: slides/slides-session-01.html
+          href: slides/slides-session-02.html
 
 
     - text: "Übungen"
       menu:
         - text: "Übung 1"
           href: exercise-01.html
+        - text: "Übung 2"
+          href: exercise-02.html
 
     - text: "Lösungen"
       menu:

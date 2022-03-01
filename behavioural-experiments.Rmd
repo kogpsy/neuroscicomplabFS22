@@ -1,7 +1,7 @@
 ---
-title: "Verhaltensexperimente"
+title: "Verhaltensexperimente mit PsychoPy"
 description: | 
-  mit PsychoPy
+  Verhaltensexperimente programmieren mit PsychoPy.
 date: "2022-03-01"
 author:
   - first_name: "Andrew"
@@ -37,18 +37,82 @@ htmltools::tagList(
 )
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web. 
-
-Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
+In dieser Sitzung erstellen wir ein perzeptuelles Entscheidungsexperiment, ähnlich dem Experiment aus @mulderBiasBrainDiffusion2012a. 
 
 
+## Experiment
 
-## Presenting Brief Stimuli Precisely
+
+N = 23
+
+Inside and outside scanner
+
+RT version of a random-dot motion direction-discrimination task.
+
+Bias was manipulated by a cue indicating a higher probability of the direction of the motion stimulus or a higher value associated with the motion stimulus (Fig. 3).
+
+Fixation cross
+
+white dots on black background
+
+white dots, with a size of 3 x 3 pixels, moved within a circle with diameter of 5° with a speed of 5°/s and a density of 16.7 dots/deg 2/s on a black background. The probability that a dot moved coherent with the motion direction is defined as coherence. For example, at a coherence of 50%, each dot had a probability of 50% to participate in the motionstimulus, every third frame (see also Britten et al., 1992; Gold and Shadlen, 2003; Palmer et al., 2005)
+
+The dots were presented on a 51.3-cm-wide LCD screen at a viewing distance of 50 cm. In the scanner session, the dots were presented on a 61-cm-wide projection screen using a projector with a resolution of 1920 x 1200 (GeForce 9500 GT graphical card) and adjusted to match the same diameter (5°) as the session outside the scanner.
+
+
+Motion strength at 80% accuracy was interpolated from the psychometric curve.
+
+
+Prior information was given in the form of a cue. The cue was either an arrow pointing to the left or to the right, or a square with the size of the arrow without arrow-points for the unbiased condition. For the probability manipulation, a percentage sign "%" was printed at the middle of the cue (Fig. 3).
+
+One block consisted of 40 bias trials and 40 neutral trials (with 20 leftward and 20 rightward directed trials each). In the prior probability blocks, 32 (16 leftward cues and 16 rightward cues) of 40 bias trials were valid i.e., the direction indicated by the cue was consistent with the direction of the stimulus (80% valid), and 8 (4 leftward cues and 4 rightward cues) of 40 bias trials where invalid, i.e., cue and stimulus direction were inconsistent (20% invalid). Subjects received 5 points for each correct response in both biased and neutral trials. No points were given for an incorrect response.
+
+## PsychoPy
+@peirceBuildingExperimentsPsychoPy2018
+
+Builder interface
+
+An experiment in Builder has three panels showing you:
+a single Flow (timeline)
+one or more Routines that can be combined in the Flow several Components that are combined in each Routine.
+
+Components
+
+
+### Paradigm timing
+A fixation cross was presented with a randomly chosen duration of either 100, 350, 800, or 1200 ms.
+
+the cue was presented for 1000 ms followed by a fixation cross with a randomly chosen duration of 3400, 4000, 4500, or 5000 ms.
+
+The stimulus remained on the screen for a total duration of 1500 ms. Following the stimulus, feedback was presented for 500 ms, showing the number of points earned by the subject. Responses faster than 100 ms were considered premature and followed by the words “too fast” on the screen. When subjects failed to respond within the 1500 ms stimulus duration they received a feedback showing the word “miss.” This was followed by the fixation cross during a short filler time to fix the total trial time to 8 or 10 s.
+
+
+## Understanding your Computer
+
+### Your computer screen updates at a precise and fixed rate
+
+Most flat panel computer screens refresh at 60 Hz. You can only update your stimulus (e.g. turn it on or off) during a screen update and that means there are only certain durations that your stimulus can have. We'll call those update cycles frames. For instance, you can present your stimulus for 200 ms (0.2 s) because at 60 Hz this is given by exactly 12 frames (0.2 x 60 = 12) and you can present your stimulus for 250 ms by presenting 15 frames (0.25 x 60 = 15), but 220 ms is not a valid duration because it would require your stimulus to be presented for 13.2 frames and that just isn't possible. There are various other things that are worth knowing about your monitor, like the fact that it draws the screen from the top line downwards in a process that takes around 10 ms, so stimuli at the top of your screen are always presented up to 10 ms before stimuli at the bottom of the screen!
+
+
+### Your keyboard has poor timing
+When you were told that your software package provides sub-millisecond timing, this glossed over the fact that you generally aren’t getting that level of precision. Computer keyboards have latencies in detecting keypresses in the region of 30 ms and variability on the order of 15 ms. It might well be true that the software package has ‘submillisecond’ timing in that it can access a very precise clock on the computer, but what use is that claim if it doesn’t apply to every situation (for no software does this apply to all situations)?
+
+
+### Presenting Brief Stimuli Precisely
 
 
 The issue is that your monitor operates at a fixed screen refresh rate (typically 60 Hz, so each ‘frame’ lasts for 1/60th of a second, or 16.667 ms). 
 
 
-## Using Degrees of Visual Angle
+### Using Degrees of Visual Angle
 
-## Create conditions
+### Create conditions
+
+
+
+## Routines
+
+Ein Trial besteht aus einer oder mehreren Routines.
+
+## Loop
+Conditions files

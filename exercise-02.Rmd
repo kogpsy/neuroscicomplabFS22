@@ -36,7 +36,7 @@ Die Daten, welche Sie in dieser Übung sammeln, müssen abgegeben werden; wir we
 
 ## Bias RDK Experiment durchführen
 
-1) Downloaden Sie das fertige Experiment 👉 [LINK](files/BiasExperiment.zip) 
+1) Das fertige Experiment befindet sich auf [Github](https://github.com/kogpsy/psychopy-rdk-discrimination-task). Sie können es unter diesem Link downloaden. 👉 [LINK](https://github.com/kogpsy/psychopy-rdk-discrimination-task/archive/refs/heads/main.zip).
 
 2) Führen Sie das Experiment ein- oder mehrere Male selber durch.
 

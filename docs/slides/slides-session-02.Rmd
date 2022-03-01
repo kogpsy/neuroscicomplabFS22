@@ -96,7 +96,7 @@ class: middle
 
 - [Diskussionsforum](https://discourse.psychopy.org/)
 
-- Kapitel: [Verhaltensexperimente mit PsychoPy](../behavioural-experiments.html)
+- Kapitel: [Verhaltensexperiment mit PsychoPy](../behavioural-experiments.html)
 ]
 
 .pull-right-wide[
@@ -190,7 +190,7 @@ Versuchen Sie selber, Teile des Experiments in PsychoPy zu implementieren
 
 - Wenn Sie eine Starthilfe benötigen, downloaden Sie ein Beipiel: 👉 [Practice Trials](../files/PracticeTrials.zip)
 
-- Eine Einführung finden Sie hier: 👉 [Verhaltensexperimente mit PsychoPy](../behavioural-experiments.html)
+- Eine Einführung finden Sie hier: 👉 [Verhaltensexperiment mit PsychoPy](../behavioural-experiments.html)
  
 
 ```{r echo=FALSE}

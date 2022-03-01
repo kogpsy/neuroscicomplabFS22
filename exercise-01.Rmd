@@ -2,7 +2,7 @@
 title: "Übung 1"
 description: |
   PsychoPy installieren.
-date: "`r Sys.Date()`"
+date: "2022-02-22"
 author:
   - first_name: "Andrew"
     last_name: "Ellis"

@@ -1,0 +1,45 @@
+---
+title: "Übung 2"
+description: |
+  PsychoPy installieren.
+date: "2022-03-01"
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/exercise-1.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Aufgabenstellung
+
+:::exercise
+Die Daten, welche Sie in dieser Übung sammeln, müssen abgegeben werden; wir werden diese im Verlauf des Semesters analysieren. Bitte die Datenfiles in einem ZIP File bis 8. März auf ILIAS hochladen.
+:::
+
+
+## Bias RDK Experiment durchführen
+
+1) Downloaden Sie das fertige Experiment 👉 [LINK](files/BiasExperiment.zip) 
+
+2) Führen Sie das Experiment ein- oder mehrere Male selber durch.
+
+3) Testen Sie eine weitere Person (Alter ca. 20-60).
+
+4) Zippen Sie bitte Ihren Datensatz und denjenigen der anderen Testperson und laden Sie das ZIP FIle auf ILIAS.

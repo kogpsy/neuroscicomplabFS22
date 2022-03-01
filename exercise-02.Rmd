@@ -1,7 +1,7 @@
 ---
 title: "Übung 2"
 description: |
-  PsychoPy installieren.
+  Experiment mit PsychoPy ausführen.
 date: "2022-03-01"
 author:
   - first_name: "Andrew"

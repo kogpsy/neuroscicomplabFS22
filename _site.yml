@@ -44,7 +44,7 @@ navbar:
     - text: "Kapitel"
       menu:
         - text: "Verhaltensexperimente mit PsychoPy"
-          href: test.html
+          href: behavioural-experiments.html
 
     - text: "Slides"
       menu:

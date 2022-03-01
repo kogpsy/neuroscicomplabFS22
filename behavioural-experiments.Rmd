@@ -95,7 +95,7 @@ Wenn man die default-Einstellungen nicht ändert, speichert PsychoPy die Daten a
 
 Oftmals werden Grössenangaben von Stimuli noch in Pixel oder Zentimeter, sondern in _degrees of visual angle_ gemacht. Dies hat den Vorteil, dass die Angaben nicht vom Monitor selber oder der Entferung vom Monitor abhängig sind. _degrees of visual angle_ gibt die wahrgenommene Grösse des Stimulus an, und berücksichtigt die Grösse des Monitors und des Stimulus, und die Entfernung der Versuchsperson vom Monitor. Weitere Informationen dazu finden Sie auf der Website von 👉 [OpenSesame](https://osdoc.cogsci.nl/3.3/visualangle/). Üblicherweise entspricht ein _degrees of visual angle_ etwa einem cm bei einer Entfernung von 57 cm vom Monitor.
 
-Zur Umrechnung zwischen cm und _degrees of visual angle_ finden unter diesem 👉 [Link](https://www.sr-research.com/eye-tracking-blog/background/visual-angle/) mehr Information.
+Zur Umrechnung zwischen cm und _degrees of visual angle_ finden Sie unter diesem 👉 [Link](https://www.sr-research.com/eye-tracking-blog/background/visual-angle/) mehr Information.
 
 
 <aside> 

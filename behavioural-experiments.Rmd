@@ -57,7 +57,7 @@ white dots on black background
 
 white dots, with a size of 3 x 3 pixels, moved within a circle with diameter of 5° with a speed of 5°/s and a density of 16.7 dots/deg 2/s on a black background. The probability that a dot moved coherent with the motion direction is defined as coherence. For example, at a coherence of 50%, each dot had a probability of 50% to participate in the motionstimulus, every third frame (see also Britten et al., 1992; Gold and Shadlen, 2003; Palmer et al., 2005)
 
-The dots were presented on a 51.3-cm-wide LCD screen at a viewing distance of 50 cm. In the scanner session, the dots were presented on a 61-cm-wide projection screen using a projector with a resolution of 1920  1200 (GeForce 9500 GT graphical card) and adjusted to match the same diameter (5°) as the session outside the scanner.
+The dots were presented on a 51.3-cm-wide LCD screen at a viewing distance of 50 cm. In the scanner session, the dots were presented on a 61-cm-wide projection screen using a projector with a resolution of 1920 x 1200 (GeForce 9500 GT graphical card) and adjusted to match the same diameter (5°) as the session outside the scanner.
 
 
 Motion strength at 80% accuracy was interpolated from the psychometric curve.
@@ -107,3 +107,12 @@ The issue is that your monitor operates at a fixed screen refresh rate (typicall
 ### Using Degrees of Visual Angle
 
 ### Create conditions
+
+
+
+## Routines
+
+Ein Trial besteht aus einer oder mehreren Routines.
+
+## Loop
+Conditions files

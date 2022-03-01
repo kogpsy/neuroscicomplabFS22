@@ -47,7 +47,27 @@ class: middle
 
 ## Bias RDK Experiment
 
+.pull-left[
+- Random-dot motion direction-discrimination task
 
+- Inside/outside scanner (timing)
+
+- Bias: cue (probability left/right/unbiased)
+
+- Fixation cross
+
+- RDK: 3x3 pixels, coherence 
+
+- 40 bias trials, 40 neutral trials
+
+- 32 valid, 8 invalid trials
+]
+
+.pull-right[
+```{r echo=FALSE, fig.height=5, fig.width=7}
+knitr::include_graphics("images/bias-payoff-mulder.png")
+```
+]
 
 ---
 
@@ -67,7 +87,7 @@ class: middle
 
 ## PsychoPy
 
-.pull-left[
+.pull-left-narrow[
 - [PsychoPy Website](https://www.psychopy.org/)
 
 - [Ressourcen](https://workshops.psychopy.org/teaching/index.html)
@@ -79,7 +99,7 @@ class: middle
 - Kapitel: [Verhaltensexperimente mit PsychoPy](../behavioural-experiments.html)
 ]
 
-.pull-right[
+.pull-right-wide[
 
 ```{r echo=FALSE, fig.height=7.5, fig.width=10.5}
 knitr::include_graphics("images/psychopy-1.png")
@@ -167,6 +187,11 @@ class: middle
 .your-turn[
 Versuchen Sie selber, Teile des Experiments in PsychoPy zu implementieren
 ]
+
+- Wenn Sie eine Starthilfe benötigen, downloaden Sie ein Beipiel: 👉 [Practice Trials](../files/PracticeTrials.zip)
+
+- Eine Einführung finden Sie hier: 👉 [Verhaltensexperimente mit PsychoPy](../behavioural-experiments.html)
+ 
 
 ```{r echo=FALSE}
 countdown(minutes = 25)

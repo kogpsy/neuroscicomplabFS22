@@ -86,6 +86,10 @@ Für die *main_blocks_loop* haben wir eine Bedingungsdatei mit 80 Zeilen, die 40
 
 Die Variable `nReps` wird auf `2` gesetzt, so dass alle diese Reihen zweimal durchlaufen werden (insgesamt 160 Versuche), und die Variable "loopType" wird auf `random` gesetzt, so dass die Versuche in zufälliger Reihenfolge durchgeführt werden.
 
+## Daten
+
+Wenn man die default-Einstellungen nicht ändert, speichert PsychoPy automatisch die Daten einem trial-by-trial CSV File. Dieses CSV File erhält einen Namen, der sich aus der Versuchspersonen-ID, dem Namen des Experiments, und dem aktuellen Datum inkl. Uhrzeit zusammensetzt. So ist es möglich, mit derselben ID beliebig oft das Experiment zu wiederholen. Die CSV Files werden in einem Ordner mit dem Name `data` abgelegt.
+
 
 # Weitere Informationen
 

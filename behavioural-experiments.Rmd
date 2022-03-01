@@ -44,7 +44,7 @@ In dieser Sitzung erstellen wir ein perzeptuelles Entscheidungsexperiment, ähnl
 Das Experiment ist eine Reaktionszeit (RT) Version eines Random-dot Motion Direction Discrimination Task, und
 wurde im Scanner und ausserhalb durchgeführt. Die beiden Version unterscheiden sich ganz stark in ihrem Timing. Wir implementieren hier die Scanner Version des Tasks.
 
-Bias (Vorwissen) wurde durch einen Hinweisreiz angezeigt, in Form eines Pfeils oder eines neutralen Stimulus. Der Pfeil zeigte die wahrscheinlichere Bewegungsrichtung an. Vor und nach dem Cue wurde ein Fixationskreuy gezeigt. Alle weiteren Parameter können Sie dem Paper entnehmen [@mulderBiasBrainDiffusion2012a]. 
+Bias (Vorwissen) wurde durch einen Hinweisreiz angezeigt, in Form eines Pfeils oder eines neutralen Stimulus. Der Pfeil zeigte die wahrscheinlichere Bewegungsrichtung an. Vor und nach dem Cue wurde ein Fixationskreuz gezeigt. Alle weiteren Parameter können Sie dem Paper entnehmen [@mulderBiasBrainDiffusion2012a]. 
 
 
 # Experiment

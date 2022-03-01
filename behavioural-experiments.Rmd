@@ -99,6 +99,6 @@ Zur Umrechnung zwischen cm und _degrees of visual angle_ finden unter diesem ğŸ‘
 
 <aside> 
 [OpenSesame](https://osdoc.cogsci.nl/) ist ein weiteres, Python-basierendes Programm fÃ¼r die Erstellung behaviouraler Experimente.  
-</aside
+</aside>
 
 

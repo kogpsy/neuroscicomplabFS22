@@ -1,5 +1,5 @@
 ---
-title: "Neurowissenschaft im Computerlab"
+title: "Neurowissenschaft Computerlab"
 image: "images/mind.png"
 links:
   - label: Zulip Forum

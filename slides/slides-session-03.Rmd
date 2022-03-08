@@ -1,11 +1,11 @@
 ---
-title: "2. Sitzung"
-session: 2
-subtitle: "PsychoPy"
+title: "3. Sitzung"
+session: 3
+subtitle: "Daten importieren und verarbeiten"
 author: "Andrew Ellis"
 # institute: "Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"
 institute: "Neurowissenschaft Computerlab FS 22"
-date: "2022-03-01"
+date: "2022-03-08"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -39,33 +39,31 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    Bias RDK Experiment
+    Set up R/RStudio
   ]
 ]
 
 ---
 
-## Bias RDK Experiment
+## Set up R/RStudio
 
 .pull-left[
-- Random-dot motion direction-discrimination task
 
-- Inside/outside scanner (timing)
+👉 [Download __R__](https://cloud.r-project.org/)
 
-- Bias: cue (probability left/right/unbiased)
 
-- Fixation cross
-
-- RDK: 3x3 pixels, coherence 
-
-- 40 bias trials, 40 neutral trials
-
-- 32 valid, 8 invalid trials
+👉 [Download __RStudio__](https://www.rstudio.com/products/rstudio/download/#download)
 ]
 
 .pull-right[
-```{r echo=FALSE, fig.height=5, fig.width=7}
-knitr::include_graphics("images/bias-payoff-mulder.png")
+
+1. RStudio öffnen
+
+2. RStudio einrichten
+
+3. Packages installieren
+```{r eval=FALSE, include=TRUE}
+install.packages("tidyverse")
 ```
 ]
 
@@ -79,31 +77,40 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    PsychoPy
+    R Kenntnisse auffrischen
   ]
 ]
 
 ---
 
-## PsychoPy
+## R Kenntnisse
 
-.pull-left-narrow[
-- [PsychoPy Website](https://www.psychopy.org/)
-
-- [Ressourcen](https://workshops.psychopy.org/teaching/index.html)
-
-- [Walk-through: Builder](https://tu-coding-outreach-group.github.io/cog_summer_workshops_2021/psychopy/index.html)
-
-- [Diskussionsforum](https://discourse.psychopy.org/)
-
-- Kapitel: [Verhaltensexperiment mit PsychoPy](../behavioural-experiments.html)
+.pull-left[
+👉 [Einführung in R](https://methodenlehre.github.io/intro-to-rstats)
+ 
+ - Einführung in RStudio
+ 
+ - R Sprache
+ 
+ - Control flow / Funktionen
+ 
+ - Daten importieren / tidy data / visualisieren
+ 
+ - Deskriptive Statistik
 ]
 
-.pull-right-wide[
+.pull-right[
 
-```{r echo=FALSE, fig.height=7.5, fig.width=10.5}
-knitr::include_graphics("images/psychopy-1.png")
-```
+👉 [Data Skills for Reproducible Research](https://psyteachr.github.io/reprores-v2/index.html)
+
+- Reproducible Workflows
+
+- Data visualization
+
+- Data wrangling
+
+- Iteration & Functions
+
 ]
 
 
@@ -116,7 +123,7 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    Pavlovia
+    Test Datensatz importieren
   ]
 ]
 
@@ -143,7 +150,7 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    Understanding your Computer
+    Mehrere Datensätze importieren
   ]
 ]
 
@@ -176,7 +183,7 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    🛠 Selber machen
+    Accuracy pro Bedingung berechnen
   ]
 ]
 

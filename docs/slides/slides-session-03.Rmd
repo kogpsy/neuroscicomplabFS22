@@ -1,11 +1,11 @@
 ---
-title: "2. Sitzung"
-session: 2
-subtitle: "PsychoPy"
+title: "3. Sitzung"
+session: 3
+subtitle: "Daten importieren und verarbeiten"
 author: "Andrew Ellis"
 # institute: "Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"
-institute: "Neurowissenschaft Computerlab FS 22"
-date: "2022-03-01"
+institute: "Neurowissenschaft im Computerlab FS 22"
+date: "2022-03-08"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -172,7 +172,7 @@ win.getActualFrameRate()
 class: middle
 
 .pull-left-narrow[
-  .huge-blue-number[5]
+  .huge-blue-number[4]
 ]
 .pull-right-wide[
   .larger[

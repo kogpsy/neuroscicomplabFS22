@@ -1,21 +1,48 @@
 library(tidyverse)
 
-## single file ----
-testdata <- read_csv("data/ZZ_rdk-discrimination_2022_Mar_07_1403.csv") |>
-    filter(!is.na(main_blocks_loop.thisN)) |>
+library(readr)
+ZZ_rdk_discrimination_2022_Mar_07_1403 <- read_csv("testdata/ZZ_rdk-discrimination_2022_Mar_07_1403.csv")
+View(ZZ_rdk_discrimination_2022_Mar_07_1403)
+
+
+
+## load single CSV file ----
+testdata <- read_csv("testdata/ZZ_rdk-discrimination_2022_Mar_07_1403.csv")
+
+testdata
+
+View(testdata)
+
+
+filter()
+
+
+## get rid of practice block ----
+testdata <- testdata |>
+    filter(!is.na(main_blocks_loop.thisN))
+
+
+
+select()
+
+
+testdata <- testdata |>
     select(-contains("practice_block_loop"))
 
+testdata
 
 
-## get rid of variables
-data <- testdata |>
+## get rid of variables ----
+testdata <- testdata |>
     select(-contains("static"),
            -contains("fixation"),
            -contains("image"),
            -contains("instruction"),
            -contains("feedback"))
 
-data <- data |>
+
+## rename variables ----
+testdata <- testdata |>
     select(trial = main_blocks_loop.thisN,
            ID = Pseudonym,
            cue,
@@ -23,16 +50,51 @@ data <- data |>
            response = dots_keyboard_response.keys,
            rt = dots_keyboard_response.rt)
 
-data <- data |>
+
+## recode response variable ----
+testdata <- testdata |>
     mutate(choice = if_else(response == "j", "right", "left"),
            response = if_else(choice == "right", 1, 0))
 
-data <- data |>
+testdata
+
+## create cue condition variable ----
+testdata <- testdata |>
+    mutate(condition = case_when(cue == "none" ~ "neutral",
+                                 cue == direction ~ "valid",
+                                 cue != direction ~ "invalid"))
+
+
+testdata
+
+
+## create correct variable ----
+testdata <- testdata |>
+    # mutate(correct = choice == direction)
+    mutate(correct = if_else(choice == direction, 1, 0))
+
+glimpse(testdata)
+
+## convert grouping variables to factor ----
+testdata <- testdata |>
     mutate_if(is.character, as.factor)
 
 
 
-## all files ----
+testaccuracy <- testdata |>
+    group_by( condition) |>
+    summarise(N = n(),
+              ncorrect = sum(correct),
+              accuracy = ncorrect/N,
+              accuracy2 = mean(correct))
+
+testaccuracy
+
+
+
+## load all CSV files ----
+
+## create a function that works on one file --
 import_fun <- function(filename) {
     read_csv(filename) |>
         mutate(filename = basename(filename)) |>
@@ -41,20 +103,43 @@ import_fun <- function(filename) {
 }
 
 
+## list files ----
 datadir <- "data"
-all_data <- datadir |>
-    list.files(pattern = "csv", recursive = TRUE, full.names = TRUE) |>
+
+list_of_files <- datadir |>
+    list.files(pattern = "csv", recursive = TRUE, full.names = TRUE)
+
+list_of_files
+
+
+## apply function to each element of list_of_files ----
+data <- list_of_files |>
     map_dfr(~import_fun(.))
 
 
-all_data <- all_data |>
+
+
+# list_of_files |>
+#     map(~import_fun(.))
+#
+
+
+f <- function(x) rnorm(1, x, n = 10)
+
+sigmas <- c(1, 2, 4)
+sigmas |> map(f)
+
+
+## select, rename, create variables ----
+data <- data |>
     select(-contains("static"),
            -contains("fixation"),
            -contains("image"),
            -contains("instruction"),
            -contains("feedback"))
 
-all_data <- all_data |>
+
+data <- data |>
     select(trial = main_blocks_loop.thisN,
            ID = Pseudonym,
            cue,
@@ -62,95 +147,47 @@ all_data <- all_data |>
            response = dots_keyboard_response.keys,
            rt = dots_keyboard_response.rt)
 
-all_data <- all_data |>
+data <- data |>
     mutate(choice = if_else(response == "j", "right", "left"),
            response = if_else(choice == "right", 1, 0))
 
 
 
-## condition ----
+## cue condition ----
 
-all_data <- all_data |>
+data <- data |>
     mutate(condition = case_when(cue == "none" ~ "neutral",
                                  cue == direction ~ "valid",
                                  cue != direction ~ "invalid"))
 
-all_data <- all_data |>
+## create correct variable ----
+data <- data |>
     mutate(correct = choice == direction)
 
-all_data <- all_data |>
+
+data <- data |>
     mutate(correct2 = if_else(choice == direction, 1, 0))
 
-all_data <- all_data |>
+data <- data |>
     mutate(correct3 = as.numeric(correct))
 
-all_data <- all_data |>
-    mutate_if(is.character, as.factor)
-
-all_data <- all_data |>
+data <- data |>
     mutate(correct = as.numeric(choice == direction))
 
 
-all_data <- all_data |>
+## convert grouping variables to factor ----
+data <- data |>
     mutate_if(is.character, as.factor)
 
 
-accuracy <- all_data |>
+
+## accuracy ----
+accuracy <- data |>
     group_by(ID, condition) |>
     summarise(accuracy = mean(correct))
 
 
+
+## visualize ----
 library(esquisse)
 esquisser(accuracy)
-
-## other ----
-
-all_files <- "data" |>
-    list.files(pattern = "csv", recursive = TRUE, full.names = TRUE) |>
-    set_names() |>
-    imap_dfr(~ bind_cols(read_csv(.x), filepath = .y))
-
-
-
-## ------
-tbl <- "data" |>
-    list.files(pattern = "csv", recursive = TRUE, full.names = TRUE) |>
-    map_df(~read_csv(.))
-
-read_plus <- function(flnm) {
-    read_csv(flnm) %>%
-        mutate(filename = flnm)
-}
-tbl_with_sources <- "data" |>
-    list.files(pattern = "csv", recursive = TRUE, full.names = TRUE) |>
-    map_df(~read_plus(.))
-
-files <- list.files("data", pattern="csv", full.names=TRUE) %>%
-    set_names()
-merged <- files %>% map_dfr(read_csv, .id="filename")
-merged %>% mutate(filename=basename(filename))
-
-## ____
-
-
-# Load everything into the Global Environment
-file_path <- "data/"
-
-csv_file_names <- file_path %>%
-    list.files() %>%
-    .[str_detect(., ".csv")]
-
-csv_file_names %>%
-    purrr::map(function(file_name){ # iterate through each file name
-        assign(x = str_remove(file_name, ".csv"), # Remove file extension ".csv"
-               value = read_csv(paste0(file_path, file_name)),
-               envir = .GlobalEnv)
-    })
-
-# Load everything into the Global Environment
-csv_file_names %>%
-    purrr::map(function(file_name){ # iterate through each file name
-
-        read_csv(paste0(file_path, file_name))
-
-    }) -> df_list_read2 # Assign to a list

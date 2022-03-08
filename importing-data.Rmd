@@ -40,7 +40,13 @@ htmltools::tagList(
 # RStudio Projekt 
 Nun wollen wir die Datensätze aus dem Verhaltensexperiment von der letzten Sitzung in R importieren. 
 
-Laden Sie das [RStudio Projekt](./files/import-data) und öffnen Sie es.
+Laden Sie das [RStudio Projekt](./files/import-data.zip) und öffnen Sie es.
+Im Projekt ist ein R Script File enthalten (`import-data.R`).
+
+<aside>
+Falls Sie nur den R Code möchten, können Sie das File hier downloaden:
+👉 [R Code](./files/import-data/import-data.R)
+</aside>
 
 # Einen Datensatz bearbeiten
 Es gibt zwei Unterordner: `testdata` und `data`. In ersterem befindet sich ein Datensatz einer Testperson, in letzterem befinden sich mehrere Datensätze. Wir importieren und bearbeiten zuerst den Datensatz aus dem `testdata` Ordner, und wenden anschliessend das Gelernte gleichzeitig auf mehrere Datensätze an.
@@ -51,7 +57,7 @@ library(tidyverse)
 ```
  
 <aside>
-In Ihrem Rstudio Projekt ist dieses File im Ordner `testdata` gespeichert (Hier in einem Ordner names `data/rdktest`). Bitte passen Sie den Pfad dementsprechend an!
+In Ihrem Rstudio Projekt ist dieses File im Ordner `testdata` gespeichert (Hier in einem Ordner names `data/rdktest`). Bitte passen Sie den Pfad dementsprechend an, oder verwenden Sie den COde aus dem R Script im RStudio Projekt.
 </aside>
 
 
@@ -164,11 +170,25 @@ testdata <- testdata |>
            response = as.numeric(choice == "right"))
 ```
 
+Wir erstellen ausserdem hier eine Variable, welche angibt, ob der Cue `valid`, `invalid` oder `neutral` war. Ein Cue ist genau dann valide, wenn er dieselbe Richtung hat wie der RDK Stimulus, d.h. `cue == direction`.
+
+```{r}
+testdata <- testdata |>
+    mutate(condition = case_when(cue == "none" ~ "neutral",
+                                 cue == direction ~ "valid",
+                                 cue != direction ~ "invalid"))
+```
+
+
 
 ```{r}
 testdata <- testdata |>
     mutate(correct = as.numeric(choice == direction))
 ```
+
+
+
+
 
 ## Gruppierungsvariablen
 
@@ -187,13 +207,28 @@ glimpse(testdata)
 ```
 
 
+## Accuracy pro Bedingung
+
+Wir können nun die _accuracy_ in jeder Cue-Bedingung berechnen. Es gibt hier zwei Möglichkeiten: wir berechen die Anzahl Trials (`N`), und die Anzahl korrekter Antworten (`ncorrect`) separat. Der Anteil korrekter Antworten ist dann einfach `ncorrect/N`. Dasselbe Ergebnis erhalten wir, wenn wir einfach den Mittelwert der korrekten Antworten nehmen.
+
+```{r}
+testaccuracy <- testdata |>
+    group_by(condition) |>
+    summarise(N = n(),
+              ncorrect = sum(correct),
+              accuracy = ncorrect/N,
+              accuracy2 = mean(correct))
+
+testaccuracy
+```
+
 
 # Mehrere Datensätze bearbeiten
 
-Nun werden wir dasselbe wie oben machen, aber nun für alle `.csv` Files in einem Ordner. 
+Nun werden wir dasselbe wie oben machen, aber dieses Mal für alle `.csv` Files, die  in einem Ordner gespeichert sind. 
 
 <aside>
-In Ihrem Rstudio Projekt sind die Files im Ordner `data` gespeichert (Hier in einem Ordner names `data/rdkdata`). Bitte passen Sie den Pfad dementsprechend an!
+In Ihrem Rstudio Projekt sind die Files im Ordner `data` gespeichert (Hier in einem Ordner names `data/rdkdata`). Bitte passen Sie den Pfad dementsprechend an, oder verwenden Sie das R Script im RStudio Projekt.
 </aside>
 
 
@@ -224,6 +259,10 @@ import_function <- function(filename) {
         select(-contains("practice_block_loop"))
 }
 ```
+
+<aside>
+Probieren Sie die Funktion mit dem einzelnen `.csv` File von oben. 
+</aside>
 
 ## Alle Files in einem Ordner auflisten
 

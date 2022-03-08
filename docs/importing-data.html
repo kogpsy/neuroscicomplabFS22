@@ -2759,6 +2759,7 @@ bearbeiten.</p></p>
 <li><a href="#neue-variablen-definieren">Neue Variablen
 definieren</a></li>
 <li><a href="#gruppierungsvariablen">Gruppierungsvariablen</a></li>
+<li><a href="#accuracy-pro-bedingung">Accuracy pro Bedingung</a></li>
 </ul></li>
 <li><a href="#mehrere-datensätze-bearbeiten">Mehrere Datensätze
 bearbeiten</a>
@@ -2783,8 +2784,13 @@ Person/Bedingung</a></li>
 <h1 id="rstudio-projekt">RStudio Projekt</h1>
 <p>Nun wollen wir die Datensätze aus dem Verhaltensexperiment von der
 letzten Sitzung in R importieren.</p>
-<p>Laden Sie das <a href="./files/import-data">RStudio Projekt</a> und
-öffnen Sie es.</p>
+<p>Laden Sie das <a href="./files/import-data.zip">RStudio Projekt</a>
+und öffnen Sie es. Im Projekt ist ein R Script File enthalten
+(<code>import-data.R</code>).</p>
+<aside>
+Falls Sie nur den R Code möchten, können Sie das File hier downloaden:
+👉 <a href="./files/import-data/import-data.R">R Code</a>
+</aside>
 <h1 id="einen-datensatz-bearbeiten">Einen Datensatz bearbeiten</h1>
 <p>Es gibt zwei Unterordner: <code>testdata</code> und
 <code>data</code>. In ersterem befindet sich ein Datensatz einer
@@ -2801,7 +2807,8 @@ gleichzeitig auf mehrere Datensätze an.</p>
 <aside>
 In Ihrem Rstudio Projekt ist dieses File im Ordner <code>testdata</code>
 gespeichert (Hier in einem Ordner names <code>data/rdktest</code>).
-Bitte passen Sie den Pfad dementsprechend an!
+Bitte passen Sie den Pfad dementsprechend an, oder verwenden Sie den
+COde aus dem R Script im RStudio Projekt.
 </aside>
 <h2 id="csv-file-importieren">CSV File importieren</h2>
 <div class="layout-chunk" data-layout="l-body">
@@ -4775,6 +4782,19 @@ Main Block gehören.</p>
 </code></pre>
 </div>
 </div>
+<p>Wir erstellen ausserdem hier eine Variable, welche angibt, ob der Cue
+<code>valid</code>, <code>invalid</code> oder <code>neutral</code> war.
+Ein Cue ist genau dann valide, wenn er dieselbe Richtung hat wie der RDK
+Stimulus, d.h. <code>cue == direction</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> <span class='op'>&lt;-</span> <span class='va'>testdata</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>condition <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='va'>cue</span> <span class='op'>==</span> <span class='st'>"none"</span> <span class='op'>~</span> <span class='st'>"neutral"</span>,
+                                 <span class='va'>cue</span> <span class='op'>==</span> <span class='va'>direction</span> <span class='op'>~</span> <span class='st'>"valid"</span>,
+                                 <span class='va'>cue</span> <span class='op'>!=</span> <span class='va'>direction</span> <span class='op'>~</span> <span class='st'>"invalid"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> <span class='op'>&lt;-</span> <span class='va'>testdata</span> |&gt;
@@ -4789,7 +4809,7 @@ Main Block gehören.</p>
 </code></pre>
 </div>
 <pre><code>Rows: 167
-Columns: 8
+Columns: 9
 $ trial     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, 0, 1, 2, 3, 4, 5, 6, 7…
 $ ID        &lt;chr&gt; &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;Z…
 $ cue       &lt;chr&gt; &quot;none&quot;, &quot;left&quot;, &quot;right&quot;, &quot;left&quot;, &quot;none&quot;, &quot;right&quot;, …
@@ -4797,6 +4817,7 @@ $ direction &lt;chr&gt; &quot;right&quot;, &quot;right&quot;, &quot;right&quot;,
 $ response  &lt;dbl&gt; 0, 0, 1, 0, 0, 0, NA, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1…
 $ rt        &lt;dbl&gt; NA, 0.9339199, 0.8488816, 0.9396018, NA, 0.7490084…
 $ choice    &lt;chr&gt; &quot;left&quot;, &quot;left&quot;, &quot;right&quot;, &quot;left&quot;, &quot;left&quot;, &quot;left&quot;, N…
+$ condition &lt;chr&gt; &quot;neutral&quot;, &quot;invalid&quot;, &quot;valid&quot;, &quot;valid&quot;, &quot;neutral&quot;,…
 $ correct   &lt;dbl&gt; 0, 0, 1, 1, 1, 1, NA, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1…</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
@@ -4812,7 +4833,7 @@ $ correct   &lt;dbl&gt; 0, 0, 1, 1, 1, 1, NA, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1…</c
 </code></pre>
 </div>
 <pre><code>Rows: 167
-Columns: 8
+Columns: 9
 $ trial     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, 0, 1, 2, 3, 4, 5, 6, 7…
 $ ID        &lt;fct&gt; ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ…
 $ cue       &lt;fct&gt; none, left, right, left, none, right, NA, right, r…
@@ -4820,16 +4841,45 @@ $ direction &lt;fct&gt; right, right, right, left, left, left, NA, right, …
 $ response  &lt;dbl&gt; 0, 0, 1, 0, 0, 0, NA, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1…
 $ rt        &lt;dbl&gt; NA, 0.9339199, 0.8488816, 0.9396018, NA, 0.7490084…
 $ choice    &lt;fct&gt; left, left, right, left, left, left, NA, right, ri…
+$ condition &lt;fct&gt; neutral, invalid, valid, valid, neutral, invalid, …
 $ correct   &lt;dbl&gt; 0, 0, 1, 1, 1, 1, NA, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1…</code></pre>
+</div>
+<h2 id="accuracy-pro-bedingung">Accuracy pro Bedingung</h2>
+<p>Wir können nun die <em>accuracy</em> in jeder Cue-Bedingung
+berechnen. Es gibt hier zwei Möglichkeiten: wir berechen die Anzahl
+Trials (<code>N</code>), und die Anzahl korrekter Antworten
+(<code>ncorrect</code>) separat. Der Anteil korrekter Antworten ist dann
+einfach <code>ncorrect/N</code>. Dasselbe Ergebnis erhalten wir, wenn
+wir einfach den Mittelwert der korrekten Antworten nehmen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testaccuracy</span> <span class='op'>&lt;-</span> <span class='va'>testdata</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>condition</span><span class='op'>)</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>N <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>,
+              ncorrect <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>correct</span><span class='op'>)</span>,
+              accuracy <span class='op'>=</span> <span class='va'>ncorrect</span><span class='op'>/</span><span class='va'>N</span>,
+              accuracy2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>correct</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>testaccuracy</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 4 × 5
+  condition     N ncorrect accuracy accuracy2
+  &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 invalid      18       14    0.778     0.778
+2 neutral      82       67    0.817     0.817
+3 valid        66       62    0.939     0.939
+4 &lt;NA&gt;          1       NA   NA        NA    </code></pre>
 </div>
 <h1 id="mehrere-datensätze-bearbeiten">Mehrere Datensätze
 bearbeiten</h1>
-<p>Nun werden wir dasselbe wie oben machen, aber nun für alle
-<code>.csv</code> Files in einem Ordner.</p>
+<p>Nun werden wir dasselbe wie oben machen, aber dieses Mal für alle
+<code>.csv</code> Files, die in einem Ordner gespeichert sind.</p>
 <aside>
 In Ihrem Rstudio Projekt sind die Files im Ordner <code>data</code>
 gespeichert (Hier in einem Ordner names <code>data/rdkdata</code>).
-Bitte passen Sie den Pfad dementsprechend an!
+Bitte passen Sie den Pfad dementsprechend an, oder verwenden Sie das R
+Script im RStudio Projekt.
 </aside>
 <h2 id="funktion-definieren">Funktion definieren</h2>
 <p>Nun wollen wir die ersten paar Schritte gleichzeitig auf mehrere
@@ -4863,6 +4913,10 @@ anweden möchten, ist diese:</p>
 </code></pre>
 </div>
 </div>
+<aside>
+Probieren Sie die Funktion mit dem einzelnen <code>.csv</code> File von
+oben.
+</aside>
 <h2 id="alle-files-in-einem-ordner-auflisten">Alle Files in einem Ordner
 auflisten</h2>
 <div class="layout-chunk" data-layout="l-body">
@@ -5102,9 +5156,9 @@ $ condition &lt;fct&gt; valid, valid, neutral, neutral, valid, neutral, ne…</c
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>ID</span><span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="importing-data_files/figure-html5/unnamed-chunk-34-1.png" width="1440" /></p>
+<p><img src="importing-data_files/figure-html5/unnamed-chunk-36-1.png" width="1440" /></p>
 </div>
-<div class="sourceCode" id="cb14"><pre
+<div class="sourceCode" id="cb15"><pre
 class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

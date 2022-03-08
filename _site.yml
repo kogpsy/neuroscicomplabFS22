@@ -5,7 +5,7 @@ repository_url: https://github.com/kogpsy/neuroscicomplabFS22
 source_url: https://github.com/kogpsy/neuroscicomplabFS22
 description: |
   Neurowissenschaft Computerlab FS 22
-include: ["data/"]
+include: ["data/", "files/"]
 exclude: ["_do_not_build/", "jasp", "neuroscicomplabFS22.code-workspace"]
 output_dir: "docs"
 theme: css/theme.css

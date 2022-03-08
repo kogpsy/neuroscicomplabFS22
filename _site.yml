@@ -47,8 +47,8 @@ navbar:
           href: behavioural-experiments.html
         - text: "Daten importieren"
           href: importing-data.html
-        - text: "Daten visualisieren"
-          href: visualizing-data.html
+        # - text: "Daten visualisieren"
+        #   href: visualizing-data.html
 
     - text: "Slides"
       menu:

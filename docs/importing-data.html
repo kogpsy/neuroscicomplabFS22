@@ -2444,6 +2444,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }</style>
   <!--/radix_placeholder_distill-->
   <script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+  <script src="site_libs/clipboard-2.0.6/clipboard.min.js"></script>
+  <link href="site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+  <script src="site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+  <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"><\/i>","success":"<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"><\/i>"})</script>
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2678,7 +2686,6 @@ Kapitel
 <div class="nav-dropdown-content">
 <a href="behavioural-experiments.html">Verhaltensexperiment mit PsychoPy</a>
 <a href="importing-data.html">Daten importieren</a>
-<a href="visualizing-data.html">Daten visualisieren</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2738,12 +2745,2366 @@ bearbeiten.</p></p>
 </div>
 
 <div class="d-article">
-<p>Distill is a publication format for scientific and technical writing,
-native to the web.</p>
-<p>Learn more about using Distill for R Markdown at <a
-href="https://rstudio.github.io/distill"
-class="uri">https://rstudio.github.io/distill</a>.</p>
-<div class="sourceCode" id="cb1"><pre
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#rstudio-projekt">RStudio Projekt</a></li>
+<li><a href="#einen-datensatz-bearbeiten">Einen Datensatz bearbeiten</a>
+<ul>
+<li><a href="#csv-file-importieren">CSV File importieren</a></li>
+<li><a href="#practice-trials-löschen">Practice Trials löschen</a></li>
+<li><a href="#variablen-auswählen">Variablen auswählen</a></li>
+<li><a href="#variablen-umbennen">Variablen umbennen</a></li>
+<li><a href="#neue-variablen-definieren">Neue Variablen
+definieren</a></li>
+<li><a href="#gruppierungsvariablen">Gruppierungsvariablen</a></li>
+</ul></li>
+<li><a href="#mehrere-datensätze-bearbeiten">Mehrere Datensätze
+bearbeiten</a>
+<ul>
+<li><a href="#funktion-definieren">Funktion definieren</a></li>
+<li><a href="#alle-files-in-einem-ordner-auflisten">Alle Files in einem
+Ordner auflisten</a></li>
+<li><a href="#funktion-auf-liste-anwenden">Funktion auf Liste
+anwenden</a></li>
+<li><a href="#variablen-auswählen-und-umbennen">Variablen auswählen und
+umbennen</a></li>
+<li><a href="#neue-variablen-definieren-1">Neue Variablen
+definieren</a></li>
+<li><a href="#gruppierungsvariablen-1">Gruppierungsvariablen</a></li>
+<li><a href="#accuracy-pro-personbedingung">Accuracy pro
+Person/Bedingung</a></li>
+<li><a href="#visualisieren">Visualisieren</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<h1 id="rstudio-projekt">RStudio Projekt</h1>
+<p>Nun wollen wir die Datensätze aus dem Verhaltensexperiment von der
+letzten Sitzung in R importieren.</p>
+<p>Laden Sie das <a href="./files/import-data">RStudio Projekt</a> und
+öffnen Sie es.</p>
+<h1 id="einen-datensatz-bearbeiten">Einen Datensatz bearbeiten</h1>
+<p>Es gibt zwei Unterordner: <code>testdata</code> und
+<code>data</code>. In ersterem befindet sich ein Datensatz einer
+Testperson, in letzterem befinden sich mehrere Datensätze. Wir
+importieren und bearbeiten zuerst den Datensatz aus dem
+<code>testdata</code> Ordner, und wenden anschliessend das Gelernte
+gleichzeitig auf mehrere Datensätze an.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<aside>
+In Ihrem Rstudio Projekt ist dieses File im Ordner <code>testdata</code>
+gespeichert (Hier in einem Ordner names <code>data/rdktest</code>).
+Bitte passen Sie den Pfad dementsprechend an!
+</aside>
+<h2 id="csv-file-importieren">CSV File importieren</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"data/rdktest/ZZ_rdk-discrimination_2022_Mar_07_1403.csv"</span><span class='op'>)</span> 
+</code></pre>
+</div>
+</div>
+<h3 id="variablen-überprüfen">Variablen überprüfen</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>testdata</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 167
+Columns: 39
+$ cue                                        &lt;chr&gt; &quot;none&quot;, &quot;left&quot;, &quot;…
+$ direction                                  &lt;chr&gt; &quot;right&quot;, &quot;right&quot;,…
+$ practice_block_loop.thisRepN               &lt;dbl&gt; 0, 0, 0, 0, 0, 0,…
+$ practice_block_loop.thisTrialN             &lt;dbl&gt; 0, 1, 2, 3, 4, 5,…
+$ practice_block_loop.thisN                  &lt;dbl&gt; 0, 1, 2, 3, 4, 5,…
+$ practice_block_loop.thisIndex              &lt;dbl&gt; 5, 2, 1, 0, 4, 3,…
+$ main_blocks_loop.thisRepN                  &lt;dbl&gt; NA, NA, NA, NA, N…
+$ main_blocks_loop.thisTrialN                &lt;dbl&gt; NA, NA, NA, NA, N…
+$ main_blocks_loop.thisN                     &lt;dbl&gt; NA, NA, NA, NA, N…
+$ main_blocks_loop.thisIndex                 &lt;dbl&gt; NA, NA, NA, NA, N…
+$ static_isi.started                         &lt;dbl&gt; 0.01033428, 0.032…
+$ static_isi.stopped                         &lt;dbl&gt; 2.010334, 2.03202…
+$ fixation_pre.started                       &lt;dbl&gt; 26.79425, 36.1652…
+$ fixation_pre.stopped                       &lt;chr&gt; &quot;None&quot;, &quot;None&quot;, &quot;…
+$ image.started                              &lt;dbl&gt; 27.19849, 36.2820…
+$ image.stopped                              &lt;chr&gt; &quot;None&quot;, &quot;None&quot;, &quot;…
+$ fixation_post.started                      &lt;dbl&gt; 28.17814, 37.2824…
+$ fixation_post.stopped                      &lt;chr&gt; &quot;None&quot;, &quot;None&quot;, &quot;…
+$ dots_background.started                    &lt;dbl&gt; 32.18642, 41.3014…
+$ dots_background.stopped                    &lt;chr&gt; &quot;None&quot;, &quot;None&quot;, &quot;…
+$ dots_stimulus.started                      &lt;dbl&gt; 32.18642, 41.3014…
+$ dots_stimulus.stopped                      &lt;chr&gt; &quot;None&quot;, &quot;None&quot;, &quot;…
+$ dots_keyboard_response.keys                &lt;chr&gt; &quot;None&quot;, &quot;f&quot;, &quot;j&quot;,…
+$ dots_keyboard_response.started             &lt;dbl&gt; 32.18642, 41.3014…
+$ dots_keyboard_response.stopped             &lt;chr&gt; &quot;None&quot;, &quot;None&quot;, &quot;…
+$ feedback_text.started                      &lt;dbl&gt; 33.70200, 42.2889…
+$ feedback_text.stopped                      &lt;chr&gt; &quot;None&quot;, &quot;None&quot;, &quot;…
+$ dots_keyboard_response.rt                  &lt;dbl&gt; NA, 0.9339199, 0.…
+$ instruction_main_text.started              &lt;dbl&gt; NA, NA, NA, NA, N…
+$ instruction_main_text.stopped              &lt;chr&gt; NA, NA, NA, NA, N…
+$ instruction_main_keyboard_response.keys    &lt;chr&gt; NA, NA, NA, NA, N…
+$ instruction_main_keyboard_response.rt      &lt;dbl&gt; NA, NA, NA, NA, N…
+$ instruction_main_keyboard_response.started &lt;dbl&gt; NA, NA, NA, NA, N…
+$ instruction_main_keyboard_response.stopped &lt;chr&gt; NA, NA, NA, NA, N…
+$ Pseudonym                                  &lt;chr&gt; &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;,…
+$ date                                       &lt;chr&gt; &quot;2022_Mar_07_1403…
+$ expName                                    &lt;chr&gt; &quot;rdk-discriminati…
+$ psychopyVersion                            &lt;chr&gt; &quot;03.02.21&quot;, &quot;03.0…
+$ frameRate                                  &lt;dbl&gt; 59.9, 59.9, 59.9,…</code></pre>
+</div>
+<h2 id="practice-trials-löschen">Practice Trials löschen</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://haozhu233.github.io/kableExtra/'>kableExtra</a></span><span class='op'>)</span>
+
+<span class='va'>testdata</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_head</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kbl.html'>kbl</a></span><span class='op'>(</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kable_classic.html'>kable_paper</a></span><span class='op'>(</span><span class='st'>"striped"</span>, full_width <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/column_spec.html'>column_spec</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>:</span><span class='fl'>7</span>, bold <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/row_spec.html'>row_spec</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span>, bold <span class='op'>=</span> <span class='cn'>TRUE</span>, color <span class='op'>=</span> <span class='st'>"white"</span>, background <span class='op'>=</span> <span class='st'>"#D7261E"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<table class=" lightable-paper lightable-striped" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+cue
+</th>
+<th style="text-align:left;">
+direction
+</th>
+<th style="text-align:right;">
+practice_block_loop.thisRepN
+</th>
+<th style="text-align:right;">
+practice_block_loop.thisTrialN
+</th>
+<th style="text-align:right;">
+practice_block_loop.thisN
+</th>
+<th style="text-align:right;">
+practice_block_loop.thisIndex
+</th>
+<th style="text-align:right;">
+main_blocks_loop.thisRepN
+</th>
+<th style="text-align:right;">
+main_blocks_loop.thisTrialN
+</th>
+<th style="text-align:right;">
+main_blocks_loop.thisN
+</th>
+<th style="text-align:right;">
+main_blocks_loop.thisIndex
+</th>
+<th style="text-align:right;">
+static_isi.started
+</th>
+<th style="text-align:right;">
+static_isi.stopped
+</th>
+<th style="text-align:right;">
+fixation_pre.started
+</th>
+<th style="text-align:left;">
+fixation_pre.stopped
+</th>
+<th style="text-align:right;">
+image.started
+</th>
+<th style="text-align:left;">
+image.stopped
+</th>
+<th style="text-align:right;">
+fixation_post.started
+</th>
+<th style="text-align:left;">
+fixation_post.stopped
+</th>
+<th style="text-align:right;">
+dots_background.started
+</th>
+<th style="text-align:left;">
+dots_background.stopped
+</th>
+<th style="text-align:right;">
+dots_stimulus.started
+</th>
+<th style="text-align:left;">
+dots_stimulus.stopped
+</th>
+<th style="text-align:left;">
+dots_keyboard_response.keys
+</th>
+<th style="text-align:right;">
+dots_keyboard_response.started
+</th>
+<th style="text-align:left;">
+dots_keyboard_response.stopped
+</th>
+<th style="text-align:right;">
+feedback_text.started
+</th>
+<th style="text-align:left;">
+feedback_text.stopped
+</th>
+<th style="text-align:right;">
+dots_keyboard_response.rt
+</th>
+<th style="text-align:right;">
+instruction_main_text.started
+</th>
+<th style="text-align:left;">
+instruction_main_text.stopped
+</th>
+<th style="text-align:left;">
+instruction_main_keyboard_response.keys
+</th>
+<th style="text-align:right;">
+instruction_main_keyboard_response.rt
+</th>
+<th style="text-align:right;">
+instruction_main_keyboard_response.started
+</th>
+<th style="text-align:left;">
+instruction_main_keyboard_response.stopped
+</th>
+<th style="text-align:left;">
+Pseudonym
+</th>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+expName
+</th>
+<th style="text-align:left;">
+psychopyVersion
+</th>
+<th style="text-align:right;">
+frameRate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+none
+</td>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+right
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+5
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0.0103343
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2.010334
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+26.79425
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+27.19849
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+28.17814
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+32.18642
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+32.18642
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+32.18642
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+33.70200
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+ZZ
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+rdk-discrimination
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+03.02.21
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+59.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+left
+</td>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+right
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+1
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+1
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0.0320271
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2.032027
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+36.16522
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+36.28205
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+37.28240
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+41.30145
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+41.30145
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+f
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+41.30145
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+42.28899
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0.9339199
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+ZZ
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+rdk-discrimination
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+03.02.21
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+59.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+right
+</td>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+right
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+1
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0.0321732
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2.032173
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+44.78521
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+46.00329
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+47.00374
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+52.01072
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+52.01072
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+j
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+52.01072
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+52.92295
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0.8488816
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+ZZ
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+rdk-discrimination
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+03.02.21
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+59.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+left
+</td>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+left
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+3
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+3
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0.0321533
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2.032153
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+55.39138
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+56.19407
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+57.22527
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+61.23181
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+61.23181
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+f
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+61.23181
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+62.21611
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0.9396018
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+ZZ
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+rdk-discrimination
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+03.02.21
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+59.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+none
+</td>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+left
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+4
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+4
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+4
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0.0321391
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2.032139
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+64.71204
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+64.81315
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+65.84603
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+69.25240
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+69.25240
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+69.25240
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+70.78541
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+ZZ
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+rdk-discrimination
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+03.02.21
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+59.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+right
+</td>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+left
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+5
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+5
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+3
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0.0323178
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2.032318
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+73.24960
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+74.45209
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+75.48391
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+79.99045
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+79.99045
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+f
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+79.99045
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+80.80311
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+None
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+0.7490084
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+ZZ
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+rdk-discrimination
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+03.02.21
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+59.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+81.30346
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+space
+</td>
+<td style="text-align:right;">
+3.187924
+</td>
+<td style="text-align:right;">
+81.30346
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+ZZ
+</td>
+<td style="text-align:left;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;">
+rdk-discrimination
+</td>
+<td style="text-align:left;">
+03.02.21
+</td>
+<td style="text-align:right;">
+59.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;font-weight: bold;">
+right
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+0.0160001
+</td>
+<td style="text-align:right;">
+2.016000
+</td>
+<td style="text-align:right;">
+86.52245
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+86.89231
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+87.92302
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+92.92987
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+92.92987
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+j
+</td>
+<td style="text-align:right;">
+92.92987
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+93.70924
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+0.7136441
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+ZZ
+</td>
+<td style="text-align:left;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;">
+rdk-discrimination
+</td>
+<td style="text-align:left;">
+03.02.21
+</td>
+<td style="text-align:right;">
+59.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+right
+</td>
+<td style="text-align:left;font-weight: bold;">
+right
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+0.0318162
+</td>
+<td style="text-align:right;">
+2.031816
+</td>
+<td style="text-align:right;">
+96.17699
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+96.54602
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+97.57770
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+101.58423
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+101.58423
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+j
+</td>
+<td style="text-align:right;">
+101.58423
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+102.26673
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+0.6271285
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+ZZ
+</td>
+<td style="text-align:left;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;">
+rdk-discrimination
+</td>
+<td style="text-align:left;">
+03.02.21
+</td>
+<td style="text-align:right;">
+59.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+none
+</td>
+<td style="text-align:left;font-weight: bold;">
+right
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+66
+</td>
+<td style="text-align:right;">
+0.0321148
+</td>
+<td style="text-align:right;">
+2.032115
+</td>
+<td style="text-align:right;">
+104.76463
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+105.13302
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+106.16508
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+110.67183
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+110.67183
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+f
+</td>
+<td style="text-align:right;">
+110.67183
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+111.38828
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+0.6703410
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+ZZ
+</td>
+<td style="text-align:left;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;">
+rdk-discrimination
+</td>
+<td style="text-align:left;">
+03.02.21
+</td>
+<td style="text-align:right;">
+59.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+none
+</td>
+<td style="text-align:left;font-weight: bold;">
+right
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+0.0321121
+</td>
+<td style="text-align:right;">
+2.032112
+</td>
+<td style="text-align:right;">
+113.88535
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+115.08794
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+116.11989
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+119.52612
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+119.52612
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+j
+</td>
+<td style="text-align:right;">
+119.52612
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+120.15512
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+0.5738488
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+ZZ
+</td>
+<td style="text-align:left;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;">
+rdk-discrimination
+</td>
+<td style="text-align:left;">
+03.02.21
+</td>
+<td style="text-align:right;">
+59.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+left
+</td>
+<td style="text-align:left;font-weight: bold;">
+left
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;">
+0
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0.0321118
+</td>
+<td style="text-align:right;">
+2.032112
+</td>
+<td style="text-align:right;">
+122.62295
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+123.82583
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+124.85742
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+129.36397
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+129.36397
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+j
+</td>
+<td style="text-align:right;">
+129.36397
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+130.25975
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+0.8405913
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+ZZ
+</td>
+<td style="text-align:left;">
+2022_Mar_07_1403
+</td>
+<td style="text-align:left;">
+rdk-discrimination
+</td>
+<td style="text-align:left;">
+03.02.21
+</td>
+<td style="text-align:right;">
+59.9
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_head</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"main_block"</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kbl.html'>kbl</a></span><span class='op'>(</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kable_classic.html'>kable_paper</a></span><span class='op'>(</span><span class='st'>"striped"</span>, full_width <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/row_spec.html'>row_spec</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>7</span>, bold <span class='op'>=</span> <span class='cn'>TRUE</span>, color <span class='op'>=</span> <span class='st'>"white"</span>, background <span class='op'>=</span> <span class='st'>"#D7261E"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<table class=" lightable-paper lightable-striped" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+main_blocks_loop.thisRepN
+</th>
+<th style="text-align:right;">
+main_blocks_loop.thisTrialN
+</th>
+<th style="text-align:right;">
+main_blocks_loop.thisN
+</th>
+<th style="text-align:right;">
+main_blocks_loop.thisIndex
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+66
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+75
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Die Variable <code>main_blocks_loop.thisN</code> ist die Trialnummer.
+Diese können wir verwenden, um die Zeilen auszuschliessen, die nicht zum
+Main Block gehören.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> |&gt; 
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>main_blocks_loop.thisN</span><span class='op'>)</span><span class='op'>)</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"practice_block_loop"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 160 × 35
+   cue   direction main_blocks_loop… main_blocks_loo… main_blocks_loo…
+   &lt;chr&gt; &lt;chr&gt;                 &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1 right right                     0                0                0
+ 2 right right                     0                1                1
+ 3 none  right                     0                2                2
+ 4 none  right                     0                3                3
+ 5 left  left                      0                4                4
+ 6 none  right                     0                5                5
+ 7 none  left                      0                6                6
+ 8 left  left                      0                7                7
+ 9 left  right                     0                8                8
+10 none  right                     0                9                9
+# … with 150 more rows, and 30 more variables:
+#   main_blocks_loop.thisIndex &lt;dbl&gt;, static_isi.started &lt;dbl&gt;,
+#   static_isi.stopped &lt;dbl&gt;, fixation_pre.started &lt;dbl&gt;,
+#   fixation_pre.stopped &lt;chr&gt;, image.started &lt;dbl&gt;,
+#   image.stopped &lt;chr&gt;, fixation_post.started &lt;dbl&gt;,
+#   fixation_post.stopped &lt;chr&gt;, dots_background.started &lt;dbl&gt;,
+#   dots_background.stopped &lt;chr&gt;, dots_stimulus.started &lt;dbl&gt;, …</code></pre>
+</div>
+<h2 id="variablen-auswählen">Variablen auswählen</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"static"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"fixation"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"image"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"instruction"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"feedback"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 167 × 23
+   cue   direction practice_block_l… practice_block_… practice_block_…
+   &lt;chr&gt; &lt;chr&gt;                 &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1 none  right                     0                0                0
+ 2 left  right                     0                1                1
+ 3 right right                     0                2                2
+ 4 left  left                      0                3                3
+ 5 none  left                      0                4                4
+ 6 right left                      0                5                5
+ 7 &lt;NA&gt;  &lt;NA&gt;                     NA               NA               NA
+ 8 right right                    NA               NA               NA
+ 9 right right                    NA               NA               NA
+10 none  right                    NA               NA               NA
+# … with 157 more rows, and 18 more variables:
+#   practice_block_loop.thisIndex &lt;dbl&gt;,
+#   main_blocks_loop.thisRepN &lt;dbl&gt;,
+#   main_blocks_loop.thisTrialN &lt;dbl&gt;, main_blocks_loop.thisN &lt;dbl&gt;,
+#   main_blocks_loop.thisIndex &lt;dbl&gt;, dots_background.started &lt;dbl&gt;,
+#   dots_background.stopped &lt;chr&gt;, dots_stimulus.started &lt;dbl&gt;,
+#   dots_stimulus.stopped &lt;chr&gt;, dots_keyboard_response.keys &lt;chr&gt;, …</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> <span class='op'>&lt;-</span> <span class='va'>testdata</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"static"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"fixation"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"image"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"instruction"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"feedback"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 167 × 23
+   cue   direction practice_block_l… practice_block_… practice_block_…
+   &lt;chr&gt; &lt;chr&gt;                 &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1 none  right                     0                0                0
+ 2 left  right                     0                1                1
+ 3 right right                     0                2                2
+ 4 left  left                      0                3                3
+ 5 none  left                      0                4                4
+ 6 right left                      0                5                5
+ 7 &lt;NA&gt;  &lt;NA&gt;                     NA               NA               NA
+ 8 right right                    NA               NA               NA
+ 9 right right                    NA               NA               NA
+10 none  right                    NA               NA               NA
+# … with 157 more rows, and 18 more variables:
+#   practice_block_loop.thisIndex &lt;dbl&gt;,
+#   main_blocks_loop.thisRepN &lt;dbl&gt;,
+#   main_blocks_loop.thisTrialN &lt;dbl&gt;, main_blocks_loop.thisN &lt;dbl&gt;,
+#   main_blocks_loop.thisIndex &lt;dbl&gt;, dots_background.started &lt;dbl&gt;,
+#   dots_background.stopped &lt;chr&gt;, dots_stimulus.started &lt;dbl&gt;,
+#   dots_stimulus.stopped &lt;chr&gt;, dots_keyboard_response.keys &lt;chr&gt;, …</code></pre>
+</div>
+<h2 id="variablen-umbennen">Variablen umbennen</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> <span class='op'>&lt;-</span> <span class='va'>testdata</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span>trial <span class='op'>=</span> <span class='va'>main_blocks_loop.thisN</span>,
+           ID <span class='op'>=</span> <span class='va'>Pseudonym</span>,
+           <span class='va'>cue</span>,
+           <span class='va'>direction</span>,
+           response <span class='op'>=</span> <span class='va'>dots_keyboard_response.keys</span>,
+           rt <span class='op'>=</span> <span class='va'>dots_keyboard_response.rt</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 167 × 6
+   trial ID    cue   direction response     rt
+   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;dbl&gt;
+ 1    NA ZZ    none  right     None     NA    
+ 2    NA ZZ    left  right     f         0.934
+ 3    NA ZZ    right right     j         0.849
+ 4    NA ZZ    left  left      f         0.940
+ 5    NA ZZ    none  left      None     NA    
+ 6    NA ZZ    right left      f         0.749
+ 7    NA ZZ    &lt;NA&gt;  &lt;NA&gt;      &lt;NA&gt;     NA    
+ 8     0 ZZ    right right     j         0.714
+ 9     1 ZZ    right right     j         0.627
+10     2 ZZ    none  right     f         0.670
+# … with 157 more rows</code></pre>
+</div>
+<h2 id="neue-variablen-definieren">Neue Variablen definieren</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> <span class='op'>&lt;-</span> <span class='va'>testdata</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>choice <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>response</span> <span class='op'>==</span> <span class='st'>"j"</span>, <span class='st'>"right"</span>, <span class='st'>"left"</span><span class='op'>)</span>,
+           response <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>choice</span> <span class='op'>==</span> <span class='st'>"right"</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Alternative:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> <span class='op'>&lt;-</span> <span class='va'>testdata</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>choice <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>response</span> <span class='op'>==</span> <span class='st'>"j"</span>, <span class='st'>"right"</span>, <span class='st'>"left"</span><span class='op'>)</span>,
+           response <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>choice</span> <span class='op'>==</span> <span class='st'>"right"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> <span class='op'>&lt;-</span> <span class='va'>testdata</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>correct <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>choice</span> <span class='op'>==</span> <span class='va'>direction</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="gruppierungsvariablen">Gruppierungsvariablen</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>testdata</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 167
+Columns: 8
+$ trial     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, 0, 1, 2, 3, 4, 5, 6, 7…
+$ ID        &lt;chr&gt; &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;ZZ&quot;, &quot;Z…
+$ cue       &lt;chr&gt; &quot;none&quot;, &quot;left&quot;, &quot;right&quot;, &quot;left&quot;, &quot;none&quot;, &quot;right&quot;, …
+$ direction &lt;chr&gt; &quot;right&quot;, &quot;right&quot;, &quot;right&quot;, &quot;left&quot;, &quot;left&quot;, &quot;left&quot;,…
+$ response  &lt;dbl&gt; 0, 0, 1, 0, 0, 0, NA, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1…
+$ rt        &lt;dbl&gt; NA, 0.9339199, 0.8488816, 0.9396018, NA, 0.7490084…
+$ choice    &lt;chr&gt; &quot;left&quot;, &quot;left&quot;, &quot;right&quot;, &quot;left&quot;, &quot;left&quot;, &quot;left&quot;, N…
+$ correct   &lt;dbl&gt; 0, 0, 1, 1, 1, 1, NA, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1…</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>testdata</span> <span class='op'>&lt;-</span> <span class='va'>testdata</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.character</span>, <span class='va'>as.factor</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>testdata</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 167
+Columns: 8
+$ trial     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, 0, 1, 2, 3, 4, 5, 6, 7…
+$ ID        &lt;fct&gt; ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ…
+$ cue       &lt;fct&gt; none, left, right, left, none, right, NA, right, r…
+$ direction &lt;fct&gt; right, right, right, left, left, left, NA, right, …
+$ response  &lt;dbl&gt; 0, 0, 1, 0, 0, 0, NA, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1…
+$ rt        &lt;dbl&gt; NA, 0.9339199, 0.8488816, 0.9396018, NA, 0.7490084…
+$ choice    &lt;fct&gt; left, left, right, left, left, left, NA, right, ri…
+$ correct   &lt;dbl&gt; 0, 0, 1, 1, 1, 1, NA, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1…</code></pre>
+</div>
+<h1 id="mehrere-datensätze-bearbeiten">Mehrere Datensätze
+bearbeiten</h1>
+<p>Nun werden wir dasselbe wie oben machen, aber nun für alle
+<code>.csv</code> Files in einem Ordner.</p>
+<aside>
+In Ihrem Rstudio Projekt sind die Files im Ordner <code>data</code>
+gespeichert (Hier in einem Ordner names <code>data/rdkdata</code>).
+Bitte passen Sie den Pfad dementsprechend an!
+</aside>
+<h2 id="funktion-definieren">Funktion definieren</h2>
+<p>Nun wollen wir die ersten paar Schritte gleichzeitig auf mehrere
+Files anwenden:</p>
+<ol type="1">
+<li><code>CSV</code> File einlesen</li>
+<li>Filename hinzufügen</li>
+<li>Practice Trials löschen</li>
+<li>Practice Variablen löschen</li>
+</ol>
+<p>Dieser Vorgang ist in R ziemlich elegant. Anstatt dass wir manuell
+über alle Files iterieren müssen, können wir eine Funktion definieren,
+die wir auf ein File anwenden können, und dann wenden wir diese Funktion
+auf alle Files an.</p>
+<aside>
+Mit <code>map_*</code> Funktionen können wir eine Funktion auf alle
+Elemente einer Liste anwenden. <code>map_dfr</code> macht genau das, und
+gibt einen Dataframe als Output, in welchem die einzelnen Elemente
+<em>row-wise</em> zusamengesetzt werden.
+</aside>
+<p>Die Funktion, welche wir auf ein einzelnes <code>.csv</code> File
+anweden möchten, ist diese:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>import_function</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>filename</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='va'>filename</span><span class='op'>)</span> |&gt;
+        <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>filename <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/basename.html'>basename</a></span><span class='op'>(</span><span class='va'>filename</span><span class='op'>)</span><span class='op'>)</span> |&gt;
+        <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>main_blocks_loop.thisN</span><span class='op'>)</span><span class='op'>)</span> |&gt;
+        <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"practice_block_loop"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<h2 id="alle-files-in-einem-ordner-auflisten">Alle Files in einem Ordner
+auflisten</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>datadir</span> <span class='op'>&lt;-</span> <span class='st'>"data/rdkdata/"</span>
+<span class='va'>list_of_files</span> <span class='op'>&lt;-</span> <span class='va'>datadir</span> |&gt;
+    <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>pattern <span class='op'>=</span> <span class='st'>"csv"</span>, recursive <span class='op'>=</span> <span class='cn'>TRUE</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>list_of_files</span>
+</code></pre>
+</div>
+<pre><code>[1] &quot;data/rdkdata//JH_rdk-discrimination_2022_Mar_07_1403.csv&quot;   
+[2] &quot;data/rdkdata//NS_rdk-discrimination_2022_Mar_07_1331.csv&quot;   
+[3] &quot;data/rdkdata//rh_rdk-discrimination_2022_Mar_02_1105.csv&quot;   
+[4] &quot;data/rdkdata//sb_rdk-discrimination_2022_Mar_06_0746.csv&quot;   
+[5] &quot;data/rdkdata//SS91_rdk-discrimination_2022_Mar_06_0953.csv&quot; 
+[6] &quot;data/rdkdata//VP1_rdk-discrimination_2022_Mar_07_1237.csv&quot;  
+[7] &quot;data/rdkdata//VP2_rdk-discrimination_2022_Mar_07_1302.csv&quot;  
+[8] &quot;data/rdkdata//VPN01_rdk-discrimination_2022_Mar_01_2142.csv&quot;
+[9] &quot;data/rdkdata//VPN02_rdk-discrimination_2022_Mar_01_2208.csv&quot;</code></pre>
+</div>
+<h2 id="funktion-auf-liste-anwenden">Funktion auf Liste anwenden</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>list_of_files</span> |&gt; 
+    <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dfr</a></span><span class='op'>(</span><span class='op'>~</span><span class='fu'>import_function</span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="variablen-auswählen-und-umbennen">Variablen auswählen und
+umbennen</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"static"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"fixation"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"image"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"instruction"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"feedback"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span>trial <span class='op'>=</span> <span class='va'>main_blocks_loop.thisN</span>,
+           ID <span class='op'>=</span> <span class='va'>Pseudonym</span>,
+           <span class='va'>cue</span>,
+           <span class='va'>direction</span>,
+           response <span class='op'>=</span> <span class='va'>dots_keyboard_response.keys</span>,
+           rt <span class='op'>=</span> <span class='va'>dots_keyboard_response.rt</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="neue-variablen-definieren-1">Neue Variablen definieren</h2>
+<h3 id="korrekte-antworten">Korrekte Antworten</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>choice <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>response</span> <span class='op'>==</span> <span class='st'>"j"</span>, <span class='st'>"right"</span>, <span class='st'>"left"</span><span class='op'>)</span>,
+           response <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>choice</span> <span class='op'>==</span> <span class='st'>"right"</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>correct <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>choice</span> <span class='op'>==</span> <span class='va'>direction</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 1,440
+Columns: 8
+$ trial     &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …
+$ ID        &lt;chr&gt; &quot;JH&quot;, &quot;JH&quot;, &quot;JH&quot;, &quot;JH&quot;, &quot;JH&quot;, &quot;JH&quot;, &quot;JH&quot;, &quot;JH&quot;, &quot;J…
+$ cue       &lt;chr&gt; &quot;right&quot;, &quot;right&quot;, &quot;none&quot;, &quot;none&quot;, &quot;left&quot;, &quot;none&quot;, …
+$ direction &lt;chr&gt; &quot;right&quot;, &quot;right&quot;, &quot;right&quot;, &quot;right&quot;, &quot;left&quot;, &quot;right…
+$ response  &lt;dbl&gt; 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0,…
+$ rt        &lt;dbl&gt; 0.7136441, 0.6271285, 0.6703410, 0.5738488, 0.8405…
+$ choice    &lt;chr&gt; &quot;right&quot;, &quot;right&quot;, &quot;left&quot;, &quot;right&quot;, &quot;right&quot;, &quot;right…
+$ correct   &lt;dbl&gt; 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,…</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_head</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 20 × 8
+   trial ID    cue   direction response    rt choice correct
+   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+ 1     0 JH    right right            1 0.714 right        1
+ 2     1 JH    right right            1 0.627 right        1
+ 3     2 JH    none  right            0 0.670 left         0
+ 4     3 JH    none  right            1 0.574 right        1
+ 5     4 JH    left  left             1 0.841 right        0
+ 6     5 JH    none  right            1 0.668 right        1
+ 7     6 JH    none  left             1 1.12  right        0
+ 8     7 JH    left  left             0 0.640 left         1
+ 9     8 JH    left  right            0 1.13  left         0
+10     9 JH    none  right            1 1.03  right        1
+11    10 JH    none  left             0 1.35  left         1
+12    11 JH    left  left             0 0.688 left         1
+13    12 JH    left  left             0 0.721 left         1
+14    13 JH    none  left             0 0.655 left         1
+15    14 JH    right right            1 1.02  right        1
+16    15 JH    none  right            1 1.12  right        1
+17    16 JH    left  left             0 1.08  left         1
+18    17 JH    right left             0 0.643 left         1
+19    18 JH    right right            1 0.716 right        1
+20    19 JH    left  left             0 0.578 left         1</code></pre>
+</div>
+<h3 id="cue-bedingungsvariable">Cue-Bedingungsvariable</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>condition <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='va'>cue</span> <span class='op'>==</span> <span class='st'>"none"</span> <span class='op'>~</span> <span class='st'>"neutral"</span>,
+                                 <span class='va'>cue</span> <span class='op'>==</span> <span class='va'>direction</span> <span class='op'>~</span> <span class='st'>"valid"</span>,
+                                 <span class='va'>cue</span> <span class='op'>!=</span> <span class='va'>direction</span> <span class='op'>~</span> <span class='st'>"invalid"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_head</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 20 × 9
+   trial ID    cue   direction response    rt choice correct condition
+   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    
+ 1     0 JH    right right            1 0.714 right        1 valid    
+ 2     1 JH    right right            1 0.627 right        1 valid    
+ 3     2 JH    none  right            0 0.670 left         0 neutral  
+ 4     3 JH    none  right            1 0.574 right        1 neutral  
+ 5     4 JH    left  left             1 0.841 right        0 valid    
+ 6     5 JH    none  right            1 0.668 right        1 neutral  
+ 7     6 JH    none  left             1 1.12  right        0 neutral  
+ 8     7 JH    left  left             0 0.640 left         1 valid    
+ 9     8 JH    left  right            0 1.13  left         0 invalid  
+10     9 JH    none  right            1 1.03  right        1 neutral  
+11    10 JH    none  left             0 1.35  left         1 neutral  
+12    11 JH    left  left             0 0.688 left         1 valid    
+13    12 JH    left  left             0 0.721 left         1 valid    
+14    13 JH    none  left             0 0.655 left         1 neutral  
+15    14 JH    right right            1 1.02  right        1 valid    
+16    15 JH    none  right            1 1.12  right        1 neutral  
+17    16 JH    left  left             0 1.08  left         1 valid    
+18    17 JH    right left             0 0.643 left         1 invalid  
+19    18 JH    right right            1 0.716 right        1 valid    
+20    19 JH    left  left             0 0.578 left         1 valid    </code></pre>
+</div>
+<h2 id="gruppierungsvariablen-1">Gruppierungsvariablen</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.character</span>, <span class='va'>as.factor</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 1,440
+Columns: 9
+$ trial     &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …
+$ ID        &lt;fct&gt; JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH…
+$ cue       &lt;fct&gt; right, right, none, none, left, none, none, left, …
+$ direction &lt;fct&gt; right, right, right, right, left, right, left, lef…
+$ response  &lt;dbl&gt; 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0,…
+$ rt        &lt;dbl&gt; 0.7136441, 0.6271285, 0.6703410, 0.5738488, 0.8405…
+$ choice    &lt;fct&gt; right, right, left, right, right, right, right, le…
+$ correct   &lt;dbl&gt; 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ condition &lt;fct&gt; valid, valid, neutral, neutral, valid, neutral, ne…</code></pre>
+</div>
+<h2 id="accuracy-pro-personbedingung">Accuracy pro Person/Bedingung</h2>
+<p>Accuracy pro Person und pro Bedingung berechnen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>accuracy</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='va'>condition</span><span class='op'>)</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>N <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>,
+              ncorrect <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>correct</span><span class='op'>)</span>,
+              accuracy <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>correct</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>accuracy</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 27 × 5
+# Groups:   ID [9]
+   ID    condition     N ncorrect accuracy
+   &lt;fct&gt; &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1 JH    invalid      16       13   0.812 
+ 2 JH    neutral      80       66   0.825 
+ 3 JH    valid        64       60   0.938 
+ 4 NS    invalid      16       11   0.688 
+ 5 NS    neutral      80       56   0.7   
+ 6 NS    valid        64       58   0.906 
+ 7 rh    invalid      16        2   0.125 
+ 8 rh    neutral      80       64   0.8   
+ 9 rh    valid        64       61   0.953 
+10 sb    invalid      16        1   0.0625
+# … with 17 more rows</code></pre>
+</div>
+<h2 id="visualisieren">Visualisieren</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>accuracy</span> |&gt; 
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>condition</span>, y <span class='op'>=</span> <span class='va'>accuracy</span>, fill <span class='op'>=</span> <span class='va'>condition</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span><span class='op'>(</span>
+    values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>invalid <span class='op'>=</span> <span class='st'>"#9E0142"</span>,
+    neutral <span class='op'>=</span> <span class='st'>"#C4C4B7"</span>,
+    valid <span class='op'>=</span> <span class='st'>"#2EC762"</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='st'>"Cue"</span>,
+    y <span class='op'>=</span> <span class='st'>"Proportion correct"</span>,
+    title <span class='op'>=</span> <span class='st'>"Accuracy per person/condition"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_linedraw</a></span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>28</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>ID</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="importing-data_files/figure-html5/unnamed-chunk-34-1.png" width="1440" /></p>
+</div>
+<div class="sourceCode" id="cb14"><pre
 class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

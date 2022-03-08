@@ -129,17 +129,25 @@ class: middle
 
 ---
 
-## Pavlovia
+## Datensatz importieren
 
+👉 [Download Rstudio Projekt](../files/import-data.zip)
 
-- [Pavlovia](https://pavlovia.org/#main): 
+- `ZZ_rdk-discrimination_2022_Mar_07_1403` 
+aus dem `testdata` Ordner importieren.
+ 
+- Practice Trials löschen.
 
-> Pavlovia is a place for the wide community of researchers in the behavioural sciences to run, share, and explore experiments online.
+- Variablen auswählen und umbennen.
+```
+    - Trial Index
+    - ID
+    - Cue
+    - Direction
+    - Response / RT
+```
 
-- [Experimente](https://pavlovia.org/explore?sort=DEFAULT) suchen.
-
-- Zum Beispiel [ChoiceRTT](https://pavlovia.org/explore?sort=DEFAULT) ausprobieren und den [Code](https://gitlab.pavlovia.org/demos/choicertt) anschauen.
-
+- Antworten rekodieren.
 
 ---
 
@@ -156,23 +164,21 @@ class: middle
 
 ---
 
-## Understanding your Computer
+## Mehrere Datensätze importieren
 
+.pull-left[
+- Alle `.csv` Files aus dem `data` Ordner importieren.
 
-- Refresh rate: 60 Hz. Ein Frame dauert 1/60 Sekunde, oder 16.667 ms.
+- Dieselben Schritte wie oben auf alle Datensätze anwenden.
+]
 
+--
+
+.pull-right[
+```{r echo=FALSE, fig.height=7.5, fig.width=10.5}
+knitr::include_graphics("images/draw-finished-owl.png")
 ```
-from psychopy import visual
-
-win = visual.Window()
-win.getActualFrameRate()
-```
-
-- Keyboard timing: Variabilität ~15 ms.
-
-- Screen refresh fängt oben an und endet (~10 ms später) unten .
-
-
+]
 
 ---
 
@@ -183,22 +189,58 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    Accuracy pro Bedingung berechnen
+    Accuracy
   ]
 ]
 
 ---
 
+## Anzahl korrekter Antworten
+
+- Accuracy pro Person und pro Bedingung berechnen.
+
+- Bedingungen: 
+```
+   - valid
+   - invalid
+   - neutral
+```
+
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[6]
+]
+.pull-right-wide[
+  .larger[
+    Selber ausprobieren
+  ]
+]
+
+---
+
+
 ## Probieren Sie es selber!
 
 .your-turn[
-Versuchen Sie selber, Teile des Experiments in PsychoPy zu implementieren
+Learning by doing! Expertise in R erreicht man nur, wenn man selber ausprobiert.
 ]
 
-- Wenn Sie eine Starthilfe benötigen, downloaden Sie ein Beipiel: 👉 [Practice Trials](../files/PracticeTrials.zip)
+- Kapitel [Daten importieren](../importing-data.html) bearbeiten.
 
-- Eine Einführung finden Sie hier: 👉 [Verhaltensexperiment mit PsychoPy](../behavioural-experiments.html)
- 
+- Fragen stellen.
+
+- Daten mit `esquisse` visualisieren:
+
+```r
+install.packages("esquisse")
+library(esquisse)
+esquisser()
+```
+
 
 ```{r echo=FALSE}
 countdown(minutes = 25)

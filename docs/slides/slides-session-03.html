@@ -35,9 +35,9 @@
 class: center, middle, inverse, title-slide
 
 # 3. Sitzung
-## PsychoPy
+## Daten importieren und verarbeiten
 ### Andrew Ellis
-### Neurowissenschaft im Computerlab FS 22
+### Neurowissenschaft Computerlab FS 22
 ### 2022-03-08
 
 ---
@@ -78,32 +78,33 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    Bias RDK Experiment
+    Set up R/RStudio
   ]
 ]
 
 ---
 
-## Bias RDK Experiment
+## Set up R/RStudio
 
 .pull-left[
-- Random-dot motion direction-discrimination task
 
-- Inside/outside scanner (timing)
+👉 [Download __R__](https://cloud.r-project.org/)
 
-- Bias: cue (probability left/right/unbiased)
 
-- Fixation cross
-
-- RDK: 3x3 pixels, coherence 
-
-- 40 bias trials, 40 neutral trials
-
-- 32 valid, 8 invalid trials
+👉 [Download __RStudio__](https://www.rstudio.com/products/rstudio/download/#download)
 ]
 
 .pull-right[
-&lt;img src="images/bias-payoff-mulder.png" width="100%" /&gt;
+
+1. RStudio öffnen
+
+2. RStudio einrichten
+
+3. Packages installieren
+
+```r
+install.packages("tidyverse")
+```
 ]
 
 ---
@@ -116,29 +117,40 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    PsychoPy
+    R Kenntnisse auffrischen
   ]
 ]
 
 ---
 
-## PsychoPy
+## R Kenntnisse
 
-.pull-left-narrow[
-- [PsychoPy Website](https://www.psychopy.org/)
-
-- [Ressourcen](https://workshops.psychopy.org/teaching/index.html)
-
-- [Walk-through: Builder](https://tu-coding-outreach-group.github.io/cog_summer_workshops_2021/psychopy/index.html)
-
-- [Diskussionsforum](https://discourse.psychopy.org/)
-
-- Kapitel: [Verhaltensexperiment mit PsychoPy](../behavioural-experiments.html)
+.pull-left[
+👉 [Einführung in R](https://methodenlehre.github.io/intro-to-rstats)
+ 
+ - Einführung in RStudio
+ 
+ - R Sprache
+ 
+ - Control flow / Funktionen
+ 
+ - Daten importieren / tidy data / visualisieren
+ 
+ - Deskriptive Statistik
 ]
 
-.pull-right-wide[
+.pull-right[
 
-&lt;img src="images/psychopy-1.png" width="100%" /&gt;
+👉 [Data Skills for Reproducible Research](https://psyteachr.github.io/reprores-v2/index.html)
+
+- Reproducible Workflows
+
+- Data visualization
+
+- Data wrangling
+
+- Iteration &amp; Functions
+
 ]
 
 
@@ -151,23 +163,31 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    Pavlovia
+    Test Datensatz importieren
   ]
 ]
 
 ---
 
-## Pavlovia
+## Datensatz importieren
 
+👉 [Download Rstudio Projekt](../files/import-data.zip)
 
-- [Pavlovia](https://pavlovia.org/#main): 
+- `ZZ_rdk-discrimination_2022_Mar_07_1403` 
+aus dem `testdata` Ordner importieren.
+ 
+- Practice Trials löschen.
 
-&gt; Pavlovia is a place for the wide community of researchers in the behavioural sciences to run, share, and explore experiments online.
+- Variablen auswählen und umbennen.
+```
+    - Trial Index
+    - ID
+    - Cue
+    - Direction
+    - Response / RT
+```
 
-- [Experimente](https://pavlovia.org/explore?sort=DEFAULT) suchen.
-
-- Zum Beispiel [ChoiceRTT](https://pavlovia.org/explore?sort=DEFAULT) ausprobieren und den [Code](https://gitlab.pavlovia.org/demos/choicertt) anschauen.
-
+- Antworten rekodieren.
 
 ---
 
@@ -178,28 +198,51 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    Understanding your Computer
+    Mehrere Datensätze importieren
   ]
 ]
 
 ---
 
-## Understanding your Computer
+## Mehrere Datensätze importieren
 
+.pull-left[
+- Alle `.csv` Files aus dem `data` Ordner importieren.
 
-- Refresh rate: 60 Hz. Ein Frame dauert 1/60 Sekunde, oder 16.667 ms.
+- Dieselben Schritte wie oben auf alle Datensätze anwenden.
+]
 
+--
+
+.pull-right[
+&lt;img src="images/draw-finished-owl.png" width="100%" /&gt;
+]
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[5]
+]
+.pull-right-wide[
+  .larger[
+    Accuracy
+  ]
+]
+
+---
+
+## Anzahl korrekter Antworten
+
+- Accuracy pro Person und pro Bedingung berechnen.
+
+- Bedingungen: 
 ```
-from psychopy import visual
-
-win = visual.Window()
-win.getActualFrameRate()
+   - valid
+   - invalid
+   - neutral
 ```
-
-- Keyboard timing: Variabilität ~15 ms.
-
-- Screen refresh fängt oben an und endet (~10 ms später) unten .
-
 
 
 ---
@@ -207,28 +250,37 @@ win.getActualFrameRate()
 class: middle
 
 .pull-left-narrow[
-  .huge-blue-number[4]
+  .huge-blue-number[6]
 ]
 .pull-right-wide[
   .larger[
-    🛠 Selber machen
+    Selber ausprobieren
   ]
 ]
 
 ---
+
 
 ## Probieren Sie es selber!
 
 .your-turn[
-Versuchen Sie selber, Teile des Experiments in PsychoPy zu implementieren
+Learning by doing! Expertise in R erreicht man nur, wenn man selber ausprobiert.
 ]
 
-- Wenn Sie eine Starthilfe benötigen, downloaden Sie ein Beipiel: 👉 [Practice Trials](../files/PracticeTrials.zip)
+- Kapitel [Daten importieren](../importing-data.html)
 
-- Eine Einführung finden Sie hier: 👉 [Verhaltensexperiment mit PsychoPy](../behavioural-experiments.html)
- 
+- Fragen stellen.
 
-<div class="countdown" id="timer_62268fcd" style="right:0;bottom:0;" data-warnwhen="0">
+- Daten mit `esquisse` visualisieren:
+
+```r
+install.packages("esquisse")
+library(esquisse)
+esquisser()
+```
+
+
+<div class="countdown" id="timer_6226bf43" style="right:0;bottom:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">25</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 

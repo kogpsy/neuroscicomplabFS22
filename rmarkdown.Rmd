@@ -1,7 +1,7 @@
 ---
 title: "Arbeiten mit R"
 description: |
-  Eine kurye Einführung in R, RStudio und Rmarkdown.
+  Eine kurze Einführung in R, RStudio und Rmarkdown.
 author:
   - first_name: "Andrew"
     last_name: "Ellis"

@@ -4,7 +4,7 @@ session: 1
 subtitle: "Einführung"
 author: "Andrew Ellis"
 # institute: "Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"
-institute: "Neurowissenschaft im Computerlab FS 22"
+institute: "Neurowissenschaft Computerlab FS 22"
 date: "2022-02-22"
 output:
   xaringan::moon_reader:

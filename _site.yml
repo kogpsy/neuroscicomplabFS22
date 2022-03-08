@@ -1,10 +1,10 @@
-name: "Neurowissenschaft im Computerlab"
+name: "Neurowissenschaft Computerlab"
 title: "Neurowissenschaft Computerlab"
 base_url: https://kogpsy.github.io/neuroscicomplabFS22
 repository_url: https://github.com/kogpsy/neuroscicomplabFS22
 source_url: https://github.com/kogpsy/neuroscicomplabFS22
 description: |
-  Neurowissenschaft im Computerlab FS 22
+  Neurowissenschaft Computerlab FS 22
 include: ["data/"]
 exclude: ["_do_not_build/", "jasp", "neuroscicomplabFS22.code-workspace"]
 output_dir: "docs"
@@ -45,6 +45,10 @@ navbar:
       menu:
         - text: "Verhaltensexperiment mit PsychoPy"
           href: behavioural-experiments.html
+        - text: "Daten importieren"
+          href: importing-data.html
+        # - text: "Daten visualisieren"
+        #   href: visualizing-data.html
 
     - text: "Slides"
       menu:
@@ -52,6 +56,8 @@ navbar:
           href: slides/slides-session-01.html
         - text: "2. Sitzung (01.03.2022)"
           href: slides/slides-session-02.html
+        - text: "3. Sitzung (08.03.2022)"
+          href: slides/slides-session-03.html
 
 
     - text: "Übungen"

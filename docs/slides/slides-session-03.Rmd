@@ -1,0 +1,248 @@
+---
+title: "3. Sitzung"
+session: 3
+subtitle: "Daten importieren und verarbeiten"
+author: "Andrew Ellis"
+# institute: "Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"
+institute: "Neurowissenschaft Computerlab FS 22"
+date: "2022-03-08"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["css/xaringan-themer.css", "css/slides-style.css"]
+    nature:
+      highlightStyle: github #solarized-light # github
+      highlightLines: true
+      ratio: 16:10
+      countIncrementalSlides: false
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+---
+
+```{r child = "setup.Rmd"}
+```
+
+```{r load-packages, include=FALSE, warning=FALSE}
+library(tidyverse)
+library(rmarkdown)
+library(countdown)
+```
+
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[1]
+]
+.pull-right-wide[
+  .larger[
+    Set up R/RStudio
+  ]
+]
+
+---
+
+## Set up R/RStudio
+
+.pull-left[
+
+👉 [Download __R__](https://cloud.r-project.org/)
+
+
+👉 [Download __RStudio__](https://www.rstudio.com/products/rstudio/download/#download)
+]
+
+.pull-right[
+
+1. RStudio öffnen
+
+2. RStudio einrichten
+
+3. Packages installieren
+```{r eval=FALSE, include=TRUE}
+install.packages("tidyverse")
+```
+]
+
+---
+
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[2]
+]
+.pull-right-wide[
+  .larger[
+    R Kenntnisse auffrischen
+  ]
+]
+
+---
+
+## R Kenntnisse
+
+.pull-left[
+👉 [Einführung in R](https://methodenlehre.github.io/intro-to-rstats)
+ 
+ - Einführung in RStudio
+ 
+ - R Sprache
+ 
+ - Control flow / Funktionen
+ 
+ - Daten importieren / tidy data / visualisieren
+ 
+ - Deskriptive Statistik
+]
+
+.pull-right[
+
+👉 [Data Skills for Reproducible Research](https://psyteachr.github.io/reprores-v2/index.html)
+
+- Reproducible Workflows
+
+- Data visualization
+
+- Data wrangling
+
+- Iteration & Functions
+
+]
+
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[3]
+]
+.pull-right-wide[
+  .larger[
+    Test Datensatz importieren
+  ]
+]
+
+---
+
+## Datensatz importieren
+
+👉 [Download Rstudio Projekt](../files/import-data.zip)
+
+- `ZZ_rdk-discrimination_2022_Mar_07_1403` 
+aus dem `testdata` Ordner importieren.
+ 
+- Practice Trials löschen.
+
+- Variablen auswählen und umbennen.
+```
+    - Trial Index
+    - ID
+    - Cue
+    - Direction
+    - Response / RT
+```
+
+- Antworten rekodieren.
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[4]
+]
+.pull-right-wide[
+  .larger[
+    Mehrere Datensätze importieren
+  ]
+]
+
+---
+
+## Mehrere Datensätze importieren
+
+.pull-left[
+- Alle `.csv` Files aus dem `data` Ordner importieren.
+
+- Dieselben Schritte wie oben auf alle Datensätze anwenden.
+]
+
+--
+
+.pull-right[
+```{r echo=FALSE, fig.height=7.5, fig.width=10.5}
+knitr::include_graphics("images/draw-finished-owl.png")
+```
+]
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[5]
+]
+.pull-right-wide[
+  .larger[
+    Accuracy
+  ]
+]
+
+---
+
+## Anzahl korrekter Antworten
+
+- Accuracy pro Person und pro Bedingung berechnen.
+
+- Bedingungen: 
+```
+   - valid
+   - invalid
+   - neutral
+```
+
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[6]
+]
+.pull-right-wide[
+  .larger[
+    Selber ausprobieren
+  ]
+]
+
+---
+
+
+## Probieren Sie es selber!
+
+.your-turn[
+Learning by doing! Expertise in R erreicht man nur, wenn man selber ausprobiert.
+]
+
+- Kapitel [Daten importieren](../importing-data.html) bearbeiten.
+
+- Fragen stellen.
+
+- Daten mit `esquisse` visualisieren:
+
+```r
+install.packages("esquisse")
+library(esquisse)
+esquisser()
+```
+
+
+```{r echo=FALSE}
+countdown(minutes = 25)
+```
+

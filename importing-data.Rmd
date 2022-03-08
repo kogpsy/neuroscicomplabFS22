@@ -1,0 +1,361 @@
+---
+title: "Daten importieren"
+description: |
+  Daten aus Verhaltensexperiments importieren und bearbeiten.
+date: "2022-03-08"
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/importing-data.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, xaringanExtra-clipboard, echo=FALSE, include=FALSE}
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+# RStudio Projekt 
+Nun wollen wir die Datensätze aus dem Verhaltensexperiment von der letzten Sitzung in R importieren. 
+
+Laden Sie das [RStudio Projekt](./files/import-data) und öffnen Sie es.
+
+# Einen Datensatz bearbeiten
+Es gibt zwei Unterordner: `testdata` und `data`. In ersterem befindet sich ein Datensatz einer Testperson, in letzterem befinden sich mehrere Datensätze. Wir importieren und bearbeiten zuerst den Datensatz aus dem `testdata` Ordner, und wenden anschliessend das Gelernte gleichzeitig auf mehrere Datensätze an.
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+ 
+<aside>
+In Ihrem Rstudio Projekt ist dieses File im Ordner `testdata` gespeichert (Hier in einem Ordner names `data/rdktest`). Bitte passen Sie den Pfad dementsprechend an!
+</aside>
+
+
+## CSV File importieren
+
+```{r echo=TRUE}
+testdata <- read_csv("data/rdktest/ZZ_rdk-discrimination_2022_Mar_07_1403.csv") 
+```
+
+### Variablen überprüfen
+
+```{r}
+glimpse(testdata)
+```
+
+
+
+## Practice Trials löschen
+
+```{r}
+library(kableExtra)
+
+testdata |> 
+  slice_head(n = 12) |> 
+  kbl() |> 
+  kable_paper("striped", full_width = FALSE) |> 
+  column_spec(2:7, bold = TRUE) |> 
+  row_spec(1:6, bold = TRUE, color = "white", background = "#D7261E")
+```
+
+
+
+```{r}
+testdata |> 
+  slice_head(n = 12) |> 
+  select(starts_with("main_block")) |> 
+  kbl() |> 
+  kable_paper("striped", full_width = FALSE) |> 
+  row_spec(1:7, bold = TRUE, color = "white", background = "#D7261E")
+```
+Die Variable `main_blocks_loop.thisN` ist die Trialnummer. Diese können wir verwenden, um die Zeilen auszuschliessen, die nicht zum Main Block gehören.
+
+```{r}
+testdata |> 
+    filter(!is.na(main_blocks_loop.thisN)) |>
+    select(-contains("practice_block_loop"))
+```
+
+
+## Variablen auswählen
+
+```{r}
+testdata |>
+    select(-contains("static"),
+           -contains("fixation"),
+           -contains("image"),
+           -contains("instruction"),
+           -contains("feedback"))
+```
+
+
+```{r}
+testdata <- testdata |>
+    select(-contains("static"),
+           -contains("fixation"),
+           -contains("image"),
+           -contains("instruction"),
+           -contains("feedback"))
+```
+
+
+```{r}
+testdata
+```
+
+
+## Variablen umbennen
+
+```{r}
+testdata <- testdata |>
+    select(trial = main_blocks_loop.thisN,
+           ID = Pseudonym,
+           cue,
+           direction,
+           response = dots_keyboard_response.keys,
+           rt = dots_keyboard_response.rt)
+
+```
+
+
+```{r}
+testdata
+```
+
+
+## Neue Variablen definieren
+
+```{r}
+testdata <- testdata |>
+    mutate(choice = if_else(response == "j", "right", "left"),
+           response = if_else(choice == "right", 1, 0))
+```
+
+
+Alternative:
+
+```{r eval=FALSE, include=TRUE}
+testdata <- testdata |>
+    mutate(choice = if_else(response == "j", "right", "left"),
+           response = as.numeric(choice == "right"))
+```
+
+
+```{r}
+testdata <- testdata |>
+    mutate(correct = as.numeric(choice == direction))
+```
+
+## Gruppierungsvariablen
+
+```{r}
+glimpse(testdata)
+```
+
+```{r}
+testdata <- testdata |>
+    mutate_if(is.character, as.factor)
+```
+
+
+```{r}
+glimpse(testdata)
+```
+
+
+
+# Mehrere Datensätze bearbeiten
+
+Nun werden wir dasselbe wie oben machen, aber nun für alle `.csv` Files in einem Ordner. 
+
+<aside>
+In Ihrem Rstudio Projekt sind die Files im Ordner `data` gespeichert (Hier in einem Ordner names `data/rdkdata`). Bitte passen Sie den Pfad dementsprechend an!
+</aside>
+
+
+## Funktion definieren
+
+Nun wollen wir die ersten paar Schritte gleichzeitig auf mehrere Files anwenden:
+
+1. `CSV` File einlesen
+2. Filename hinzufügen
+3. Practice Trials löschen
+4. Practice Variablen löschen
+
+
+Dieser Vorgang ist in R ziemlich elegant. Anstatt dass wir manuell über alle Files iterieren müssen, können wir eine Funktion definieren, die wir auf ein File anwenden können, und dann wenden wir diese Funktion auf alle Files an.
+
+<aside>
+Mit `map_*` Funktionen können wir eine Funktion auf alle Elemente einer Liste anwenden. `map_dfr` macht genau das, und gibt einen Dataframe als Output, in welchem die einzelnen Elemente _row-wise_ zusamengesetzt werden.
+</aside>
+
+
+Die Funktion, welche wir auf ein einzelnes `.csv` File anweden möchten, ist diese:
+
+```{r}
+import_function <- function(filename) {
+    read_csv(filename) |>
+        mutate(filename = basename(filename)) |>
+        filter(!is.na(main_blocks_loop.thisN)) |>
+        select(-contains("practice_block_loop"))
+}
+```
+
+## Alle Files in einem Ordner auflisten
+
+```{r}
+datadir <- "data/rdkdata/"
+list_of_files <- datadir |>
+    list.files(pattern = "csv", recursive = TRUE, full.names = TRUE)
+```
+
+
+
+```{r}
+list_of_files
+```
+
+## Funktion auf Liste anwenden
+
+```{r message=FALSE, warning=FALSE}
+data <- list_of_files |> 
+    map_dfr(~import_function(.))
+```
+
+## Variablen auswählen und umbennen
+
+```{r}
+data <- data |>
+    select(-contains("static"),
+           -contains("fixation"),
+           -contains("image"),
+           -contains("instruction"),
+           -contains("feedback"))
+```
+
+```{r}
+data <- data |>
+    select(trial = main_blocks_loop.thisN,
+           ID = Pseudonym,
+           cue,
+           direction,
+           response = dots_keyboard_response.keys,
+           rt = dots_keyboard_response.rt)
+
+```
+
+
+## Neue Variablen definieren
+
+### Korrekte Antworten
+```{r}
+data <- data |>
+    mutate(choice = if_else(response == "j", "right", "left"),
+           response = if_else(choice == "right", 1, 0))
+
+```
+
+```{r}
+data <- data |>
+    mutate(correct = as.numeric(choice == direction))
+```
+
+
+```{r}
+glimpse(data)
+```
+
+```{r}
+data |> 
+  slice_head(n = 20)
+```
+
+
+### Cue-Bedingungsvariable
+
+```{r}
+data <- data |>
+    mutate(condition = case_when(cue == "none" ~ "neutral",
+                                 cue == direction ~ "valid",
+                                 cue != direction ~ "invalid"))
+```
+
+
+```{r}
+data |> 
+  slice_head(n = 20)
+```
+
+## Gruppierungsvariablen 
+
+```{r}
+data <- data |>
+    mutate_if(is.character, as.factor)
+```
+
+```{r}
+glimpse(data)
+```
+
+
+## Accuracy pro Person/Bedingung
+
+Accuracy pro Person und pro Bedingung berechnen.
+
+```{r}
+accuracy <- data |>
+    group_by(ID, condition) |>
+    summarise(N = n(),
+              ncorrect = sum(correct),
+              accuracy = mean(correct))
+
+```
+
+```{r}
+accuracy
+```
+
+## Visualisieren
+
+```{r fig.height=12, fig.width=15}
+accuracy |> 
+  ggplot(aes(x = condition, y = accuracy, fill = condition)) +
+  geom_col() +
+  scale_fill_manual(
+    values = c(invalid = "#9E0142",
+    neutral = "#C4C4B7",
+    valid = "#2EC762")
+  ) +
+  labs(
+    x = "Cue",
+    y = "Proportion correct",
+    title = "Accuracy per person/condition"
+  ) +
+  theme_linedraw(base_size = 28) +
+  facet_wrap(~ID)
+```
+

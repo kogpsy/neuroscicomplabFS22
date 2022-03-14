@@ -1,13 +1,18 @@
+
+
 library(tidyverse)
 
-library(readr)
-ZZ_rdk_discrimination_2022_Mar_07_1403 <- read_csv("testdata/ZZ_rdk-discrimination_2022_Mar_07_1403.csv")
-View(ZZ_rdk_discrimination_2022_Mar_07_1403)
+
+
+
+
 
 
 
 ## load single CSV file ----
 testdata <- read_csv("testdata/ZZ_rdk-discrimination_2022_Mar_07_1403.csv")
+
+
 
 testdata
 
@@ -41,9 +46,21 @@ testdata <- testdata |>
            -contains("feedback"))
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 ## rename variables ----
 testdata <- testdata |>
-    select(trial = main_blocks_loop.thisN,
+    select(trial= main_blocks_loop.thisN,
            ID = Pseudonym,
            cue,
            direction,
@@ -51,10 +68,25 @@ testdata <- testdata |>
            rt = dots_keyboard_response.rt)
 
 
+
+
+
+
+
+
+
+
+
+mutate()
+
+
+
 ## recode response variable ----
 testdata <- testdata |>
-    mutate(choice = if_else(response == "j", "right", "left"),
-           response = if_else(choice == "right", 1, 0))
+    mutate(choice = if_else(response == "j",
+                            "right", "left"),
+           response = if_else(choice == "right",
+                              1, 0))
 
 testdata
 
@@ -73,7 +105,14 @@ testdata <- testdata |>
     # mutate(correct = choice == direction)
     mutate(correct = if_else(choice == direction, 1, 0))
 
+
+
+
+
 glimpse(testdata)
+
+testdata |>
+    mutate(ID = as.factor(ID))
 
 ## convert grouping variables to factor ----
 testdata <- testdata |>
@@ -81,8 +120,15 @@ testdata <- testdata |>
 
 
 
+
+
+
+
+
+
+
 testaccuracy <- testdata |>
-    group_by( condition) |>
+    group_by(condition) |>
     summarise(N = n(),
               ncorrect = sum(correct),
               accuracy = ncorrect/N,
@@ -103,11 +149,27 @@ import_fun <- function(filename) {
 }
 
 
+
+
+
+
+
+
 ## list files ----
 datadir <- "data"
 
+datadir |>
+    list.files(pattern = "csv")
+datadir |>
+    list.files(pattern = "csv",
+               full.names = TRUE)
+
 list_of_files <- datadir |>
-    list.files(pattern = "csv", recursive = TRUE, full.names = TRUE)
+    list.files(pattern = "csv",
+               recursive = TRUE,
+               full.names = TRUE)
+
+
 
 list_of_files
 
@@ -118,16 +180,15 @@ data <- list_of_files |>
 
 
 
-
 # list_of_files |>
 #     map(~import_fun(.))
 #
 
 
-f <- function(x) rnorm(1, x, n = 10)
-
-sigmas <- c(1, 2, 4)
-sigmas |> map(f)
+# f <- function(x) rnorm(1, x, n = 10)
+#
+# sigmas <- c(1, 2, 4)
+# sigmas |> map(f)
 
 
 ## select, rename, create variables ----
@@ -189,5 +250,6 @@ accuracy <- data |>
 
 
 ## visualize ----
+install.packages("esquisse")
 library(esquisse)
 esquisser(accuracy)

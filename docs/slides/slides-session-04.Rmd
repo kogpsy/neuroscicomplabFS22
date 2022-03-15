@@ -39,36 +39,27 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    Set up R/RStudio
+    Data cleaning
   ]
 ]
 
 ---
 
-## Set up R/RStudio
+## Data cleaning
 
-.pull-left[
+Nun wollen wir versuchen, einzelne Trials, zu identifizieren, in denen Versuchpersonen nicht aufgepasst haben, oder einfach geraten wurde. In solchen Fällen wäre die Qualität der Daten nicht gut genug. 
 
-👉 [Download __R__](https://cloud.r-project.org/)
+--
+
+Am häufigsten werden die folgenden beiden Kriterien verwendet, um entweder einzelne Datenpunkte, oder Versuchspersonen, auszuschliessen:
+
+1) Versuchspersonen, deren Accuracy < 50% ist.
+
+2) Trials, in denen die Antwort zu schnell oder zu langsam war.
 
 
-👉 [Download __RStudio__](https://www.rstudio.com/products/rstudio/download/#download)
-]
-
-.pull-right[
-
-1. RStudio öffnen
-
-2. RStudio einrichten
-
-3. Packages installieren
-```{r eval=FALSE, include=TRUE}
-install.packages("tidyverse")
-```
-]
 
 ---
-
 
 class: middle
 
@@ -77,42 +68,16 @@ class: middle
 ]
 .pull-right-wide[
   .larger[
-    R Kenntnisse auffrischen
+    Daten zusammenfassen
   ]
 ]
 
 ---
 
-## R Kenntnisse
+## Daten zusammenfassen
 
-.pull-left[
-👉 [Einführung in R](https://methodenlehre.github.io/intro-to-rstats)
- 
- - Einführung in RStudio
- 
- - R Sprache
- 
- - Control flow / Funktionen
- 
- - Daten importieren / tidy data / visualisieren
- 
- - Deskriptive Statistik
-]
-
-.pull-right[
-
-👉 [Data Skills for Reproducible Research](https://psyteachr.github.io/reprores-v2/index.html)
-
-- Reproducible Workflows
-
-- Data visualization
-
-- Data wrangling
-
-- Iteration & Functions
-
-]
-
+- Pro VP / Bedingung
+- über VPs aggregieren
 
 ---
 
@@ -120,99 +85,6 @@ class: middle
 
 .pull-left-narrow[
   .huge-blue-number[3]
-]
-.pull-right-wide[
-  .larger[
-    Test Datensatz importieren
-  ]
-]
-
----
-
-## Datensatz importieren
-
-👉 [Download Rstudio Projekt](../files/import-data.zip)
-
-- `ZZ_rdk-discrimination_2022_Mar_07_1403` 
-aus dem `testdata` Ordner importieren.
- 
-- Practice Trials löschen.
-
-- Variablen auswählen und umbennen.
-```
-    - Trial Index
-    - ID
-    - Cue
-    - Direction
-    - Response / RT
-```
-
-- Antworten rekodieren.
-
----
-
-class: middle
-
-.pull-left-narrow[
-  .huge-blue-number[4]
-]
-.pull-right-wide[
-  .larger[
-    Mehrere Datensätze importieren
-  ]
-]
-
----
-
-## Mehrere Datensätze importieren
-
-.pull-left[
-- Alle `.csv` Files aus dem `data` Ordner importieren.
-
-- Dieselben Schritte wie oben auf alle Datensätze anwenden.
-]
-
---
-
-.pull-right[
-```{r echo=FALSE, fig.height=7.5, fig.width=10.5}
-knitr::include_graphics("images/draw-finished-owl.png")
-```
-]
-
----
-
-class: middle
-
-.pull-left-narrow[
-  .huge-blue-number[5]
-]
-.pull-right-wide[
-  .larger[
-    Accuracy
-  ]
-]
-
----
-
-## Anzahl korrekter Antworten
-
-- Accuracy pro Person und pro Bedingung berechnen.
-
-- Bedingungen: 
-```
-   - valid
-   - invalid
-   - neutral
-```
-
-
----
-
-class: middle
-
-.pull-left-narrow[
-  .huge-blue-number[6]
 ]
 .pull-right-wide[
   .larger[
@@ -229,9 +101,6 @@ class: middle
 Learning by doing! Expertise in R erreicht man nur, wenn man selber ausprobiert.
 ]
 
-- Kapitel [Daten importieren](../importing-data.html) bearbeiten.
-
-- Fragen stellen.
 
 - Daten mit `esquisse` visualisieren:
 

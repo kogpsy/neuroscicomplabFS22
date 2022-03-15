@@ -47,6 +47,10 @@ navbar:
           href: behavioural-experiments.html
         - text: "Daten importieren"
           href: importing-data.html
+        - text: "Data cleaning"
+          href: data-cleaning.html
+        - text: "Data zusammenfassen"
+          href: summarizing-data.html
         # - text: "Daten visualisieren"
         #   href: visualizing-data.html
 
@@ -58,7 +62,8 @@ navbar:
           href: slides/slides-session-02.html
         - text: "3. Sitzung (08.03.2022)"
           href: slides/slides-session-03.html
-
+        - text: "4. Sitzung (15.03.2022)"
+          href: slides/slides-session-04.html
 
     - text: "Übungen"
       menu:

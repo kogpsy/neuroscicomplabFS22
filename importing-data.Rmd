@@ -380,7 +380,7 @@ accuracy <- data |>
               ncorrect = sum(correct),
               accuracy = mean(correct))
 
-```
+```   
 
 ```{r}
 accuracy

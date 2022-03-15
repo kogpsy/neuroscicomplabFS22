@@ -1,7 +1,7 @@
 ---
-title: "Daten bearbeiten und zusammenfassen"
+title: "Data cleaning"
 description: |
-  Daten aus Verhaltensexperiments bearbeiten und zusammenfassen, Datenpunkte identifizieren.
+  Daten aus Verhaltensexperiments bearbeiten und Datenpunkte identifizieren.
 date: "2022-03-15"
 author:
   - first_name: "Andrew"
@@ -37,65 +37,17 @@ htmltools::tagList(
 )
 ```
 
+:::note
+👉 [R Code für dieses Kapitel downloaden](./files/data-cleaning.R)
+:::
 
-# Datensatz importieren
 
-
-```{r}
+```{r load-packages, include=TRUE, warning=FALSE}
 library(tidyverse)
-data <- read_csv("data/rdkdata.csv")
-```
+library(viridis)
 
-Ob eine Variable als `factor` definiert ist, wird als Attribut gespeichert. Attribute werden aber in einem `.csv.` File nicht mitgespeichert; deshalb müssen wir die Gruppierungsvariablen wieder als `factor` definieren. 
-
-```{r}
-data <- data |>
-    mutate_if(is.character, as.factor)
-```
-
-```{r}
-glimpse(data)
-```
-
-
-
-
-
-# Accuracy pro Person/Bedingung
-
-Wir haben schon gelernt, wie wir Accuracy pro Person und pro Bedingung berechnen können.
-
-```{r}
-accuracy <- data |>
-    group_by(ID, condition) |>
-    summarise(N = n(),
-              ncorrect = sum(correct),
-              accuracy = mean(correct))
-
-```
-
-```{r}
-accuracy
-```
-
-## Visualisieren
-
-```{r fig.height=12, fig.width=15}
-accuracy |> 
-  ggplot(aes(x = condition, y = accuracy, fill = condition)) +
-  geom_col() +
-  scale_fill_manual(
-    values = c(invalid = "#9E0142",
-    neutral = "#C4C4B7",
-    valid = "#2EC762")
-  ) +
-  labs(
-    x = "Cue",
-    y = "Proportion correct",
-    title = "Accuracy per person/condition"
-  ) +
-  theme_linedraw(base_size = 28) +
-  facet_wrap(~ID)
+theme_set(theme_grey(base_size = 14) +
+            theme(panel.grid = element_blank()))
 ```
 
 
@@ -109,131 +61,257 @@ Am häufigsten werden die folgenden beiden Kriterien verwendet, um entweder einz
 
 2) Trials, in denen die Antwort zu schnell oder zu langsam war.
 
-Nun ist in Experiment, in denen ein Bias erzeugt wird, etwas heikel, Trials oder Versuchspersonen aufgrund der Anzahl korrekter Antworten auszuschliessen - wir haben ja die Korrektheit der Antworten experimentell manipuliert. 
-
-So hat z.B. VP "rh" in der `invalid` Condition eine Accuracy von ca. 0.125. Dies bedeudet, dass diese Person systematisch falsche Antworten gegeben hat. Da wir dies in der `invald` Condition aber geradezu verlangen, ist dies eher ein "Feature" als ein Fehler.
-
-
-```{r}
-accuracy
-```
+Nun ist in Experimenten, in denen ein Bias erzeugt wird, etwas heikel, Trials oder Versuchspersonen aufgrund der Anzahl korrekter Antworten auszuschliessen - wir haben ja die Korrektheit der Antworten experimentell manipuliert. 
 
 Deswegen richten wir hier unseren Fokus auf die Reaktionszeiten. Wir gehen davon aus, dass Reaktionszeiten, die zu schnell oder yu langsam waren, aufgrund von Rateprozessen zustande kamen. Was genau __zu schnell__ oder __zu langsam__ heisst, ist schwierig zu beantworten, und hängt stark vom jeweiligen Task ab.
 Deshalb ist es wichtig, sich _a priori_ Gedanken darüber zu machen, welche Kriterien angewandt werden sollen.
 
 
 
+## Reaktionszeiten
+
+Drei häufig verwendete Tasks, um Reaktionszeiten zu messen sind 
+
+- Reaction tasks
+- Go/No Go tasks
+- Discrimination tasks
+
+Bei *Reaction tasks* muss auf einen Reiz reagiert werden, bei Go/No Go tasks muss zwischen zwei Reizen unterschieden, und nur auf einen reagiert werden. Discrimination tasks erfordern komplexere kognitive Leistungen, da eine von zwei Antworten gegeben werden muss, in Abhängigkeit des Reizes. 
+
+Wenn wir Reaktionszeiten messen, gehen wir gehen davon aus, dass die Zeit, die benötigt wird, um einen Task auszuführen, uns über den kognitiven Prozess Auskunft gibt. Dabei ist es aber wichtig, dass die Versuchsperson in dieser Zeit wirklich genau den Task ausführt, und nicht nebenher noch andere Prozesse die Reaktionszeit beeinflussen, da diese sonst bedeutungslos wäre. Leider ist dies nicht immer der Fall. Bei vielen repetitiven Tasks sind *attentional lapses* nicht zu vermeiden, und nur bei den einfachsten Tasks ist es möglich, sicherzustellen, dass die VP auch wirklich den intendierten Task ausführt.
+
+
+## Eigenschaften von Reaktionszeiten 
+
+Die wichtigsten Merkmale von Reaktionszeiten sind 
+
+1) Sie sind rechtsschief
+2) Sie sind nicht normalverteilt
+3) Streuung (Standardabweichung) steigt ungefähr linear mit wachsendem Mittelwert [@wagenmakersLinearRelationMean2007]
+
+
+Die Rechtschiefe ist eine natürliche Konsequenz der Tatsache, dass es viele Möglichkeiten gibt, langsamer zu werden, aber nur wenige Möglichkeiten, schneller zu werden. Reaktionszeiten können nicht negativ sein Ausserdem gibt es eine Untergrenze, welche durch unsere Physiologie bestimmt ist. Schellere Reaktionszeiten als 200 Millisekunden sind kaum möglich. 
+
+Die Konsequenz daraus ist, dass Reaktionszeiten nicht normalverteilt sind. In folgender Grafik sind zwei Verteilungen dargestellt. Die gelbe Verteilung ist eine Normalverteilung mit $\mu = 1$ und $\sigma = 0.4$, während die graue Verteilung eine LogNormal Verteilung darstellt.
+
+<aside>
+Eine LogNormal-Verteilung bedeutet, dass der Logarithmus einer Zufallsvariablen normalverteilt ist.
+</aside>
+
+
+```{r echo=FALSE}
+tibble(norm = rnorm(1e4, 1, 0.4), 
+       lognorm = rlnorm(1e4, 0, 1)) |> 
+  pivot_longer(everything(), names_to = "Distribution", values_to = "value") |> 
+  ggplot(aes(value, fill = Distribution)) +
+  geom_histogram(alpha = 0.4, position = "identity", color = "black", binwidth = 0.1) +
+  # geom_density(alpha = 0.6) +
+  geom_vline(xintercept = 0, linetype = 3) +
+  scale_fill_viridis(discrete = TRUE, option = "E") +
+  coord_cartesian(xlim = c(-2, 8))
+```
+
+Obwohl die Normalverteilung so aussieht, als könne sie Reaktionszeiten repräsentieren, ist der Wertebereich von $[-\Inf, \Inf]$ nicht dafür geeignet. Ausserdem erlaubt die Normalverteilung keine extremen Werte, und ist nicht asymmetrisch.
+
+
+## Daten aus einem Reaktionszeitexperiment
+  
+Wir untersuchen nun Daten aus einem Online-Experiement mit 3 Blöcken. In jedem Block mussten Versuchspersonen einen anderen Task ausführen. Unser Ziel ist es, Datenpunkte zu identfizieren, welche wir eventuell ausschliessen müssen.
+
+Die drei Tasks sind: 
+
+1) Reaction task
+
+Versuchspersonen drücken SPACE-Taste wenn ein Stimulus erscheint (Quadrat oder Kreis). Abhängige Variable ist die Reaktionszeit.
+
+
+2) Go/No-Go task
+
+Versuchspersonen drücken SPACE-Taste wenn Target erscheint (entweder Quadrat oder Kreis). Abhängige Variablen sind Reaktionszeit und Antwort.
+
+3) Discrimination task
+
+Versuchspersonen drücken F-Taste wenn ein Quadrat erscheint, J-Taste wenn ein Kreis erscheint. Abhängige Variablen sind Reaktionszeit und Antwort.
+
+
+**Annahme**: Versuchspersonen brauchen im Reaction Task am wenigsten Zeit, um eine korrekte Antwort zu geben, gefolgt vom Go/No-Go Task. Im Discrimination Task brauchen Versuchspersonen länger, um korrekte Antworten zu geben.
+
+
+
+```{r}
+library(tidyverse)
+
+URL <- "https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/mental-chronometry.csv"
+
+mentalchronometry <- read_csv(URL) |> 
+  mutate(across(c(subj, block, stimulus, handedness, gender), ~as_factor(.)))
+```
+
+
+```{r}
+glimpse(mentalchronometry)
+```
+
+
+```{r}
+mentalchronometry
+```
+
+
+Hier sind die Daten von 5 zufällig ausgewählten Personen:
+
+```{r message=FALSE, warning=FALSE, layout="l-body-outset", fig.width=9, fig.height=4.5}
+set.seed(98)
+subjects <- sample(levels(mentalchronometry$subj), 6)
+df <- mentalchronometry |>
+  filter(subj %in% subjects)
+
+df |> 
+  ggplot(aes(RT, fill = block)) +
+  geom_histogram(alpha = 0.8, position = "identity", color = "black") +
+  scale_fill_viridis(discrete=TRUE, option="cividis") +
+  facet_grid(block ~ subj, scales = "free_x") +
+  theme(legend.position = "none")
+```
+
+```{r message=FALSE, warning=FALSE, layout="l-body-outset", fig.width=9, fig.height=4.5}
+df |> 
+  filter(subj %in% subjects) |> 
+  ggplot(aes(y = RT, x = block, fill = block)) +
+  geom_violin(alpha = 0.6) +
+  geom_jitter(width = 0.1) +
+  scale_fill_viridis(discrete=TRUE, option="cividis") +
+  facet_wrap(~ subj, scales = "free_x") +
+  theme(legend.position = "none")
+```
+
+
+
+
+
+Wir können versuchen Ausreisser zu identifizieren.
+
+
 
 ## Cleaning by subject
 
-Unser Ziel ist es, die Daten einer Versuchsperson zu entfernen, falls diese Person in einer experimentellen Bedingung eine mittlere Reaktionszeit hat, welche mehr als 2 Standardabweichungen vom Gesamtmittelwert liegt.
+
+Unser Ziel ist es, die Daten einer Versuchsperson zu entfernen, falls diese Person in einer experimentellen Bedingung eine mittlere RT hat, welche mehr als 2 Standardabweichungen vom Gesamtmittelwert liegt.
+
 
 ```{r}
 # summary stats (means) for participants
-sum_stats_participants <- data |>  
-  group_by(ID, condition) |>  
+sum_stats_participants <- mentalchronometry |> 
+  group_by(subj, block) |> 
   dplyr::summarise(
-    mean_P = mean(rt, na.rm = TRUE))
-```
+    mean_P = mean(RT))
 
-
-```{r}
 # summary stats (means and SDs) for conditions
-sum_stats_conditions <- data |> 
-  group_by(condition) |> 
+sum_stats_conditions <- mentalchronometry |> 
+  group_by(block) |> 
   dplyr::summarise(
-    mean_C = mean(rt, na.rm = TRUE),
-    sd_C = sd(rt, na.rm = TRUE))
-```
+    mean_C = mean(RT),
+    sd_C = sd(RT))
+  
+sum_stats_participants <- 
+  full_join(
+    sum_stats_participants,
+    sum_stats_conditions,
+    by = "block") |> 
+  mutate(
+    outlier_P = abs(mean_P - mean_C) > 2 * sd_C)
 
-
-
-```{r}
-sum_stats_participants <- sum_stats_participants |> 
-  left_join(sum_stats_conditions, by = "condition") |>
-  mutate(outlier_P = abs(mean_P - mean_C) > 2 * sd_C)
-```
-
-```{r}
 # show outlier participants
-sum_stats_participants %>% 
-  filter(outlier_P == 1) %>% 
+sum_stats_participants |> 
+  filter(outlier_P == 1) |> 
   show()
 ```
 
+Wir haben also eine Person, welche in einer Bedingung (`discrimination`) eine mittlere RT hat, welche mehr als 2 Standardabweichungen vom Gesamtmittelwert dieser Bedingung liegt. 
 
-Wir haben keine Personen, welche in einer Bedingung eine mittlere RT hat, welche mehr als 2 Standardabweichungen vom Gesamtmittelwert dieser Bedingung liegt. 
+Weiter können wir die RT für jeden Trial in jeder Bedingung plotten. Es ist klar, dass die mittlere RT im `discrimination` aufgrund mehrerer Ausreisser zustande kommt.
 
-
-Falls wir eine Person hätten, könnten wir sie so auschliessen:
 
 ```{r}
-excluded <- sum_stats_participants %>% 
+mentalchronometry |> 
+  semi_join(sum_stats_participants |> filter(outlier_P == 1), 
+    by = c("subj")) |> 
+  ggplot(aes(x = trial_number, y = RT)) +
+  geom_point() +
+  facet_wrap(~block)
+```
+
+Wir könnten diese Person ganz ausschliessen.
+
+
+```{r}
+excluded <- sum_stats_participants |> 
   filter(outlier_P == 1)
+
+excluded
 ```
 
 ```{r}
-data_cleaned <- data %>% 
-  filter(!(ID %in% excluded$ID)) %>% 
-  mutate(ID = fct_drop(ID))
+mentalchronometry_cleaned <- mentalchronometry |> 
+  filter(!(subj %in% excluded$subj)) |> 
+  mutate(subj = fct_drop(subj))
 ```
 
 
 ## Cleaning by trial
 
-Nun wollen alle Trials identifizieren, welche mehr als 2 Standardabweichungen vom Bedingungs-Gesamtmittelwert liegen. Ausserdem entfernen wir alle RTs, welche unter 200 Millisekunden liegen, mit der Begründung, das solche Reaktionszeiten unmöglich sind.
-
+Nun wollen alle Trials identifizieren, welche mehr als 2 Standardabweichungen vom Bedingungs-Gesamtmittelwert liegen. Ausserdem entfernen wir alle RTs, welche unter 100 Millisekunden liegen.
 
 ```{r}
 # mark individual trials as outliers
-data_cleaned <- data_cleaned |>  
-  left_join(
+mentalchronometry_cleaned <- mentalchronometry_cleaned |> 
+  full_join(
     sum_stats_conditions,
-    by = "condition") |> 
-  drop_na(rt) 
-```
-
-```{r}
-data_cleaned <- data_cleaned |> 
+    by = "block") |> 
   mutate(
     trial_type = case_when(
-      abs(rt - mean_C) > 2 * sd_C ~ "zu weit vom Mittelwert",
-      rt < 0.200 ~ "< 200ms",
-      TRUE ~ "OK") %>% 
-      factor(levels = c("OK", "< 200ms", "zu weit vom Mittelwert")),
+      abs(RT - mean_C) > 2 * sd_C ~ "zu weit vom Mittelwert",
+      RT < 100 ~ "< 100ms",
+      TRUE ~ "OK") |> 
+      factor(levels = c("OK", "< 100ms", "zu weit vom Mittelwert")),
     trial = row_number())
 ```
-
-
-
 
 ```{r layout="l-body-outset", fig.width=9, fig.height=4.5}
 # visualize outlier trials
 
-data_cleaned %>% 
-  ggplot(aes(x = trial, y = rt, color = trial_type, shape = condition)) +
+mentalchronometry_cleaned |> 
+  ggplot(aes(x = trial, y = RT, color = trial_type, shape = trial_type)) +
   geom_point(alpha = 0.6) + 
-  # geom_point(data = filter(data_cleaned, trial_type != "OK"), 
-  #            alpha = 0.9) + 
-  facet_grid(~ condition) +
+  geom_point(data = filter(mentalchronometry_cleaned, trial_type != "OK"), 
+             alpha = 0.9) + 
+  facet_grid(~block) +
   scale_color_manual(values = c("gray70", "red", "steelblue"))
 ```
-
 
 Wir haben insgesamt 63 Trials, welche nach unseren Kriterien Ausreisser sein könnten.
 
 ```{r}
-data_cleaned %>% 
+mentalchronometry_cleaned |> 
   filter(trial_type != "OK")
 ```
+Diese 63 Trials entfernen wir nun.
 
 ```{r}
-library(viridis)
+mentalchronometry_cleaned <- mentalchronometry_cleaned |> 
+  filter(trial_type == "OK")
+```
 
-data_cleaned %>% 
-  ggplot(aes(x = rt, color = condition, fill = condition)) +
+
+
+```{r}
+mentalchronometry_cleaned |> 
+  ggplot(aes(x = RT, color = block, fill = block)) +
   geom_density(alpha = 0.3) +
   scale_fill_viridis(discrete=TRUE, option="cividis") +
   scale_color_viridis(discrete=TRUE, option="cividis")
 ```
 
+
+
+Data Cleaning ist zwar in den meisten Fällen notwendig,  aber leider etwas willkürlich, und gibt dem Forscher/der Forscherin sehr viele Freiheiten (researcher degrees of freedom). Es ist deshlab wichtig, Ausschlusskriterien für Personen und einzelne Trials vor der Analyse festzulegen, und offen zu berichten.

@@ -85,11 +85,32 @@ code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
+<style>
+  div.csl-bib-body { }
+  div.csl-entry {
+    clear: both;
+    }
+  .hanging div.csl-entry {
+    margin-left:2em;
+    text-indent:-2em;
+  }
+  div.csl-left-margin {
+    min-width:2em;
+    float:left;
+  }
+  div.csl-right-inline {
+    margin-left:2em;
+    padding-left:1em;
+  }
+  div.csl-indent {
+    margin-left: 2em;
+  }
+</style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Neurowissenschaft Computerlab: Daten bearbeiten und zusammenfassen</title>
+  <title>Neurowissenschaft Computerlab: Data cleaning</title>
 
-  <meta property="description" itemprop="description" content="Daten aus Verhaltensexperiments bearbeiten und zusammenfassen, Datenpunkte identifizieren."/>
+  <meta property="description" itemprop="description" content="Daten aus Verhaltensexperiments bearbeiten und Datenpunkte identifizieren."/>
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
@@ -99,19 +120,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta name="article:author" content="Andrew Ellis"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Neurowissenschaft Computerlab: Daten bearbeiten und zusammenfassen"/>
+  <meta property="og:title" content="Neurowissenschaft Computerlab: Data cleaning"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Daten aus Verhaltensexperiments bearbeiten und zusammenfassen, Datenpunkte identifizieren."/>
+  <meta property="og:description" content="Daten aus Verhaltensexperiments bearbeiten und Datenpunkte identifizieren."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Neurowissenschaft Computerlab"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Neurowissenschaft Computerlab: Daten bearbeiten und zusammenfassen"/>
-  <meta property="twitter:description" content="Daten aus Verhaltensexperiments bearbeiten und zusammenfassen, Datenpunkte identifizieren."/>
+  <meta property="twitter:title" content="Neurowissenschaft Computerlab: Data cleaning"/>
+  <meta property="twitter:description" content="Daten aus Verhaltensexperiments bearbeiten und Datenpunkte identifizieren."/>
 
   <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-  <meta name="citation_title" content="Neurowissenschaft Computerlab: Daten bearbeiten und zusammenfassen"/>
+  <meta name="citation_title" content="Neurowissenschaft Computerlab: Data cleaning"/>
   <meta name="citation_fulltext_html_url" content="https://kogpsy.github.io/neuroscicomplab/data-cleaning.html"/>
   <meta name="citation_fulltext_world_readable" content=""/>
   <meta name="citation_online_date" content="2022/03/15"/>
@@ -123,7 +144,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","bibliography","output"]}},"value":[{"type":"character","attributes":{},"value":["Daten bearbeiten und zusammenfassen"]},{"type":"character","attributes":{},"value":["Daten aus Verhaltensexperiments bearbeiten und zusammenfassen, Datenpunkte identifizieren.\n"]},{"type":"character","attributes":{},"value":["2022-03-15"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Andrew"]},{"type":"character","attributes":{},"value":["Ellis"]},{"type":"character","attributes":{},"value":["https://github.com/awellis"]},{"type":"character","attributes":{},"value":["Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"]},{"type":"character","attributes":{},"value":["https://www.kog.psy.unibe.ch"]},{"type":"character","attributes":{},"value":["0000-0002-2788-936X"]}]}]},{"type":"character","attributes":{},"value":["https://kogpsy.github.io/neuroscicomplab/data-cleaning.html"]},{"type":"character","attributes":{},"value":["bibliography.bib"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]},{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","bibliography","output"]}},"value":[{"type":"character","attributes":{},"value":["Data cleaning"]},{"type":"character","attributes":{},"value":["Daten aus Verhaltensexperiments bearbeiten und Datenpunkte identifizieren.\n"]},{"type":"character","attributes":{},"value":["2022-03-15"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["first_name","last_name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Andrew"]},{"type":"character","attributes":{},"value":["Ellis"]},{"type":"character","attributes":{},"value":["https://github.com/awellis"]},{"type":"character","attributes":{},"value":["Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern"]},{"type":"character","attributes":{},"value":["https://www.kog.psy.unibe.ch"]},{"type":"character","attributes":{},"value":["0000-0002-2788-936X"]}]}]},{"type":"character","attributes":{},"value":["https://kogpsy.github.io/neuroscicomplab/data-cleaning.html"]},{"type":"character","attributes":{},"value":["bibliography.bib"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]},{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2648,7 +2669,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Daten bearbeiten und zusammenfassen","description":"Daten aus Verhaltensexperiments bearbeiten und zusammenfassen, Datenpunkte identifizieren.","authors":[{"author":"Andrew Ellis","authorURL":"https://github.com/awellis","affiliation":"Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern","affiliationURL":"https://www.kog.psy.unibe.ch","orcidID":"0000-0002-2788-936X"}],"publishedDate":"2022-03-15T00:00:00.000+01:00","citationText":"Ellis, 2022"}
+{"title":"Data cleaning","description":"Daten aus Verhaltensexperiments bearbeiten und Datenpunkte identifizieren.","authors":[{"author":"Andrew Ellis","authorURL":"https://github.com/awellis","affiliation":"Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern","affiliationURL":"https://www.kog.psy.unibe.ch","orcidID":"0000-0002-2788-936X"}],"publishedDate":"2022-03-15T00:00:00.000+01:00","citationText":"Ellis, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2684,6 +2705,8 @@ Kapitel
 <div class="nav-dropdown-content">
 <a href="behavioural-experiments.html">Verhaltensexperiment mit PsychoPy</a>
 <a href="importing-data.html">Daten importieren</a>
+<a href="data-cleaning.html">Data cleaning</a>
+<a href="summarizing-data.html">Data zusammenfassen</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2696,6 +2719,7 @@ Slides
 <a href="slides/slides-session-01.html">1. Sitzung (22.02.2022)</a>
 <a href="slides/slides-session-02.html">2. Sitzung (01.03.2022)</a>
 <a href="slides/slides-session-03.html">3. Sitzung (08.03.2022)</a>
+<a href="slides/slides-session-04.html">4. Sitzung (15.03.2022)</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2728,11 +2752,11 @@ Lösungen
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Daten bearbeiten und zusammenfassen</h1>
+<h1>Data cleaning</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Daten aus Verhaltensexperiments bearbeiten und zusammenfassen,
-Datenpunkte identifizieren.</p></p>
+<p><p>Daten aus Verhaltensexperiments bearbeiten und Datenpunkte
+identifizieren.</p></p>
 </div>
 
 <div class="d-byline">
@@ -2747,111 +2771,32 @@ Datenpunkte identifizieren.</p></p>
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#datensatz-importieren">Datensatz importieren</a></li>
-<li><a href="#accuracy-pro-personbedingung">Accuracy pro
-Person/Bedingung</a>
-<ul>
-<li><a href="#visualisieren">Visualisieren</a></li>
-</ul></li>
 <li><a href="#data-cleaning">Data Cleaning</a>
 <ul>
+<li><a href="#reaktionszeiten">Reaktionszeiten</a></li>
+<li><a href="#eigenschaften-von-reaktionszeiten">Eigenschaften von
+Reaktionszeiten</a></li>
+<li><a href="#daten-aus-einem-reaktionszeitexperiment">Daten aus einem
+Reaktionszeitexperiment</a></li>
 <li><a href="#cleaning-by-subject">Cleaning by subject</a></li>
 <li><a href="#cleaning-by-trial">Cleaning by trial</a></li>
 </ul></li>
 </ul>
 </nav>
 </div>
-<h1 id="datensatz-importieren">Datensatz importieren</h1>
+<div class="note">
+<p>👉 <a href="./files/data-cleaning.R">R Code für dieses Kapitel
+downloaden</a></p>
+</div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"data/rdkdata.csv"</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://sjmgarnier.github.io/viridis/'>viridis</a></span><span class='op'>)</span>
+
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme_get.html'>theme_set</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_grey</a></span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span> <span class='op'>+</span>
+            <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>panel.grid <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
-</div>
-<p>Ob eine Variable als <code>factor</code> definiert ist, wird als
-Attribut gespeichert. Attribute werden aber in einem <code>.csv.</code>
-File nicht mitgespeichert; deshalb müssen wir die Gruppierungsvariablen
-wieder als <code>factor</code> definieren.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.character</span>, <span class='va'>as.factor</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
-</code></pre>
-</div>
-<pre><code>Rows: 1,440
-Columns: 9
-$ trial     &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …
-$ ID        &lt;fct&gt; JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH…
-$ cue       &lt;fct&gt; right, right, none, none, left, none, none, left, …
-$ direction &lt;fct&gt; right, right, right, right, left, right, left, lef…
-$ response  &lt;dbl&gt; 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0,…
-$ rt        &lt;dbl&gt; 0.7136441, 0.6271285, 0.6703410, 0.5738488, 0.8405…
-$ choice    &lt;fct&gt; right, right, left, right, right, right, right, le…
-$ correct   &lt;dbl&gt; 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,…
-$ condition &lt;fct&gt; valid, valid, neutral, neutral, valid, neutral, ne…</code></pre>
-</div>
-<h1 id="accuracy-pro-personbedingung">Accuracy pro Person/Bedingung</h1>
-<p>Wir haben schon gelernt, wie wir Accuracy pro Person und pro
-Bedingung berechnen können.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>accuracy</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='va'>condition</span><span class='op'>)</span> |&gt;
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>N <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>,
-              ncorrect <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>correct</span><span class='op'>)</span>,
-              accuracy <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>correct</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>accuracy</span>
-</code></pre>
-</div>
-<pre><code># A tibble: 27 × 5
-# Groups:   ID [9]
-   ID    condition     N ncorrect accuracy
-   &lt;fct&gt; &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1 JH    invalid      16       13   0.812 
- 2 JH    neutral      80       66   0.825 
- 3 JH    valid        64       60   0.938 
- 4 NS    invalid      16       11   0.688 
- 5 NS    neutral      80       56   0.7   
- 6 NS    valid        64       58   0.906 
- 7 rh    invalid      16        2   0.125 
- 8 rh    neutral      80       64   0.8   
- 9 rh    valid        64       61   0.953 
-10 sb    invalid      16        1   0.0625
-# … with 17 more rows</code></pre>
-</div>
-<h2 id="visualisieren">Visualisieren</h2>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>accuracy</span> |&gt; 
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>condition</span>, y <span class='op'>=</span> <span class='va'>accuracy</span>, fill <span class='op'>=</span> <span class='va'>condition</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span><span class='op'>(</span>
-    values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>invalid <span class='op'>=</span> <span class='st'>"#9E0142"</span>,
-    neutral <span class='op'>=</span> <span class='st'>"#C4C4B7"</span>,
-    valid <span class='op'>=</span> <span class='st'>"#2EC762"</span><span class='op'>)</span>
-  <span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
-    x <span class='op'>=</span> <span class='st'>"Cue"</span>,
-    y <span class='op'>=</span> <span class='st'>"Proportion correct"</span>,
-    title <span class='op'>=</span> <span class='st'>"Accuracy per person/condition"</span>
-  <span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_linedraw</a></span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>28</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>ID</span><span class='op'>)</span>
-</code></pre>
-</div>
-<p><img src="data-cleaning_files/figure-html5/unnamed-chunk-6-1.png" width="1440" /></p>
 </div>
 <h1 id="data-cleaning">Data Cleaning</h1>
 <p>Nun wollen wir versuchen, einzelne Trials, zu identifizieren, in
@@ -2866,36 +2811,10 @@ auszuschliessen:</p>
 <li><p>Trials, in denen die Antwort zu schnell oder zu langsam
 war.</p></li>
 </ol>
-<p>Nun ist in Experiment, in denen ein Bias erzeugt wird, etwas heikel,
-Trials oder Versuchspersonen aufgrund der Anzahl korrekter Antworten
-auszuschliessen - wir haben ja die Korrektheit der Antworten
+<p>Nun ist in Experimenten, in denen ein Bias erzeugt wird, etwas
+heikel, Trials oder Versuchspersonen aufgrund der Anzahl korrekter
+Antworten auszuschliessen - wir haben ja die Korrektheit der Antworten
 experimentell manipuliert.</p>
-<p>So hat z.B. VP “rh” in der <code>invalid</code> Condition eine
-Accuracy von ca. 0.125. Dies bedeudet, dass diese Person systematisch
-falsche Antworten gegeben hat. Da wir dies in der <code>invald</code>
-Condition aber geradezu verlangen, ist dies eher ein “Feature” als ein
-Fehler.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>accuracy</span>
-</code></pre>
-</div>
-<pre><code># A tibble: 27 × 5
-# Groups:   ID [9]
-   ID    condition     N ncorrect accuracy
-   &lt;fct&gt; &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1 JH    invalid      16       13   0.812 
- 2 JH    neutral      80       66   0.825 
- 3 JH    valid        64       60   0.938 
- 4 NS    invalid      16       11   0.688 
- 5 NS    neutral      80       56   0.7   
- 6 NS    valid        64       58   0.906 
- 7 rh    invalid      16        2   0.125 
- 8 rh    neutral      80       64   0.8   
- 9 rh    valid        64       61   0.953 
-10 sb    invalid      16        1   0.0625
-# … with 17 more rows</code></pre>
-</div>
 <p>Deswegen richten wir hier unseren Fokus auf die Reaktionszeiten. Wir
 gehen davon aus, dass Reaktionszeiten, die zu schnell oder yu langsam
 waren, aufgrund von Rateprozessen zustande kamen. Was genau <strong>zu
@@ -2903,97 +2822,267 @@ schnell</strong> oder <strong>zu langsam</strong> heisst, ist schwierig
 zu beantworten, und hängt stark vom jeweiligen Task ab. Deshalb ist es
 wichtig, sich <em>a priori</em> Gedanken darüber zu machen, welche
 Kriterien angewandt werden sollen.</p>
+<h2 id="reaktionszeiten">Reaktionszeiten</h2>
+<p>Drei häufig verwendete Tasks, um Reaktionszeiten zu messen sind</p>
+<ul>
+<li>Reaction tasks</li>
+<li>Go/No Go tasks</li>
+<li>Discrimination tasks</li>
+</ul>
+<p>Bei <em>Reaction tasks</em> muss auf einen Reiz reagiert werden, bei
+Go/No Go tasks muss zwischen zwei Reizen unterschieden, und nur auf
+einen reagiert werden. Discrimination tasks erfordern komplexere
+kognitive Leistungen, da eine von zwei Antworten gegeben werden muss, in
+Abhängigkeit des Reizes.</p>
+<p>Wenn wir Reaktionszeiten messen, gehen wir gehen davon aus, dass die
+Zeit, die benötigt wird, um einen Task auszuführen, uns über den
+kognitiven Prozess Auskunft gibt. Dabei ist es aber wichtig, dass die
+Versuchsperson in dieser Zeit wirklich genau den Task ausführt, und
+nicht nebenher noch andere Prozesse die Reaktionszeit beeinflussen, da
+diese sonst bedeutungslos wäre. Leider ist dies nicht immer der Fall.
+Bei vielen repetitiven Tasks sind <em>attentional lapses</em> nicht zu
+vermeiden, und nur bei den einfachsten Tasks ist es möglich,
+sicherzustellen, dass die VP auch wirklich den intendierten Task
+ausführt.</p>
+<h2 id="eigenschaften-von-reaktionszeiten">Eigenschaften von
+Reaktionszeiten</h2>
+<p>Die wichtigsten Merkmale von Reaktionszeiten sind</p>
+<ol type="1">
+<li>Sie sind rechtsschief</li>
+<li>Sie sind nicht normalverteilt</li>
+<li>Streuung (Standardabweichung) steigt ungefähr linear mit wachsendem
+Mittelwert <span class="citation"
+data-cites="wagenmakersLinearRelationMean2007">(<a
+href="#ref-wagenmakersLinearRelationMean2007"
+role="doc-biblioref">Wagenmakers and Brown 2007</a>)</span></li>
+</ol>
+<p>Die Rechtschiefe ist eine natürliche Konsequenz der Tatsache, dass es
+viele Möglichkeiten gibt, langsamer zu werden, aber nur wenige
+Möglichkeiten, schneller zu werden. Reaktionszeiten können nicht negativ
+sein Ausserdem gibt es eine Untergrenze, welche durch unsere Physiologie
+bestimmt ist. Schellere Reaktionszeiten als 200 Millisekunden sind kaum
+möglich.</p>
+<p>Die Konsequenz daraus ist, dass Reaktionszeiten nicht normalverteilt
+sind. In folgender Grafik sind zwei Verteilungen dargestellt. Die gelbe
+Verteilung ist eine Normalverteilung mit <span class="math inline">\(\mu
+= 1\)</span> und <span class="math inline">\(\sigma = 0.4\)</span>,
+während die graue Verteilung eine LogNormal Verteilung darstellt.</p>
+<aside>
+Eine LogNormal-Verteilung bedeutet, dass der Logarithmus einer
+Zufallsvariablen normalverteilt ist.
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="data-cleaning_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+</div>
+<p>Obwohl die Normalverteilung so aussieht, als könne sie
+Reaktionszeiten repräsentieren, ist der Wertebereich von <span
+class="math inline">\([-\Inf, \Inf]\)</span> nicht dafür geeignet.
+Ausserdem erlaubt die Normalverteilung keine extremen Werte, und ist
+nicht asymmetrisch.</p>
+<h2 id="daten-aus-einem-reaktionszeitexperiment">Daten aus einem
+Reaktionszeitexperiment</h2>
+<p>Wir untersuchen nun Daten aus einem Online-Experiement mit 3 Blöcken.
+In jedem Block mussten Versuchspersonen einen anderen Task ausführen.
+Unser Ziel ist es, Datenpunkte zu identfizieren, welche wir eventuell
+ausschliessen müssen.</p>
+<p>Die drei Tasks sind:</p>
+<ol type="1">
+<li>Reaction task</li>
+</ol>
+<p>Versuchspersonen drücken SPACE-Taste wenn ein Stimulus erscheint
+(Quadrat oder Kreis). Abhängige Variable ist die Reaktionszeit.</p>
+<ol start="2" type="1">
+<li>Go/No-Go task</li>
+</ol>
+<p>Versuchspersonen drücken SPACE-Taste wenn Target erscheint (entweder
+Quadrat oder Kreis). Abhängige Variablen sind Reaktionszeit und
+Antwort.</p>
+<ol start="3" type="1">
+<li>Discrimination task</li>
+</ol>
+<p>Versuchspersonen drücken F-Taste wenn ein Quadrat erscheint, J-Taste
+wenn ein Kreis erscheint. Abhängige Variablen sind Reaktionszeit und
+Antwort.</p>
+<p><strong>Annahme</strong>: Versuchspersonen brauchen im Reaction Task
+am wenigsten Zeit, um eine korrekte Antwort zu geben, gefolgt vom
+Go/No-Go Task. Im Discrimination Task brauchen Versuchspersonen länger,
+um korrekte Antworten zu geben.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+
+<span class='va'>URL</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/mental-chronometry.csv"</span>
+
+<span class='va'>mentalchronometry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='va'>URL</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>subj</span>, <span class='va'>block</span>, <span class='va'>stimulus</span>, <span class='va'>handedness</span>, <span class='va'>gender</span><span class='op'>)</span>, <span class='op'>~</span><span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>mentalchronometry</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 2,519
+Columns: 7
+$ subj         &lt;fct&gt; 8554, 8554, 8554, 8554, 8554, 8554, 8554, 8554,…
+$ trial_number &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …
+$ block        &lt;fct&gt; reaction, reaction, reaction, reaction, reactio…
+$ stimulus     &lt;fct&gt; circle, square, square, square, circle, square,…
+$ RT           &lt;dbl&gt; 311, 269, 317, 325, 240, 262, 295, 277, 288, 30…
+$ handedness   &lt;fct&gt; Right, Right, Right, Right, Right, Right, Right…
+$ gender       &lt;fct&gt; female, female, female, female, female, female,…</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 2,519 × 7
+   subj  trial_number block    stimulus    RT handedness gender
+   &lt;fct&gt;        &lt;dbl&gt; &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt; &lt;fct&gt;      &lt;fct&gt; 
+ 1 8554             1 reaction circle     311 Right      female
+ 2 8554             2 reaction square     269 Right      female
+ 3 8554             3 reaction square     317 Right      female
+ 4 8554             4 reaction square     325 Right      female
+ 5 8554             5 reaction circle     240 Right      female
+ 6 8554             6 reaction square     262 Right      female
+ 7 8554             7 reaction square     295 Right      female
+ 8 8554             8 reaction circle     277 Right      female
+ 9 8554             9 reaction square     288 Right      female
+10 8554            10 reaction circle     309 Right      female
+# … with 2,509 more rows</code></pre>
+</div>
+<p>Hier sind die Daten von 5 zufällig ausgewählten Personen:</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>98</span><span class='op'>)</span>
+<span class='va'>subjects</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>mentalchronometry</span><span class='op'>$</span><span class='va'>subj</span><span class='op'>)</span>, <span class='fl'>6</span><span class='op'>)</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry</span> |&gt;
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>subj</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>subjects</span><span class='op'>)</span>
+
+<span class='va'>df</span> |&gt; 
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>RT</span>, fill <span class='op'>=</span> <span class='va'>block</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_histogram.html'>geom_histogram</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.8</span>, position <span class='op'>=</span> <span class='st'>"identity"</span>, color <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span><span class='op'>(</span><span class='va'>block</span> <span class='op'>~</span> <span class='va'>subj</span>, scales <span class='op'>=</span> <span class='st'>"free_x"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="data-cleaning_files/figure-html5/unnamed-chunk-5-1.png" width="864" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>df</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>subj</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>subjects</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>RT</span>, x <span class='op'>=</span> <span class='va'>block</span>, fill <span class='op'>=</span> <span class='va'>block</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_violin.html'>geom_violin</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.6</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_jitter.html'>geom_jitter</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>subj</span>, scales <span class='op'>=</span> <span class='st'>"free_x"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="data-cleaning_files/figure-html5/unnamed-chunk-6-1.png" width="864" /></p>
+</div>
+<p>Wir können versuchen Ausreisser zu identifizieren.</p>
 <h2 id="cleaning-by-subject">Cleaning by subject</h2>
 <p>Unser Ziel ist es, die Daten einer Versuchsperson zu entfernen, falls
-diese Person in einer experimentellen Bedingung eine mittlere
-Reaktionszeit hat, welche mehr als 2 Standardabweichungen vom
-Gesamtmittelwert liegt.</p>
+diese Person in einer experimentellen Bedingung eine mittlere RT hat,
+welche mehr als 2 Standardabweichungen vom Gesamtmittelwert liegt.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># summary stats (means) for participants</span>
-<span class='va'>sum_stats_participants</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;  
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='va'>condition</span><span class='op'>)</span> |&gt;  
+<span class='va'>sum_stats_participants</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>subj</span>, <span class='va'>block</span><span class='op'>)</span> |&gt; 
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>
-    mean_P <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>rt</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># summary stats (means and SDs) for conditions</span>
-<span class='va'>sum_stats_conditions</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt; 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>condition</span><span class='op'>)</span> |&gt; 
+    mean_P <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>RT</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># summary stats (means and SDs) for conditions</span>
+<span class='va'>sum_stats_conditions</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>block</span><span class='op'>)</span> |&gt; 
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>
-    mean_C <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>rt</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
-    sd_C <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span><span class='op'>(</span><span class='va'>rt</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sum_stats_participants</span> <span class='op'>&lt;-</span> <span class='va'>sum_stats_participants</span> |&gt; 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>sum_stats_conditions</span>, by <span class='op'>=</span> <span class='st'>"condition"</span><span class='op'>)</span> |&gt;
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>outlier_P <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>mean_P</span> <span class='op'>-</span> <span class='va'>mean_C</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>sd_C</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># show outlier participants</span>
-<span class='va'>sum_stats_participants</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>outlier_P</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
+    mean_C <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>RT</span><span class='op'>)</span>,
+    sd_C <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span><span class='op'>(</span><span class='va'>RT</span><span class='op'>)</span><span class='op'>)</span>
+  
+<span class='va'>sum_stats_participants</span> <span class='op'>&lt;-</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join</a></span><span class='op'>(</span>
+    <span class='va'>sum_stats_participants</span>,
+    <span class='va'>sum_stats_conditions</span>,
+    by <span class='op'>=</span> <span class='st'>"block"</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>
+    outlier_P <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>mean_P</span> <span class='op'>-</span> <span class='va'>mean_C</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>sd_C</span><span class='op'>)</span>
+
+<span class='co'># show outlier participants</span>
+<span class='va'>sum_stats_participants</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>outlier_P</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span> |&gt; 
   <span class='fu'>show</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
-<pre><code># A tibble: 0 × 6
-# Groups:   ID [0]
-# … with 6 variables: ID &lt;fct&gt;, condition &lt;fct&gt;, mean_P &lt;dbl&gt;,
-#   mean_C &lt;dbl&gt;, sd_C &lt;dbl&gt;, outlier_P &lt;lgl&gt;</code></pre>
+<pre><code># A tibble: 1 × 6
+# Groups:   subj [1]
+  subj  block          mean_P mean_C  sd_C outlier_P
+  &lt;fct&gt; &lt;fct&gt;           &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;    
+1 8505  discrimination  1078.   518.  185. TRUE     </code></pre>
 </div>
-<p>Wir haben keine Personen, welche in einer Bedingung eine mittlere RT
-hat, welche mehr als 2 Standardabweichungen vom Gesamtmittelwert dieser
-Bedingung liegt.</p>
-<p>Falls wir eine Person hätten, könnten wir sie so auschliessen:</p>
+<p>Wir haben also eine Person, welche in einer Bedingung
+(<code>discrimination</code>) eine mittlere RT hat, welche mehr als 2
+Standardabweichungen vom Gesamtmittelwert dieser Bedingung liegt.</p>
+<p>Weiter können wir die RT für jeden Trial in jeder Bedingung plotten.
+Es ist klar, dass die mittlere RT im <code>discrimination</code>
+aufgrund mehrerer Ausreisser zustande kommt.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>excluded</span> <span class='op'>&lt;-</span> <span class='va'>sum_stats_participants</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>outlier_P</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>semi_join</a></span><span class='op'>(</span><span class='va'>sum_stats_participants</span> |&gt; <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>outlier_P</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>, 
+    by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"subj"</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>trial_number</span>, y <span class='op'>=</span> <span class='va'>RT</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>block</span><span class='op'>)</span>
 </code></pre>
 </div>
+<p><img src="data-cleaning_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+<p>Wir könnten diese Person ganz ausschliessen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>excluded</span> <span class='op'>&lt;-</span> <span class='va'>sum_stats_participants</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>outlier_P</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>
+
+<span class='va'>excluded</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 × 6
+# Groups:   subj [1]
+  subj  block          mean_P mean_C  sd_C outlier_P
+  &lt;fct&gt; &lt;fct&gt;           &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;    
+1 8505  discrimination  1078.   518.  185. TRUE     </code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data_cleaned</span> <span class='op'>&lt;-</span> <span class='va'>data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='op'>(</span><span class='va'>ID</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>excluded</span><span class='op'>$</span><span class='va'>ID</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>ID <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/fct_drop.html'>fct_drop</a></span><span class='op'>(</span><span class='va'>ID</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry_cleaned</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='op'>(</span><span class='va'>subj</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>excluded</span><span class='op'>$</span><span class='va'>subj</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>subj <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/fct_drop.html'>fct_drop</a></span><span class='op'>(</span><span class='va'>subj</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <h2 id="cleaning-by-trial">Cleaning by trial</h2>
 <p>Nun wollen alle Trials identifizieren, welche mehr als 2
 Standardabweichungen vom Bedingungs-Gesamtmittelwert liegen. Ausserdem
-entfernen wir alle RTs, welche unter 200 Millisekunden liegen, mit der
-Begründung, das solche Reaktionszeiten unmöglich sind.</p>
+entfernen wir alle RTs, welche unter 100 Millisekunden liegen.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># mark individual trials as outliers</span>
-<span class='va'>data_cleaned</span> <span class='op'>&lt;-</span> <span class='va'>data_cleaned</span> |&gt;  
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span>
+<span class='va'>mentalchronometry_cleaned</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry_cleaned</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join</a></span><span class='op'>(</span>
     <span class='va'>sum_stats_conditions</span>,
-    by <span class='op'>=</span> <span class='st'>"condition"</span><span class='op'>)</span> |&gt; 
-  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='va'>rt</span><span class='op'>)</span> 
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data_cleaned</span> <span class='op'>&lt;-</span> <span class='va'>data_cleaned</span> |&gt; 
+    by <span class='op'>=</span> <span class='st'>"block"</span><span class='op'>)</span> |&gt; 
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>
     trial_type <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span>
-      <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>rt</span> <span class='op'>-</span> <span class='va'>mean_C</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>sd_C</span> <span class='op'>~</span> <span class='st'>"zu weit vom Mittelwert"</span>,
-      <span class='va'>rt</span> <span class='op'>&lt;</span> <span class='fl'>0.200</span> <span class='op'>~</span> <span class='st'>"&lt; 200ms"</span>,
-      <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='st'>"OK"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-      <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span>levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"OK"</span>, <span class='st'>"&lt; 200ms"</span>, <span class='st'>"zu weit vom Mittelwert"</span><span class='op'>)</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>RT</span> <span class='op'>-</span> <span class='va'>mean_C</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>sd_C</span> <span class='op'>~</span> <span class='st'>"zu weit vom Mittelwert"</span>,
+      <span class='va'>RT</span> <span class='op'>&lt;</span> <span class='fl'>100</span> <span class='op'>~</span> <span class='st'>"&lt; 100ms"</span>,
+      <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='st'>"OK"</span><span class='op'>)</span> |&gt; 
+      <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span>levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"OK"</span>, <span class='st'>"&lt; 100ms"</span>, <span class='st'>"zu weit vom Mittelwert"</span><span class='op'>)</span><span class='op'>)</span>,
     trial <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/ranking.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -3002,19 +3091,77 @@ Begründung, das solche Reaktionszeiten unmöglich sind.</p>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># visualize outlier trials</span>
 
-<span class='va'>data_cleaned</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>trial</span>, y <span class='op'>=</span> <span class='va'>rt</span>, color <span class='op'>=</span> <span class='va'>trial_type</span>, shape <span class='op'>=</span> <span class='va'>condition</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='va'>mentalchronometry_cleaned</span> |&gt; 
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>trial</span>, y <span class='op'>=</span> <span class='va'>RT</span>, color <span class='op'>=</span> <span class='va'>trial_type</span>, shape <span class='op'>=</span> <span class='va'>trial_type</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.6</span><span class='op'>)</span> <span class='op'>+</span> 
-  <span class='co'># geom_point(data = filter(data_cleaned, trial_type != "OK"), </span>
-  <span class='co'>#            alpha = 0.9) + </span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>condition</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>mentalchronometry_cleaned</span>, <span class='va'>trial_type</span> <span class='op'>!=</span> <span class='st'>"OK"</span><span class='op'>)</span>, 
+             alpha <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>block</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_color_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gray70"</span>, <span class='st'>"red"</span>, <span class='st'>"steelblue"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="data-cleaning_files/figure-html5/unnamed-chunk-16-1.png" width="864" /></p>
+<p><img src="data-cleaning_files/figure-html5/unnamed-chunk-12-1.png" width="864" /></p>
 </div>
-<div class="sourceCode" id="cb5"><pre
+<p>Wir haben insgesamt 63 Trials, welche nach unseren Kriterien
+Ausreisser sein könnten.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry_cleaned</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>trial_type</span> <span class='op'>!=</span> <span class='st'>"OK"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 63 × 11
+   subj  trial_number block    stimulus    RT handedness gender mean_C
+   &lt;fct&gt;        &lt;dbl&gt; &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt; &lt;fct&gt;      &lt;fct&gt;   &lt;dbl&gt;
+ 1 8552            11 goNoGo   square     690 Right      male     442.
+ 2 8552            14 goNoGo   square     727 Right      male     442.
+ 3 8552            17 goNoGo   square     697 Right      male     442.
+ 4 8552            18 goNoGo   square     720 Right      male     442.
+ 5 8551             3 reaction square     712 right      male     311.
+ 6 8550            16 reaction square      54 right      male     311.
+ 7 8550             4 goNoGo   circle    1010 right      male     442.
+ 8 8549            11 reaction square    2244 Righthand… male     311.
+ 9 8549            20 reaction square    1087 Righthand… male     311.
+10 8549            12 goNoGo   square     778 Righthand… male     442.
+# … with 53 more rows, and 3 more variables: sd_C &lt;dbl&gt;,
+#   trial_type &lt;fct&gt;, trial &lt;int&gt;</code></pre>
+</div>
+<p>Diese 63 Trials entfernen wir nun.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry_cleaned</span> <span class='op'>&lt;-</span> <span class='va'>mentalchronometry_cleaned</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>trial_type</span> <span class='op'>==</span> <span class='st'>"OK"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mentalchronometry_cleaned</span> |&gt; 
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>RT</span>, color <span class='op'>=</span> <span class='va'>block</span>, fill <span class='op'>=</span> <span class='va'>block</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_fill_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_color_viridis</a></span><span class='op'>(</span>discrete<span class='op'>=</span><span class='cn'>TRUE</span>, option<span class='op'>=</span><span class='st'>"cividis"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="data-cleaning_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
+</div>
+<p>Data Cleaning ist zwar in den meisten Fällen notwendig, aber leider
+etwas willkürlich, und gibt dem Forscher/der Forscherin sehr viele
+Freiheiten (researcher degrees of freedom). Es ist deshlab wichtig,
+Ausschlusskriterien für Personen und einzelne Trials vor der Analyse
+festzulegen, und offen zu berichten.</p>
+<div class="sourceCode" id="cb6"><pre
 class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent"
+role="doc-bibliography">
+<div id="ref-wagenmakersLinearRelationMean2007" class="csl-entry"
+role="doc-biblioentry">
+Wagenmakers, Eric-Jan, and Scott Brown. 2007. <span>“On the Linear
+Relation Between the Mean and the Standard Deviation of a Response Time
+Distribution.”</span> <em>Psychological Review</em> 114 (3): 830–41. <a
+href="https://doi.org/10.1037/0033-295X.114.3.830">https://doi.org/10.1037/0033-295X.114.3.830</a>.
+</div>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -3022,6 +3169,15 @@ class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"><
 <div class="d-appendix">
 </div>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
@@ -3035,11 +3191,11 @@ class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"><
 <p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/kogpsy/neuroscicomplabFS22">https://github.com/kogpsy/neuroscicomplabFS22</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
 <h3 id="citation">Citation</h3>
 <p>For attribution, please cite this work as</p>
-<pre class="citation-appendix short">Ellis (2022, March 15). Neurowissenschaft Computerlab: Daten bearbeiten und zusammenfassen. Retrieved from https://kogpsy.github.io/neuroscicomplab/data-cleaning.html</pre>
+<pre class="citation-appendix short">Ellis (2022, March 15). Neurowissenschaft Computerlab: Data cleaning. Retrieved from https://kogpsy.github.io/neuroscicomplab/data-cleaning.html</pre>
 <p>BibTeX citation</p>
-<pre class="citation-appendix long">@misc{ellis2022daten,
+<pre class="citation-appendix long">@misc{ellis2022data,
   author = {Ellis, Andrew},
-  title = {Neurowissenschaft Computerlab: Daten bearbeiten und zusammenfassen},
+  title = {Neurowissenschaft Computerlab: Data cleaning},
   url = {https://kogpsy.github.io/neuroscicomplab/data-cleaning.html},
   year = {2022}
 }</pre>

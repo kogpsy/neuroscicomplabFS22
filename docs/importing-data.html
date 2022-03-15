@@ -2686,6 +2686,8 @@ Kapitel
 <div class="nav-dropdown-content">
 <a href="behavioural-experiments.html">Verhaltensexperiment mit PsychoPy</a>
 <a href="importing-data.html">Daten importieren</a>
+<a href="data-cleaning.html">Data cleaning</a>
+<a href="summarizing-data.html">Data zusammenfassen</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2698,6 +2700,7 @@ Slides
 <a href="slides/slides-session-01.html">1. Sitzung (22.02.2022)</a>
 <a href="slides/slides-session-02.html">2. Sitzung (01.03.2022)</a>
 <a href="slides/slides-session-03.html">3. Sitzung (08.03.2022)</a>
+<a href="slides/slides-session-04.html">4. Sitzung (15.03.2022)</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -5048,6 +5051,16 @@ $ correct   &lt;dbl&gt; 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,…</c
 </code></pre>
 </div>
 </div>
+<h3 id="daten-als-csv-speichern">Daten als CSV speichern</h3>
+<p>An dieser Stelle speichern wir den neu kreierten Datensatz als
+<code>.csv</code> File. Somit können wir die Daten einfach importieren,
+ohne die ganzen Schritte wiederholen zu müssen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> |&gt; <span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span>file <span class='op'>=</span> <span class='st'>"data/rdkdata.csv"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> |&gt; 
@@ -5156,7 +5169,7 @@ $ condition &lt;fct&gt; valid, valid, neutral, neutral, valid, neutral, ne…</c
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>ID</span><span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="importing-data_files/figure-html5/unnamed-chunk-36-1.png" width="1440" /></p>
+<p><img src="importing-data_files/figure-html5/unnamed-chunk-37-1.png" width="1440" /></p>
 </div>
 <div class="sourceCode" id="cb15"><pre
 class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>

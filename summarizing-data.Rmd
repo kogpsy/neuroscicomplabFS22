@@ -125,39 +125,52 @@ dfw <- tribble(
        9,   45.4,     49.6,
       10,   38.9,     48.5) |>
     mutate(subject = as.factor(subject))
+```
 
 
+
+```{r}
 dfl <- dfw |>
     pivot_longer(contains("test"),
                  names_to = "condition",
                  values_to = "value") |>
     mutate(condition = as_factor(condition))
+```
 
+```{r}
 dflsum <- dfl |>
     Rmisc::summarySEwithin(measurevar = "value",
                                withinvars = "condition",
                                idvar = "subject",
                                na.rm = FALSE,
                                conf.interval = 0.95)
+```
 
+```{r}
 dflsum |>
     ggplot(aes(x = condition, y = value, group = 1)) +
     geom_line() +
     geom_errorbar(width = 0.1, aes(ymin = value-ci, ymax = value+ci)) +
     geom_point(shape = 21, size = 3, fill = "white") +
     ylim(40,60)
+```
 
 
+```{r}
 # Use a consistent y range
 ymax <- max(dfl$value)
 ymin <- min(dfl$value)
+```
 
+```{r}
 # Plot the individuals
 dfl |>
     ggplot(aes(x=condition, y=value, colour=subject, group=subject)) +
     geom_line() + geom_point(shape=21, fill="white") +
     ylim(ymin,ymax)
+```
 
+```{r}
 dfNorm_long <- Rmisc::normDataWithin(data=dfl, idvar="subject", measurevar="value")
 ?Rmisc::normDataWithin
 
@@ -165,9 +178,10 @@ dfNorm_long |>
     ggplot(aes(x=condition, y=valueNormed, colour=subject, group=subject)) +
     geom_line() + geom_point(shape=21, fill="white") +
     ylim(ymin,ymax)
+```
 
 
-
+```{r}
 # Instead of summarySEwithin, use summarySE, which treats condition as though it were a between-subjects variable
 dflsum_between <- Rmisc::summarySE(data = dfl, 
                                    measurevar = "value", 
@@ -175,7 +189,9 @@ dflsum_between <- Rmisc::summarySE(data = dfl,
                                    na.rm = FALSE, 
                                    conf.interval = .95)
 dflsum_between
+```
 
+```{r}
 # Show the between-S CI's in red, and the within-S CI's in black
 dflsum_between |>
     ggplot(aes(x=condition, y=value, group=1)) +
@@ -187,7 +203,7 @@ dflsum_between |>
 ```
 
 
-## Within-person Staandardfehler
+## Within-person Standardfehler
 
 ```{r}
 accuracy |> 
@@ -198,9 +214,21 @@ accuracy |>
 ```
 
 
+Der Standardfehler is definiert als 
+
+$$
+SE = \frac{sd}{\sqrt{n}}
+$$
+
+Leider gibt es in R keine Funktion, welche den Stadardfehler berechnet (schätzt); wir können aber ganz einfach selber eine Funktion definieren.
+
 ```{r}
 se <- function(x) sd(x)/sqrt(length(x))
+```
 
+
+
+```{r}
 datasum <- data |>
    group_by(condition) |> 
    summarise(N = n(),
@@ -267,7 +295,7 @@ by_subj
 Einfachere Version:
 
 ```{r}
-data |> 
+by_subj <- data |> 
   drop_na(rt) |> 
   group_by(ID, condition) |>  
   dplyr::summarise(mean = mean(rt),
@@ -317,16 +345,7 @@ by_subj |>
   facet_wrap(~ID, scales = "free_y")
 ```
 
-```{r eval=TRUE}
-by_subj |> 
-  ggplot(aes(condition, mean)) +
-  geom_line(aes(group = 1), linetype = 3) +    
-  geom_errorbar(aes(ymin = mean-se, ymax = mean+se),
-                width = 0.2, size=1, color="blue") +
-  geom_point(size = 2) +
-  geom_point(aes(condition, median), size = 2, color = "red") +
-  facet_wrap(~ID, scales = "free_y")
-```
+
 
 ## Über Versuchsperson aggregieren
 

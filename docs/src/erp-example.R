@@ -4,14 +4,17 @@ library(Rmisc)
 library(dplyr)
 library(purrr)
 library(magrittr)
+#
+# levCatGA <- read.csv("https://raw.githubusercontent.com/craddm/ExploringERPs/master/levCatObjNon.csv",
+#                      header = FALSE)
+# names(levCatGA) <- c("Object", "Non-Object", "Time", "Subject")
+# levCatGA <- levCatGA[(levCatGA$Time >= -100) & (levCatGA$Time <= 400),]
+# levCatGA$Subject <- as.factor(levCatGA$Subject)
+# levCatGA <- reshape2::melt(levCatGA, id.vars = c("Subject", "Time"))
+# names(levCatGA) <- c("Subject", "Time", "condition", "amplitude")
 
-levCatGA <- read.csv("https://raw.githubusercontent.com/craddm/ExploringERPs/master/levCatObjNon.csv",
-                     header = FALSE)
-names(levCatGA) <- c("Object", "Non-Object", "Time", "Subject")
-levCatGA <- levCatGA[(levCatGA$Time >= -100) & (levCatGA$Time <= 400),]
-levCatGA$Subject <- as.factor(levCatGA$Subject)
-levCatGA <- reshape2::melt(levCatGA, id.vars = c("Subject", "Time"))
-names(levCatGA) <- c("Subject", "Time", "condition", "amplitude")
+# levCatGA |> write_csv(file = "data/erp-example.csv")
+levCatGA <- read_csv("data/erp-example.csv")
 
 theme_set(theme_classic())
 
@@ -25,8 +28,10 @@ runningT <- levCatGA %>%
 
 runningSE <- levCatGA %>%
     split(.$Time) %>%
-    map(~summarySEwithin(data = ., measurevar = "amplitude",
-                         withinvars = "condition", idvar = "Subject"))
+    map(~ Rmisc::summarySEwithin(data = .,
+                                 measurevar = "amplitude",
+                                 withinvars = "condition",
+                                 idvar = "Subject"))
 
 
 pvals <- data.frame(

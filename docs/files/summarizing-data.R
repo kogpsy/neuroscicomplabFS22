@@ -1,8 +1,8 @@
-## ----setup, include=FALSE-------------------------------------
+## ----setup, include=FALSE---------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 
 
-## ---- xaringanExtra-clipboard, echo=FALSE, include=FALSE------
+## ---- xaringanExtra-clipboard, echo=FALSE, include=FALSE--------
 htmltools::tagList(
   xaringanExtra::use_clipboard(
     button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
@@ -13,30 +13,30 @@ htmltools::tagList(
 )
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 library(tidyverse)
 data <- read_csv("data/rdkdata.csv")
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 data <- data |>
     mutate_if(is.character, as.factor)
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 glimpse(data)
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 data
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 data |> 
   group_by(ID, condition)
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 accuracy <- data |>
     group_by(ID, condition) |>
     summarise(N = n(),
@@ -44,11 +44,11 @@ accuracy <- data |>
               accuracy = mean(correct))
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 accuracy
 
 
-## ----fig.height=12, fig.width=15------------------------------
+## ----fig.height=12, fig.width=15--------------------------------
 accuracy |> 
   ggplot(aes(x = condition, y = accuracy, fill = condition)) +
   geom_col() +
@@ -68,7 +68,7 @@ accuracy |>
   facet_wrap(~ID)
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 library(tidyverse)
 
 dfw <- tribble(
@@ -86,12 +86,15 @@ dfw <- tribble(
     mutate(subject = as.factor(subject))
 
 
+## ---------------------------------------------------------------
 dfl <- dfw |>
     pivot_longer(contains("test"),
                  names_to = "condition",
                  values_to = "value") |>
     mutate(condition = as_factor(condition))
 
+
+## ---------------------------------------------------------------
 dflsum <- dfl |>
     Rmisc::summarySEwithin(measurevar = "value",
                                withinvars = "condition",
@@ -99,6 +102,8 @@ dflsum <- dfl |>
                                na.rm = FALSE,
                                conf.interval = 0.95)
 
+
+## ---------------------------------------------------------------
 dflsum |>
     ggplot(aes(x = condition, y = value, group = 1)) +
     geom_line() +
@@ -107,16 +112,21 @@ dflsum |>
     ylim(40,60)
 
 
+## ---------------------------------------------------------------
 # Use a consistent y range
 ymax <- max(dfl$value)
 ymin <- min(dfl$value)
 
+
+## ---------------------------------------------------------------
 # Plot the individuals
 dfl |>
     ggplot(aes(x=condition, y=value, colour=subject, group=subject)) +
     geom_line() + geom_point(shape=21, fill="white") +
     ylim(ymin,ymax)
 
+
+## ---------------------------------------------------------------
 dfNorm_long <- Rmisc::normDataWithin(data=dfl, idvar="subject", measurevar="value")
 ?Rmisc::normDataWithin
 
@@ -126,7 +136,7 @@ dfNorm_long |>
     ylim(ymin,ymax)
 
 
-
+## ---------------------------------------------------------------
 # Instead of summarySEwithin, use summarySE, which treats condition as though it were a between-subjects variable
 dflsum_between <- Rmisc::summarySE(data = dfl, 
                                    measurevar = "value", 
@@ -135,6 +145,8 @@ dflsum_between <- Rmisc::summarySE(data = dfl,
                                    conf.interval = .95)
 dflsum_between
 
+
+## ---------------------------------------------------------------
 # Show the between-S CI's in red, and the within-S CI's in black
 dflsum_between |>
     ggplot(aes(x=condition, y=value, group=1)) +
@@ -145,7 +157,7 @@ dflsum_between |>
     ylim(ymin,ymax)
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 accuracy |> 
   ggplot(aes(x = condition, y = accuracy, colour = ID, group = ID)) +
     geom_line() + 
@@ -153,9 +165,11 @@ accuracy |>
 
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 se <- function(x) sd(x)/sqrt(length(x))
 
+
+## ---------------------------------------------------------------
 datasum <- data |>
    group_by(condition) |> 
    summarise(N = n(),
@@ -165,7 +179,7 @@ datasum <- data |>
 datasum
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 datasum_2 <- data |>
     Rmisc::summarySE(measurevar = "correct",
                               groupvars = "condition",
@@ -174,7 +188,7 @@ datasum_2 <- data |>
 datasum_2
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 datasum_3 <- data |>
     Rmisc::summarySEwithin(measurevar = "correct",
                                withinvars = "condition",
@@ -184,7 +198,7 @@ datasum_3 <- data |>
 datasum_3
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 p_accuracy <- datasum_3 |>
     ggplot(aes(x = condition, y = correct, group = 1)) +
     geom_line() +
@@ -193,7 +207,7 @@ p_accuracy <- datasum_3 |>
 p_accuracy
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 funs <- list(mean = mean, median = median, sd = sd)
 
 by_subj <- data %>%
@@ -202,12 +216,12 @@ by_subj <- data %>%
   dplyr::summarise(across(rt, funs, .names = "{.fn}"))
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 by_subj 
 
 
-## -------------------------------------------------------------
-data |> 
+## ---------------------------------------------------------------
+by_subj <- data |> 
   drop_na(rt) |> 
   group_by(ID, condition) |>  
   dplyr::summarise(mean = mean(rt),
@@ -215,7 +229,7 @@ data |>
                    sd = sd(rt))
 
 
-## ----fig.height=12, fig.width=15------------------------------
+## ----fig.height=12, fig.width=15--------------------------------
 by_subj |> 
   ggplot(aes(x = condition, y = mean, fill = condition)) +
   geom_col() +
@@ -233,7 +247,7 @@ by_subj |>
   facet_wrap(~ID)
 
 
-## ----eval=TRUE------------------------------------------------
+## ----eval=TRUE--------------------------------------------------
 se <- function(x, ...) sd(x, ...)/sqrt(length(x))
 
 by_subj <- data %>% 
@@ -244,7 +258,7 @@ by_subj <- data %>%
             se = se(rt, na.rm = TRUE))
 
 
-## ----eval=TRUE------------------------------------------------
+## ----eval=TRUE--------------------------------------------------
 by_subj |> 
   ggplot(aes(condition, mean)) +
   geom_line(aes(group = 1), linetype = 3) +    
@@ -254,18 +268,7 @@ by_subj |>
   facet_wrap(~ID, scales = "free_y")
 
 
-## ----eval=TRUE------------------------------------------------
-by_subj |> 
-  ggplot(aes(condition, mean)) +
-  geom_line(aes(group = 1), linetype = 3) +    
-  geom_errorbar(aes(ymin = mean-se, ymax = mean+se),
-                width = 0.2, size=1, color="blue") +
-  geom_point(size = 2) +
-  geom_point(aes(condition, median), size = 2, color = "red") +
-  facet_wrap(~ID, scales = "free_y")
-
-
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 rtsum <- data |>
   drop_na(rt) |> 
     Rmisc::summarySEwithin(measurevar = "rt",
@@ -276,7 +279,7 @@ rtsum <- data |>
 rtsum
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 p_rt <- rtsum |>
     ggplot(aes(x = condition, y = rt, group = 1)) +
     geom_line() +
@@ -284,14 +287,14 @@ p_rt <- rtsum |>
     geom_point(shape=21, size=3, fill="white")
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 p_rt
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 library(patchwork)
 
 
-## -------------------------------------------------------------
+## ---------------------------------------------------------------
 p_accuracy / p_rt
 

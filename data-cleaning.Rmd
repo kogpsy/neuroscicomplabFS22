@@ -53,7 +53,7 @@ theme_set(theme_grey(base_size = 14) +
 
 # Data Cleaning
 
-Nun wollen wir versuchen, einzelne Trials, zu identifizieren, in denen Versuchpersonen nicht aufgepasst haben, oder einfach geraten wurde. In solchen Fällen wäre die Qualität der Daten nicht gut genug. 
+Nun wollen wir versuchen, einzelne Trials, zu identifizieren, in denen Versuchpersonen nicht aufgepasst haben, oder einfach geraten wurde.  
 
 Am häufigsten werden die folgenden beiden Kriterien verwendet, um entweder einzelne Datenpunkte, oder Versuchspersonen, auszuschliessen:
 

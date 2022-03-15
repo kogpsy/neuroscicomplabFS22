@@ -343,6 +343,14 @@ data <- data |>
                                  cue != direction ~ "invalid"))
 ```
 
+### Daten als CSV speichern
+
+An dieser Stelle speichern wir den neu kreierten Datensatz als `.csv` File. Somit können wir die Daten einfach importieren, ohne die ganzen Schritte wiederholen zu müssen.
+
+```{r}
+data |> write_csv(file = "data/rdkdata.csv")
+```
+
 
 ```{r}
 data |> 

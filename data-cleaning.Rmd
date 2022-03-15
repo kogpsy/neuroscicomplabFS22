@@ -1,0 +1,239 @@
+---
+title: "Daten bearbeiten und zusammenfassen"
+description: |
+  Daten aus Verhaltensexperiments bearbeiten und zusammenfassen, Datenpunkte identifizieren.
+date: "2022-03-15"
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/data-cleaning.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, xaringanExtra-clipboard, echo=FALSE, include=FALSE}
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+
+# Datensatz importieren
+
+
+```{r}
+library(tidyverse)
+data <- read_csv("data/rdkdata.csv")
+```
+
+Ob eine Variable als `factor` definiert ist, wird als Attribut gespeichert. Attribute werden aber in einem `.csv.` File nicht mitgespeichert; deshalb müssen wir die Gruppierungsvariablen wieder als `factor` definieren. 
+
+```{r}
+data <- data |>
+    mutate_if(is.character, as.factor)
+```
+
+```{r}
+glimpse(data)
+```
+
+
+
+
+
+# Accuracy pro Person/Bedingung
+
+Wir haben schon gelernt, wie wir Accuracy pro Person und pro Bedingung berechnen können.
+
+```{r}
+accuracy <- data |>
+    group_by(ID, condition) |>
+    summarise(N = n(),
+              ncorrect = sum(correct),
+              accuracy = mean(correct))
+
+```
+
+```{r}
+accuracy
+```
+
+## Visualisieren
+
+```{r fig.height=12, fig.width=15}
+accuracy |> 
+  ggplot(aes(x = condition, y = accuracy, fill = condition)) +
+  geom_col() +
+  scale_fill_manual(
+    values = c(invalid = "#9E0142",
+    neutral = "#C4C4B7",
+    valid = "#2EC762")
+  ) +
+  labs(
+    x = "Cue",
+    y = "Proportion correct",
+    title = "Accuracy per person/condition"
+  ) +
+  theme_linedraw(base_size = 28) +
+  facet_wrap(~ID)
+```
+
+
+# Data Cleaning
+
+Nun wollen wir versuchen, einzelne Trials, zu identifizieren, in denen Versuchpersonen nicht aufgepasst haben, oder einfach geraten wurde. In solchen Fällen wäre die Qualität der Daten nicht gut genug. 
+
+Am häufigsten werden die folgenden beiden Kriterien verwendet, um entweder einzelne Datenpunkte, oder Versuchspersonen, auszuschliessen:
+
+1) Versuchspersonen, deren Accuracy < 50% ist.
+
+2) Trials, in denen die Antwort zu schnell oder zu langsam war.
+
+Nun ist in Experiment, in denen ein Bias erzeugt wird, etwas heikel, Trials oder Versuchspersonen aufgrund der Anzahl korrekter Antworten auszuschliessen - wir haben ja die Korrektheit der Antworten experimentell manipuliert. 
+
+So hat z.B. VP "rh" in der `invalid` Condition eine Accuracy von ca. 0.125. Dies bedeudet, dass diese Person systematisch falsche Antworten gegeben hat. Da wir dies in der `invald` Condition aber geradezu verlangen, ist dies eher ein "Feature" als ein Fehler.
+
+
+```{r}
+accuracy
+```
+
+Deswegen richten wir hier unseren Fokus auf die Reaktionszeiten. Wir gehen davon aus, dass Reaktionszeiten, die zu schnell oder yu langsam waren, aufgrund von Rateprozessen zustande kamen. Was genau __zu schnell__ oder __zu langsam__ heisst, ist schwierig zu beantworten, und hängt stark vom jeweiligen Task ab.
+Deshalb ist es wichtig, sich _a priori_ Gedanken darüber zu machen, welche Kriterien angewandt werden sollen.
+
+
+
+
+## Cleaning by subject
+
+Unser Ziel ist es, die Daten einer Versuchsperson zu entfernen, falls diese Person in einer experimentellen Bedingung eine mittlere Reaktionszeit hat, welche mehr als 2 Standardabweichungen vom Gesamtmittelwert liegt.
+
+```{r}
+# summary stats (means) for participants
+sum_stats_participants <- data |>  
+  group_by(ID, condition) |>  
+  dplyr::summarise(
+    mean_P = mean(rt, na.rm = TRUE))
+```
+
+
+```{r}
+# summary stats (means and SDs) for conditions
+sum_stats_conditions <- data |> 
+  group_by(condition) |> 
+  dplyr::summarise(
+    mean_C = mean(rt, na.rm = TRUE),
+    sd_C = sd(rt, na.rm = TRUE))
+```
+
+
+
+```{r}
+sum_stats_participants <- sum_stats_participants |> 
+  left_join(sum_stats_conditions, by = "condition") |>
+  mutate(outlier_P = abs(mean_P - mean_C) > 2 * sd_C)
+```
+
+```{r}
+# show outlier participants
+sum_stats_participants %>% 
+  filter(outlier_P == 1) %>% 
+  show()
+```
+
+
+Wir haben keine Personen, welche in einer Bedingung eine mittlere RT hat, welche mehr als 2 Standardabweichungen vom Gesamtmittelwert dieser Bedingung liegt. 
+
+
+Falls wir eine Person hätten, könnten wir sie so auschliessen:
+
+```{r}
+excluded <- sum_stats_participants %>% 
+  filter(outlier_P == 1)
+```
+
+```{r}
+data_cleaned <- data %>% 
+  filter(!(ID %in% excluded$ID)) %>% 
+  mutate(ID = fct_drop(ID))
+```
+
+
+## Cleaning by trial
+
+Nun wollen alle Trials identifizieren, welche mehr als 2 Standardabweichungen vom Bedingungs-Gesamtmittelwert liegen. Ausserdem entfernen wir alle RTs, welche unter 200 Millisekunden liegen, mit der Begründung, das solche Reaktionszeiten unmöglich sind.
+
+
+```{r}
+# mark individual trials as outliers
+data_cleaned <- data_cleaned |>  
+  left_join(
+    sum_stats_conditions,
+    by = "condition") |> 
+  drop_na(rt) 
+```
+
+```{r}
+data_cleaned <- data_cleaned |> 
+  mutate(
+    trial_type = case_when(
+      abs(rt - mean_C) > 2 * sd_C ~ "zu weit vom Mittelwert",
+      rt < 0.200 ~ "< 200ms",
+      TRUE ~ "OK") %>% 
+      factor(levels = c("OK", "< 200ms", "zu weit vom Mittelwert")),
+    trial = row_number())
+```
+
+
+
+
+```{r layout="l-body-outset", fig.width=9, fig.height=4.5}
+# visualize outlier trials
+
+data_cleaned %>% 
+  ggplot(aes(x = trial, y = rt, color = trial_type, shape = condition)) +
+  geom_point(alpha = 0.6) + 
+  # geom_point(data = filter(data_cleaned, trial_type != "OK"), 
+  #            alpha = 0.9) + 
+  facet_grid(~ condition) +
+  scale_color_manual(values = c("gray70", "red", "steelblue"))
+```
+
+
+Wir haben insgesamt 63 Trials, welche nach unseren Kriterien Ausreisser sein könnten.
+
+```{r}
+data_cleaned %>% 
+  filter(trial_type != "OK")
+```
+
+```{r}
+library(viridis)
+
+data_cleaned %>% 
+  ggplot(aes(x = rt, color = condition, fill = condition)) +
+  geom_density(alpha = 0.3) +
+  scale_fill_viridis(discrete=TRUE, option="cividis") +
+  scale_color_viridis(discrete=TRUE, option="cividis")
+```
+

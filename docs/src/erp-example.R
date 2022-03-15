@@ -1,3 +1,6 @@
+# https://www.mattcraddock.com/blog/2016/11/28/erp-visualization-within-subject-confidence-intervals/
+
+
 library(ggplot2)
 library(reshape2)
 library(Rmisc)

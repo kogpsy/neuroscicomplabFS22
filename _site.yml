@@ -71,6 +71,8 @@ navbar:
           href: exercise-01.html
         - text: "Übung 2"
           href: exercise-02.html
+        - text: "Übung 3"
+          href: exercise-03.html
 
     - text: "Lösungen"
       menu:

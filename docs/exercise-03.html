@@ -2505,8 +2505,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       background-position: 15px center;
       min-height: 120px;
       color: #000000;
-      background-color: #d08770;
-      border: dashed 5px #ffffff;
+      background-color: #ffffff;
+      border: dotted 5px #d08770;
     }
 
   div.example {
@@ -2519,7 +2519,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     min-height: 120px;
     color: #000000;
     background-color: #ffffff;
-    border: dashed 5px #a3be8c;
+    border: dotted 5px #a3be8c;
   }
 
 
@@ -2532,8 +2532,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     background-position: 15px center;
     min-height: 120px;
     color: #000000;
-    background-color: #ebcb8b;
-    border: dashed 5px #ffffff;
+    background-color: #ffffff;
+    border: dotted 5px #5E81AC;
   }
 
   div.exercise {
@@ -2545,8 +2545,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     background-position: 15px center;
     min-height: 40px;
     color: #000000;
-    background-color: #ebcb8b;
-    border: dashed 5px #ffffff;
+    background-color: #ffffff;
+    border: dotted 5px #ebcb8b;
   }
 
   div.note {
@@ -2558,8 +2558,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     background-position: 15px center;
     min-height: 40px;
     color: #000000;
-    background-color: #e5e9f0;
-    border: dashed 5px #ffffff;
+    background-color: #ffffff;
+    border: dotted 5px #BF616A;
   }
 
 
@@ -2572,8 +2572,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     background-position: 15px center;
     min-height: 120px;
     color: #000000;
-    background-color: #b48ead;
-    border: dashed 5px #ffffff;
+    background-color: #ffffff;
+    border: dotted 5px #b48ead;
   }
 
   div.puzzle {
@@ -2772,8 +2772,9 @@ Datensatz.</p>
 <h1 id="aufgabenstellung">Aufgabenstellung</h1>
 <p>In dieser Aufgabe bearbeiten Sie Daten aus einem
 Detektionssexperiment. Versuchspersonen mussten in zwei Bedingungen
-(<em>Bias</em> und <em>No Bias</em>) ein Signal, welches in Rauschen
-eingebettet war, detektieren. Im Datensatz sind folgende Variablen:</p>
+(<code>bias</code> und <code>no_bias</code>) ein Signal, welches in
+Rauschen eingebettet war, detektieren. Im Datensatz sind folgende
+Variablen:</p>
 <pre><code>subject: Subjekt ID
 trial_num: Trialnummer, durchnummeriert in jeder Bedingung
 condition: Bedingung (_Bias_ und _No Bias_)
@@ -2787,11 +2788,11 @@ rt: Reaktionszeit in Sekunden
 Ihren Projektordner.</p>
 <ol start="2" type="a">
 <li><p>Lesen Sie das <em>CSV</em> File ein. Per Konvention verwenden wir
-den Variablennamen <em>d</em> für den Datensatz.</p></li>
+den Variablennamen <code>d</code> für den Datensatz.</p></li>
 <li><p>Überprüfen Sie, ob alle Variablen vorhanden sind. Verwenden Sie
-z.B. die Funktion <em>glimpse()</em></p></li>
-<li><p>Konvertieren Sie die Gruppierungsvariablen <em>subject</em> und
-<em>condition</em> zu Faktoren.</p></li>
+z.B. die Funktion <code>glimpse()</code>.</p></li>
+<li><p>Konvertieren Sie die Gruppierungsvariablen <code>subject</code>
+und <code>condition</code> zu Faktoren.</p></li>
 </ol>
 </div>
 <div class="layout-chunk" data-layout="l-body">

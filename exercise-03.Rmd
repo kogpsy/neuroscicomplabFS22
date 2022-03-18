@@ -49,7 +49,7 @@ Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-3.zip*.
 
 # Aufgabenstellung
 
-In dieser Aufgabe bearbeiten Sie Daten aus einem Detektionssexperiment. Versuchspersonen mussten in zwei Bedingungen (_Bias_ und _No Bias_) ein Signal, welches in Rauschen eingebettet war, detektieren. Im Datensatz sind folgende Variablen:
+In dieser Aufgabe bearbeiten Sie Daten aus einem Detektionssexperiment. Versuchspersonen mussten in zwei Bedingungen (`bias` und `no_bias`) ein Signal, welches in Rauschen eingebettet war, detektieren. Im Datensatz sind folgende Variablen:
 
 ```
 subject: Subjekt ID
@@ -69,11 +69,11 @@ rt: Reaktionszeit in Sekunden
 **Aufgabe 1**
 a) Speichern Sie das *CSV* File in Ihren Projektordner.
 
-b) Lesen Sie das *CSV* File ein. Per Konvention verwenden wir den Variablennamen *d* für den Datensatz.
+b) Lesen Sie das *CSV* File ein. Per Konvention verwenden wir den Variablennamen `d` für den Datensatz.
 
-c) Überprüfen Sie, ob alle Variablen vorhanden sind. Verwenden Sie z.B. die Funktion _glimpse()_
+c) Überprüfen Sie, ob alle Variablen vorhanden sind. Verwenden Sie z.B. die Funktion `glimpse()`.
 
-d) Konvertieren Sie die Gruppierungsvariablen _subject_ und _condition_ zu Faktoren.
+d) Konvertieren Sie die Gruppierungsvariablen `subject` und `condition` zu Faktoren.
 :::
 
 

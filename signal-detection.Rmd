@@ -479,7 +479,7 @@ yes_observer |> pull(c, dprime)
 ```
 
 :::exercise
-Why is seemingly difficult to recover theses parameters?
+Why is it seemingly difficult to recover theses parameters?
 :::
 
 

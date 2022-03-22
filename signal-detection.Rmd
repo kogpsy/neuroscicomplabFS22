@@ -42,135 +42,38 @@ htmltools::tagList(
 :::
 
 
-```{r}
-library(tidyverse)
-data <- read_csv("data/rdkdata.csv")
-```
-
-
-```{r}
-data <- data |>
-    mutate_if(is.character, as.factor)
-```
-
-```{r}
-glimpse(data)
-```
-
-
-# Binary Choices
-
-## Accuracy
-### Pro Versuchsperson
-
-```{r}
-data
-```
-
-
-```{r}
-accuracy <- data |>
-    group_by(ID, condition) |>
-    summarise(N = n(),
-              ncorrect = sum(correct),
-              accuracy = mean(correct))
-```
-
-```{r}
-accuracy
-```
-
-### Visualisieren
-
-```{r fig.height=12, fig.width=15}
-accuracy |> 
-  ggplot(aes(x = condition, y = accuracy, fill = condition)) +
-  geom_col() +
-  geom_line(aes(group = ID), size = 2) +
-  geom_point(size = 8) +
-  scale_fill_manual(
-    values = c(invalid = "#9E0142",
-    neutral = "#C4C4B7",
-    valid = "#2EC762")
-  ) +
-  labs(
-    x = "Cue",
-    y = "Proportion correct",
-    title = "Accuracy per person/condition"
-  ) +
-  theme_linedraw(base_size = 28) +
-  facet_wrap(~ID)
-```
-
-### Über Versuchsperson aggregieren
 
 
 
-```{r}
-datasum <- data |>
-    Rmisc::summarySEwithin(measurevar = "correct",
-                               withinvars = "condition",
-                               idvar = "ID",
-                               na.rm = FALSE,
-                               conf.interval = 0.95)
-datasum
-```
+
+<!-- ```{r} -->
+<!-- datasum <- data |> -->
+<!--     Rmisc::summarySEwithin(measurevar = "correct", -->
+<!--                                withinvars = "condition", -->
+<!--                                idvar = "ID", -->
+<!--                                na.rm = FALSE, -->
+<!--                                conf.interval = 0.95) -->
+<!-- datasum -->
+<!-- ``` -->
 
 
-```{r}
-p_accuracy <- datasum |>
-    ggplot(aes(x = condition, y = correct, group = 1)) +
-    geom_line() +
-    geom_errorbar(width = .1, aes(ymin = correct-se, ymax = correct+se), colour="red") +
-    geom_point(shape=21, size=3, fill="white")
-p_accuracy
-```
-
-
-## Signal detection
-
-```{r}
-data <- data |> 
-      mutate(type = case_when(
-        direction == "right" & choice == "right" ~ "Hit",
-        direction == "right" & choice == "left" ~ "Miss",
-        direction == "left" & choice == "left" ~ "CR",
-        direction == "left" & choice == "right" ~ "FA"))
-```
-
-```{r}
-sdt_summary <- data |> 
-    group_by(ID, condition) |> 
-    count(type) 
-
-
-correct_zero_count <- function(x) {
-    x = ifelse(is.na(x), 0, x)
-    x = x + 0.001
-}
-
-sdt <- sdt_summary |> 
-    pivot_wider(names_from = type, values_from = n) |> 
-    mutate(across(c(CR, FA, Hit, Miss), correct_zero_count)) |> 
-    mutate(hit_rate = Hit/(Hit + Miss),
-           fa_rate = FA/(FA + CR),
-           zhr = qnorm(hit_rate),
-           zfa = qnorm(fa_rate),
-           dprime = zhr - zfa,
-           c = -0.5 * (zhr + zfa)) |> 
-    mutate(across(c(dprime, c), round, 2))
-
-```
-
+<!-- ```{r} -->
+<!-- p_accuracy <- datasum |> -->
+<!--     ggplot(aes(x = condition, y = correct, group = 1)) + -->
+<!--     geom_line() + -->
+<!--     geom_errorbar(width = .1, aes(ymin = correct-se, ymax = correct+se), colour="red") + -->
+<!--     geom_point(shape=21, size=3, fill="white") -->
+<!-- p_accuracy -->
+<!-- ``` -->
 
 
 		
-|              | Signal         |                       |
-| ------------ | -------------- | --------------------- |
-| **Response** | present        | absent                |
-| --------     | -------------- | --------------------- |
-| Yes          | Hit            | False alarm (FA)      |
-| No           | Miss           | Correct rejection (CR) |
+<!-- |              | Signal         |                       | -->
+<!-- | ------------ | -------------- | --------------------- | -->
+<!-- | **Response** | present        | absent                | -->
+<!-- | --------     | -------------- | --------------------- | -->
+<!-- | Yes          | Hit            | False alarm (FA)      | -->
+<!-- | No           | Miss           | Correct rejection (CR) | -->
 
 
 ## Signal detection theory
@@ -182,26 +85,35 @@ We consider an experiment in which a person has to classify a stimulus into one 
 - yes / no
 
 
-We can neglect the underlying task, as the math is the same. In the general case, say we present two stimulus categories `A` and `B`, that vary along some dimension. The task of the subject in our experiment is to perform a binary classification with the response options `A` and `B`. The subject's performance can be summarised in a classification table, with four possible outcomes:
+We can neglect the underlying task, as the math is the same. In the general case, say we present two stimulus categories `A` and `B`, that vary along some dimension. The task of the subject in our experiment is to perform a binary classification with the response options `A` and `B`. The subject's performance can be summarized in a classification table, with four possible outcomes:
 
-- **hit**:  Stimulus is `A`, subject responds `A`
-- miss: Stimulus is `A`, subject responds `B`
-- **false alarm**: Stimulus is `B`, subject responds `A`
-- correct rejection: Stimulus is `B`, subject responds `B`
+|              | Signal         |                       |
+| ------------ | -------------- | --------------------- |
+| **Response** | A              | B                     |
+| --------     | -------------- | --------------------- |
+| A            | Hit            | False alarm (FA)      |
+| B            | Miss           | Correct rejection (CR) |
+
+
+- **Hit**:  Stimulus is `A`, subject responds `A`
+- Miss: Stimulus is `A`, subject responds `B`
+- **False alarm**: Stimulus is `B`, subject responds `A`
+- Correct rejection: Stimulus is `B`, subject responds `B`
 
 
 > Given the stimulus, the subject has two response options. Therefore, we consider only the `A` responses when the stimulus is `A` (hits) or `B` (false alarms).
 
 
 - The SDT model assumes that on each trial $i$, a person's information about a stimulus can be modeled as a random variable $X_i$. 
+
 - This is drawn from one of two possible distributions, which (in equal variance SDT) differ only in their location, but not their scale ( we assume that $\sigma = 1$). 
 
-> Example: familiarity. When the subject is shown an image, this evokes a feeling of 'familiarity`. This is a latent construct.
+> Example: familiarity. When the subject is shown an image, this evokes a feeling of 'familiarity`. This is a latent _strength variable_.
 
 
-
+<aside>
 SDT does not require any particular distributions, but in practise, Gaussians are often chosen.
-
+</aside>
 
 > Thought experiment: you are a subject in a memory experiment. You were previously shown a number of images, and now you are presented with a mixture of old and new items, and have to say whether you have previously seen the test image.
 
@@ -222,6 +134,7 @@ The internal signal evoked by old and new items is often shown like this:
 
 
 ```{r echo=FALSE}
+library(tidyverse)
 library(viridis)
 xlim <- c(-4.5, 4.5)
 alpha <- c(0.6, 0.2)
@@ -233,7 +146,7 @@ colors <- viridis(n = 4,
                   end = 0.98, 
                   direction = -1)
 
-p1 <- tibble(x = seq(xlim[1], xlim[2], by = 0.1)) %>% 
+p1 <- tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |> 
     ggplot(aes(x)) +
     stat_function(fun = dnorm, colour = colors[1], 
                   args = list(mean = -dprime/2, sd = 1),
@@ -322,7 +235,7 @@ The expression for $d'$
 - this is equivalent to a contrast between levels of a factor with two levels as the linear predictor for a response in a GLM 
 
 ```{r echo=FALSE}
-tibble(x = seq(0, 1, by = 0.01)) %>% 
+tibble(x = seq(0, 1, by = 0.01)) |> 
   ggplot(aes(x)) +
   stat_function(fun = qnorm, colour = "steelblue3", 
                   args = list(mean = 0, sd = 1),
@@ -334,11 +247,11 @@ tibble(x = seq(0, 1, by = 0.01)) %>%
   theme_linedraw()
 ```
 
-- c: decision criterion
-$$ c = \phi^{-1}(1-p_{FA}) = -\phi^{-1}(p_{FA}) $$
+- k: decision criterion
+$$ k = \phi^{-1}(1-p_{FA}) = -\phi^{-1}(p_{FA}) $$
 
-Better: distance to optimal decision boundary
-$$ c' = -\frac{1}{2} \left[\phi^{-1}(p_{H}) + \phi^{-1}(p_{FA})\right] $$
+Better: distance to optimal decision boundary (bias)
+$$ c = -\frac{1}{2} \left[\phi^{-1}(p_{H}) + \phi^{-1}(p_{FA})\right] $$
 
 
 > What we are doing here is __estimating__ the hit rate and false alarm rate from observed hits and false alarms using maximum likelihood estimation, and then computing d' and c from these estimated probabilities.
@@ -363,7 +276,7 @@ colors <- viridis(n = 4,
                   end = 0.98, 
                   direction = -1)
 
-tibble(x = seq(xlim[1], xlim[2], by = 0.1)) %>% 
+tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |> 
     ggplot(aes(x)) +
     stat_function(fun = dnorm, colour = colors[1], 
                   args = list(mean = -dprime/2, sd = 1),
@@ -384,7 +297,7 @@ When the stimulus is `old`, we will produce hits with probability:
 $$ p_{H} = P(y = 1 | X=1) = 1 - \Phi(c-d') $$
 
 ```{r echo=FALSE}
-tibble(x = seq(xlim[1], xlim[2], by = 0.1)) %>% 
+tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |> 
     ggplot(aes(x)) +
     stat_function(fun = dnorm, colour = colors[4], 
                   args = list(mean = dprime/2, sd = 1),
@@ -442,14 +355,17 @@ Let's look at an example (borrowing heavily from this [blog post](https://vuorre
 The data are from a recognition memory experiment:
 
 ```{r}
+# You might first need to install the `remotes` package
+# install.packages("remotes")
+# install sdtalt
+# remotes::install_github("cran/sdtalt")
+
 library(sdtalt)
 library(tidyverse)
-library(brms)
-library(tidybayes)
 
 data(confcontr)
 
-confcontr <- as_tibble(confcontr) %>% 
+confcontr <- as_tibble(confcontr) |> 
   mutate(subno = as_factor(subno),
          item = isold - 0.5)
 ```
@@ -463,54 +379,55 @@ confcontr
 
 First we classify each response as hit, miss, correct rejection (cr) or false alarm (fa):
 ```{r}
-sdt <- confcontr %>% 
-  mutate(type = "hit",
-         type = ifelse(isold==1 & sayold==0, "miss", type),
-         type = ifelse(isold==0 & sayold==0, "cr", type),  
-         type = ifelse(isold==0 & sayold==1, "fa", type))
+sdt <- confcontr |> 
+  mutate(type = case_when(
+        isold==1 & sayold==1 ~ "Hit",
+        isold==1 & sayold==0 ~ "Miss",
+        isold==0 & sayold==0 ~ "CR",
+        isold==0 & sayold==1 ~ "FA"))
 ```
 
 
 And then count the number of hits, etc.
+
 ```{r}
-sdt <- sdt %>% 
-  group_by(subno, type) %>% 
-  summarise(count = n()) %>% 
-  spread(type, count)
-sdt
+sdt_summary <- sdt |>
+    group_by(subno) |>
+    count(type) |> 
+  pivot_wider(names_from = type, values_from = n) 
 ```
+
+```{r}
+correct_zero_count <- function(x) {
+    x = ifelse(is.na(x), 0, x)
+    x = x + 0.001
+}
+
+sdt_summary <- sdt_summary |>
+    mutate(hit_rate = Hit/(Hit + Miss),
+           fa_rate = FA/(FA + CR),
+           zhr = qnorm(hit_rate),
+           zfa = qnorm(fa_rate),
+           dprime = zhr - zfa,
+           c = -0.5 * (zhr + zfa)) |>
+    mutate(across(c(dprime, c), round, 2))
+```
+
 
 Next, we **estimate** the hit and false alarm rates, based on the observed number of hits and false alarms, and compute $d'$, $c$ and $bias$ using the formulae given above. 
-
-```{r}
-sdt <- sdt %>% 
-  mutate(hr = hit / (hit+miss),
-         far = fa / (fa+cr),
-         zhr = qnorm(hr),
-         zfa = qnorm(far),
-         dprime = zhr-zfa,
-         c = -zfa,
-         bias = -0.5*(zhr+zfa),
-         model = "no pooling")
-```
-
-
-```{r}
-sdt %>% 
-  select(subno, hr, far, zhr, zfa, dprime, c, bias)
-```
-
 
 
 
 
 For simplicity, we first look at the data from subject `53` only:
 ```{r}
-sdt %>% 
-  filter(subno ==53) %>% 
-  select(subno, hr, far, zhr, zfa, dprime, c, bias)
+sdt_summary |> 
+  filter(subno == 53) |> 
+  select(subno, hit_rate, fa_rate, zhr, zfa, dprime, c)
 ```
 
+
+## Signal Detection as GLM
 
 A (standard) GLM will give us
 
@@ -518,7 +435,7 @@ A (standard) GLM will give us
 - a parameter for the indicator `isold`: this corresponds to `d'`
 
 ```{r}
-subno53 <- confcontr %>% 
+subno53 <- confcontr |> 
   filter(subno == 53)
 
 fit_glm_53 <- glm(sayold ~ isold, 

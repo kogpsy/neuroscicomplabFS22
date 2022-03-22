@@ -2753,16 +2753,12 @@ Datenpunkte identifizieren.</p></p>
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#binary-choices">Binary Choices</a>
-<ul>
-<li><a href="#accuracy">Accuracy</a></li>
-<li><a href="#signal-detection">Signal detection</a></li>
 <li><a href="#signal-detection-theory">Signal detection theory</a></li>
 <li><a href="#signal-detection-parameters">Signal detection
 parameters</a></li>
 <li><a href="#memory-experiment-single-subject">Memory experiment:
 single subject</a></li>
-</ul></li>
+<li><a href="#signal-detection-as-glm">Signal Detection as GLM</a></li>
 </ul>
 </nav>
 </div>
@@ -2770,213 +2766,29 @@ single subject</a></li>
 <p>👉 <a href="./files/signal-detection.R">R Code für dieses Kapitel
 downloaden</a></p>
 </div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"data/rdkdata.csv"</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.character</span>, <span class='va'>as.factor</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
-</code></pre>
-</div>
-<pre><code>Rows: 1,440
-Columns: 9
-$ trial     &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …
-$ ID        &lt;fct&gt; JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH…
-$ cue       &lt;fct&gt; right, right, none, none, left, none, none, left, …
-$ direction &lt;fct&gt; right, right, right, right, left, right, left, lef…
-$ response  &lt;dbl&gt; 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0,…
-$ rt        &lt;dbl&gt; 0.7136441, 0.6271285, 0.6703410, 0.5738488, 0.8405…
-$ choice    &lt;fct&gt; right, right, left, right, right, right, right, le…
-$ correct   &lt;dbl&gt; 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,…
-$ condition &lt;fct&gt; valid, valid, neutral, neutral, valid, neutral, ne…</code></pre>
-</div>
-<h1 id="binary-choices">Binary Choices</h1>
-<h2 id="accuracy">Accuracy</h2>
-<h3 id="pro-versuchsperson">Pro Versuchsperson</h3>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span>
-</code></pre>
-</div>
-<pre><code># A tibble: 1,440 × 9
-   trial ID    cue   direction response    rt choice correct condition
-   &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;    &lt;dbl&gt; &lt;fct&gt;    
- 1     0 JH    right right            1 0.714 right        1 valid    
- 2     1 JH    right right            1 0.627 right        1 valid    
- 3     2 JH    none  right            0 0.670 left         0 neutral  
- 4     3 JH    none  right            1 0.574 right        1 neutral  
- 5     4 JH    left  left             1 0.841 right        0 valid    
- 6     5 JH    none  right            1 0.668 right        1 neutral  
- 7     6 JH    none  left             1 1.12  right        0 neutral  
- 8     7 JH    left  left             0 0.640 left         1 valid    
- 9     8 JH    left  right            0 1.13  left         0 invalid  
-10     9 JH    none  right            1 1.03  right        1 neutral  
-# … with 1,430 more rows</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>accuracy</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='va'>condition</span><span class='op'>)</span> |&gt;
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>N <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>,
-              ncorrect <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>correct</span><span class='op'>)</span>,
-              accuracy <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>correct</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>accuracy</span>
-</code></pre>
-</div>
-<pre><code># A tibble: 27 × 5
-# Groups:   ID [9]
-   ID    condition     N ncorrect accuracy
-   &lt;fct&gt; &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1 JH    invalid      16       13   0.812 
- 2 JH    neutral      80       66   0.825 
- 3 JH    valid        64       60   0.938 
- 4 NS    invalid      16       11   0.688 
- 5 NS    neutral      80       56   0.7   
- 6 NS    valid        64       58   0.906 
- 7 rh    invalid      16        2   0.125 
- 8 rh    neutral      80       64   0.8   
- 9 rh    valid        64       61   0.953 
-10 sb    invalid      16        1   0.0625
-# … with 17 more rows</code></pre>
-</div>
-<h3 id="visualisieren">Visualisieren</h3>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>accuracy</span> |&gt; 
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>condition</span>, y <span class='op'>=</span> <span class='va'>accuracy</span>, fill <span class='op'>=</span> <span class='va'>condition</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>ID</span><span class='op'>)</span>, size <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span><span class='op'>(</span>
-    values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>invalid <span class='op'>=</span> <span class='st'>"#9E0142"</span>,
-    neutral <span class='op'>=</span> <span class='st'>"#C4C4B7"</span>,
-    valid <span class='op'>=</span> <span class='st'>"#2EC762"</span><span class='op'>)</span>
-  <span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
-    x <span class='op'>=</span> <span class='st'>"Cue"</span>,
-    y <span class='op'>=</span> <span class='st'>"Proportion correct"</span>,
-    title <span class='op'>=</span> <span class='st'>"Accuracy per person/condition"</span>
-  <span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_linedraw</a></span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>28</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>ID</span><span class='op'>)</span>
-</code></pre>
-</div>
-<p><img src="signal-detection_files/figure-html5/unnamed-chunk-7-1.png" width="1440" /></p>
-</div>
-<h3 id="über-versuchsperson-aggregieren">Über Versuchsperson
-aggregieren</h3>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>datasum</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt;
-    <span class='fu'>Rmisc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Rmisc/man/summarySEwithin.html'>summarySEwithin</a></span><span class='op'>(</span>measurevar <span class='op'>=</span> <span class='st'>"correct"</span>,
-                               withinvars <span class='op'>=</span> <span class='st'>"condition"</span>,
-                               idvar <span class='op'>=</span> <span class='st'>"ID"</span>,
-                               na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
-                               conf.interval <span class='op'>=</span> <span class='fl'>0.95</span><span class='op'>)</span>
-<span class='va'>datasum</span>
-</code></pre>
-</div>
-<pre><code>  condition   N   correct        sd         se         ci
-1   invalid 144 0.3888889 0.5773528 0.04811273 0.09510406
-2   neutral 720 0.6291667 0.5726512 0.02134145 0.04189901
-3     valid 576 0.8246528 0.4523391 0.01884746 0.03701827</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>p_accuracy</span> <span class='op'>&lt;-</span> <span class='va'>datasum</span> |&gt;
-    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>condition</span>, y <span class='op'>=</span> <span class='va'>correct</span>, group <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_errorbar</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>.1</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>correct</span><span class='op'>-</span><span class='va'>se</span>, ymax <span class='op'>=</span> <span class='va'>correct</span><span class='op'>+</span><span class='va'>se</span><span class='op'>)</span>, colour<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>shape<span class='op'>=</span><span class='fl'>21</span>, size<span class='op'>=</span><span class='fl'>3</span>, fill<span class='op'>=</span><span class='st'>"white"</span><span class='op'>)</span>
-<span class='va'>p_accuracy</span>
-</code></pre>
-</div>
-<p><img src="signal-detection_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
-</div>
-<h2 id="signal-detection">Signal detection</h2>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt; 
-      <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>type <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span>
-        <span class='va'>direction</span> <span class='op'>==</span> <span class='st'>"right"</span> <span class='op'>&amp;</span> <span class='va'>choice</span> <span class='op'>==</span> <span class='st'>"right"</span> <span class='op'>~</span> <span class='st'>"Hit"</span>,
-        <span class='va'>direction</span> <span class='op'>==</span> <span class='st'>"right"</span> <span class='op'>&amp;</span> <span class='va'>choice</span> <span class='op'>==</span> <span class='st'>"left"</span> <span class='op'>~</span> <span class='st'>"Miss"</span>,
-        <span class='va'>direction</span> <span class='op'>==</span> <span class='st'>"left"</span> <span class='op'>&amp;</span> <span class='va'>choice</span> <span class='op'>==</span> <span class='st'>"left"</span> <span class='op'>~</span> <span class='st'>"CR"</span>,
-        <span class='va'>direction</span> <span class='op'>==</span> <span class='st'>"left"</span> <span class='op'>&amp;</span> <span class='va'>choice</span> <span class='op'>==</span> <span class='st'>"right"</span> <span class='op'>~</span> <span class='st'>"FA"</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt_summary</span> <span class='op'>&lt;-</span> <span class='va'>data</span> |&gt; 
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='va'>condition</span><span class='op'>)</span> |&gt; 
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>type</span><span class='op'>)</span> 
-
-
-<span class='va'>correct_zero_count</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>x</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, <span class='fl'>0</span>, <span class='va'>x</span><span class='op'>)</span>
-    <span class='va'>x</span> <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='fl'>0.001</span>
-<span class='op'>}</span>
-
-<span class='va'>sdt</span> <span class='op'>&lt;-</span> <span class='va'>sdt_summary</span> |&gt; 
-    <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='va'>type</span>, values_from <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span> |&gt; 
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>CR</span>, <span class='va'>FA</span>, <span class='va'>Hit</span>, <span class='va'>Miss</span><span class='op'>)</span>, <span class='va'>correct_zero_count</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>hit_rate <span class='op'>=</span> <span class='va'>Hit</span><span class='op'>/</span><span class='op'>(</span><span class='va'>Hit</span> <span class='op'>+</span> <span class='va'>Miss</span><span class='op'>)</span>,
-           fa_rate <span class='op'>=</span> <span class='va'>FA</span><span class='op'>/</span><span class='op'>(</span><span class='va'>FA</span> <span class='op'>+</span> <span class='va'>CR</span><span class='op'>)</span>,
-           zhr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='va'>hit_rate</span><span class='op'>)</span>,
-           zfa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='va'>fa_rate</span><span class='op'>)</span>,
-           dprime <span class='op'>=</span> <span class='va'>zhr</span> <span class='op'>-</span> <span class='va'>zfa</span>,
-           c <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.5</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>zhr</span> <span class='op'>+</span> <span class='va'>zfa</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>dprime</span>, <span class='va'>c</span><span class='op'>)</span>, <span class='va'>round</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<table>
-<thead>
-<tr class="header">
-<th></th>
-<th>Signal</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Response</strong></td>
-<td>present</td>
-<td>absent</td>
-</tr>
-<tr class="even">
-<td>——–</td>
-<td>————–</td>
-<td>———————</td>
-</tr>
-<tr class="odd">
-<td>Yes</td>
-<td>Hit</td>
-<td>False alarm (FA)</td>
-</tr>
-<tr class="even">
-<td>No</td>
-<td>Miss</td>
-<td>Correct rejection (CR)</td>
-</tr>
-</tbody>
-</table>
+<!-- ```{r} -->
+<!-- datasum <- data |> -->
+<!--     Rmisc::summarySEwithin(measurevar = "correct", -->
+<!--                                withinvars = "condition", -->
+<!--                                idvar = "ID", -->
+<!--                                na.rm = FALSE, -->
+<!--                                conf.interval = 0.95) -->
+<!-- datasum -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- p_accuracy <- datasum |> -->
+<!--     ggplot(aes(x = condition, y = correct, group = 1)) + -->
+<!--     geom_line() + -->
+<!--     geom_errorbar(width = .1, aes(ymin = correct-se, ymax = correct+se), colour="red") + -->
+<!--     geom_point(shape=21, size=3, fill="white") -->
+<!-- p_accuracy -->
+<!-- ``` -->
+<!-- |              | Signal         |                       | -->
+<!-- | ------------ | -------------- | --------------------- | -->
+<!-- | **Response** | present        | absent                | -->
+<!-- | --------     | -------------- | --------------------- | -->
+<!-- | Yes          | Hit            | False alarm (FA)      | -->
+<!-- | No           | Miss           | Correct rejection (CR) | -->
 <h2 id="signal-detection-theory">Signal detection theory</h2>
 <p>We consider an experiment in which a person has to classify a
 stimulus into one of two possible categories:</p>
@@ -2990,16 +2802,47 @@ general case, say we present two stimulus categories <code>A</code> and
 <code>B</code>, that vary along some dimension. The task of the subject
 in our experiment is to perform a binary classification with the
 response options <code>A</code> and <code>B</code>. The subject’s
-performance can be summarised in a classification table, with four
+performance can be summarized in a classification table, with four
 possible outcomes:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Signal</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Response</strong></td>
+<td>A</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td>——–</td>
+<td>————–</td>
+<td>———————</td>
+</tr>
+<tr class="odd">
+<td>A</td>
+<td>Hit</td>
+<td>False alarm (FA)</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>Miss</td>
+<td>Correct rejection (CR)</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li><strong>hit</strong>: Stimulus is <code>A</code>, subject responds
+<li><strong>Hit</strong>: Stimulus is <code>A</code>, subject responds
 <code>A</code></li>
-<li>miss: Stimulus is <code>A</code>, subject responds
+<li>Miss: Stimulus is <code>A</code>, subject responds
 <code>B</code></li>
-<li><strong>false alarm</strong>: Stimulus is <code>B</code>, subject
+<li><strong>False alarm</strong>: Stimulus is <code>B</code>, subject
 responds <code>A</code></li>
-<li>correct rejection: Stimulus is <code>B</code>, subject responds
+<li>Correct rejection: Stimulus is <code>B</code>, subject responds
 <code>B</code></li>
 </ul>
 <blockquote>
@@ -3008,20 +2851,24 @@ we consider only the <code>A</code> responses when the stimulus is
 <code>A</code> (hits) or <code>B</code> (false alarms).</p>
 </blockquote>
 <ul>
-<li>The SDT model assumes that on each trial <span
+<li><p>The SDT model assumes that on each trial <span
 class="math inline">\(i\)</span>, a person’s information about a
 stimulus can be modeled as a random variable <span
-class="math inline">\(X_i\)</span>.</li>
-<li>This is drawn from one of two possible distributions, which (in
+class="math inline">\(X_i\)</span>.</p></li>
+<li><p>This is drawn from one of two possible distributions, which (in
 equal variance SDT) differ only in their location, but not their scale (
-we assume that <span class="math inline">\(\sigma = 1\)</span>).</li>
+we assume that <span class="math inline">\(\sigma =
+1\)</span>).</p></li>
 </ul>
 <blockquote>
 <p>Example: familiarity. When the subject is shown an image, this evokes
-a feeling of ’familiarity`. This is a latent construct.</p>
+a feeling of ’familiarity`. This is a latent <em>strength
+variable</em>.</p>
 </blockquote>
-<p>SDT does not require any particular distributions, but in practise,
-Gaussians are often chosen.</p>
+<aside>
+SDT does not require any particular distributions, but in practise,
+Gaussians are often chosen.
+</aside>
 <blockquote>
 <p>Thought experiment: you are a subject in a memory experiment. You
 were previously shown a number of images, and now you are presented with
@@ -3056,14 +2903,14 @@ guided your behaviour.</p></li>
 <p>The internal signal evoked by old and new items is often shown like
 this:</p>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="signal-detection_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
+<p><img src="signal-detection_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
 </div>
 <p>New items produce less familiarity than old items, but the internal
 representation is noisy.</p>
 <p>In order to classify the presented stimulus, based on the evoked
 familiarity (decision variable), we need a decision rule:</p>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="signal-detection_files/figure-html5/unnamed-chunk-13-1.png" width="624" /></p>
+<p><img src="signal-detection_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
 </div>
 <p>A simple rule is to compare the signal with a criterion <span
 class="math inline">\(c\)</span>. If the signal <span
@@ -3090,14 +2937,14 @@ signal</li>
 levels as the linear predictor for a response in a GLM</li>
 </ul>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="signal-detection_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
+<p><img src="signal-detection_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
 <ul>
-<li>c: decision criterion <span class="math display">\[ c =
+<li>k: decision criterion <span class="math display">\[ k =
 \phi^{-1}(1-p_{FA}) = -\phi^{-1}(p_{FA}) \]</span></li>
 </ul>
-<p>Better: distance to optimal decision boundary <span
-class="math display">\[ c&#39; = -\frac{1}{2} \left[\phi^{-1}(p_{H}) +
+<p>Better: distance to optimal decision boundary (bias) <span
+class="math display">\[ c = -\frac{1}{2} \left[\phi^{-1}(p_{H}) +
 \phi^{-1}(p_{FA})\right] \]</span></p>
 <blockquote>
 <p>What we are doing here is <strong>estimating</strong> the hit rate
@@ -3111,13 +2958,13 @@ with probability:</p>
 <p><span class="math display">\[ p_{FA} = P(y = 1 | X = 0) = 1 - \Phi(c)
 \]</span></p>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="signal-detection_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
+<p><img src="signal-detection_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
 <p>When the stimulus is <code>old</code>, we will produce hits with
 probability: <span class="math display">\[ p_{H} = P(y = 1 | X=1) = 1 -
 \Phi(c-d&#39;) \]</span></p>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="signal-detection_files/figure-html5/unnamed-chunk-16-1.png" width="624" /></p>
+<p><img src="signal-detection_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
 </div>
 <ul>
 <li>We can write this in one equation:</li>
@@ -3132,7 +2979,7 @@ given the stimulus. If the stimulus is <code>old</code>, this is the
 probability of a <code>hit</code>, if the stimulus is <code>new</code>,
 this is the probability of a <code>false alarm</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="signal-detection_files/figure-html5/unnamed-chunk-17-1.png" width="624" /></p>
+<p><img src="signal-detection_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
 </div>
 <p>Compare the signal detection model</p>
 <p><span class="math display">\[ P(y = 1 | X) = \Phi(-c + d&#39;X)
@@ -3159,14 +3006,17 @@ post</a>).</p>
 <p>The data are from a recognition memory experiment:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>sdtalt</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># You might first need to install the `remotes` package</span>
+<span class='co'># install.packages("remotes")</span>
+<span class='co'># install sdtalt</span>
+<span class='co'># remotes::install_github("cran/sdtalt")</span>
+
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>sdtalt</span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/paul-buerkner/brms'>brms</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://mjskay.github.io/tidybayes/'>tidybayes</a></span><span class='op'>)</span>
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>confcontr</span><span class='op'>)</span>
 
-<span class='va'>confcontr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>confcontr</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
+<span class='va'>confcontr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>confcontr</span><span class='op'>)</span> |&gt; 
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>subno <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='va'>subno</span><span class='op'>)</span>,
          item <span class='op'>=</span> <span class='va'>isold</span> <span class='op'>-</span> <span class='fl'>0.5</span><span class='op'>)</span>
 </code></pre>
@@ -3196,96 +3046,64 @@ First we classify each response as hit, miss, correct rejection (cr) or
 false alarm (fa):
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt</span> <span class='op'>&lt;-</span> <span class='va'>confcontr</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"hit"</span>,
-         type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>isold</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>sayold</span><span class='op'>==</span><span class='fl'>0</span>, <span class='st'>"miss"</span>, <span class='va'>type</span><span class='op'>)</span>,
-         type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>isold</span><span class='op'>==</span><span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>sayold</span><span class='op'>==</span><span class='fl'>0</span>, <span class='st'>"cr"</span>, <span class='va'>type</span><span class='op'>)</span>,  
-         type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>isold</span><span class='op'>==</span><span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>sayold</span><span class='op'>==</span><span class='fl'>1</span>, <span class='st'>"fa"</span>, <span class='va'>type</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt</span> <span class='op'>&lt;-</span> <span class='va'>confcontr</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>type <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span>
+        <span class='va'>isold</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>sayold</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>~</span> <span class='st'>"Hit"</span>,
+        <span class='va'>isold</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>sayold</span><span class='op'>==</span><span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"Miss"</span>,
+        <span class='va'>isold</span><span class='op'>==</span><span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>sayold</span><span class='op'>==</span><span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"CR"</span>,
+        <span class='va'>isold</span><span class='op'>==</span><span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>sayold</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>~</span> <span class='st'>"FA"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
-And then count the number of hits, etc.
+<p>And then count the number of hits, etc.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt</span> <span class='op'>&lt;-</span> <span class='va'>sdt</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>subno</span>, <span class='va'>type</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>count <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/spread.html'>spread</a></span><span class='op'>(</span><span class='va'>type</span>, <span class='va'>count</span><span class='op'>)</span>
-<span class='va'>sdt</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt_summary</span> <span class='op'>&lt;-</span> <span class='va'>sdt</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>subno</span><span class='op'>)</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>type</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='va'>type</span>, values_from <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span> 
 </code></pre>
 </div>
-<pre><code># A tibble: 31 × 5
-# Groups:   subno [31]
-   subno    cr    fa   hit  miss
-   &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
- 1 53       33    20    25    22
- 2 54       39    14    28    19
- 3 55       36    17    31    16
- 4 56       43    10    38     9
- 5 57       35    18    29    18
- 6 58       41    12    30    17
- 7 59       46     7    21    26
- 8 60       38    15    33    14
- 9 61       42    11    25    22
-10 62       45     8    22    25
-# … with 21 more rows</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>correct_zero_count</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>x</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, <span class='fl'>0</span>, <span class='va'>x</span><span class='op'>)</span>
+    <span class='va'>x</span> <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='fl'>0.001</span>
+<span class='op'>}</span>
+
+<span class='va'>sdt_summary</span> <span class='op'>&lt;-</span> <span class='va'>sdt_summary</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>hit_rate <span class='op'>=</span> <span class='va'>Hit</span><span class='op'>/</span><span class='op'>(</span><span class='va'>Hit</span> <span class='op'>+</span> <span class='va'>Miss</span><span class='op'>)</span>,
+           fa_rate <span class='op'>=</span> <span class='va'>FA</span><span class='op'>/</span><span class='op'>(</span><span class='va'>FA</span> <span class='op'>+</span> <span class='va'>CR</span><span class='op'>)</span>,
+           zhr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='va'>hit_rate</span><span class='op'>)</span>,
+           zfa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='va'>fa_rate</span><span class='op'>)</span>,
+           dprime <span class='op'>=</span> <span class='va'>zhr</span> <span class='op'>-</span> <span class='va'>zfa</span>,
+           c <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.5</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>zhr</span> <span class='op'>+</span> <span class='va'>zfa</span><span class='op'>)</span><span class='op'>)</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>dprime</span>, <span class='va'>c</span><span class='op'>)</span>, <span class='va'>round</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Next, we <strong>estimate</strong> the hit and false alarm rates,
 based on the observed number of hits and false alarms, and compute <span
 class="math inline">\(d&#39;\)</span>, <span
 class="math inline">\(c\)</span> and <span
 class="math inline">\(bias\)</span> using the formulae given above.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt</span> <span class='op'>&lt;-</span> <span class='va'>sdt</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>hr <span class='op'>=</span> <span class='va'>hit</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>hit</span><span class='op'>+</span><span class='va'>miss</span><span class='op'>)</span>,
-         far <span class='op'>=</span> <span class='va'>fa</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>fa</span><span class='op'>+</span><span class='va'>cr</span><span class='op'>)</span>,
-         zhr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='va'>hr</span><span class='op'>)</span>,
-         zfa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='va'>far</span><span class='op'>)</span>,
-         dprime <span class='op'>=</span> <span class='va'>zhr</span><span class='op'>-</span><span class='va'>zfa</span>,
-         c <span class='op'>=</span> <span class='op'>-</span><span class='va'>zfa</span>,
-         bias <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.5</span><span class='op'>*</span><span class='op'>(</span><span class='va'>zhr</span><span class='op'>+</span><span class='va'>zfa</span><span class='op'>)</span>,
-         model <span class='op'>=</span> <span class='st'>"no pooling"</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>subno</span>, <span class='va'>hr</span>, <span class='va'>far</span>, <span class='va'>zhr</span>, <span class='va'>zfa</span>, <span class='va'>dprime</span>, <span class='va'>c</span>, <span class='va'>bias</span><span class='op'>)</span>
-</code></pre>
-</div>
-<pre><code># A tibble: 31 × 8
-# Groups:   subno [31]
-   subno    hr   far     zhr    zfa dprime     c    bias
-   &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
- 1 53    0.532 0.377  0.0801 -0.312  0.393 0.312 0.116  
- 2 54    0.596 0.264  0.242  -0.631  0.873 0.631 0.194  
- 3 55    0.660 0.321  0.411  -0.466  0.877 0.466 0.0271 
- 4 56    0.809 0.189  0.872  -0.883  1.76  0.883 0.00518
- 5 57    0.617 0.340  0.298  -0.413  0.711 0.413 0.0579 
- 6 58    0.638 0.226  0.354  -0.751  1.10  0.751 0.198  
- 7 59    0.447 0.132 -0.134  -1.12   0.983 1.12  0.625  
- 8 60    0.702 0.283  0.531  -0.574  1.10  0.574 0.0217 
- 9 61    0.532 0.208  0.0801 -0.815  0.895 0.815 0.367  
-10 62    0.468 0.151 -0.0801 -1.03   0.952 1.03  0.556  
-# … with 21 more rows</code></pre>
-</div>
 For simplicity, we first look at the data from subject <code>53</code>
 only:
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>subno</span> <span class='op'>==</span><span class='fl'>53</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>subno</span>, <span class='va'>hr</span>, <span class='va'>far</span>, <span class='va'>zhr</span>, <span class='va'>zfa</span>, <span class='va'>dprime</span>, <span class='va'>c</span>, <span class='va'>bias</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt_summary</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>subno</span> <span class='op'>==</span> <span class='fl'>53</span><span class='op'>)</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>subno</span>, <span class='va'>hit_rate</span>, <span class='va'>fa_rate</span>, <span class='va'>zhr</span>, <span class='va'>zfa</span>, <span class='va'>dprime</span>, <span class='va'>c</span><span class='op'>)</span>
 </code></pre>
 </div>
-<pre><code># A tibble: 1 × 8
+<pre><code># A tibble: 1 × 7
 # Groups:   subno [1]
-  subno    hr   far    zhr    zfa dprime     c  bias
-  &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 53    0.532 0.377 0.0801 -0.312  0.393 0.312 0.116</code></pre>
+  subno hit_rate fa_rate    zhr    zfa dprime     c
+  &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1 53       0.532   0.377 0.0801 -0.312   0.39  0.12</code></pre>
 </div>
+<h2 id="signal-detection-as-glm">Signal Detection as GLM</h2>
 <p>A (standard) GLM will give us</p>
 <ul>
 <li>an intercept: this corresponds to <code>-c</code></li>
@@ -3294,7 +3112,7 @@ to <code>d'</code></li>
 </ul>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>subno53</span> <span class='op'>&lt;-</span> <span class='va'>confcontr</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>subno53</span> <span class='op'>&lt;-</span> <span class='va'>confcontr</span> |&gt; 
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>subno</span> <span class='op'>==</span> <span class='fl'>53</span><span class='op'>)</span>
 
 <span class='va'>fit_glm_53</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>sayold</span> <span class='op'>~</span> <span class='va'>isold</span>, 
@@ -3327,7 +3145,7 @@ AIC: 139.22
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
-<div class="sourceCode" id="cb10"><pre
+<div class="sourceCode" id="cb4"><pre
 class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

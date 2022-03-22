@@ -1,61 +1,4 @@
 
-
-# Simulate a signal detection experiment ----
-
-N <- 150
-pH <- 0.9
-pFA <- 0.1
-H <- rbinom(1, N, pH)
-
-M <- N - H
-FA <- rbinom(1, N, pFA)
-CR <- N - FA
-
-Responses <- as.table(matrix(c(H, M, FA, CR), nc = 2,
-                                     dimnames = list(Response = c("Yes", "No"),
-                                                     Signal = c("Present", "Absent"))))
-
-
-
-
-## write a function to simulate experiments ----
-dp <- 1
-crit <- 0.1
-nS <- nN <- 1000
-
-
-pFA <- 1 - pnorm(crit)
-pH <- 1 - pnorm(crit - dp)
-FA <- rbinom(1, nN, pFA)
-H <- rbinom(1, nS, pH)
-CR <- nN - FA
-M <- nS - H
-
-
-## function ----
-sim_sdt <- function(dp = 1, c = 0, N = 1000) {
-
-    nS <- nN <- N
-    pFA <- 1 - pnorm(-0.5*dp - c)
-    pH <- 1 - pnorm(0.5*dp - c)
-    FA <- rbinom(1,nN, pFA)
-    H <- rbinom(1, nS, pH)
-    CR <- nN-FA
-    M <- nS-H
-res <- matrix(c(H, M, FA, CR),
-              nc = 2,
-              dimnames = list(c("Yes", "No"),
-                              c("Signal", "No Signal")))
-as.table(res)
-}
-
-## call function with default arguments ----
-sim_sdt()
-
-
-
-
-## ----echo=FALSE---------------------------------------------
 library(tidyverse)
 library(viridis)
 xlim <- c(-4.5, 4.5)
@@ -107,7 +50,7 @@ p1 <- tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |>
 p1
 
 
-## ----echo=FALSE---------------------------------------------
+## ----echo=FALSE------------------------------------------
 p2 <- p1 + 
   geom_vline(xintercept = 0, size = 1, 
                alpha = 0.4,
@@ -131,7 +74,7 @@ p2 <- p1 +
 p2
 
 
-## ----echo=FALSE---------------------------------------------
+## ----echo=FALSE------------------------------------------
 tibble(x = seq(0, 1, by = 0.01)) |> 
   ggplot(aes(x)) +
   stat_function(fun = qnorm, colour = "steelblue3", 
@@ -144,7 +87,7 @@ tibble(x = seq(0, 1, by = 0.01)) |>
   theme_linedraw()
 
 
-## ----echo=FALSE---------------------------------------------
+## ----echo=FALSE------------------------------------------
 xlim <- c(-4.5, 4.5)
 alpha <- c(0.6, 0.2)
 
@@ -170,7 +113,7 @@ tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |>
   theme_linedraw()
 
 
-## ----echo=FALSE---------------------------------------------
+## ----echo=FALSE------------------------------------------
 tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |> 
     ggplot(aes(x)) +
     stat_function(fun = dnorm, colour = colors[4], 
@@ -186,11 +129,50 @@ tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |>
   theme_linedraw()
 
 
-## ----echo=FALSE---------------------------------------------
+## ----echo=FALSE------------------------------------------
 p2
 
 
-## -----------------------------------------------------------
+## --------------------------------------------------------
+sim_sdt <- function(dp = 1, c = 0, N = 100) {
+  nS <- nN <- N
+
+  pFA <- 1 - pnorm(c + dp/2)
+  pH <- 1 - pnorm(c - dp/2)
+  
+  FA <- rbinom(1, nN, pFA)
+  Hit <- rbinom(1, nS, pH)
+  
+  CR <- nN-FA
+  Miss <- nS-Hit
+
+  tibble(Hit, Miss, FA, CR)
+}
+
+
+## --------------------------------------------------------
+set.seed(89)
+ideal_observer <- sim_sdt(d = 1, c = 0)
+ideal_observer
+
+
+## --------------------------------------------------------
+ideal_observer |> 
+  summarise(accuracy = (Hit + CR)/(Hit + CR + Miss + FA))
+
+
+## --------------------------------------------------------
+set.seed(89)
+yes_observer <- sim_sdt(d = 1, c = -1)
+yes_observer
+
+
+## --------------------------------------------------------
+yes_observer |> 
+  summarise(accuracy = (Hit + CR)/(Hit + CR + Miss + FA))
+
+
+## --------------------------------------------------------
 # You might first need to install the `remotes` package
 # install.packages("remotes")
 # install sdtalt
@@ -206,11 +188,11 @@ confcontr <- as_tibble(confcontr) |>
          item = isold - 0.5)
 
 
-## -----------------------------------------------------------
+## --------------------------------------------------------
 confcontr
 
 
-## -----------------------------------------------------------
+## --------------------------------------------------------
 sdt <- confcontr |> 
   mutate(type = case_when(
         isold==1 & sayold==1 ~ "Hit",
@@ -219,14 +201,14 @@ sdt <- confcontr |>
         isold==0 & sayold==1 ~ "FA"))
 
 
-## -----------------------------------------------------------
+## --------------------------------------------------------
 sdt_summary <- sdt |>
     group_by(subno) |>
     count(type) |> 
   pivot_wider(names_from = type, values_from = n) 
 
 
-## -----------------------------------------------------------
+## --------------------------------------------------------
 correct_zero_count <- function(x) {
     x = ifelse(is.na(x), 0, x)
     x = x + 0.001
@@ -242,13 +224,13 @@ sdt_summary <- sdt_summary |>
     mutate(across(c(dprime, c), round, 2))
 
 
-## -----------------------------------------------------------
+## --------------------------------------------------------
 sdt_summary |> 
   filter(subno == 53) |> 
   select(subno, hit_rate, fa_rate, zhr, zfa, dprime, c)
 
 
-## -----------------------------------------------------------
+## --------------------------------------------------------
 subno53 <- confcontr |> 
   filter(subno == 53)
 

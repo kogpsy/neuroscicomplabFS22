@@ -2756,6 +2756,7 @@ Datenpunkte identifizieren.</p></p>
 <li><a href="#signal-detection-theory">Signal detection theory</a></li>
 <li><a href="#signal-detection-parameters">Signal detection
 parameters</a></li>
+<li><a href="#parameter-recovery">Parameter recovery</a></li>
 <li><a href="#memory-experiment-single-subject">Memory experiment:
 single subject</a></li>
 <li><a href="#signal-detection-as-glm">Signal Detection as GLM</a></li>
@@ -2955,22 +2956,22 @@ probabilities.</p>
 <p>We can also write this the other way round:</p>
 <p>When the stimulus is <code>new</code>, we will produce false alarms
 with probability:</p>
-<p><span class="math display">\[ p_{FA} = P(y = 1 | X = 0) = 1 - \Phi(c)
+<p><span class="math display">\[ p_{FA} = P(y = 1 | X = 0) = 1 - \Phi(k)
 \]</span></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="signal-detection_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
 <p>When the stimulus is <code>old</code>, we will produce hits with
 probability: <span class="math display">\[ p_{H} = P(y = 1 | X=1) = 1 -
-\Phi(c-d&#39;) \]</span></p>
+\Phi(k-d&#39;) \]</span></p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="signal-detection_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
 </div>
 <ul>
 <li>We can write this in one equation:</li>
 </ul>
-<p><span class="math display">\[ P(y = 1 | X = x) = 1 - \Phi(c-d&#39;X)
-= \Phi(-c + d&#39;X) \]</span> where <span
+<p><span class="math display">\[ P(y = 1 | X = x) = 1 - \Phi(k-d&#39;X)
+= \Phi(-k + d&#39;X) \]</span> where <span
 class="math inline">\(X\)</span> is an indicator variable, i.e. takes
 the value <code>1</code> for <code>old</code> and <code>0</code> for
 <code>new</code>.</p>
@@ -2982,12 +2983,12 @@ this is the probability of a <code>false alarm</code>.</p>
 <p><img src="signal-detection_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
 </div>
 <p>Compare the signal detection model</p>
-<p><span class="math display">\[ P(y = 1 | X) = \Phi(-c + d&#39;X)
+<p><span class="math display">\[ P(y = 1 | X) = \Phi(-k + d&#39;X)
 \]</span></p>
 <p>to a GLM: <span class="math display">\[ P(y = 1 | X) = \Phi(\alpha +
 \beta \cdot X) \]</span></p>
 <ul>
-<li><p>We can estimate SDT parameters <code>c</code> and <code>d'</code>
+<li><p>We can estimate SDT parameters <code>k</code> and <code>d'</code>
 using a probit GLM, if we use dummy coding (or effect coding) for a
 two-level stimulus factor.</p></li>
 <li><p>The intercept provides an estimate of the normal quantile of the
@@ -2998,6 +2999,199 @@ class="math inline">\(d&#39;\)</span>) provides an estimate of the
 difference between hit and false alarm rates on the probit
 scale.</p></li>
 </ul>
+<h2 id="parameter-recovery">Parameter recovery</h2>
+<p>To get a feel for how the parameters <code>c</code> and
+<code>d'</code> relate to observed hit and false alarm rates, we will do
+the following: we first simulate an observer performing a classification
+experiment with known parameters, i.e. <code>c</code> and
+<code>d'</code> are known to us and used to generate the data. We then
+attempt to recover <code>c</code> and <code>d'</code> from the observed
+hit and false alarm rates.</p>
+<p>To do this, we can define a function that takes <code>c</code> and
+<code>d'</code> as input, and then simulates <span
+class="math inline">\(N\)</span> signal and <span
+class="math inline">\(N\)</span> noise trials, giving a total of <span
+class="math inline">\(2\cdot N\)</span> trials.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sim_sdt</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>dp</span> <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>c</span> <span class='op'>=</span> <span class='fl'>0</span>, <span class='va'>N</span> <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>nS</span> <span class='op'>&lt;-</span> <span class='va'>nN</span> <span class='op'>&lt;-</span> <span class='va'>N</span>
+
+  <span class='va'>pFA</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>pnorm</a></span><span class='op'>(</span><span class='va'>c</span> <span class='op'>+</span> <span class='va'>dp</span><span class='op'>/</span><span class='fl'>2</span><span class='op'>)</span>
+  <span class='va'>pH</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>pnorm</a></span><span class='op'>(</span><span class='va'>c</span> <span class='op'>-</span> <span class='va'>dp</span><span class='op'>/</span><span class='fl'>2</span><span class='op'>)</span>
+  
+  <span class='va'>FA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>nN</span>, <span class='va'>pFA</span><span class='op'>)</span>
+  <span class='va'>Hit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>nS</span>, <span class='va'>pH</span><span class='op'>)</span>
+  
+  <span class='va'>CR</span> <span class='op'>&lt;-</span> <span class='va'>nN</span><span class='op'>-</span><span class='va'>FA</span>
+  <span class='va'>Miss</span> <span class='op'>&lt;-</span> <span class='va'>nS</span><span class='op'>-</span><span class='va'>Hit</span>
+
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span><span class='va'>Hit</span>, <span class='va'>Miss</span>, <span class='va'>FA</span>, <span class='va'>CR</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p>We first calculate the probability of a hit, <code>pH</code>, and a
+false alarm, <code>pFA</code>, as the are under the curve to the right
+of the criterion, under both signal and noise distributions.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  pFA <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(c <span class="sc">+</span> dp<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  pH <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(c <span class="sc">-</span> dp<span class="sc">/</span><span class="dv">2</span>)</span></code></pre></div>
+<blockquote>
+<p>We are using the bias <code>c</code> to parameterize the
+distributions here. Alternatively, we could also use the criterion
+<code>k</code>, which would result in</p>
+</blockquote>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    pFA <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(k)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    pH <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(k <span class="sc">-</span> dp)</span></code></pre></div>
+<p>This has the more intuitive interpretation that <code>pFA</code> is
+simply the area under the noise distribution that lies to the right of
+the criterion <code>k</code>, or: “given that my criterion is <span
+class="math inline">\(k\)</span>, what is the probability that my
+response was a false alarm?”. However, <code>c</code> is a more
+interesting quantity for us, because it quantifies the devation from an
+ideal observer.</p>
+<p>We then generate false alarms and hits as binomially distributed
+random variables, i.e. number of <code>yes</code> responses in
+<code>N</code> trials, given the hit and false alarm rates,
+respectively.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  FA <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, nN, pFA)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  Hit <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, nS, pH)</span></code></pre></div>
+<p>Once we have the number of hits and false alarms, we can compute the
+number of misses and correct rejections, given that we know how many
+trials were perfomred in each condition.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  CR <span class="ot">&lt;-</span> nN<span class="sc">-</span>FA</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  Miss <span class="ot">&lt;-</span> nS<span class="sc">-</span>Hit</span></code></pre></div>
+<p>Now, we can simulate the behaviour of an observer. An ideal observer
+would be unbiased, i.e. use a value of <span
+class="math inline">\(c=0\)</span>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>89</span><span class='op'>)</span>
+<span class='va'>ideal_observer</span> <span class='op'>&lt;-</span> <span class='fu'>sim_sdt</span><span class='op'>(</span>d <span class='op'>=</span> <span class='fl'>1</span>, c <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
+<span class='va'>ideal_observer</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 × 4
+    Hit  Miss    FA    CR
+  &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+1    61    39    26    74</code></pre>
+</div>
+<p>One thing to note is that, even an unbiased, ideal observer cannot
+achieve perfect performance given that <span
+class="math inline">\(d=1\)</span>.</p>
+<p>We can compute the observer’s accuracy as:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ideal_observer</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>accuracy <span class='op'>=</span> <span class='op'>(</span><span class='va'>Hit</span> <span class='op'>+</span> <span class='va'>CR</span><span class='op'>)</span><span class='op'>/</span><span class='op'>(</span><span class='va'>Hit</span> <span class='op'>+</span> <span class='va'>CR</span> <span class='op'>+</span> <span class='va'>Miss</span> <span class='op'>+</span> <span class='va'>FA</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 × 1
+  accuracy
+     &lt;dbl&gt;
+1    0.675</code></pre>
+</div>
+<aside>
+There are of course more elegant ways to compute the accuracy.
+</aside>
+<div class="exercise">
+<p>How can make the ideal observer achieve an (almost) perfect
+performance?</p>
+</div>
+<p>We can also simulate the behaviour of an observer that is biased to
+toward giving <code>yes</code> responses, i.e. an observer with a value
+of <span class="math inline">\(c&lt;0\)</span>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>89</span><span class='op'>)</span>
+<span class='va'>yes_observer</span> <span class='op'>&lt;-</span> <span class='fu'>sim_sdt</span><span class='op'>(</span>d <span class='op'>=</span> <span class='fl'>1</span>, c <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>yes_observer</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 × 4
+    Hit  Miss    FA    CR
+  &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+1    92     8    74    26</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>yes_observer</span> |&gt; 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>accuracy <span class='op'>=</span> <span class='op'>(</span><span class='va'>Hit</span> <span class='op'>+</span> <span class='va'>CR</span><span class='op'>)</span><span class='op'>/</span><span class='op'>(</span><span class='va'>Hit</span> <span class='op'>+</span> <span class='va'>CR</span> <span class='op'>+</span> <span class='va'>Miss</span> <span class='op'>+</span> <span class='va'>FA</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 × 1
+  accuracy
+     &lt;dbl&gt;
+1     0.59</code></pre>
+</div>
+<div class="fyi">
+<p>Here, it should become clear why accuracy by itself is not that
+informative. The observer that is biased toward saying <code>yes</code>
+will achieve a very high hit rate, but has to trade this off against a
+very high false alarm rate. If we just look at accuracy, we might think
+that the biased observer isn’t good at the task, but using SDT we may
+discover that it is the choice of criterion that is to blame, not the
+observer’s ability!</p>
+</div>
+<h3 id="parameter-recovery-1">Parameter recovery</h3>
+<p>We can now attempt to recover the <em>known</em> parameters
+<code>c</code> and <code>d'</code> from the observed hit and false alarm
+rates.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>yes_observer</span> |&gt; 
+    <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, names_to <span class='op'>=</span> <span class='st'>"type"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 4 × 2
+  type  value
+  &lt;chr&gt; &lt;dbl&gt;
+1 Hit      92
+2 Miss      8
+3 FA       74
+4 CR       26</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>yes_observer</span> <span class='op'>&lt;-</span> <span class='va'>yes_observer</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>hit_rate <span class='op'>=</span> <span class='va'>Hit</span><span class='op'>/</span><span class='op'>(</span><span class='va'>Hit</span> <span class='op'>+</span> <span class='va'>Miss</span><span class='op'>)</span>,
+           fa_rate <span class='op'>=</span> <span class='va'>FA</span><span class='op'>/</span><span class='op'>(</span><span class='va'>FA</span> <span class='op'>+</span> <span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>yes_observer</span> <span class='op'>&lt;-</span> <span class='va'>yes_observer</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>zhr <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='va'>hit_rate</span><span class='op'>)</span>,
+           zfa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='va'>fa_rate</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>yes_observer</span> <span class='op'>&lt;-</span> <span class='va'>yes_observer</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>dprime <span class='op'>=</span> <span class='va'>zhr</span> <span class='op'>-</span> <span class='va'>zfa</span>,
+           k <span class='op'>=</span> <span class='op'>-</span> <span class='va'>zfa</span>,
+           c <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.5</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>zhr</span> <span class='op'>+</span> <span class='va'>zfa</span><span class='op'>)</span><span class='op'>)</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>dprime</span>, <span class='va'>c</span><span class='op'>)</span>, <span class='va'>round</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>yes_observer</span> 
+</code></pre>
+</div>
+<pre><code># A tibble: 1 × 11
+    Hit  Miss    FA    CR hit_rate fa_rate   zhr   zfa dprime      k
+  &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1    92     8    74    26     0.92    0.74  1.41 0.643   0.76 -0.643
+# … with 1 more variable: c &lt;dbl&gt;</code></pre>
+</div>
+<p>For the biased observer, the valuues we used were <span
+class="math inline">\(d&#39; = 1\)</span> and <span
+class="math inline">\(c = -1\)</span>. Are we able to recover these?</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>yes_observer</span> |&gt; <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='va'>c</span>, <span class='va'>dprime</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code> 0.76 
+-1.02 </code></pre>
+</div>
+<div class="exercise">
+<p>Why is seemingly difficult to recover theses parameters?</p>
+</div>
 <h2 id="memory-experiment-single-subject">Memory experiment: single
 subject</h2>
 <p>Let’s look at an example (borrowing heavily from this <a
@@ -3042,8 +3236,8 @@ post</a>).</p>
 10 53         0     1   0.5
 # … with 3,090 more rows</code></pre>
 </div>
-First we classify each response as hit, miss, correct rejection (cr) or
-false alarm (fa):
+<p>First we classify each response as hit, miss, correct rejection (cr)
+or false alarm (fa):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt</span> <span class='op'>&lt;-</span> <span class='va'>confcontr</span> |&gt; 
@@ -3088,8 +3282,8 @@ based on the observed number of hits and false alarms, and compute <span
 class="math inline">\(d&#39;\)</span>, <span
 class="math inline">\(c\)</span> and <span
 class="math inline">\(bias\)</span> using the formulae given above.</p>
-For simplicity, we first look at the data from subject <code>53</code>
-only:
+<p>For simplicity, we first look at the data from subject
+<code>53</code> only:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt_summary</span> |&gt; 
@@ -3145,7 +3339,7 @@ AIC: 139.22
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
-<div class="sourceCode" id="cb4"><pre
+<div class="sourceCode" id="cb15"><pre
 class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

@@ -78,6 +78,8 @@ htmltools::tagList(
 
 ## Signal detection theory
 
+
+
 We consider an experiment in which a person has to classify a stimulus into one of two possible categories:
 
 - new / old
@@ -262,7 +264,7 @@ We can also write this the other way round:
 
 When the stimulus is `new`, we will produce false alarms with probability:
 
-$$ p_{FA} = P(y = 1 | X = 0) = 1 - \Phi(c) $$
+$$ p_{FA} = P(y = 1 | X = 0) = 1 - \Phi(k) $$
 
 
 ```{r echo=FALSE}
@@ -294,7 +296,7 @@ tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |>
 
 
 When the stimulus is `old`, we will produce hits with probability:
-$$ p_{H} = P(y = 1 | X=1) = 1 - \Phi(c-d') $$
+$$ p_{H} = P(y = 1 | X=1) = 1 - \Phi(k-d') $$
 
 ```{r echo=FALSE}
 tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |> 
@@ -317,7 +319,7 @@ tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |>
 
 - We can write this in one equation:
 
-$$ P(y = 1 | X = x) = 1 - \Phi(c-d'X) = \Phi(-c + d'X) $$
+$$ P(y = 1 | X = x) = 1 - \Phi(k-d'X) = \Phi(-k + d'X) $$
 where $X$ is an indicator variable, i.e. takes the value `1` for `old` and `0` for `new`. 
 
 
@@ -333,18 +335,152 @@ p2
 
 Compare the signal detection model
 
-$$ P(y = 1 | X) = \Phi(-c + d'X) $$
+$$ P(y = 1 | X) = \Phi(-k + d'X) $$
 
 to a GLM:
 $$ P(y = 1 | X) = \Phi(\alpha + \beta \cdot X) $$
 
-- We can estimate SDT parameters `c` and `d'` using a probit GLM, if we use dummy coding (or effect coding) for a two-level stimulus factor.
+- We can estimate SDT parameters `k` and `d'` using a probit GLM, if we use dummy coding (or effect coding) for a two-level stimulus factor.
 
 - The intercept provides an estimate of the normal quantile of the false alarm rate.
 - The stimulus parameter ($\beta$ or $d'$) provides an estimate of the difference between hit and false alarm rates on the probit scale.
 
 
+## Parameter recovery
 
+To get a feel for how the parameters `c` and `d'` relate to observed hit and false alarm rates, we will do the following: we first simulate an observer performing a classification experiment with known parameters, i.e. `c` and `d'` are known to us and used to generate the data. We then attempt to recover `c` and `d'` from the observed hit and false alarm rates.
+
+To do this, we can define a function that takes `c` and `d'` as input, and then simulates $N$ signal and $N$ noise trials, giving a total of $2\cdot N$ trials. 
+
+```{r}
+sim_sdt <- function(dp = 1, c = 0, N = 100) {
+  nS <- nN <- N
+
+  pFA <- 1 - pnorm(c + dp/2)
+  pH <- 1 - pnorm(c - dp/2)
+  
+  FA <- rbinom(1, nN, pFA)
+  Hit <- rbinom(1, nS, pH)
+  
+  CR <- nN-FA
+  Miss <- nS-Hit
+
+  tibble(Hit, Miss, FA, CR)
+}
+```
+
+
+We first calculate the probability of a hit, `pH`, and a false alarm, `pFA`, as the are under the curve to the right of the criterion, under both signal and noise distributions. 
+
+
+```r
+  pFA <- 1 - pnorm(c + dp/2)
+  pH <- 1 - pnorm(c - dp/2)
+```
+
+> We are using the bias `c` to parameterize the distributions here. Alternatively, we could also use the criterion `k`, which would result in 
+
+```r
+    pFA <- 1 - pnorm(k)
+    pH <- 1 - pnorm(k - dp)
+```
+
+This has the more intuitive interpretation that `pFA` is simply the area under the noise distribution that lies to the right of the criterion `k`, or: "given that my criterion is $k$, what is the probability that my response was a false alarm?". However, `c` is a more interesting quantity for us, because it quantifies the devation from an ideal observer.
+
+
+We then generate false alarms and hits as binomially distributed random variables, i.e. number of `yes` responses in `N` trials, given the hit and false alarm rates, respectively.
+
+```r
+  FA <- rbinom(1, nN, pFA)
+  Hit <- rbinom(1, nS, pH)
+```
+
+Once we have the number of hits and false alarms, we can compute the number of misses and correct rejections, given that we know how many trials were perfomred in each condition.
+
+```r
+  CR <- nN-FA
+  Miss <- nS-Hit
+```
+
+Now, we can simulate the behaviour of an observer. An ideal observer would be unbiased, i.e. use a value of $c=0$:
+
+```{r}
+set.seed(89)
+ideal_observer <- sim_sdt(d = 1, c = 0)
+ideal_observer
+```
+
+One thing to note is that, even an unbiased,  ideal observer cannot achieve perfect performance given that $d=1$. 
+
+We can compute the observer's accuracy as:
+
+```{r}
+ideal_observer |> 
+  summarise(accuracy = (Hit + CR)/(Hit + CR + Miss + FA))
+```
+<aside>
+There are of course more elegant ways to compute the accuracy.
+</aside>
+
+:::exercise
+How can make the ideal observer achieve an (almost) perfect performance?
+:::
+
+
+
+We can also simulate the behaviour of an observer that is biased to toward giving `yes` responses, i.e. an observer with a value of $c<0$:
+
+```{r}
+set.seed(89)
+yes_observer <- sim_sdt(d = 1, c = -1)
+yes_observer
+```
+
+```{r}
+yes_observer |> 
+  summarise(accuracy = (Hit + CR)/(Hit + CR + Miss + FA))
+```
+
+:::fyi
+Here, it should become clear why accuracy by itself is not that informative. The observer that is biased toward saying `yes` will achieve a very high hit rate, but has to trade this off against a very high false alarm rate. If we just look at accuracy, we might think that the biased observer isn't good at the task, but using SDT we may discover that it is the choice of criterion that is to blame, not the observer's ability!
+:::
+
+
+### Parameter recovery
+We can now attempt to recover the _known_ parameters `c` and `d'` from the observed hit and false alarm rates.
+
+```{r}
+yes_observer |> 
+    pivot_longer(everything(), names_to = "type")
+
+yes_observer <- yes_observer |>
+    mutate(hit_rate = Hit/(Hit + Miss),
+           fa_rate = FA/(FA + CR))
+
+yes_observer <- yes_observer |>
+    mutate(zhr = qnorm(hit_rate),
+           zfa = qnorm(fa_rate))
+
+yes_observer <- yes_observer |>
+    mutate(dprime = zhr - zfa,
+           k = - zfa,
+           c = -0.5 * (zhr + zfa)) |>
+    mutate(across(c(dprime, c), round, 2))
+```
+
+```{r}
+yes_observer 
+```
+
+For the biased observer, the valuues we used were $d' = 1$ and $c = -1$. Are we able to recover these? 
+
+```{r}
+yes_observer |> pull(c, dprime)
+```
+
+:::exercise
+Why is seemingly difficult to recover theses parameters?
+:::
 
 
 ## Memory experiment: single subject
@@ -378,6 +514,8 @@ confcontr
 
 
 First we classify each response as hit, miss, correct rejection (cr) or false alarm (fa):
+
+
 ```{r}
 sdt <- confcontr |> 
   mutate(type = case_when(
@@ -420,6 +558,8 @@ Next, we **estimate** the hit and false alarm rates, based on the observed numbe
 
 
 For simplicity, we first look at the data from subject `53` only:
+
+
 ```{r}
 sdt_summary |> 
   filter(subno == 53) |> 

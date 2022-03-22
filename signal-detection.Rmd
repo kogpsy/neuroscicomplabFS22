@@ -449,10 +449,12 @@ Here, it should become clear why accuracy by itself is not that informative. The
 ### Parameter recovery
 We can now attempt to recover the _known_ parameters `c` and `d'` from the observed hit and false alarm rates.
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 yes_observer |> 
     pivot_longer(everything(), names_to = "type")
+```
 
+```{r}
 yes_observer <- yes_observer |>
     mutate(hit_rate = Hit/(Hit + Miss),
            fa_rate = FA/(FA + CR))

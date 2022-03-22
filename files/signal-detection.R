@@ -1,4 +1,5 @@
 
+
 library(tidyverse)
 library(viridis)
 xlim <- c(-4.5, 4.5)
@@ -170,6 +171,33 @@ yes_observer
 ## --------------------------------------------------------
 yes_observer |> 
   summarise(accuracy = (Hit + CR)/(Hit + CR + Miss + FA))
+
+
+## --------------------------------------------------------
+yes_observer |> 
+    pivot_longer(everything(), names_to = "type")
+
+yes_observer <- yes_observer |>
+    mutate(hit_rate = Hit/(Hit + Miss),
+           fa_rate = FA/(FA + CR))
+
+yes_observer <- yes_observer |>
+    mutate(zhr = qnorm(hit_rate),
+           zfa = qnorm(fa_rate))
+
+yes_observer <- yes_observer |>
+    mutate(dprime = zhr - zfa,
+           k = - zfa,
+           c = -0.5 * (zhr + zfa)) |>
+    mutate(across(c(dprime, c), round, 2))
+
+
+## --------------------------------------------------------
+yes_observer 
+
+
+## --------------------------------------------------------
+yes_observer |> pull(c, dprime)
 
 
 ## --------------------------------------------------------

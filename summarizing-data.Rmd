@@ -214,13 +214,9 @@ accuracy |>
 ```
 
 
-Der Standardfehler is definiert als 
+Der Standardfehler is definiert als $$SE = sd/ \sqrt{n}$$.
 
-$$
-SE = \frac{sd}{\sqrt{n}}
-$$
-
-Leider gibt es in R keine Funktion, welche den Stadardfehler berechnet (schätzt); wir können aber ganz einfach selber eine Funktion definieren.
+Leider gibt es in R keine Funktion, welche den Standardfehler berechnet (schätzt); wir können aber ganz einfach selber eine Funktion definieren.
 
 ```{r}
 se <- function(x) sd(x)/sqrt(length(x))

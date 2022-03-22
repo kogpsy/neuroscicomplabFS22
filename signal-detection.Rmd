@@ -370,7 +370,7 @@ sim_sdt <- function(dp = 1, c = 0, N = 100) {
 ```
 
 
-We first calculate the probability of a hit, `pH`, and a false alarm, `pFA`, as the are under the curve to the right of the criterion, under both signal and noise distributions. 
+We first calculate the probability of a hit, `pH`, and a false alarm, `pFA`, as they correspond to the area under the curve to the right of the criterion, under both signal and noise distributions, respectively. 
 
 
 ```r
@@ -395,7 +395,7 @@ We then generate false alarms and hits as binomially distributed random variable
   Hit <- rbinom(1, nS, pH)
 ```
 
-Once we have the number of hits and false alarms, we can compute the number of misses and correct rejections, given that we know how many trials were perfomred in each condition.
+Once we have the number of hits and false alarms, we can compute the number of misses and correct rejections, given that we know how many trials were performed in each condition.
 
 ```r
   CR <- nN-FA
@@ -423,7 +423,7 @@ There are of course more elegant ways to compute the accuracy.
 </aside>
 
 :::exercise
-How can make the ideal observer achieve an (almost) perfect performance?
+How can you make the ideal observer achieve an (almost) perfect performance?
 :::
 
 

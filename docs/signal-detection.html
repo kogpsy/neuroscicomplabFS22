@@ -3032,8 +3032,9 @@ class="math inline">\(2\cdot N\)</span> trials.</p>
 </div>
 </div>
 <p>We first calculate the probability of a hit, <code>pH</code>, and a
-false alarm, <code>pFA</code>, as the are under the curve to the right
-of the criterion, under both signal and noise distributions.</p>
+false alarm, <code>pFA</code>, as they correspond to the area under the
+curve to the right of the criterion, under both signal and noise
+distributions, respectively.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  pFA <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(c <span class="sc">+</span> dp<span class="sc">/</span><span class="dv">2</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  pH <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(c <span class="sc">-</span> dp<span class="sc">/</span><span class="dv">2</span>)</span></code></pre></div>
 <blockquote>
@@ -3058,7 +3059,7 @@ respectively.</p>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  Hit <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, nS, pH)</span></code></pre></div>
 <p>Once we have the number of hits and false alarms, we can compute the
 number of misses and correct rejections, given that we know how many
-trials were perfomred in each condition.</p>
+trials were performed in each condition.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  CR <span class="ot">&lt;-</span> nN<span class="sc">-</span>FA</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  Miss <span class="ot">&lt;-</span> nS<span class="sc">-</span>Hit</span></code></pre></div>
 <p>Now, we can simulate the behaviour of an observer. An ideal observer
@@ -3095,7 +3096,7 @@ class="math inline">\(d=1\)</span>.</p>
 There are of course more elegant ways to compute the accuracy.
 </aside>
 <div class="exercise">
-<p>How can make the ideal observer achieve an (almost) perfect
+<p>How can you make the ideal observer achieve an (almost) perfect
 performance?</p>
 </div>
 <p>We can also simulate the behaviour of an observer that is biased to

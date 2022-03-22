@@ -53,6 +53,8 @@ navbar:
           href: summarizing-data.html
         # - text: "Daten visualisieren"
         #   href: visualizing-data.html
+        - text: "Signal Detection Theory"
+          href: signal-detection.html
 
     - text: "Slides"
       menu:
@@ -64,6 +66,8 @@ navbar:
           href: slides/slides-session-03.html
         - text: "4. Sitzung (15.03.2022)"
           href: slides/slides-session-04.html
+        - text: "5. Sitzung (22.03.2022)"
+          href: slides/slides-session-05.html
 
     - text: "Übungen"
       menu:

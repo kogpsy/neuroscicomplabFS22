@@ -1,0 +1,318 @@
+---
+title: "Signal Detection Theory: II"
+description: |
+  Beispiel: PsychoPy Experiment.
+date: "2022-03-29"
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/data-cleaning.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, xaringanExtra-clipboard, echo=FALSE, include=FALSE}
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+:::note
+👉 [R Code für dieses Kapitel downloaden](./files/signal-detection-2.R)
+
+👉 [Daten downloaden](./data/session-6.csv)
+:::
+
+
+
+
+
+
+# SDT Kennzahlen für alle VPn berechnen
+
+Wir werden nun `d'`, `k` und `c` (bias) für alle Versuchspersonen in diesem Datensatz berechnen.
+
+
+:::exercise
+Wichtig: Was erwarten wir für die Parameter `d'` und `c`? Hinweis: Der __Cue__ war entweder rechts oder links (oder neutral). Wie sollte das die Parameter beeinflussen?
+:::
+
+
+
+
+## Daten importieren 
+
+Zuerst die Daten downloaden, und speichern.
+
+```{r}
+library(tidyverse)
+d <- read_csv("data/session-6.csv")
+```
+
+
+
+## Variablen bearbeiten
+
+Zu `factor` konvertieren, etc.
+
+```{r}
+d <- d |>
+    select(ID, condition, cue, direction, choice) |>
+    mutate(across(where(is.character), ~as_factor(.)),
+           cue = fct_relevel(cue, "left", "none", "right")) |>
+    drop_na()
+```
+
+## Trials klassifizieren
+
+Als `Hit`, `Miss`, `CR` und `FA`.
+
+
+```{r eval=FALSE, include=TRUE}
+sdt <- d |>
+    mutate(type = case_when(
+        direction == "___" & choice == "___" ~ "___"),
+        ___,
+        ___,
+        ___)
+
+```
+
+```{r eval=TRUE, include=FALSE}
+sdt <- d |>
+    mutate(type = case_when(
+        direction == "right" & choice == "right" ~ "Hit",
+        direction == "right" & choice == "left" ~ "Miss",
+        direction == "left" & choice == "left" ~ "CR",
+        direction == "left" & choice == "right" ~ "FA"))
+
+```
+
+```{r}
+sdt
+```
+
+
+## Von `wide` zu `long` konvertieren
+
+```{r}
+sdt_summary <- sdt |>
+    group_by(ID, cue) |>
+    count(type) |>
+    pivot_wider(names_from = type, values_from = n)
+```
+
+
+## Funktionen definieren
+
+```{r}
+replace_NA <- function(x) {
+    x = ifelse(is.na(x), 0, x)
+    x
+}
+
+correct_zero_one <- function(x) {
+    if (identical(x, 0)) {
+        x = x + 0.001
+    } else if (identical(x, 1)) {
+        x = x - 0.001
+    }
+    x
+}
+```
+
+
+## NAs ersetzen
+
+```{r}
+
+sdt_summary <- sdt_summary |>
+    mutate(across(c(Hit, Miss, FA, CR), replace_NA))
+```
+
+
+## Hit Rate und False Alarm Rate berechnen
+
+```{r eval = FALSE, include = TRUE}
+sdt_summary <- sdt_summary |>
+    mutate(hit_rate = ___,
+           fa_rate = ___)
+
+```
+
+```{r eval = TRUE, include = FALSE}
+sdt_summary <- sdt_summary |>
+    mutate(hit_rate = Hit/(Hit + Miss),
+           fa_rate = FA/(FA + CR))
+
+```
+
+
+## Werte 0 und 1 korrigieren
+
+```{r}
+sdt_summary <- sdt_summary |>
+    mutate(across(c(hit_rate, fa_rate), correct_zero_one))
+```
+
+
+## Z-Transformation
+
+```{r eval = FALSE, include = TRUE}
+sdt_summary <- sdt_summary |>
+    mutate(zhr = ___,
+           zfa = ___)
+```
+
+```{r eval = TRUE, include = FALSE}
+sdt_summary <- sdt_summary |>
+    mutate(zhr = qnorm(hit_rate),
+           zfa = qnorm(fa_rate))
+```
+
+
+## SDT Kennzahlen berechnen
+
+```{r eval = FALSE, include = TRUE}
+sdt_summary <- sdt_summary |>
+    mutate(dprime = ___,
+           k = ___,
+           c = ___) |>
+    mutate(across(c(dprime, k, c), round, 2))
+```
+
+
+```{r eval = TRUE, include = FALSE}
+sdt_summary <- sdt_summary |>
+    mutate(dprime = zhr - zfa,
+           k = -zfa,
+           c = -0.5 * (zhr + zfa)) |>
+    mutate(across(c(dprime, k, c), round, 2))
+```
+
+
+
+## Variablen auswählen
+
+```{r}
+sdt_final <- sdt_summary |>
+    select(ID, cue, dprime, k, c)
+```
+
+
+ 
+
+
+
+
+# SDT als GLM
+
+:::fyi
+Vertiefung: Wir können `d'`, `k` und `c` auch als Regressionskoeffizienten einer _Probit_ Regression schätzen.
+:::
+
+
+## Eine Person auswählen.
+
+```{r}
+SU6460 <- d |>
+    filter(ID %in% "SU6460")
+
+SU6460_sdt <- sdt_final |>
+    filter(ID %in% "SU6460")
+
+```
+
+
+## Visualisieren
+
+```{r}
+SU6460_sdt
+```
+
+
+```{r}
+SU6460_sdt |>
+    ggplot(aes(x = cue, y = dprime, group = 1)) +
+    geom_line() +
+    geom_point(shape = 21, size = 3, fill = "white")
+```
+
+```{r}
+SU6460_sdt |>
+    ggplot(aes(x = cue, y = c, group = 1)) +
+    geom_line() +
+    geom_point(shape = 21, size = 3, fill = "white")
+```
+
+
+
+## Generalized Linear Model
+
+Check `levels`: `right` muss die zweite Faktorstufe sein!
+
+```{r}
+levels(SU6460$choice)
+```
+
+
+
+
+```{r}
+SU6460_glm_k_left <- glm(choice ~ direction,
+                      family = binomial(link = "probit"),
+                      data = SU6460 |> filter(cue == "left"))
+
+summary(SU6460_glm_k_left)
+```
+
+
+```{r}
+SU6460_glm_k_right <- glm(choice ~ direction,
+                       family = binomial(link = "probit"),
+                       data = SU6460 |> filter(cue == "right"))
+
+summary(SU6460_glm_k_right)
+```
+
+
+```{r}
+SU6460 <- SU6460 |>
+    mutate(dir = if_else(direction == "left", -1/2, 1/2))
+```
+
+```{r}
+SU6460_glm_c_left <- glm(choice ~ dir,
+                       family = binomial(link = "probit"),
+                       data = SU6460 |> filter(cue == "left"))
+summary(SU6460_glm_c_left)
+```
+
+```{r}
+SU6460_glm_c_right <- glm(choice ~ dir,
+                        family = binomial(link = "probit"),
+                        data = SU6460 |> filter(cue == "right"))
+
+summary(SU6460_glm_c_right)
+```
+

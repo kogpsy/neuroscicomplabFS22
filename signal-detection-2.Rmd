@@ -112,14 +112,28 @@ sdt <- d |>
 sdt
 ```
 
-
-## Von `wide` zu `long` konvertieren
+## SDT Kennzahlen zusammenzählen
 
 ```{r}
 sdt_summary <- sdt |>
     group_by(ID, cue) |>
-    count(type) |>
+    count(type)
+```
+
+```{r}
+sdt_summary
+```
+
+
+## Von `wide` zu `long` konvertieren
+
+```{r}
+sdt_summary <- sdt_summary |>
     pivot_wider(names_from = type, values_from = n)
+```
+
+```{r}
+sdt_summary
 ```
 
 

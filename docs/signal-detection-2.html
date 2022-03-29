@@ -2760,6 +2760,8 @@ alle VPn berechnen</a>
 <li><a href="#daten-importieren">Daten importieren</a></li>
 <li><a href="#variablen-bearbeiten">Variablen bearbeiten</a></li>
 <li><a href="#trials-klassifizieren">Trials klassifizieren</a></li>
+<li><a href="#sdt-kennzahlen-zusammenzählen">SDT Kennzahlen
+zusammenzählen</a></li>
 <li><a href="#von-wide-zu-long-konvertieren">Von <code>wide</code> zu
 <code>long</code> konvertieren</a></li>
 <li><a href="#funktionen-definieren">Funktionen definieren</a></li>
@@ -2850,16 +2852,66 @@ beeinflussen?</p>
 10 chch04 neutral   none  right     left   Miss 
 # … with 2,352 more rows</code></pre>
 </div>
-<h2 id="von-wide-zu-long-konvertieren">Von <code>wide</code> zu
-<code>long</code> konvertieren</h2>
+<h2 id="sdt-kennzahlen-zusammenzählen">SDT Kennzahlen
+zusammenzählen</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt_summary</span> <span class='op'>&lt;-</span> <span class='va'>sdt</span> |&gt;
     <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='va'>cue</span><span class='op'>)</span> |&gt;
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>type</span><span class='op'>)</span> |&gt;
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>type</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt_summary</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 170 × 4
+# Groups:   ID, cue [45]
+   ID     cue   type      n
+   &lt;fct&gt;  &lt;fct&gt; &lt;chr&gt; &lt;int&gt;
+ 1 chch04 left  CR       29
+ 2 chch04 left  FA        3
+ 3 chch04 left  Hit       7
+ 4 chch04 left  Miss      1
+ 5 chch04 none  CR       38
+ 6 chch04 none  FA        2
+ 7 chch04 none  Hit      34
+ 8 chch04 none  Miss      6
+ 9 chch04 right CR        5
+10 chch04 right FA        3
+# … with 160 more rows</code></pre>
+</div>
+<h2 id="von-wide-zu-long-konvertieren">Von <code>wide</code> zu
+<code>long</code> konvertieren</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt_summary</span> <span class='op'>&lt;-</span> <span class='va'>sdt_summary</span> |&gt;
     <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='va'>type</span>, values_from <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span>
 </code></pre>
 </div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sdt_summary</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 45 × 6
+# Groups:   ID, cue [45]
+   ID     cue      CR    FA   Hit  Miss
+   &lt;fct&gt;  &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+ 1 chch04 left     29     3     7     1
+ 2 chch04 none     38     2    34     6
+ 3 chch04 right     5     3    25     7
+ 4 chmi14 left     21    10     5     3
+ 5 chmi14 none     18    19    29     7
+ 6 chmi14 right     3     4    26     4
+ 7 J      left     19    12     5     3
+ 8 J      none     23    16    33     6
+ 9 J      right     6     2    20    12
+10 jh     left     32    NA     5     3
+# … with 35 more rows</code></pre>
 </div>
 <h2 id="funktionen-definieren">Funktionen definieren</h2>
 <div class="layout-chunk" data-layout="l-body">
@@ -2891,9 +2943,9 @@ beeinflussen?</p>
 <h2 id="hit-rate-und-false-alarm-rate-berechnen">Hit Rate und False
 Alarm Rate berechnen</h2>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sdt_summary <span class="ot">&lt;-</span> sdt_summary <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">hit_rate =</span> ___,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">fa_rate =</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sdt_summary <span class="ot">&lt;-</span> sdt_summary <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">hit_rate =</span> ___,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">fa_rate =</span> ___)</span></code></pre></div>
 </div>
 <h2 id="werte-0-und-1-korrigieren">Werte 0 und 1 korrigieren</h2>
 <div class="layout-chunk" data-layout="l-body">
@@ -2905,17 +2957,17 @@ Alarm Rate berechnen</h2>
 </div>
 <h2 id="z-transformation">Z-Transformation</h2>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sdt_summary <span class="ot">&lt;-</span> sdt_summary <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">zhr =</span> ___,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">zfa =</span> ___)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sdt_summary <span class="ot">&lt;-</span> sdt_summary <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">zhr =</span> ___,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">zfa =</span> ___)</span></code></pre></div>
 </div>
 <h2 id="sdt-kennzahlen-berechnen">SDT Kennzahlen berechnen</h2>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sdt_summary <span class="ot">&lt;-</span> sdt_summary <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">dprime =</span> ___,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">k =</span> ___,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">c =</span> ___) <span class="sc">|&gt;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(dprime, k, c), round, <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sdt_summary <span class="ot">&lt;-</span> sdt_summary <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">dprime =</span> ___,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">k =</span> ___,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">c =</span> ___) <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(dprime, k, c), round, <span class="dv">2</span>))</span></code></pre></div>
 </div>
 <h2 id="variablen-auswählen">Variablen auswählen</h2>
 <div class="layout-chunk" data-layout="l-body">
@@ -2964,7 +3016,7 @@ Regression schätzen.</p>
     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>shape <span class='op'>=</span> <span class='fl'>21</span>, size <span class='op'>=</span> <span class='fl'>3</span>, fill <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="signal-detection-2_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
+<p><img src="signal-detection-2_files/figure-html5/unnamed-chunk-22-1.png" width="624" /></p>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2974,7 +3026,7 @@ Regression schätzen.</p>
     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>shape <span class='op'>=</span> <span class='fl'>21</span>, size <span class='op'>=</span> <span class='fl'>3</span>, fill <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="signal-detection-2_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
+<p><img src="signal-detection-2_files/figure-html5/unnamed-chunk-23-1.png" width="624" /></p>
 </div>
 <h2 id="generalized-linear-model">Generalized Linear Model</h2>
 <p>Check <code>levels</code>: <code>right</code> muss die zweite
@@ -3118,7 +3170,7 @@ AIC: 54.181
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
-<div class="sourceCode" id="cb12"><pre
+<div class="sourceCode" id="cb14"><pre
 class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

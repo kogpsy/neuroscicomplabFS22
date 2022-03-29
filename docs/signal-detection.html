@@ -2769,29 +2769,6 @@ single subject</a></li>
 <p>👉 <a href="./files/signal-detection.R">R Code für dieses Kapitel
 downloaden</a></p>
 </div>
-<!-- ```{r} -->
-<!-- datasum <- data |> -->
-<!--     Rmisc::summarySEwithin(measurevar = "correct", -->
-<!--                                withinvars = "condition", -->
-<!--                                idvar = "ID", -->
-<!--                                na.rm = FALSE, -->
-<!--                                conf.interval = 0.95) -->
-<!-- datasum -->
-<!-- ``` -->
-<!-- ```{r} -->
-<!-- p_accuracy <- datasum |> -->
-<!--     ggplot(aes(x = condition, y = correct, group = 1)) + -->
-<!--     geom_line() + -->
-<!--     geom_errorbar(width = .1, aes(ymin = correct-se, ymax = correct+se), colour="red") + -->
-<!--     geom_point(shape=21, size=3, fill="white") -->
-<!-- p_accuracy -->
-<!-- ``` -->
-<!-- |              | Signal         |                       | -->
-<!-- | ------------ | -------------- | --------------------- | -->
-<!-- | **Response** | present        | absent                | -->
-<!-- | --------     | -------------- | --------------------- | -->
-<!-- | Yes          | Hit            | False alarm (FA)      | -->
-<!-- | No           | Miss           | Correct rejection (CR) | -->
 <h2 id="signal-detection-theory">Signal detection theory</h2>
 <p>We consider an experiment in which a person has to classify a
 stimulus into one of two possible categories:</p>

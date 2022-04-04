@@ -84,8 +84,8 @@ navbar:
 
     - text: "Lösungen"
       menu:
-        - text: "Noch keine Lösungen"
-          # href: solution-1.html
+        - text: "Übung 3: Lösung"
+          href: solution-03.html
 
     # - text: "About"
     #   href: about.html

@@ -1,8 +1,8 @@
 ---
-title: "Übung 4"
+title: "Übung 3: Lösung"
 description: |
-  Signal Detection Kennzahlen zusammenfassen.
-date: "03-18-2022" 
+  Daten importieren und bereinigen.
+date: "04-03-2022" 
 author:
   - first_name: "Andrew"
     last_name: "Ellis"
@@ -11,7 +11,7 @@ author:
     affiliation_url: https://www.kog.psy.unibe.ch
     orcid_id: 0000-0002-2788-936X
 
-citation_url: https://kogpsy.github.io/neuroscicomplab/exercise-3.html
+citation_url: https://kogpsy.github.io/neuroscicomplab/solution-3.html
 # slug: ellis2021overview
 bibliography: bibliography.bib
 output: 
@@ -34,17 +34,6 @@ htmltools::tagList(
 ```
 
 
-:::exercise
-
-Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen. 
-
-In diesem File finden Sie Beispielscode. Manche Zeilen enthalten ` ___ `. Hier müssen Sie den Code vervollständigen.
-
-Laden Sie bitte Ihre Lösung als ZIP File bis **Freitag, 25.03.2022, um 00:00 Uhr**, in den Order für Übung 3 auf ILIAS. Das ZIP File sollte ein R Skript enthalten, sowie den bereinigten Datensatz.
-
-Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-3.zip*.
-
-:::
 
 
 # Aufgabenstellung
@@ -81,18 +70,14 @@ d) Konvertieren Sie die Gruppierungsvariablen `subject` und `condition` zu Fakto
 library(tidyverse)
 ```
 
-```{r eval=FALSE, include=TRUE}
-d <- read_csv("___")
-```
-
-```{r eval=TRUE, include=FALSE}
+```{r eval=TRUE, include=TRUE}
 d <- read_csv("data/data-exercise-03.csv")
 ```
 
 
 Schauen Sie sich die Variablen an:
 
-```{r eval=FALSE, include=TRUE}
+```{r eval=TRUE, include=TRUE}
 glimpse(d)
 ```
 
@@ -100,19 +85,12 @@ glimpse(d)
 Konvertieren Sie die Gruppierungsvariablen zu Faktoren:
 
 
-```{r eval=FALSE, include=TRUE}
-d <- d |>
-    mutate(___ = as_factor(___),
-           ___ = as_factor(___))
-```
 
-```{r eval=TRUE, include=FALSE}
+```{r eval=TRUE, include=TRUE}
 d <- d |>
     mutate(subject = as_factor(subject),
            condition = as_factor(condition))
 ```
-
-
 
 
 
@@ -124,53 +102,56 @@ Gibt es Versuchspersonen die in einer der Bedingungen Reaktionszeiten hat, welch
 
 
 
-```{r eval=FALSE, include=TRUE}
+```{r}
 # summary stats (means) for subjects/conditions
 sum_stats_participants <- d |>
-    group_by(___, ___) |>
+    group_by(subject, condition) |>
     dplyr::summarise(
-        mean_P = mean(___))
+        mean_P = mean(rt))
 
 ```
 
 
-```{r eval=FALSE, include=TRUE}
+```{r}
 # summary stats (means and SDs) for conditions
 sum_stats_conditions <- d |>
-    group_by(___) |>
+    group_by(condition) |>
     dplyr::summarise(
-        mean_C = mean(__),
-        sd_C = sd(___))
+        mean_C = mean(rt),
+        sd_C = sd(rt))
 ```
 
-```{r eval=FALSE, include=TRUE}
+```{r}
 sum_stats_participants <-
     full_join(
         sum_stats_participants,
         sum_stats_conditions,
         by = "condition") |>
-    mutate(outlier_P = ___)
+    mutate(outlier_P = (mean_P - mean_C) > 2 * sd_C)
 ```
 
 
 
-```{r eval=FALSE, include=TRUE}
+```{r}
 # show outlier participants
 sum_stats_participants |>
     filter(outlier_P == 1) |>
     show()
 ```
 
+Es gibt keine Versuchsperson, deren mittlere Reaktionszeit in einer Bedingung mehr als zwei Standardabweichungen **über** dem Bedingungsmittelwert liegt. Dies bedeutet, dass sich in `excluded` keine Personen befinden, und der Dataframe folglich $0$ Zeilen hat.
 
-```{r eval=FALSE, include=TRUE}
+
+```{r}
 excluded <- sum_stats_participants |>
     filter(outlier_P == 1)
 
 excluded
 ```
 
+Der nächste Schritt wäre also nicht unbedingt notwendig.
 
-```{r eval=FALSE, include=TRUE}
+```{r}
 d_cleaned <- d |>
     filter(!(subject %in% excluded$subject)) |>
     mutate(subject = fct_drop(subject))
@@ -190,21 +171,31 @@ c) Speichern Sie den bearbeiteten Datensatz als _CSV_ File.
 :::
 
 
-```{r eval=FALSE, include=TRUE}
+
+__Zu Aufgabe 3.a)__
+
+Wir wollen Trials identifizieren, bei denen Vpn länger gebraicht haben, als 4 Standardabweichungen über dem  Bedingungsmittelwert. Das bedeutet `(rt - mean_C) > 4 * sd_C`, und nicht `abs(rt - mean_C) > 4 * sd_C`. Letzteres würde auch Trials als Ausreisser identifizieren, welche 4 Standardabweichungen unter dem  Bedingungsmittelwert liegen.
+
+
+__Zu Aufgabe 3.b)__
+
+Die Reaktionszeiten sind hier in Sekunden, nicht Millisekunden. Dies bedeutet, wir brauchen `rt < 0.100`, und nicht `rt < 100`.
+
+```{r}
 d_cleaned <- d_cleaned |>
     full_join(
         sum_stats_conditions,
         by = "condition") |>
     mutate(
         trial_type = case_when(
-            ___ > ___ ~ "too slow",
-            ___ < ___ ~ "too fast",
+            (rt - mean_C) > 4 * sd_C ~ "too slow",
+            rt < 0.100 ~ "too fast",
             TRUE ~ "OK") |>
             factor(levels = c("OK", "too fast", "too slow")))
 
 ```
 
-```{r eval=FALSE, include=TRUE}
+```{r}
 d_cleaned |>
     ggplot(aes(x = trial_num, y = rt, color = trial_type, shape = trial_type)) +
     geom_point(alpha = 0.6) +
@@ -212,19 +203,29 @@ d_cleaned |>
     scale_color_manual(values = c("gray70", "red", "steelblue"))
 ```
 
-```{r eval=FALSE, include=TRUE}
+```{r}
 d_cleaned |>
     filter(trial_type != "OK")
 ```
+Vor dem Entfernen der Ausreisser Trials haben wir 5756 Datenpunkte.
 
+```{r}
+nrow(d_cleaned)
+```
 
-```{r eval=FALSE, include=TRUE}
+```{r}
 d_cleaned <- d_cleaned |>
     filter(trial_type == "OK") |>
     select(subject, trial_num, condition, signal_present, correct, rt)
 ```
 
-```{r eval=FALSE, include=TRUE}
+Nach dem Entfernen haben wir noch 5591.
+
+```{r}
+nrow(d_cleaned)
+```
+
+```{r}
 d_cleaned |>
     ggplot(aes(x = trial_num, y = rt)) +
     geom_point(alpha = 0.6) +
@@ -233,19 +234,7 @@ d_cleaned |>
 ```
 
 ```{r eval=FALSE, include=TRUE}
-d_cleaned |> write_csv(___)
+d_cleaned |> write_csv("data/data-cleaned.csv")
 ```
-
-
-
-:::puzzle
-**Optionale Aufgabe**
-
-
-Die Aufgaben oben bieten lediglich Voschläge, wie man "Ausreisser" identifizieren könnte. Wenn Sie andere Voschläge haben, können Sie den Code anpassen, oder selber Code schreiben. Können Sie Ihr Vorgehen begründen?
-:::
-
-
-
 
 

@@ -2,7 +2,7 @@
 title: "Übung 4"
 description: |
   Signal Detection Kennzahlen zusammenfassen.
-date: "03-18-2022" 
+date: "04-05-2022" 
 author:
   - first_name: "Andrew"
     last_name: "Ellis"

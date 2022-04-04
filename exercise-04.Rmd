@@ -33,6 +33,7 @@ htmltools::tagList(
 )
 ```
 
+In dieser Übung berechnen aus den Daten von 15 Versuchspersonen aus dem PsychoPy Experiment die Signal Detection Kennzahlen $d'$, $k$ und $c$. Anschliessen berechnen Sie Mittelwerte der drei Bedingungen für $d'$ und $c$ unter Berücksichtigung der Messwiederholung.
 
 :::exercise
 
@@ -40,212 +41,295 @@ Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Opti
 
 In diesem File finden Sie Beispielscode. Manche Zeilen enthalten ` ___ `. Hier müssen Sie den Code vervollständigen.
 
-Laden Sie bitte Ihre Lösung als ZIP File bis **Freitag, 25.03.2022, um 00:00 Uhr**, in den Order für Übung 3 auf ILIAS. Das ZIP File sollte ein R Skript enthalten, sowie den bereinigten Datensatz.
+Laden Sie bitte Ihre Lösung als R Skript bis **Dienstag, 12.4.2022, um 00:30 Uhr**, in den Order für Übung 4 auf ILIAS.
 
-Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-3.zip*.
+Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-4.R*.
 
 :::
 
 
-# Aufgabenstellung
-
-In dieser Aufgabe bearbeiten Sie Daten aus einem Detektionssexperiment. Versuchspersonen mussten in zwei Bedingungen (`bias` und `no_bias`) ein Signal, welches in Rauschen eingebettet war, detektieren. Im Datensatz sind folgende Variablen:
-
-```
-subject: Subjekt ID
-trial_num: Trialnummer, durchnummeriert in jeder Bedingung
-condition: Bedingung (_Bias_ und _No Bias_)
-signal_present: Indikatorvariable für Signal (0: absent, 1: present)
-correct: Indikatorvariable für korrekte Antwort (0: incorrekt, 1: correct)
-rt: Reaktionszeit in Sekunden
-
-```
-
-
-
-## Aufgaben 
-
-:::exercise
-**Aufgabe 1**
-a) Speichern Sie das *CSV* File in Ihren Projektordner.
-
-b) Lesen Sie das *CSV* File ein. Per Konvention verwenden wir den Variablennamen `d` für den Datensatz.
-
-c) Überprüfen Sie, ob alle Variablen vorhanden sind. Verwenden Sie z.B. die Funktion `glimpse()`.
-
-d) Konvertieren Sie die Gruppierungsvariablen `subject` und `condition` zu Faktoren.
-:::
-
+# Vorbereitung
 
 ```{r}
 library(tidyverse)
-```
-
-```{r eval=FALSE, include=TRUE}
-d <- read_csv("___")
-```
-
-```{r eval=TRUE, include=FALSE}
-d <- read_csv("data/data-exercise-03.csv")
+d <- read_csv("data/session-6.csv")
 ```
 
 
-Schauen Sie sich die Variablen an:
 
-```{r eval=FALSE, include=TRUE}
-glimpse(d)
-```
+## Variablen bearbeiten
 
+Zu `factor` konvertieren, etc.
 
-Konvertieren Sie die Gruppierungsvariablen zu Faktoren:
-
-
-```{r eval=FALSE, include=TRUE}
+```{r}
 d <- d |>
-    mutate(___ = as_factor(___),
-           ___ = as_factor(___))
-```
-
-```{r eval=TRUE, include=FALSE}
-d <- d |>
-    mutate(subject = as_factor(subject),
-           condition = as_factor(condition))
+    select(ID, condition, cue, direction, choice) |>
+    mutate(across(where(is.character), ~as_factor(.)),
+           cue = fct_relevel(cue, "left", "none", "right")) |>
+    drop_na()
 ```
 
 
+```{r}
+sdt <- d |>
+    mutate(type = case_when(
+        direction == "right" & choice == "right" ~ "Hit",
+        direction == "right" & choice == "left" ~ "Miss",
+        direction == "left" & choice == "left" ~ "CR",
+        direction == "left" & choice == "right" ~ "FA"))
+
+```
+
+Für jede Vpn in jeder der drei `cue` Bedingungen die verschiedenen Antworttypen zählen.
+
+```{r}
+sdt_summary <- sdt |>
+    group_by(ID, cue) |>
+    count(type)
+```
+
+```{r}
+sdt_summary
+```
 
 
+## Von `wide` zu `long` konvertieren
+
+```{r}
+sdt_summary <- sdt_summary |>
+    pivot_wider(names_from = type, values_from = n)
+```
+
+```{r}
+sdt_summary
+```
+
+
+## Funktionen definieren
+
+```{r}
+replace_NA <- function(x) {
+    x = ifelse(is.na(x), 0, x)
+    x
+}
+
+correct_zero_one <- function(x) {
+    if (identical(x, 0)) {
+        x = x + 0.001
+    } else if (identical(x, 1)) {
+        x = x - 0.001
+    }
+    x
+}
+```
+
+## NAs ersetzen
+
+```{r}
+sdt_summary <- sdt_summary |>
+    mutate(across(c(Hit, Miss, FA, CR), replace_NA))
+```
+
+
+## Hit Rate und False Alarm Rate berechnen
+
+```{r eval = FALSE, include = TRUE}
+sdt_summary <- sdt_summary |>
+    mutate(hit_rate = ___,
+           fa_rate = ___)
+
+```
+
+```{r eval = TRUE, include = FALSE}
+sdt_summary <- sdt_summary |>
+    mutate(hit_rate = Hit/(Hit + Miss),
+           fa_rate = FA/(FA + CR))
+
+```
+
+
+## Werte 0 und 1 korrigieren
+
+```{r}
+sdt_summary <- sdt_summary |>
+    mutate(across(c(hit_rate, fa_rate), correct_zero_one))
+```
+
+
+
+## Z-Transformation
+
+```{r}
+sdt_summary <- sdt_summary |>
+    mutate(zhr = qnorm(hit_rate),
+           zfa = qnorm(fa_rate))
+```
+
+```{r}
+sdt_summary
+```
+
+
+## SDT Kennzahlen berechnen
+
+
+```{r eval = FALSE, include = TRUE}
+sdt_summary <- sdt_summary |>
+    mutate(dprime = ___,
+           k = ___,
+           c = ___) |>
+    mutate(across(c(dprime, k, c), round, 2))
+```
+
+
+```{r eval = TRUE, include = FALSE}
+sdt_summary <- sdt_summary |>
+    mutate(dprime = zhr - zfa,
+           k = -zfa,
+           c = -0.5 * (zhr + zfa)) |>
+    mutate(across(c(dprime, k, c), round, 2))
+```
+
+
+
+
+## Variablen auswählen
+
+```{r}
+sdt_final <- sdt_summary |>
+    select(ID, cue, dprime, k, c)
+```
+
+
+ 
+Im finalen Datensatz haben wir nun `d'`, `k` und `c` für jede Person in jeder Bedingung.
+
+```{r}
+sdt_final
+```
 
 :::exercise
-**Aufgabe 2**
+Wir erwarten, dass sich `d'` zwischen den Bedingungen nicht unterscheidet. `k` und `c` (bias) sollte sich hingegen zwischen den `cue` Bedingungen unterscheiden. Uns interessiert hier vor allem `c`: in der neutralen Bedingung sollte `c` etwa 0 sein, in der 'left' Bedingung sollte $c > 0$ sein, und in der 'right' Bedingung sollte $c < 0$ sein.
 
-Gibt es Versuchspersonen die in einer der Bedingungen Reaktionszeiten hat, welche mehr als zwei Standardabweichungen **über** dem Bedingungsmittelwert liegen?
+Versuchen Sie die untenstehende Grafiken für `d'` und `c` zu reproduzieren.
 :::
 
 
+```{r echo=FALSE}
+dprimes <- sdt_final |>
+    select(ID, cue, dprime) |>
+    Rmisc::summarySEwithin(measurevar = "dprime",
+                           withinvars = "cue",
+                           idvar = "ID",
+                           na.rm = FALSE,
+                           conf.interval = 0.95)
+ks <- sdt_final |>
+    select(ID, cue, k) |>
+    Rmisc::summarySEwithin(measurevar = "k",
+                           withinvars = "cue",
+                           idvar = "ID",
+                           na.rm = FALSE,
+                           conf.interval = 0.95)
+cs <- sdt_final |>
+    select(ID, cue, c) |>
+    Rmisc::summarySEwithin(measurevar = "c",
+                           withinvars = "cue",
+                           idvar = "ID",
+                           na.rm = FALSE,
+                           conf.interval = 0.95)
+
+library(patchwork)
+
+p1 <- dprimes |>
+    ggplot(aes(x = cue, y = dprime, group = 1)) +
+    geom_line() +
+    geom_errorbar(width = 0.1, aes(ymin = dprime - ci,
+                                   ymax = dprime + ci)) +
+    geom_point(shape = 21, size = 3, fill = "white") +
+  ggtitle("D'")
+
+
+# p2 <- ks |>
+#     ggplot(aes(x = cue, y = k, group = 1)) +
+#     geom_line() +
+#     geom_errorbar(width = 0.1, aes(ymin = k - ci,
+#                                    ymax = k + ci)) +
+#     geom_point(shape = 21, size = 3, fill = "white")
+
+p3 <- cs |>
+    ggplot(aes(x = cue, y = c, group = 1)) + 
+    geom_hline(yintercept = 0, 
+               linetype = "dashed",
+               color = "grey60") +
+    geom_line() +
+    geom_errorbar(width = 0.1, aes(ymin = c - ci,
+                                   ymax = c + ci)) +
+    geom_point(shape = 21, size = 3, fill = "white") +
+    ggtitle("Bias")
+
+p1 / p3
+```
+
+Sie brauchen zuerst eine (separate) Zusammenfassung der `d'` und `c` Werte, welche die Messwiederholung respektiert. Sie können dazu die Funktion `summarySEwithin` aus dem `Rmisc` Package verwenden.
+
+Die Funktion braucht die Argumente `measurevar`, `withinvars` und `idvar`. 
+
+| Argument | Beschreibung                                                          |
+|------------|--------------------------------------------------------------------|
+| `measurevar`     | Variable, für welche eine Messwiederholung vorliegt          |
+| `withinvars`     | Messwiederholung                                                |
+| `idvar`    | Identität der messwiederholten Einheit|
+
+
 
 ```{r eval=FALSE, include=TRUE}
-# summary stats (means) for subjects/conditions
-sum_stats_participants <- d |>
-    group_by(___, ___) |>
-    dplyr::summarise(
-        mean_P = mean(___))
-
+cs <- sdt_final |>
+    select(ID, cue, c) |>
+    ___
 ```
 
 
 ```{r eval=FALSE, include=TRUE}
-# summary stats (means and SDs) for conditions
-sum_stats_conditions <- d |>
-    group_by(___) |>
-    dplyr::summarise(
-        mean_C = mean(__),
-        sd_C = sd(___))
+dprimes <- sdt_final |>
+    select(ID, cue, ___) |>
+    ___
 ```
+
+
+Wenn Sie, wie ich, die Datensätze mit den Mittelwerten, Standardfehlern und $95%$ Konfidenzintervallen `primes` und  `cs` genannt haben, können Sie die Plots beispielsweise so erstellen.
 
 ```{r eval=FALSE, include=TRUE}
-sum_stats_participants <-
-    full_join(
-        sum_stats_participants,
-        sum_stats_conditions,
-        by = "condition") |>
-    mutate(outlier_P = ___)
+cs |>
+    ggplot(aes(x = cue, y = c, group = 1)) + 
+    geom_hline(yintercept = 0, 
+               linetype = "dashed",
+               color = "grey60") +
+    geom_line() +
+    geom_errorbar(width = 0.1, aes(ymin = c - ci,
+                                   ymax = c + ci)) +
+    geom_point(shape = 21, size = 3, fill = "white") +
+    ggtitle("c (bias)")
 ```
 
 
+Falls Sie wollen, können Sie die individuellen `c` Schätzungen dem Plot hinzufügen, mit folgendem Code: 
 
-```{r eval=FALSE, include=TRUE}
-# show outlier participants
-sum_stats_participants |>
-    filter(outlier_P == 1) |>
-    show()
+```r
+geom_jitter(aes(cue, c), data = sdt_final, width = 0.05)
 ```
 
 
-```{r eval=FALSE, include=TRUE}
-excluded <- sum_stats_participants |>
-    filter(outlier_P == 1)
-
-excluded
+```{r echo=FALSE}
+cs |>
+    ggplot(aes(x = cue, y = c, group = 1)) + 
+    geom_hline(yintercept = 0, 
+               linetype = "dashed",
+               color = "grey60") +
+    geom_jitter(aes(cue, c), data = sdt_final, width = 0.05) +
+    geom_line() +
+    geom_errorbar(width = 0.1, aes(ymin = c - ci,
+                                   ymax = c + ci)) +
+    geom_point(shape = 21, size = 3, fill = "white") +
+    ggtitle("c (bias)")
 ```
-
-
-```{r eval=FALSE, include=TRUE}
-d_cleaned <- d |>
-    filter(!(subject %in% excluded$subject)) |>
-    mutate(subject = fct_drop(subject))
-```
-
-
-
-:::exercise
-**Aufgabe 3**
-
-
-a) Gibt es einzelne Trials, in denen Versuchpersonen länger als 4 Standardabweichungen über dem  Bedingungsmittelwert gebraucht haben, um zu Antworten?
-
-b) Gibt es einzelne Trials, in denen Versuchpersonen zu schnell (unter 100 ms) geantwortet haben?
-
-c) Speichern Sie den bearbeiteten Datensatz als _CSV_ File.
-:::
-
-
-```{r eval=FALSE, include=TRUE}
-d_cleaned <- d_cleaned |>
-    full_join(
-        sum_stats_conditions,
-        by = "condition") |>
-    mutate(
-        trial_type = case_when(
-            ___ > ___ ~ "too slow",
-            ___ < ___ ~ "too fast",
-            TRUE ~ "OK") |>
-            factor(levels = c("OK", "too fast", "too slow")))
-
-```
-
-```{r eval=FALSE, include=TRUE}
-d_cleaned |>
-    ggplot(aes(x = trial_num, y = rt, color = trial_type, shape = trial_type)) +
-    geom_point(alpha = 0.6) +
-    facet_grid(~condition) +
-    scale_color_manual(values = c("gray70", "red", "steelblue"))
-```
-
-```{r eval=FALSE, include=TRUE}
-d_cleaned |>
-    filter(trial_type != "OK")
-```
-
-
-```{r eval=FALSE, include=TRUE}
-d_cleaned <- d_cleaned |>
-    filter(trial_type == "OK") |>
-    select(subject, trial_num, condition, signal_present, correct, rt)
-```
-
-```{r eval=FALSE, include=TRUE}
-d_cleaned |>
-    ggplot(aes(x = trial_num, y = rt)) +
-    geom_point(alpha = 0.6) +
-    facet_grid(~condition) +
-    scale_color_manual(values = c("gray70", "red", "steelblue"))
-```
-
-```{r eval=FALSE, include=TRUE}
-d_cleaned |> write_csv(___)
-```
-
-
-
-:::puzzle
-**Optionale Aufgabe**
-
-
-Die Aufgaben oben bieten lediglich Voschläge, wie man "Ausreisser" identifizieren könnte. Wenn Sie andere Voschläge haben, können Sie den Code anpassen, oder selber Code schreiben. Können Sie Ihr Vorgehen begründen?
-:::
-
-
-
-
 

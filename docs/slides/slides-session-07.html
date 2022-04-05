@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>7. Sitzung</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Ellis" />
+    <meta name="date" content="2022-04-05" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#bf616a"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="libs/mark.js/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-right","caseSensitive":false,"showIcon":false,"autoSearch":true}) })</script>
+    <link rel="stylesheet" href="css/xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="css/slides-style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 7. Sitzung
+## Response Times
+### Andrew Ellis
+### Neurowissenschaft Computerlab FS 22
+### 2022-04-05
+
+---
+
+
+
+
+
+
+
+layout: true
+  
+&lt;!-- Home icon --&gt;
+&lt;div class="my-footer"&gt;
+&lt;span&gt;
+&lt;a href="https://kogpsy.github.io/neuroscicomplabFS22" target="_blank"&gt;<svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:#0F4C81;overflow:visible;position:relative;"><path d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"/></svg>&lt;/a&gt; Neurowissenschaft im Computerlab FS22
+&lt;/span&gt;
+&lt;/div&gt;
+
+
+&lt;!-- Name (left) --&gt;
+&lt;!-- &lt;div class="my-footer"&gt; --&gt;
+&lt;!-- &lt;span&gt; --&gt;
+&lt;!-- Andrew Ellis - &lt;a href="https://kogpsy.github.io/neuroscicomplab" target="_blank"&gt;kogpsy.github.io/neuroscicomplab&lt;/a&gt; --&gt;
+&lt;!-- &lt;/span&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+&lt;!-- slide separator (for xaringan) --&gt;
+---
+
+
+
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[1]
+]
+.pull-right-wide[
+  .larger[
+    What are response times?
+  ]
+]
+
+---
+
+## What are Response Times?
+
+.pull-left[
+
+&lt;img src="images/time-taken-to-complete.png" width="100%" /&gt;
+
+]
+
+.pull-right[
+
+Typical distribution of response times.
+
+- Time taken to complete a task.
+
+- Typically, _some_ observed RTs are not a result of the _process of interest_,but _contaminants_. Luce (1986) demonstrated that genuine RTs have a minimum value of `\(&gt; 100\)` ms: the time needed for physiological processes (stimulus perception, motor responses).
+
+]
+
+
+Whelan, R. (2008). Effective Analysis of Reaction Time Data. The Psychological Record, 58(3), 475–482. https://doi.org/10.1007/BF03395630
+
+---
+
+.panelset[
+.panel[.panel-name[Simulate data]
+
+
+```r
+set.seed(37)
+d &lt;- tibble(rt = brms::rexgaussian(n = 1e3, mu = 400, sigma = 50, beta = 150),
+            contaminant = FALSE)
+```
+]
+
+.panel[.panel-name[Code for figure]
+
+
+```r
+d |&gt; 
+  ggplot(aes(rt)) +
+  geom_histogram(aes(y = ..density..), 
+                 colour = "black", fill = "white",
+                 binwidth = 10) +
+  geom_density(lwd = 1, colour = 4,
+               fill = 4, alpha = 0.25) +
+  xlab("Response time [ms]") +
+  xlim(c(0, 1500))
+```
+]
+
+.panel[.panel-name[Figure]
+&lt;img src="slides-session-07_files/figure-html/unnamed-chunk-5-1.png" width="100%" /&gt;
+]
+
+.panel[.panel-name[Figure with contaminants]
+&lt;img src="slides-session-07_files/figure-html/unnamed-chunk-6-1.png" width="100%" /&gt;
+]
+]
+
+
+---
+
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[2]
+]
+.pull-right-wide[
+  .larger[
+    What can response times tell us about the brain?
+  ]
+]
+
+---
+
+## Tadpoles
+
+.pull-left[
+
+&lt;img src="images/tadpole.png" width="100%" /&gt;
+
+
+]
+
+.pull-right[
+
+&lt;img src="images/tadpole-2.png" width="100%" /&gt;
+
+
+]
+
+Roberts, A., Borisyuk, R., Buhl, E., Ferrario, A., Koutsikou, S., Li, W.-C., &amp; Soffe, S. R. (2019). The decision to move: Response times, neuronal circuits and sensory memory in a simple vertebrate. Proceedings of the Royal Society B: Biological Sciences, 286(1899), 20190297. https://doi.org/10.1098/rspb.2019.0297
+
+---
+
+
+## ADHD
+
+.pull-left[
+
+- Performance variability is the essence of ADHD.
+
+- Children with ADHD demonstrate greater RT variability than nonclinical controls on speeded RT tasks.
+
+&gt; Response variability is related to a distributed brain network including frontal lobes (implicated in the pathophysiology of ADHD).
+
+- Traditional RT measures (sample mean and standard deviation) showed that children with ADHD were slower and more variable in responding than controls.
+
+]
+
+.pull-right[
+
+- Children with ADHD had a greater number of RTs beyond their mean performance than the control group. Were not generally slower but were prone to attentional lapses.
+
+
+&lt;img src="images/adhd.png" width="100%" /&gt;
+
+]
+
+Hervey, A. S., Epstein, J. N., Curry, J. F., Tonev, S., Eugene Arnold, L., Keith Conners, C., Hinshaw, S. P., Swanson, J. M., &amp; Hechtman, L. (2006). Reaction Time Distribution Analysis of Neuropsychological Performance in an ADHD Sample. _Child Neuropsychology_, _12_(2), 125–140. [https://doi.org/10.1080/09297040500499081](https://doi.org/10.1080/09297040500499081)
+
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[3]
+]
+.pull-right-wide[
+  .larger[
+    How can we analyze response times?
+  ]
+]
+
+---
+
+## Central tendency: Mean
+
+- Most common method of analyzing RT data is to report a central tendency parameter (e.g., the mean or median) and a dispersion parameter (e.g., the standard deviation). The mean difference in RT across conditions is then often analyzed by using ANOVA.
+
+- Using hypothesis tests on data that are skewed, contain outliers, are heteroscedastic, or have a combination of these characteristics (raw RT data typically have at least the first two) reduces the power of these tests and can result in a failure to detect a real difference between conditions (Wilcox, 1998).
+
+- Neither the mean nor standard deviation are said to be _robust_ measures. That is, the mean is not reflective of the typical response if the distribution is skewed, because the mean is distorted in the direction of the skew.
+
+---
+
+## Central tendency: Median
+
+- Many researchers report the median RT as a central tendency parameter, because it is less susceptible to departures from normality (i.e., robust). The interquartile range (IQR, the range between the third and first quartiles) is a robust method of estimating the dispersion.
+
+- A difficulty with using the median is that unlike the sample mean, it is a _biased_ estimator of the population median when the population is skewed (a biased estimator does not, on average, equal the value of the parameter or function that it estimates).
+
+- The bias becomes more extreme as the sample size becomes smaller (Miller, 1988) and thus the median is more likely to be overestimated in the condition with fewer trials.
+
+
+---
+
+## Beyond mean differences
+
+.pull-left[
+- Most analyses of RT data are conducted by using the statistical techniques with which psychologists are most familiar, such as analysis of variance (ANOVA) on the sample mean. Unfortunately, these methods are usually inappropriate for RT data, because they have little power to detect genuine differences in RT between conditions.
+
+]
+
+.pull-right[
+
+
+&lt;img src="images/rousselet.png" width="100%" /&gt;
+
+]
+
+Rousselet, G. A., Pernet, C. R., &amp; Wilcox, R. R. (2017). Beyond differences in means: Robust graphical methods to compare two groups in neuroscience. _European Journal of Neuroscience_, _46_(2), 1738–1748. [https://doi.org/10.1111/ejn.13610](https://doi.org/10.1111/
+
+---
+
+## Beyond mean differences
+
+.pull-left[
+Deciles 
+
+&lt;img src="images/shiftfun-1.png" width="100%" /&gt;
+]
+
+.pull-right[
+
+Shift function
+
+&lt;img src="images/shiftfun-2.png" width="100%" /&gt;
+]
+
+- For	each	decile, the	shift	 function	illustrates	by	how	much one	distribution needs	to	be	shifted	to	match	another	one. 
+
+- In	our	example, we	illustrate by	how	much	we need	to	shift	deciles	from	group	2	to	match	deciles	from	group	1.
+
+---
+
+## Beyond mean differences
+
+&lt;img src="images/shiftfun-3.png" width="100%" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:10",
+"countIncrementalSlides": false,
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n  <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n  </div>\n</div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

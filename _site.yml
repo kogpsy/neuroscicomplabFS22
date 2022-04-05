@@ -45,11 +45,11 @@ navbar:
       menu:
         - text: "Verhaltensexperiment mit PsychoPy"
           href: behavioural-experiments.html
-        - text: "Daten importieren"
+        - text: "Daten Importieren"
           href: importing-data.html
-        - text: "Data cleaning"
+        - text: "Data Cleaning"
           href: data-cleaning.html
-        - text: "Data zusammenfassen"
+        - text: "Daten Zusammenfassen"
           href: summarizing-data.html
         # - text: "Daten visualisieren"
         #   href: visualizing-data.html
@@ -57,6 +57,8 @@ navbar:
           href: signal-detection.html
         - text: "Signal Detection Theory: II"
           href: signal-detection-2.html
+        - text: "Reaktionszeiten: I"
+          href: response-times-1.html
 
     - text: "Slides"
       menu:
@@ -72,6 +74,8 @@ navbar:
           href: slides/slides-session-05.html
         - text: "6. Sitzung (29.03.2022)"
           href: slides/slides-session-06.html
+        - text: "7. Sitzung (05.04.2022)"
+          href: slides/slides-session-07.html
 
     - text: "Übungen"
       menu:

@@ -57,7 +57,7 @@ navbar:
           href: signal-detection.html
         - text: "Signal Detection Theory: II"
           href: signal-detection-2.html
-        - text: "Reaktionszeiten I"
+        - text: "Reaktionszeiten: I"
           href: response-times-1.html
 
     - text: "Slides"

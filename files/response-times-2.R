@@ -1,5 +1,5 @@
 
-## ---------------------------------------------------
+## ------------------------------------------------
 library(tidyverse)
 library(rtdists)
 library(viridis)
@@ -21,11 +21,11 @@ df_speed_acc <- speed_acc |>
   mutate(across(c(stim_cat, response), as_factor))
 
 
-## ---------------------------------------------------
+## ------------------------------------------------
 df_speed_acc
 
 
-## ---------------------------------------------------
+## ------------------------------------------------
 data_plot <- df_speed_acc |>
   filter(id %in% c(1, 8, 11, 15))
 
@@ -37,16 +37,23 @@ data_plot |>
     scale_fill_viridis(discrete = TRUE, option = "E")
 
 
-## ---------------------------------------------------
-out_speed_acc <- rogme::hsf_pb(df_speed_acc, rt ~ condition + id)
+## ------------------------------------------------
+out <- rogme::hsf(df_speed_acc, rt ~ condition + id)
 
 
-## ---------------------------------------------------
-p_speed_acc <- rogme::plot_hsf_pb(out_speed_acc, interv = "ci")
-p_speed_acc
+## ------------------------------------------------
+rogme::plot_hsf(out)
 
 
-## ---------------------------------------------------
+## ------------------------------------------------
+out_pb <- rogme::hsf_pb(df_speed_acc, rt ~ condition + id)
+
+
+## ------------------------------------------------
+rogme::plot_hsf_pb(out_pb, interv = "ci")
+
+
+## ------------------------------------------------
 by_subject <- df_speed_acc |>
   group_by(id, condition) |>
   summarise(mean = median(rt))
@@ -59,7 +66,7 @@ agg <- Rmisc::summarySEwithin(by_subject,
                        conf.interval = .95)
 
 
-## ---------------------------------------------------
+## ------------------------------------------------
 agg |>
   ggplot(aes(condition, mean, fill = condition)) +
   geom_col(alpha = 0.8) +

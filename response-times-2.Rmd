@@ -71,7 +71,8 @@ df_speed_acc <- speed_acc |>
    # zu Character konvertieren (damit filter funktioniert)
   mutate(across(c(stim_cat, response), as.character)) |> 
   # Korrekte Antworten
-  filter(response != 'error', stim_cat == response) |> 
+  filter(response != 'error', 
+         stim_cat == response) |> 
   # wieder zu Factor konvertieren
   mutate(across(c(stim_cat, response), as_factor))
 ```
@@ -82,23 +83,65 @@ df_speed_acc
 ```
 
 
-Wir schauen uns vier Versuchspersonen grafisch an:
+Wir schauen uns ein paar Versuchspersonen grafisch an:
+
+```{r}
+plot_hist <- function(d) {
+  d |> 
+  ggplot(aes(x = rt,
+             fill = condition,
+             color = condition,)) + 
+    geom_histogram(aes(y = ..density..), 
+                   alpha = 0.5, bins = 60) + 
+    facet_wrap(~id) +
+    coord_cartesian(xlim=c(0, 1.6)) +
+    scale_fill_viridis(discrete = TRUE, option = "E") +
+    scale_color_viridis(discrete = TRUE, option = "E")
+}
+
+plot_dens <- function(d) {
+  d |> 
+  ggplot(aes(x = rt,
+             fill = condition,
+             color = condition,)) + 
+    geom_density(alpha = 0.5) +
+    facet_wrap(~id) +
+    coord_cartesian(xlim=c(0, 1.6)) +
+    scale_fill_viridis(discrete = TRUE, option = "E") +
+    scale_color_viridis(discrete = TRUE, option = "E")
+}
+```
+
+
+Entweder explizit auswählen:
 
 ```{r}
 data_plot <- df_speed_acc |> 
   filter(id %in% c(1, 8, 11, 15))
+```
 
-data_plot |> 
-  ggplot(aes(x = rt)) + 
-    geom_histogram(aes(fill = condition), alpha = 0.5, bins = 60) + 
-    facet_wrap(~id) +
-    coord_cartesian(xlim=c(0, 1.6)) +
-    scale_fill_viridis(discrete = TRUE, option = "E")
+```{r}
+library(patchwork)
+
+plot_hist(data_plot) /
+  plot_dens(data_plot)
+```
+Oder dem Zufall überlassen:
+
+```{r}
+dd <- df_speed_acc |> 
+  filter(id %in% sample(levels(id), 4)) 
+
+
+plot_hist(dd) /
+  plot_dens(dd)
 ```
 
 
+
+
 :::exercise
-Schauen Sie sich alle Vpn an.
+Verschaffen Sie sich einen Überblick (schauen Sie mehrere Vpn an).
 :::
 
 
@@ -114,12 +157,20 @@ Berechnen Sie nun die Differenzen der Dezile zwischen den Bedingungen für jede 
 
 
 ```{r}
-out_speed_acc <- rogme::hsf_pb(df_speed_acc, rt ~ condition + id)
+out <- rogme::hsf(df_speed_acc, rt ~ condition + id)
 ```
 
 ```{r}
-p_speed_acc <- rogme::plot_hsf_pb(out_speed_acc, interv = "ci")
-p_speed_acc
+rogme::plot_hsf(out)
+```
+
+
+```{r}
+out_pb <- rogme::hsf_pb(df_speed_acc, rt ~ condition + id)
+```
+
+```{r}
+rogme::plot_hsf_pb(out_pb, interv = "ci")
 ```
 
 

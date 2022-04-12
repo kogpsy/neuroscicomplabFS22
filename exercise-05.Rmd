@@ -1,0 +1,177 @@
+---
+title: "Übung 5"
+description: |
+  Reaktionszeitverteilungen in einem Simon Task.
+date: "04-13-2022" 
+author:
+  - first_name: "Andrew"
+    last_name: "Ellis"
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation_url: https://www.kog.psy.unibe.ch
+    orcid_id: 0000-0002-2788-936X
+
+citation_url: https://kogpsy.github.io/neuroscicomplab/exercise-5.html
+# slug: ellis2021overview
+bibliography: bibliography.bib
+output: 
+    distill::distill_article:
+      toc: true
+      toc_float: true
+      toc_depth: 2
+      code_folding: false
+---
+
+```{r, xaringanExtra-clipboard, echo=FALSE, include=FALSE}
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clone fa-2x\" style=\"color: #301e64\"></i>",
+    success_text = "<i class=\"fa fa-check fa-2x\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times fa-2x\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+`
+
+
+In dieser Übung berechnen aus den Daten von 15 Versuchspersonen aus dem PsychoPy Experiment die Signal Detection Kennzahlen $d'$, $k$ und $c$. Anschliessen berechnen Sie Mittelwerte der drei Bedingungen für $d'$ und $c$ unter Berücksichtigung der Messwiederholung.
+
+:::exercise
+
+Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen. 
+
+In diesem File finden Sie Beispielscode. Manche Zeilen enthalten ` ___ `. Hier müssen Sie den Code vervollständigen.
+
+Laden Sie bitte Ihre Lösung als R Skript bis **Dienstag, 12.4.2022, um 00:30 Uhr**, in den Order für Übung 4 auf ILIAS.
+
+Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-5.R*.
+
+:::
+
+
+https://michael-franke.github.io/intro-data-analysis/app-93-data-sets-simon-task.html
+
+
+# Vorbereitung
+
+
+```{r}
+d <- read_csv("data/simon-task.csv")
+glimpse(d)
+```
+
+The most important columns in this data set for our purposes are:
+
+- submission_id: an ID identifying each participant
+- RT: the reaction time for each trial
+- condition: whether the trial was a congruent or an incongruent trial
+- correctness: whether the answer in the current trial was correct or - incorrect
+- trial_type: whether the data is from a practice or a main test trial
+
+
+```{r}
+d_individual_summary <- d %>% 
+  filter(trial_type == "main") %>%    # look at only data from main trials
+  group_by(submission_id) %>%         # calculate the following for each individual
+  summarize(mean_RT = mean(RT),
+            error_rate = 1 - mean(ifelse(correctness == "correct", 1, 0)))
+head(d_individual_summary)
+```
+
+```{r}
+d_individual_summary %>% 
+  ggplot(aes(x = mean_RT, y = error_rate)) +
+  geom_point()
+```
+
+```{r}
+d_individual_summary <- d_individual_summary %>% 
+  mutate(outlier = case_when(mean_RT < 350 ~ TRUE,
+                             mean_RT > 750 ~ TRUE,
+                             error_rate > 0.5 ~ TRUE,
+                             TRUE ~ FALSE))
+d_individual_summary %>% 
+  ggplot(aes(x = mean_RT, y = error_rate)) +
+  geom_point() +
+  geom_point(data = filter(d_individual_summary, outlier == TRUE),
+             color = "firebrick", shape = "square", size = 5)
+```
+
+```{r}
+d <- full_join(d, d_individual_summary, by = "submission_id") # merge the tibbles
+d <- filter(d, outlier == FALSE)
+message("We excluded ", sum(d_individual_summary$outlier), " participants for suspicious mean RTs and higher error rates.")
+```
+
+```{r}
+d %>% ggplot(aes(x = RT)) +
+  geom_histogram() +
+  geom_jitter(aes(x = RT, y = 1), alpha = 0.3, height = 300)
+```
+
+```{r}
+message(
+  "We exclude ",
+  nrow(filter(d, RT < 100)) + nrow(filter(d, RT > 1000)),
+  " trials based on too fast or too slow RTs."
+)
+# exclude these trials
+d <- filter(d, RT > 100 & RT < 1000)
+```
+
+```{r}
+d %>% ggplot(aes(x = RT)) +
+  geom_histogram() +
+  geom_jitter(aes(x = RT, y = 1), alpha = 0.3, height = 300)
+```
+
+```{r}
+d <- filter(d, trial_type == "main")
+```
+
+
+```{r}
+d_sum <- d %>% 
+  group_by(correctness, condition) %>% 
+  summarize(mean_RT = mean(RT),
+            sd_RT = sd(RT))
+d_sum
+```
+
+```{r}
+d %>% ggplot(aes(x = RT)) +
+  geom_jitter(aes(y = 0.0005), alpha = 0.1, height = 0.0005) +
+  geom_density(fill = "gray", alpha = 0.5) +
+  geom_vline(data = d_sum, 
+             mapping = aes(xintercept = mean_RT), 
+             color = "firebrick") +
+  facet_grid(condition ~ correctness)
+```
+
+```{r}
+d %>% group_by(condition) %>% 
+  summarize(acurracy = mean(correctness == "correct"))
+```
+
+
+```{r}
+d <- d |> 
+  mutate(id = as_factor(submission_id),
+         condition = as_factor(condition))
+```
+
+```{r}
+out_correct <- d |> 
+  filter(correctness == "correct") |> 
+  rogme::hsf(RT ~ condition + id)
+```
+
+
+```{r}
+rogme::plot_hsf(out_correct)
+```
+
+
+

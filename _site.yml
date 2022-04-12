@@ -59,6 +59,8 @@ navbar:
           href: signal-detection-2.html
         - text: "Reaktionszeiten: I"
           href: response-times-1.html
+        - text: "Reaktionszeiten: II"
+          href: response-times-2.html
 
     - text: "Slides"
       menu:
@@ -76,6 +78,8 @@ navbar:
           href: slides/slides-session-06.html
         - text: "7. Sitzung (05.04.2022)"
           href: slides/slides-session-07.html
+        - text: "8. Sitzung (12.04.2022)"
+          href: slides/slides-session-08.html
 
     - text: "Übungen"
       menu:

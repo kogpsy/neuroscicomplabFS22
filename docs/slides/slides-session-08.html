@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>8. Sitzung</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Ellis" />
+    <meta name="date" content="2022-04-12" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#bf616a"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="libs/mark.js/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-right","caseSensitive":false,"showIcon":false,"autoSearch":true}) })</script>
+    <link rel="stylesheet" href="css/xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="css/slides-style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 8. Sitzung
+## Response Times
+### Andrew Ellis
+### Neurowissenschaft Computerlab FS 22
+### 2022-04-12
+
+---
+
+
+
+
+
+
+
+layout: true
+  
+&lt;!-- Home icon --&gt;
+&lt;div class="my-footer"&gt;
+&lt;span&gt;
+&lt;a href="https://kogpsy.github.io/neuroscicomplabFS22" target="_blank"&gt;<svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:#0F4C81;overflow:visible;position:relative;"><path d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"/></svg>&lt;/a&gt; Neurowissenschaft im Computerlab FS22
+&lt;/span&gt;
+&lt;/div&gt;
+
+
+&lt;!-- Name (left) --&gt;
+&lt;!-- &lt;div class="my-footer"&gt; --&gt;
+&lt;!-- &lt;span&gt; --&gt;
+&lt;!-- Andrew Ellis - &lt;a href="https://kogpsy.github.io/neuroscicomplab" target="_blank"&gt;kogpsy.github.io/neuroscicomplab&lt;/a&gt; --&gt;
+&lt;!-- &lt;/span&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+&lt;!-- slide separator (for xaringan) --&gt;
+---
+
+
+
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[1]
+]
+.pull-right-wide[
+  .larger[
+    What can we learn?
+  ]
+]
+
+---
+
+## ADHD: Response Time Variability
+
+- Children with ADHD show cognitive impairments in attention, inhibitory control, and working memory compared with typically-developing children.
+
+- No specific cognitive impairment is universal across patients with ADHD. One of the more consistent findings in the ADHD neuropsychology literature is increased reaction time variability (RTV), also known as intra-individual variability, on computerized tasks.
+
+- Children with ADHD have also been shown to be less able to deactivate the DMN than controls, and this inability to deactivate the DMN has been directly related to RTV.
+
+- Does RTV reflect a single construct or process? The vast majority of studies have used a reaction time standard deviation (RTSD).
+
+---
+
+## Facilitation
+
+- Stroop task vs Simon task
+
+- _Facilitation effects in both task.
+
+- Stroop effects are smallest for fast responses and increase as responses slow. 
+
+- Simon effects are largest for fast responses but decrease, and even reverse, as responses slow (see [DEMO](https://www.psytoolkit.org/experiment-library/simon.html)).
+
+
+
+Pratte, M. S., Rouder, J. N., Morey, R. D., &amp; Feng, C. (2010). Exploring the differences in distributional properties between Stroop and Simon effects using delta plots. Attention, Perception, &amp; Psychophysics, 72(7), 2013–2025. https://doi.org/10.3758/APP.72.7.2013
+
+---
+
+## Experimental manipulations
+
+.pull-left[
+
+- affects most strongly slow behavioural responses, but with limited effects on fast responses.
+
+- affects all responses, fast and slow, similarly.
+
+- has stronger effects on fast responses, and weaker ones for slow responses.
+
+]
+
+.pull-right[
+
+&lt;img src="images/manipulations.png" width="100%" /&gt;
+]
+
+Distribution analysis provides much stronger constraints on the underlying cognitive architecture than comparisons limited to e.g. mean or median reaction times across participants.
+
+---
+
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[2]
+]
+.pull-right-wide[
+  .larger[
+    Shift Function
+  ]
+]
+
+---
+
+## Shift Function: Independent Groups
+
+.panelset[
+.panel[.panel-name[Uniform shift]
+
+&lt;img src="slides-session-08_files/figure-html/unnamed-chunk-3-1.png" width="100%" /&gt;
+]
+
+
+.panel[.panel-name[Shift function]
+
+```r
+out &lt;- shifthd_pbci(df, nboot = 200, adj_ci = FALSE)
+p &lt;- plot_sf(out, plot_theme = 1)[[1]] + 
+     theme(axis.text = element_text(size = 16, colour="black"))
+```
+
+]
+
+.panel[.panel-name[Plot shift function]
+
+```r
+p
+```
+
+&lt;img src="slides-session-08_files/figure-html/unnamed-chunk-5-1.png" width="100%" /&gt;
+
+]
+]
+
+---
+
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[3]
+]
+.pull-right-wide[
+  .larger[
+    Hierarchical Shift Function
+  ]
+]
+
+---
+
+## Hierarchical Shift Function
+
+1) quantiles are computed for the distribution of measurements from each condition and each participant.
+
+2) the quantiles are subtracted in each participant.
+
+3) a trimmed mean is computed across participants for each quantile.
+
+4) Confidence intervals are computed using the percentile bootstrap.
+
+---
+
+## Hierarchical Shift Function
+
+
+
+.panelset[
+.panel[.panel-name[Shift function]
+
+```r
+out &lt;- hsf(df, rt ~ cond + id)
+```
+
+]
+
+.panel[.panel-name[Plot shift function]
+
+```r
+p &lt;- plot_hsf(out)
+p
+```
+
+&lt;img src="slides-session-08_files/figure-html/unnamed-chunk-8-1.png" width="100%" /&gt;
+
+]
+.panel[.panel-name[Stochastic dominance]
+
+### Participants with all quantile differences &gt; 0
+
+
+```r
+nq &lt;- length(out$quantiles)
+pdmt0 &lt;- apply(out$individual_sf &gt; 0, 2, sum)
+print(paste0('In ',sum(pdmt0 == nq),' participants (',round(100 * sum(pdmt0 == nq) / np, digits = 1),'%), all quantile differences are more than to zero'))
+```
+
+```
+## [1] "In 0 participants (0%), all quantile differences are more than to zero"
+```
+
+### Participants with all quantile differences &lt; 0
+
+
+```r
+pdlt0 &lt;- apply(out$individual_sf &lt; 0, 2, sum)
+print(paste0('In ',sum(pdlt0 == nq),' participants (',round(100 * sum(pdlt0 == nq) / np, digits = 1),'%), all quantile differences are less than to zero'))
+```
+
+```
+## [1] "In 22 participants (73.3%), all quantile differences are less than to zero"
+```
+
+]
+]
+
+
+---
+
+## Hierarchical Shift Function
+
+Alternative bootstrapping method: `hsf_pb()`
+
+
+
+```r
+set.seed(8899)
+out &lt;- rogme::hsf_pb(df, rt ~ cond + id)
+```
+
+
+```r
+rogme::plot_hsf_pb(out, interv = "ci")
+```
+
+&lt;img src="slides-session-08_files/figure-html/unnamed-chunk-12-1.png" width="100%" /&gt;
+
+---
+
+class: middle
+
+.pull-left-narrow[
+  .huge-blue-number[4]
+]
+.pull-right-wide[
+  .larger[
+    Bootstrapping
+  ]
+]
+
+---
+
+## Bootstrapping
+
+&gt; "The bootstrap is a computer-based method for assigning measures of accuracy to statistical estimates." Efron &amp; Tibshirani, An introduction to the bootstrap, 1993
+
+&gt; "The central idea is that it may sometimes be better to draw conclusions about the characteristics of a population strictly from the sample at hand, rather than by making perhaps unrealistic assumptions about the population." Mooney &amp; Duval, Bootstrapping, 1993
+
+
+- Like all bootstrap methods, the percentile bootstrap relies on a simple &amp; intuitive idea: instead of making assumptions about the underlying distributions from which our observations could have been sampled, we use the data themselves to estimate sampling distributions. 
+
+- In turn, we can use these estimated sampling distributions to compute confidence intervals, estimate standard errors, estimate bias, and test hypotheses (Efron &amp; Tibshirani, 1993; Mooney &amp; Duval, 1993; Wilcox, 2012). 
+
+- The core principle to estimate sampling distributions is resampling. The technique was developed &amp; popularised by Brad Efron as the bootstrap.
+
+---
+
+## Bootstrapping
+
+
+
+```r
+heights &lt;- c(183, 192, 182, 183, 177, 185, 188, 188, 182, 185)
+```
+
+
+```r
+v1 &lt;- sample(heights, replace = TRUE)
+v1
+```
+
+```
+##  [1] 188 183 188 183 182 177 188 188 188 192
+```
+
+
+```r
+v2 &lt;- sample(heights, replace = TRUE)
+v2
+```
+
+```
+##  [1] 192 183 185 185 177 185 185 185 182 192
+```
+
+
+
+Essentially, we are doing fake experiments using only the observations from our sample. And for each of these fake experiments, or bootstrap sample, we can compute any estimate of interest, for instance the median.
+
+For a visualization, see this [demo](https://seeing-theory.brown.edu/frequentist-inference/index.html#section2).
+---
+
+## Bootstrapping
+
+.panelset[
+.panel[.panel-name[Function to resample and compute mean]
+
+
+```r
+f &lt;- function(v) {
+  vv &lt;- sample(v, replace = TRUE)
+  mean(vv)
+}
+```
+
+]
+.panel[.panel-name[Repeat N times]
+
+
+```r
+N &lt;- 4000
+```
+
+
+```r
+b1 &lt;- replicate(n = N, f(heights))
+```
+
+
+```r
+library(purrr)
+b2 &lt;- map_dbl(1:N, ~f(heights))
+```
+
+
+```r
+d &lt;- tibble(b1 = b1, b2 = b2) |&gt; 
+  pivot_longer(everything(), names_to = "bootstrap", values_to = "mean")
+```
+
+]
+.panel[.panel-name[Visualize]
+
+
+```r
+d |&gt; 
+  ggplot(aes(mean, fill = bootstrap)) + 
+  geom_histogram() +
+  facet_wrap(~bootstrap)
+```
+
+&lt;img src="slides-session-08_files/figure-html/unnamed-chunk-21-1.png" width="100%" /&gt;
+]
+]
+
+---
+
+## Bootstrapping
+
+Bootstrapped standard error of the mean:
+
+.panelset[
+.panel[.panel-name[Method 1]
+
+
+```r
+d |&gt; 
+  group_by(bootstrap) |&gt; 
+  tidybayes::mean_qi()
+```
+
+```
+## # A tibble: 2 × 7
+##   bootstrap  mean .lower .upper .width .point .interval
+##   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
+## 1 b1         185.    182   187    0.95 mean   qi       
+## 2 b2         185.    182   187.   0.95 mean   qi
+```
+]
+
+.panel[.panel-name[Method 2]
+
+
+```r
+d |&gt; 
+  group_by(bootstrap) |&gt; 
+  summarize(estimate = mean(mean), 
+            lower = quantile(mean, probs = 0.025),
+            upper = quantile(mean, probs = 0.975))
+```
+
+```
+## # A tibble: 2 × 4
+##   bootstrap estimate lower upper
+##   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 b1            185.   182  187 
+## 2 b2            185.   182  187.
+```
+]
+]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:10",
+"countIncrementalSlides": false,
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n  <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n  </div>\n</div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

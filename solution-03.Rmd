@@ -174,7 +174,7 @@ c) Speichern Sie den bearbeiteten Datensatz als _CSV_ File.
 
 __Zu Aufgabe 3.a)__
 
-Wir wollen Trials identifizieren, bei denen Vpn länger gebraicht haben, als 4 Standardabweichungen über dem  Bedingungsmittelwert. Das bedeutet `(rt - mean_C) > 4 * sd_C`, und nicht `abs(rt - mean_C) > 4 * sd_C`. Letzteres würde auch Trials als Ausreisser identifizieren, welche 4 Standardabweichungen unter dem  Bedingungsmittelwert liegen.
+Wir wollen Trials identifizieren, bei denen Vpn länger gebraucht haben, als 4 Standardabweichungen über dem  Bedingungsmittelwert. Das bedeutet `(rt - mean_C) > 4 * sd_C`, und nicht `abs(rt - mean_C) > 4 * sd_C`. Letzteres würde auch Trials als Ausreisser identifizieren, welche 4 Standardabweichungen unter dem  Bedingungsmittelwert liegen.
 
 
 __Zu Aufgabe 3.b)__

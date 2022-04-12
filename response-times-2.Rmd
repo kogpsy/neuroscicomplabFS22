@@ -1,8 +1,8 @@
 ---
-title: "Reaktionszeiten: I"
+title: "Reaktionszeiten: II"
 description: |
   Anwendungen.
-date: "2022-04-05"
+date: "2022-04-12"
 author:
   - first_name: "Andrew"
     last_name: "Ellis"
@@ -11,7 +11,7 @@ author:
     affiliation_url: https://www.kog.psy.unibe.ch
     orcid_id: 0000-0002-2788-936X
 
-citation_url: https://kogpsy.github.io/neuroscicomplab/response-times-1.html
+citation_url: https://kogpsy.github.io/neuroscicomplab/response-times-2.html
 # slug: ellis2021overview
 bibliography: bibliography.bib
 output: 
@@ -38,226 +38,121 @@ htmltools::tagList(
 ```
 
 :::note
-👉 [R Code für dieses Kapitel downloaden](./files/response-times-1.R)
-
-👉 [Daten downloaden](./data/session-7.csv)
+👉 [R Code für dieses Kapitel downloaden](./files/response-times-2.R)
 :::
 
 
 
 
 
-# ADHD
+# Hierarchical Shift Function
+
+
+Wir schauen uns Daten aus einem Lexical Decision Task [@wagenmakersLinearRelationMean2007] an, bei dem Versuchspersonen Wörter als entweder `word` oder `non-word` klassifizieren mussten. Es ist bekannt, dass Wörter welche häufiger vorkommen schneller klassifiziert werden können, als seltene Wörter. In diesem Experiment mussten Versuchspersonen diesen Task unter zwei Bedingungen durchführen. In der `speed` Bedingung mussten sie sich so schnell wie möglich entscheiden, in der `accuracy` Bedingung mit so wenig Fehler wie möglich. 
+
+Hier untersuchen wir also den Unterschied in der Reaktionszeit zwischen zwei "within" Bedingungen. Die Daten befinden sich im Package `rtdists`, welches zuerst installiert werden sollte.
+
+
 
 ```{r}
 library(tidyverse)
-```
+library(rtdists)
+library(viridis)
 
-```{r eval=FALSE, include=FALSE}
-set.seed(243249)
-d <- tibble(control = brms::rexgaussian(n = 300, 
-                                        mu = 800, 
-                                        sigma = 50, 
-                                        beta = 150),
-            adhd = brms::rexgaussian(n = 300, 
-                                     mu = 850, 
-                                     sigma = 50, 
-                                     beta = 250))
-d |> write_csv("data/session-7.csv")
-```
+data(speed_acc) 
 
-```{r}
-d <- read_csv("data/session-7.csv")
-```
- 
-```{r}
-glimpse(d)
+speed_acc <- speed_acc |>
+  as_tibble()
+
+
+df_speed_acc <- speed_acc |> 
+   # zwischen 180 ms and 3000 ms
+  filter(rt > 0.18, rt < 3) |> 
+   # zu Character konvertieren (damit filter funktioniert)
+  mutate(across(c(stim_cat, response), as.character)) |> 
+  # Korrekte Antworten
+  filter(response != 'error', stim_cat == response) |> 
+  # wieder zu Factor konvertieren
+  mutate(across(c(stim_cat, response), as_factor))
 ```
 
 
 ```{r}
-d <- d |>
-  pivot_longer(everything(), 
-               names_to = "group", values_to = "rt") |> 
-  mutate(group = as_factor(group)) |> 
-  arrange(group)
+df_speed_acc
 ```
+
+
+Wir schauen uns vier Versuchspersonen grafisch an:
 
 ```{r}
-glimpse(d)
-```
+data_plot <- df_speed_acc |> 
+  filter(id %in% c(1, 8, 11, 15))
 
-```{r}
-p1 <- d |> 
-  ggplot(aes(rt)) +
-  geom_histogram(aes(y = ..density..), 
-                 colour = "black", fill = "white",
-                 binwidth = 10) +
-  geom_density(lwd = 1, colour = 4,
-               fill = 4, alpha = 0.25) +
-  facet_wrap(~group, ncol = 1) +
-  xlab("Response time [ms]") +
-  xlim(c(0, 2200))
-```
-
-```{r}
-p1
+data_plot |> 
+  ggplot(aes(x = rt)) + 
+    geom_histogram(aes(fill = condition), alpha = 0.5, bins = 60) + 
+    facet_wrap(~id) +
+    coord_cartesian(xlim=c(0, 1.6)) +
+    scale_fill_viridis(discrete = TRUE, option = "E")
 ```
 
 
+:::exercise
+Schauen Sie sich alle Vpn an.
+:::
 
 
-## Zusammenfassen: zentrale Tendenz und Dispersion
+
+:::exercise
+Was würden Sie anhand der Histogramme erwarten?
+:::
 
 
-### Mittelwert und Standardabweichung
-
-```{r}
-d %>% 
-  group_by(group) %>% 
-  summarise(mean = mean(rt),
-            sd = sd(rt))
-```
-
-
-### Median und Interquartilsbereich
-
-Der Interquartilsbereich repräntiert den Unterschied zwischen dem ersten (25. Perzentil) und dritten (75. Perzentil) Quartil. In diesem Bereich befinden sich 50% der Datenpunkte.
-
-```{r}
-d %>% 
-  group_by(group) %>% 
-  summarise(mean = median(rt),
-            q25 = quantile(rt, probs = 0.25),
-            q75 = quantile(rt, probs = 0.75)) |> 
-  mutate(IQR = q75 - q25)
-```
+:::exercise
+Berechnen Sie nun die Differenzen der Dezile zwischen den Bedingungen für jede Versuchsperson.
+:::
 
 
 ```{r}
-d %>% 
-  group_by(group) %>% 
-  summarise(mean = median(rt),
-            IQR = IQR(rt))
-```
-
-
-```{r}
-funs <- list(mean = mean, median = median, 
-             sd = sd, IQR = IQR)
-
-by_group <- d |>
-  group_by(group) |>
-  summarise(across(rt, funs, .names = "{.fn}")) |>
-  mutate(across(where(is.numeric), ~round(., 2)))
+out_speed_acc <- rogme::hsf_pb(df_speed_acc, rt ~ condition + id)
 ```
 
 ```{r}
-by_group
+p_speed_acc <- rogme::plot_hsf_pb(out_speed_acc, interv = "ci")
+p_speed_acc
 ```
+
+
+
+
+
+In dieser Grafik sehen wir auf der X-Achse die Dezile der `accuracy` Bedingung und auf der Y-Achse die Differenz `accuracy - speed`. Die Differenz ist bei jedem Dezil positiv und scheint steig grösser zu werden. Die `accuracy` Bedingung führt also zu längeren und variableren Reaktionszeiten. Die Bedingungen unterscheiden sich im Median, aber wenn wir nur das berücksichtigt hätten, würden wir verpassen, dass sich die Verteilungen sehr stark am rechten Ende der Verteilung unterscheiden.
+
+
+Zum Vergleich berechnen wir noch Bedingungsmittelwerte der Median Reaktionszeiten.
+
 
 
 ```{r}
-p1 +
-  geom_vline(aes(xintercept = mean), 
-             data = by_group,
-             color = "steelblue",
-             lwd = 1.5) +
-  geom_vline(aes(xintercept = median), 
-             data = by_group, 
-             color = "red",
-             lwd = 1.5)
-```
+by_subject <- df_speed_acc |> 
+  group_by(id, condition) |> 
+  summarise(mean = median(rt))
 
-
-### Zentrale Tendenz bei schiefen Verteilungen
-
-Sowohl Mittelwert als auch Median sind jedoch problematisch als Masse der zentralen Tendenz für asymmetrische Verteilungen. Der Mittelwert kann durch eine hohe Schiefe und Ausreissern verschoben werden, und repräsentiert die zentrale Tendenz der Verteilung nicht besonders gut. 
-
-Der Median ist ein besseres Mass für eine typische Beobachtung aus dieser Verteilung, ist jedoch nicht erwartungstreu, das heisst der Median überschätzt den Populationsmedian. Der Grad der Überschätzung steigt mit sinkender Anzahl Beobachtungen (d.h. vor allem bei kleinen Stichproben).
-
-
-### Quantile
-
-
-```{r}
-deciles <- seq(0.1, 0.9, length.out = 9)
+agg <- Rmisc::summarySEwithin(by_subject,
+                       measurevar = "mean",
+                       withinvars = "condition",
+                       idvar = "id",
+                       na.rm = FALSE,
+                       conf.interval = .95)
 ```
 
 ```{r}
-quantile_fun <- function(x, probs = c(0.25, 0.5, 0.75)) {
-  tibble(rt = quantile(x, probs, type = 8), quantile = probs)
-}
+agg |> 
+  ggplot(aes(condition, mean, fill = condition)) +
+  geom_col(alpha = 0.8) +
+  geom_line(aes(group = 1), linetype = 3) +   
+  geom_errorbar(aes(ymin = mean-se, ymax = mean+se),
+                width = 0.1, size=1, color="black") +
+  scale_fill_viridis(discrete=TRUE, option="cividis") +
+  theme(legend.position = "none")
 ```
-
-
-```{r}
-d_quantiles <- d %>% 
-  group_by(group) %>% 
-  summarise(quantile_fun(rt, probs = deciles))
-```
-
-```{r}
-d_quantiles
-```
-
-### Shift function
-
-Wir müssen nun den Dataframe mit den Quantilen ins "wide" Format konvertieren, um zwei Spalten für die `control` und `adhd` Gruppen zu erhalten. Danach können wir die Differenzen zwischen den Gruppen für jedes Quantil berechnen.
-
-
-```{r}
-d_quantile_differences <- d_quantiles |> 
-  pivot_wider(names_from = "group", values_from = "rt") 
-```
-
-
-```{r}
-d_quantile_differences
-```
-
-```{r}
-d_quantile_differences <- d_quantile_differences |> 
-    mutate(`control - adhd` = control - adhd)
-```
-
-
-```{r}
-d_quantile_differences
-```
-
-
-
-
-### Shift function grafisch darstellen
-
-```{r}
-d_quantile_differences %>% 
-  ggplot(aes(x = control, y = `control - adhd`)) +
-  geom_hline(yintercept = 0, linetype = 3) +
-  geom_vline(xintercept = d_quantile_differences %>% 
-               filter(quantile == "50%") %>% 
-               select(adhd) %>% 
-               pull(), linetype = 3) +
-  geom_line(aes(group = 1), color = "steelblue", size = 2) +
-  geom_point(shape = 21, color = "steelblue", fill = "white", size = 5, stroke = 1) +
-  coord_cartesian(ylim = c(-300, 300))
-```
-
-```{r include=TRUE, eval = FALSE}
-install.packages("remotes")
-remotes::install_github("GRousselet/rogme")
-```
-
-```{r}
-# library(rogme)
-```
-
-```{r}
-out <- rogme::shifthd(d, rt ~ group)
-```
-
-```{r}
-rogme::plot_sf(out)
-```
-

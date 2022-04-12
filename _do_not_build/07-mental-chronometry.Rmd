@@ -662,6 +662,8 @@ Hier untersuchen wir also den Unterschied in der Reaktionszeit zwischen zwei "wi
 
 ```{r}
 library(rtdists)
+library(viridis)
+
 data(speed_acc) 
 
 speed_acc <- speed_acc %>%
@@ -689,8 +691,9 @@ df_speed_acc
 Wir schauen uns vier Versuchspersonen grafisch an:
 
 ```{r}
-data_plot <- df_speed_acc %>% 
-  filter(id %in% c(1, 8, 11, 15))
+data_plot <- df_speed_acc 
+# %>% 
+#   filter(id %in% c(1, 8, 11, 15))
 
 data_plot %>% 
   ggplot(aes(x = rt)) + 

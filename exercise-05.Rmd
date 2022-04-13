@@ -35,7 +35,7 @@ htmltools::tagList(
 
 
 :::exercise
-Die Daten für diese Übung finden Sie hier: 👉 [Download Data](./data/data-stroop.csv)
+Die Daten für diese Übung finden Sie hier: 👉 [Download Data](./data/stroop-data.csv)
 
 
 

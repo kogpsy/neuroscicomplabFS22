@@ -1,6 +1,9 @@
 # Neurowissenschaft im Computerlab FS22 - Quarto
 
-Website and slides for the course "Neurowissenschaft im Computerlab". This repo is based on [neuroscicomplabFS22][1], but instead of using [distill][2] as publishing system, [Quarto][3] is used.
+Website and slides for the course "Neurowissenschaft im Computerlab FS 22".
+
+[Online script](https://kogpsy.github.io/neuroscicomplabFS22/)
+
 
 ## Development
 

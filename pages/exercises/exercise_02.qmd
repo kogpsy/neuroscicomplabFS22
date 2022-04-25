@@ -1,0 +1,35 @@
+---
+title: "Übung 2"
+description: | 
+    Experiment mit PsychoPy ausführen.
+date: "2022-03-01"
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+format:
+    html:
+        toc: true
+        code-link: true
+---
+
+# Aufgabenstellung
+
+:::{.callout-note}
+Die Daten, welche Sie in dieser Übung sammeln, müssen abgegeben werden; wir werden diese im Verlauf des Semesters analysieren. Bitte die Datenfiles in einem ZIP File bis 8. März auf ILIAS hochladen.
+:::
+
+## Bias RDK Experiment durchführen
+
+1) Das fertige Experiment befindet sich auf [Github](https://github.com/kogpsy/psychopy-rdk-discrimination-task). Sie können es unter diesem Link downloaden. 👉 [LINK](https://github.com/kogpsy/psychopy-rdk-discrimination-task/archive/refs/heads/main.zip).
+
+2) Führen Sie das Experiment ein- oder mehrere Male selber durch.
+
+3) Testen Sie eine weitere Person (Alter ca. 20-60).
+
+4) Zippen Sie bitte Ihren Datensatz und denjenigen der anderen Testperson und laden Sie das ZIP FIle auf ILIAS.

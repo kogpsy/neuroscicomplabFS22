@@ -1,0 +1,65 @@
+/*-- scss:rules --*/
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+}
+.discussion {
+  border-left: solid 5px rgb(198, 234, 241);
+  background-color: rgb(231, 251, 255);
+  margin-top: 50px;
+}
+.discussion:before {
+  content: "🤔";
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.reveal h2 {
+  margin-bottom: 20px;
+  margin-top: -10px;
+}
+.your-turn {
+  border-left: solid 5px #f4dbb3;
+  background-color: #fdf8f1;
+}
+.your-turn:before {
+  content: "✍️";
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.larger {
+  font-size: 2.4rem;
+}
+.even-smaller :not(h2) {
+  font-size: 1.6rem;
+}
+.even-even-smaller :not(h2) {
+  font-size: 1.4rem;
+}
+
+.topic-number {
+  font-size: 25rem;
+  margin-top: 4rem;
+}
+.topic-text {
+  font-size: 5rem;
+  margin-top: 11rem;
+}
+
+.width-75 {
+  width: 75%;
+}
+.width-80 {
+  width: 80%;
+}
+
+.reveal .footer {
+  a {
+    color: black;
+  }
+}
+
+.reveal div.sourceCode {
+  margin-bottom: 0.3rem !important;
+  margin-top: 0.3rem !important;
+}

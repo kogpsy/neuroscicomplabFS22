@@ -1,0 +1,79 @@
+---
+title: "Verhaltensexperiment mit PsychoPy"
+description: Perzeptuelles Decision-Making Experiment mit PsychoPy.
+date: "2022-03-01"
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+format:
+    html:
+        toc: true
+        code-link: true
+---
+
+# Einleitung
+
+In dieser Sitzung erstellen wir ein perzeptuelles Entscheidungsexperiment, ähnlich dem Experiment aus @mulderBiasBrainDiffusion2012a. 
+
+Das Experiment ist eine Reaktionszeit (RT) Version eines Random-dot Motion Direction Discrimination Task, und
+wurde im Scanner und ausserhalb durchgeführt. Die beiden Version unterscheiden sich ganz stark in ihrem Timing. Wir implementieren hier die Scanner Version des Tasks.
+
+Bias (Vorwissen) wurde durch einen Hinweisreiz angezeigt, in Form eines Pfeils oder eines neutralen Stimulus. Der Pfeil zeigte die wahrscheinlichere Bewegungsrichtung an. Vor und nach dem Cue wurde ein Fixationskreuz gezeigt. Alle weiteren Parameter können Sie dem Paper entnehmen [@mulderBiasBrainDiffusion2012a]. 
+
+# Experiment
+
+Das Experiment besteht aus Anweisungen, einigen Versuchsblöcken und einer Nachbesprechung. Die Anweisungen und die Nachbesprechung sind einfache Bildschirme mit Text, während die Versuche (und die Versuchsblöcke) etwas komplizierter sind.
+
+## Trial
+
+Zunächst wird ein Fixationskreuz entweder für 100 ms, 350 ms, 800 ms oder 1200 ms angezeigt. Die tatsächliche Dauer wird für jeden Versuch randomisiert. Eine solche Randomisierung kann nicht über die Benutzeroberfläche vorgenommen werden, sondern erfordert ein kleines Stück Python-Code. Sehen Sie sich den Codeblock der Routine *Fixation_pre_cue* an, um zu erfahren, wie dies erreicht werden kann.
+
+Anschließend wird für 1000 ms ein Hinweis präsentiert. Dabei kann es sich entweder um einen Pfeil handeln, der nach rechts zeigt, einen Pfeil, der nach links zeigt, oder einen einfachen Kreis (für die Kontrollbedingung). Der Codeblock in der *Cue*-Routine legt den tatsächlichen Hinweis für jeden Versuch auf der Grundlage der Schleifenvariablen **cue** fest.
+
+Nach dem Cue wird ein weiteres Fixationskreuz präsentiert - dieses Mal für entweder 3400ms, 4000ms, 4500ms oder 5000ms. Wie beim ersten Fixationskreuz wird die tatsächliche Dauer zufällig gewählt.
+
+Nach dem zweiten Fixationskreuz wird für 1500 ms der eigentliche Stimulus angezeigt: ein *random dot kinematogram* (RDK). Die Punkte bewegen sich entweder nach rechts oder nach links mit einem Kohärenzniveau von 8%. Die Bewegungsrichtung eines einzelnen Versuchs wird durch die Schleifenvariable **direction** bestimmt und im Codeblock der Routine *Dots* festgelegt. Die Teilnehmer müssen entscheiden, welche Richtung sie wahrnehmen, und können ihre Antwort durch Drücken der linken oder rechten Pfeiltaste auf der Tastatur eingeben.
+
+Schließlich wird ein Feedback-Bildschirm angezeigt. Wenn der Teilnehmer innerhalb der ersten 100 ms geantwortet hat, wird der Hinweis "zu schnell" angezeigt. Wurde während des gesamten Stimulus keine Antwort erfasst, wird das Wort "miss" angezeigt. War die Antwort richtig, wird "+5 Punkte" angezeigt, war sie falsch, wird "+0 Punkte*" angezeigt.
+
+##  main_blocks_loop
+
+Mit _loops_ in PsychoPy haben wir die Möglichkeit, eine oder mehrere Routinen zu wiederholen. In diesem Experiment wird dies genutzt, um denselben Versuch (wie oben beschrieben) mehrfach zu zeigen, aber jedes Mal mit anderen Werten für die _loop variables_. Eine Schleife wiederholt also einen Versuch einige Male, wobei die Schleifenvariablen bei jeder Wiederholung geändert werden. Der Versuch selbst wiederum liest diese Schleifenvariablen aus, um z.B. zu wissen, ob sich die Punkte nach rechts oder nach links bewegen sollen. Hier wird nur die *main_blocks_loop* erklärt, aber das Prinzip gilt auch für die *practice_block_loop*.
+
+Um die verschiedenen Werte für die Schleifenvariablen zu definieren, müssen wir eine einfache CSV-Datei erstellen:
+
+```csv
+cue,direction
+left,right
+left,left
+none,right
+...
+```
+
+Diese CSV-Datei (die Bedingungsdatei) definiert die beiden loop Variablen *cue* und *direction*. Das Stichwort kann entweder  _left_, _right_ oder _none_, sein, während die Richtung  _left_ oder _right_ sein kann.
+
+In der Benutzeroberfläche können wir die Variablen `loopType` und `nReps` für die Schleife angeben, wenn wir sie anklicken. Mit ersterer können wir steuern, ob wir z.B. die Zeilen in der Bedingungsdatei mischen oder sie sequentiell von oben nach unten ablaufen lassen wollen, während die letztere definiert, wie oft jede Zeile der Bedingungsdatei wiederholt werden soll.
+
+Für die *main_blocks_loop* haben wir eine Bedingungsdatei mit 80 Zeilen, die 40 neutralen Versuchen und 40 verzerrten Versuchen entsprechen. In der einen Hälfte der neutralen Trials bewegen sich die Punkte nach rechts, in der anderen Hälfte nach links. Bei den voreingenommenen Versuchen sind 32 der Hinweise gültig (d. h. sie stimmen mit der Bewegungsrichtung der Punkte überein) und 16 ungültig, wobei sich die Punkte sowohl bei gültigen als auch bei ungültigen Hinweisen in 50 % der Versuche nach rechts und in den anderen 50 % der Versuche nach links bewegen.
+
+Die Variable `nReps` wird auf `2` gesetzt, so dass alle diese Reihen zweimal durchlaufen werden (insgesamt 160 Versuche), und die Variable "loopType" wird auf `random` gesetzt, so dass die Versuche in zufälliger Reihenfolge durchgeführt werden.
+
+## Daten
+
+Wenn man die default-Einstellungen nicht ändert, speichert PsychoPy die Daten automatisch in einem trial-by-trial CSV File. Dieses CSV File erhält einen Namen, der sich aus der _Versuchspersonen-ID_, dem _Namen des Experiments_, und dem aktuellen _Datum inkl. Uhrzeit_ zusammensetzt. So ist es möglich, mit derselben Versuchspersonen-ID beliebig oft das Experiment zu wiederholen. Die CSV Files werden in einem Ordner mit dem Name __data__ abgelegt.
+
+## Degrees of Visual Angle
+
+Oftmals werden Grössenangaben von Stimuli noch in Pixel oder Zentimeter, sondern in _degrees of visual angle_ gemacht. Dies hat den Vorteil, dass die Angaben nicht vom Monitor selber oder der Entferung vom Monitor abhängig sind. _degrees of visual angle_ gibt die wahrgenommene Grösse des Stimulus an, und berücksichtigt die Grösse des Monitors und des Stimulus, und die Entfernung der Versuchsperson vom Monitor. Weitere Informationen dazu finden Sie auf der Website von 👉 [OpenSesame](https://osdoc.cogsci.nl/3.3/visualangle/). Üblicherweise entspricht ein _degrees of visual angle_ etwa einem cm bei einer Entfernung von 57 cm vom Monitor.
+
+Zur Umrechnung zwischen cm und _degrees of visual angle_ finden Sie unter diesem 👉 [Link](https://www.sr-research.com/eye-tracking-blog/background/visual-angle/) mehr Information.
+
+<aside> 
+[OpenSesame](https://osdoc.cogsci.nl/) ist ein weiteres, Python-basierendes Programm für die Erstellung behaviouraler Experimente.  
+</aside>

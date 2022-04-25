@@ -1,0 +1,569 @@
+---
+title: "Signal Detection Theory: I"
+description: Theory and applications.
+date: "2022-03-15"
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+format:
+    html:
+        toc: true
+        code-link: true
+---
+
+:::{.callout-note}
+👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/signal-detection.R)
+:::
+
+# Signal detection theory
+
+We consider an experiment in which a person has to classify a stimulus into one of two possible categories:
+
+- new / old
+- left / right
+- yes / no
+
+We can neglect the underlying task, as the math is the same. In the general case, say we present two stimulus categories `A` and `B`, that vary along some dimension. The task of the subject in our experiment is to perform a binary classification with the response options `A` and `B`. The subject's performance can be summarized in a classification table, with four possible outcomes:
+
+|              | Signal         |                        |
+|------------- |--------------- |------------------------|
+| **Response** | A (yes)        | B (no)                 |
+| A (yes)      | Hit            | False alarm (FA)       |
+| B (no)       | Miss           | Correct rejection (CR) |
+
+- **Hit**:  Stimulus is `A`, subject responds `A`
+- Miss: Stimulus is `A`, subject responds `B`
+- **False alarm**: Stimulus is `B`, subject responds `A`
+- Correct rejection: Stimulus is `B`, subject responds `B`
+
+> Given the stimulus, the subject has two response options. Therefore, we consider only the `A` responses when the stimulus is `A` (hits) or `B` (false alarms).
+
+- The SDT model assumes that on each trial $i$, a person's information about a stimulus can be modeled as a random variable $X_i$. 
+
+- This is drawn from one of two possible distributions, which (in equal variance SDT) differ only in their location, but not their scale ( we assume that $\sigma = 1$). 
+
+> Example: familiarity. When the subject is shown an image, this evokes a feeling of 'familiarity`. This is a latent _strength variable_.
+
+<aside>
+SDT does not require any particular distributions, but in practise, Gaussians are often chosen.
+</aside>
+
+> Thought experiment: you are a subject in a memory experiment. You were previously shown a number of images, and now you are presented with a mixture of old and new items, and have to say whether you have previously seen the test image.
+
+This can be formulated as the following statistical problem:
+
+1) You are given a random variable $X$, i.e. a draw from a normal distribution with a known standard deviation. You also know that distribution can have either of two known means, you just don't know which one. The two distributions differ only in their mean, and the difference in means is called `d'`.
+
+2) You are asked to say which distribution that $X$ is most likely to have come from. This is a decision, so you need some sort of decision rule. In this case you can choose a criterion, and compare $X$ to this.
+
+3) You will produce four types of responses: you will either correctly classifiy the presented stimulus, or its internal representation $X$, as either `old` or `new`. You will do this correctly (`hits` / `correct rejections`), or you will produce a missclassification (`false alarms` / `misses`).
+
+4) From your behavioural data, the number of `hits` and `false alarms`, we want to estimate your hit rate and false alarm rate, and then compute your internal (latent) quantities that guided your behaviour.
+
+The internal signal evoked by old and new items is often shown like this:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(viridis)
+xlim <- c(-4.5, 4.5)
+alpha <- c(0.6, 0.2)
+
+dprime <- 1
+criterion <- -0.2
+colors <- viridis(n = 4, 
+                  begin = 0, 
+                  end = 0.98, 
+                  direction = -1)
+
+p1 <- tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |> 
+    ggplot(aes(x)) +
+    stat_function(fun = dnorm, colour = colors[1], 
+                  args = list(mean = -dprime/2, sd = 1),
+                  size = 1.5) +
+    stat_function(fun = dnorm, colour = colors[4], 
+                  args = list(mean = dprime/2, sd = 1),
+                  size = 1.5) +
+    geom_vline(xintercept = c(-dprime/2, dprime/2), size = 1, linetype = "dotted", 
+               alpha =  0.4) +
+    scale_y_continuous(breaks = NULL) +
+    scale_x_continuous(labels = NULL) +
+    labs(x = "Familarity", y = "") +
+    annotate("text", 
+           x = 0.1, 
+           y = dnorm(dprime/2, mean = dprime/2, sd = 1) + 0.03,
+           label = "d'", 
+           size = 8) +
+    annotate("segment", x = -dprime/2, 
+                 xend = dprime/2, 
+                 y = dnorm(dprime/2, mean = dprime/2, sd = 1) + 0.01, 
+                 yend = dnorm(dprime/2, mean = dprime/2, sd = 1) + 0.01,
+           size = 1) +
+    annotate("text", 
+           x = -1.5, 
+           y = dnorm(dprime/2, mean = dprime/2, sd = 1) + 0.03,
+           label = "new", 
+           size = 6, 
+           color = "grey60") +
+      annotate("text", 
+           x = 1.5, 
+           y = dnorm(dprime/2, mean = dprime/2, sd = 1) + 0.03,
+           label = "old", 
+           size = 6, 
+           color = "grey60") +
+  theme_linedraw()
+p1
+```
+
+New items produce less familiarity than old items, but the internal representation is noisy.
+
+In order to classify the presented stimulus, based on the evoked familiarity (decision variable), we need a decision rule:
+
+```{r}
+#| echo: false
+
+p2 <- p1 + 
+  geom_vline(xintercept = 0, size = 1, 
+               alpha = 0.4,
+             linetype = "dashed") +
+  geom_area(stat = "function", fun = dnorm, 
+              args = list(mean = -dprime/2, sd = 1),
+              fill = colors[1], alpha = 0.6,
+              xlim = c(criterion, xlim[2])) +
+
+  geom_area(stat = "function", fun = dnorm, 
+              args = list(mean = dprime/2, sd = 1),
+              fill = colors[4], alpha = alpha[2],
+              xlim = c(criterion, xlim[2])) +
+  geom_vline(xintercept = criterion, size = 1, 
+               linetype = 1) +
+    annotate("text", 
+           x = -0.05,
+           y = -0.02,
+           label = "k", 
+           size = 8)
+p2
+```
+
+A simple rule is to compare the signal with a criterion $k$. If the signal $X > k$, then respond `old` ("Yes, I have previously seen it"), otherwise respond `new` ("No, I haven't seen it before").
+
+# Signal detection parameters
+
+The commonly known SDT parameters are $d'$ and and $c$.
+
+- d': distance between distributions
+
+$$ d' = c - \phi^{-1}(1-p_{H}) = \phi^{-1}(p_{H}) - \phi^{-1}(p_{FA}) $$
+which can also be written as:
+$$ d' = \phi^{-1}(P(y = 1 | old)) - \phi^{-1}(P(y = 1 | new)) $$
+
+The expression for $d'$
+
+- requires estimating probabilities conditional on the identity of a signal
+- requires taking the difference on a transformed (probit) scale
+- this is equivalent to a contrast between levels of a factor with two levels as the linear predictor for a response in a GLM 
+
+```{r}
+#| echo: false
+
+tibble(x = seq(0, 1, by = 0.01)) |> 
+  ggplot(aes(x)) +
+  stat_function(fun = qnorm, colour = "steelblue3", 
+                  args = list(mean = 0, sd = 1),
+                  size = 1.5) +
+  labs(x = "Probability", y = "Score") +
+  scale_x_continuous(limits = c(0, 1)) +
+  scale_y_continuous(limits = c(-3.5, 3.5), breaks = -3:3) + 
+  ggtitle("Probit function / quantile function / inverse cdf / qnorm()") +
+  theme_linedraw()
+```
+
+- k: decision criterion
+$$ k = \phi^{-1}(1-p_{FA}) = -\phi^{-1}(p_{FA}) $$
+
+Better: distance to optimal decision boundary (c, or bias)
+$$ c = -\frac{1}{2} \left[\phi^{-1}(p_{H}) + \phi^{-1}(p_{FA})\right] $$
+
+> What we are doing here is __estimating__ the hit rate and false alarm rate from observed hits and false alarms, and then computing d' and c from these estimated probabilities.
+
+We can also write this the other way round:
+
+When the stimulus is `new`, we will produce false alarms with probability:
+
+$$ p_{FA} = P(y = 1 | X = 0) = 1 - \Phi(k) $$
+
+```{r}
+#| echo: false
+
+xlim <- c(-4.5, 4.5)
+alpha <- c(0.6, 0.2)
+
+dprime <- 1
+criterion <- -0.2
+colors <- viridis(n = 4, 
+                  begin = 0, 
+                  end = 0.98, 
+                  direction = -1)
+
+tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |> 
+    ggplot(aes(x)) +
+    stat_function(fun = dnorm, colour = colors[1], 
+                  args = list(mean = -dprime/2, sd = 1),
+                  size = 1.5) +
+    geom_area(stat = "function", fun = dnorm, 
+              args = list(mean = -dprime/2, sd = 1),
+              fill = colors[1], alpha = 0.6,
+              xlim = c(criterion, xlim[2])) +
+    geom_vline(xintercept = criterion, size = 1, 
+               linetype = 1) +
+  ggtitle("False Alarms") +
+  theme_linedraw()
+```
+
+When the stimulus is `old`, we will produce hits with probability:
+$$ p_{H} = P(y = 1 | X=1) = 1 - \Phi(k-d') $$
+
+```{r}
+#| echo: false
+
+tibble(x = seq(xlim[1], xlim[2], by = 0.1)) |> 
+    ggplot(aes(x)) +
+    stat_function(fun = dnorm, colour = colors[4], 
+                  args = list(mean = dprime/2, sd = 1),
+                  size = 1.5) +
+    geom_area(stat = "function", fun = dnorm, 
+              args = list(mean = dprime/2, sd = 1),
+              fill = colors[4], alpha = 0.6,
+              xlim = c(criterion, xlim[2])) +
+    geom_vline(xintercept = criterion, size = 1, 
+               linetype = 1) +
+  ggtitle("Hits") +
+  theme_linedraw()
+```
+
+- We can write this in one equation:
+
+$$ P(y = 1 | X = x) = 1 - \Phi(k-d'X) = \Phi(-k + d'X) $$
+where $X$ is an indicator variable, i.e. takes the value `1` for `old` and `0` for `new`. 
+
+This produces the probability of giving an `old` response, given the stimulus. If the stimulus is `old`, this is the probability of a `hit`, if the stimulus is `new`, this is the probability of a `false alarm`.
+
+```{r}
+#| echo: false
+
+p2
+```
+
+Compare the signal detection model
+
+$$ P(y = 1 | X) = \Phi(-k + d'X) $$
+
+to a Generalized Linear Model (GLM):
+$$ P(y = 1 | X) = \Phi(\alpha + \beta \cdot X) $$
+
+- We can estimate SDT parameters `k` and `d'` using a probit GLM, if we use dummy coding (or effect coding) for a two-level stimulus factor.
+
+- The intercept provides an estimate of the normal quantile of the false alarm rate.
+- The stimulus parameter ($\beta$ or $d'$) provides an estimate of the difference between hit and false alarm rates on the probit scale.
+
+# Parameter recovery
+
+To get a feel for how the parameters `c` and `d'` relate to observed hit and false alarm rates, we will do the following: we first simulate an observer performing a classification experiment with known parameters, i.e. `c` and `d'` are known to us and used to generate the data. We then attempt to recover `c` and `d'` from the observed hit and false alarm rates.
+
+To do this, we can define a function that takes `c` and `d'` as input, and then simulates $N$ signal and $N$ noise trials, giving a total of $2\cdot N$ trials. 
+
+```{r}
+sim_sdt <- function(dp = 1, c = 0, N = 100) {
+  nS <- nN <- N
+
+  pFA <- 1 - pnorm(c + dp/2)
+  pH <- 1 - pnorm(c - dp/2)
+  
+  FA <- rbinom(1, nN, pFA)
+  Hit <- rbinom(1, nS, pH)
+  
+  CR <- nN-FA
+  Miss <- nS-Hit
+
+  tibble(Hit, Miss, FA, CR)
+}
+```
+
+We first calculate the probability of a hit, `pH`, and a false alarm, `pFA`, as they correspond to the area under the curve to the right of the criterion, under both signal and noise distributions, respectively. 
+
+```r
+pFA <- 1 - pnorm(c + dp/2)
+pH <- 1 - pnorm(c - dp/2)
+```
+
+> We are using the bias `c` to parameterize the distributions here. Alternatively, we could also use the criterion `k`, which would result in 
+
+```r
+pFA <- 1 - pnorm(k)
+pH <- 1 - pnorm(k - dp)
+```
+
+This has the more intuitive interpretation that `pFA` is simply the area under the noise distribution that lies to the right of the criterion `k`, or: "given that my criterion is $k$, what is the probability that my response was a false alarm?". However, `c` is a more interesting quantity for us, because it quantifies the devation from an ideal observer.
+
+We then generate false alarms and hits as binomially distributed random variables, i.e. number of `yes` responses in `N` trials, given the hit and false alarm rates, respectively.
+
+```r
+FA <- rbinom(1, nN, pFA)
+Hit <- rbinom(1, nS, pH)
+```
+
+Once we have the number of hits and false alarms, we can compute the number of misses and correct rejections, given that we know how many trials were performed in each condition.
+
+```r
+CR <- nN-FA
+Miss <- nS-Hit
+```
+
+Now, we can simulate the behaviour of an observer. An ideal observer would be unbiased, i.e. use a value of $c=0$:
+
+```{r}
+set.seed(89)
+ideal_observer <- sim_sdt(d = 1, c = 0)
+ideal_observer
+```
+
+One thing to note is that, even an unbiased,  ideal observer cannot achieve perfect performance given that $d=1$. 
+
+We can compute the observer's accuracy as:
+
+```{r}
+ideal_observer |> 
+  summarise(accuracy = (Hit + CR)/(Hit + CR + Miss + FA))
+```
+<aside>
+There are of course more elegant ways to compute the accuracy.
+</aside>
+
+:::{.callout-note}
+How can you make the ideal observer achieve an (almost) perfect performance?
+:::
+
+We can also simulate the behaviour of an observer that is biased to toward giving `yes` responses, i.e. an observer with a value of $c<0$:
+
+```{r}
+set.seed(89)
+yes_observer <- sim_sdt(d = 1, c = -1)
+yes_observer
+```
+
+```{r}
+yes_observer |> 
+  summarise(accuracy = (Hit + CR)/(Hit + CR + Miss + FA))
+```
+
+:::{.callout-tip}
+Here, it should become clear why accuracy by itself is not that informative. The observer that is biased toward saying `yes` will achieve a very high hit rate, but has to trade this off against a very high false alarm rate. If we just look at accuracy, we might think that the biased observer isn't good at the task, but using SDT we may discover that it is the choice of criterion that is to blame, not the observer's ability!
+:::
+
+## Parameter recovery
+We can now attempt to recover the _known_ parameters `c` and `d'` from the observed hit and false alarm rates.
+
+```{r eval=FALSE, include=FALSE}
+#| eval: false
+#| include: false
+
+yes_observer |> 
+    pivot_longer(everything(), names_to = "type")
+```
+
+```{r}
+yes_observer <- yes_observer |>
+    mutate(hit_rate = Hit/(Hit + Miss),
+           fa_rate = FA/(FA + CR))
+
+yes_observer <- yes_observer |>
+    mutate(zhr = qnorm(hit_rate),
+           zfa = qnorm(fa_rate))
+
+yes_observer <- yes_observer |>
+    mutate(dprime = zhr - zfa,
+           k = - zfa,
+           c = -0.5 * (zhr + zfa)) |>
+    mutate(across(c(dprime, c), round, 2))
+```
+
+```{r}
+yes_observer 
+```
+
+For the biased observer, the valuues we used were $d' = 1$ and $c = -1$. Are we able to recover these? 
+
+```{r}
+yes_observer |> pull(c, dprime)
+```
+
+:::{.callout-note}
+Why is it seemingly difficult to recover theses parameters?
+:::
+
+# Memory experiment
+
+Let's look at an example (borrowing heavily from this [blog post](https://vuorre.netlify.com/post/2017/10/09/bayesian-estimation-of-signal-detection-theory-models-part-1/)).
+
+The data are from a recognition memory experiment:
+
+```{r}
+#| message: false
+#| warning: false
+
+# You might first need to install the `remotes` package
+# install.packages("remotes")
+# install sdtalt
+# remotes::install_github("cran/sdtalt")
+
+library(sdtalt)
+library(tidyverse)
+
+data(confcontr)
+
+confcontr <- as_tibble(confcontr) |> 
+  mutate(subno = as_factor(subno),
+         item = isold - 0.5)
+```
+
+```{r}
+confcontr
+```
+
+First we classify each response as hit, miss, correct rejection (cr) or false alarm (fa):
+
+```{r}
+sdt <- confcontr |> 
+  mutate(type = case_when(
+        isold==1 & sayold==1 ~ "Hit",
+        isold==1 & sayold==0 ~ "Miss",
+        isold==0 & sayold==0 ~ "CR",
+        isold==0 & sayold==1 ~ "FA"))
+```
+
+And then count the number of hits, etc.
+
+```{r}
+sdt_summary <- sdt |>
+    group_by(subno) |>
+    count(type) |> 
+  pivot_wider(names_from = type, values_from = n) 
+```
+
+We will need the following two functions later on. The first replaces all instances of `NA` with `0`; i.e. if there is a count of zero, then we have the value `NA` in the data.
+
+```{r}
+replace_NA <- function(x) {
+    x = ifelse(is.na(x), 0, x)
+    x
+}
+```
+
+The second function provides a minor correction in case we have hit or false alarm rates of either `0` or `1`. Since a _rate_ $r$ is a relative frequency, which we interpret as a probability, it must lie within the range `0:1`: $0 < r < 1$. The function adds or subtracts a small number, depending on whether the rate is $0$ or $1$. In this case, neither function is necessary; we apply them anyway, for demonstration.
+
+```{r}
+correct_zero_one <- function(rate, e = 0.001) {
+    if (identical(rate, 0)) {
+        rate = rate + e
+    } else if (identical(rate, 1)) {
+        rate = rate - e
+    }
+    rate
+}
+```
+
+```{r}
+sdt_summary
+```
+
+```{r}
+sdt_summary <- sdt_summary |>
+    mutate(across(c(Hit, Miss, FA, CR), replace_NA))
+
+sdt_summary
+```
+
+Next, we **estimate** the hit and false alarm rates, based on the observed number of hits and false alarms.
+
+```{r}
+sdt_summary <- sdt_summary |>
+    mutate(hit_rate = Hit/(Hit + Miss),
+           fa_rate = FA/(FA + CR))
+sdt_summary
+```
+
+```{r}
+sdt_summary <- sdt_summary |>
+    mutate(across(c(hit_rate, fa_rate), correct_zero_one))
+sdt_summary
+```
+
+Given the hit and false alarm rates, we can calculate the value on the _latent strength_ variable that must result in the hit and false alarm rate.
+
+```{r}
+sdt_summary <- sdt_summary |> 
+  mutate(zhr = qnorm(hit_rate),
+           zfa = qnorm(fa_rate))
+sdt_summary
+```
+
+Finally, we compute $d'$, $k$ and $c$ using the formulae given above. 
+
+```{r}
+sdt_summary <- sdt_summary |> 
+  mutate(dprime = zhr - zfa,
+         k = -zfa,
+         c = -0.5 * (zhr + zfa)) |>
+    mutate(across(c(dprime, k, c), round, 2))
+
+sdt_summary
+```
+
+# Memory experiment: single subject
+
+For simplicity, we first look at the data from subject `53` only:
+
+```{r}
+sdt_summary |> 
+  filter(subno == 53) |> 
+  select(subno, hit_rate, fa_rate, zhr, zfa, dprime, k, c)
+```
+
+# Signal Detection as GLM
+
+A (standard) GLM will give us
+
+- an intercept: this corresponds to `-k`
+- a parameter for the indicator `isold`: this corresponds to `d'`
+
+```{r}
+subno53 <- confcontr |> 
+  filter(subno == 53)
+
+fit_glm_53_k <- glm(sayold ~ isold, 
+                  family = binomial(link = "probit"),
+                  data = subno53)
+summary(fit_glm_53_k)
+```
+
+```{r}
+fit_glm_53_c <- glm(sayold ~ item, 
+                  family = binomial(link = "probit"),
+                  data = subno53)
+summary(fit_glm_53_c)
+```
+
+```{r}
+sdt_summary |> 
+  filter(subno == 53) |> 
+  select(subno, dprime, k, c)
+```

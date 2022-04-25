@@ -1,0 +1,86 @@
+---
+title: "4. Sitzung"
+subtitle: "Daten verarbeiten"
+author: "Andrew Ellis"
+institute: "Neurowissenschaft Computerlab FS 22"
+format:
+  revealjs:
+    theme: [simple, ../styles/reveal.scss]
+    logo: ../assets/logo.png
+    footer: <a href="/">🏠 Neurowissenschaft im Computerlab FS22</a>
+date: "2022-03-15"
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+1
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Data cleaning
+:::
+:::
+::::
+
+## Data cleaning {.smaller}
+
+Nun wollen wir versuchen, einzelne Trials, zu identifizieren, in denen Versuchpersonen nicht aufgepasst haben, oder einfach geraten wurde. In solchen Fällen wäre die Qualität der Daten nicht gut genug. 
+
+. . .
+
+Am häufigsten werden die folgenden beiden Kriterien verwendet, um entweder einzelne Datenpunkte, oder Versuchspersonen, auszuschliessen:
+
+1) Versuchspersonen, deren Accuracy < 50% ist.
+
+2) Trials, in denen die Antwort zu schnell oder zu langsam war.
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+2
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Daten zusammenfassen
+:::
+:::
+::::
+
+## Daten zusammenfassen {.smaller}
+
+- Pro VP / Bedingung
+- über VPs aggregieren
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+3
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Selber ausprobieren
+:::
+:::
+::::
+
+## Probieren Sie es selber! {.smaller}
+
+::: {.your-turn}
+Learning by doing! Expertise in R erreicht man nur, wenn man selber ausprobiert.
+:::
+
+- Daten mit `esquisse` visualisieren:
+
+```r
+install.packages("esquisse")
+library(esquisse)
+esquisser()
+```

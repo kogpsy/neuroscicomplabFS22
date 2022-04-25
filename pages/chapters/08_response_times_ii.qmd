@@ -1,0 +1,124 @@
+---
+title: "Reaktionszeiten: II"
+description: | 
+    Anwendungen.
+date: "2022-04-12"
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+format:
+    html:
+        toc: true
+        code-link: true
+---
+
+:::{.callout-note}
+👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/response-times-2.R)
+:::
+
+# Hierarchical Shift Function
+
+Wir schauen uns Daten aus einem Lexical Decision Task [@wagenmakersLinearRelationMean2007] an, bei dem Versuchspersonen Wörter als entweder `word` oder `non-word` klassifizieren mussten. Es ist bekannt, dass Wörter welche häufiger vorkommen schneller klassifiziert werden können, als seltene Wörter. In diesem Experiment mussten Versuchspersonen diesen Task unter zwei Bedingungen durchführen. In der `speed` Bedingung mussten sie sich so schnell wie möglich entscheiden, in der `accuracy` Bedingung mit so wenig Fehler wie möglich. 
+
+Hier untersuchen wir also den Unterschied in der Reaktionszeit zwischen zwei "within" Bedingungen. Die Daten befinden sich im Package `rtdists`, welches zuerst installiert werden sollte.
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(rtdists)
+library(viridis)
+
+data(speed_acc) 
+
+speed_acc <- speed_acc |>
+  as_tibble()
+
+
+df_speed_acc <- speed_acc |> 
+   # zwischen 180 ms and 3000 ms
+  filter(rt > 0.18, rt < 3) |> 
+   # zu Character konvertieren (damit filter funktioniert)
+  mutate(across(c(stim_cat, response), as.character)) |> 
+  # Korrekte Antworten
+  filter(response != 'error', stim_cat == response) |> 
+  # wieder zu Factor konvertieren
+  mutate(across(c(stim_cat, response), as_factor))
+```
+
+```{r}
+df_speed_acc
+```
+
+Wir schauen uns vier Versuchspersonen grafisch an:
+
+```{r}
+data_plot <- df_speed_acc |> 
+  filter(id %in% c(1, 8, 11, 15))
+
+data_plot |> 
+  ggplot(aes(x = rt)) + 
+    geom_histogram(aes(fill = condition), alpha = 0.5, bins = 60) + 
+    facet_wrap(~id) +
+    coord_cartesian(xlim=c(0, 1.6)) +
+    scale_fill_viridis(discrete = TRUE, option = "E")
+```
+
+:::{.callout-note}
+Schauen Sie sich alle Vpn an.
+:::
+
+:::{.callout-note}
+Was würden Sie anhand der Histogramme erwarten?
+:::
+
+:::{.callout-note}
+Berechnen Sie nun die Differenzen der Dezile zwischen den Bedingungen für jede Versuchsperson.
+:::
+
+```{r}
+out_speed_acc <- rogme::hsf_pb(df_speed_acc, rt ~ condition + id)
+```
+
+```{r}
+p_speed_acc <- rogme::plot_hsf_pb(out_speed_acc, interv = "ci")
+p_speed_acc
+```
+
+In dieser Grafik sehen wir auf der X-Achse die Dezile der `accuracy` Bedingung und auf der Y-Achse die Differenz `accuracy - speed`. Die Differenz ist bei jedem Dezil positiv und scheint steig grösser zu werden. Die `accuracy` Bedingung führt also zu längeren und variableren Reaktionszeiten. Die Bedingungen unterscheiden sich im Median, aber wenn wir nur das berücksichtigt hätten, würden wir verpassen, dass sich die Verteilungen sehr stark am rechten Ende der Verteilung unterscheiden.
+
+Zum Vergleich berechnen wir noch Bedingungsmittelwerte der Median Reaktionszeiten.
+
+```{r}
+#| message: false
+#| warning: false
+
+by_subject <- df_speed_acc |> 
+  group_by(id, condition) |> 
+  summarise(mean = median(rt))
+
+agg <- Rmisc::summarySEwithin(by_subject,
+                       measurevar = "mean",
+                       withinvars = "condition",
+                       idvar = "id",
+                       na.rm = FALSE,
+                       conf.interval = .95)
+```
+
+```{r}
+agg |> 
+  ggplot(aes(condition, mean, fill = condition)) +
+  geom_col(alpha = 0.8) +
+  geom_line(aes(group = 1), linetype = 3) +   
+  geom_errorbar(aes(ymin = mean-se, ymax = mean+se),
+                width = 0.1, size=1, color="black") +
+  scale_fill_viridis(discrete=TRUE, option="cividis") +
+  theme(legend.position = "none")
+```

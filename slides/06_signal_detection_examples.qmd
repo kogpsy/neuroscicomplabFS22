@@ -1,0 +1,110 @@
+---
+title: "6. Sitzung"
+subtitle: "Signal Detection Theory: Beispiele"
+author: "Andrew Ellis"
+institute: "Neurowissenschaft Computerlab FS 22"
+format:
+  revealjs:
+    theme: [simple, ../styles/reveal.scss]
+    logo: ../assets/logo.png
+    footer: <a href="/">🏠 Neurowissenschaft im Computerlab FS22</a>
+    smaller: true
+date: "2022-03-29"
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+1
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Visual Motion
+:::
+:::
+::::
+
+## Visual Motion
+
+::: {.even-even-smaller}
+
+Decision variable: Lateral Intraparietal Cortex (LIP)
+
+:::
+
+:::: {.columns}
+:::{.column width="25%"}
+
+![](../assets/images/motion.019.jpg)
+
+![](../assets/images/motion.020.jpg)
+
+:::
+:::{.column width="40%"}
+
+![](../assets/images/motion-3.png)
+
+:::
+::::
+
+::: {.even-even-smaller}
+
+Shadlen, M. N., & Kiani, R. (2013). Decision Making as a Window on Cognition. Neuron, 80(3), 791–806. https://doi.org/10.1016/j.neuron.2013.10.047
+
+:::
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+2
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Cognitive Fatigue
+:::
+:::
+::::
+
+## Cognitive Fatigue
+
+::: {.even-even-smaller}
+
+- When we are fatigued, we feel that our performance is worse than when we are fresh.
+
+- The metrics of signal detection theory (SDT)—response bias (criterion) and perceptual certainty (d’) may change as a function of fatigue, but no work has yet been done to examine whether these metrics covary with fatigue.
+
+- We induced fatigue through repetitive performance of the n-back working memory task, while functional magnetic resonance imaging (fMRI) data was acquired.
+
+- Our results show that both criterion and d’ were correlated with changes in cognitive fatigue: as fatigue increased, subjects became more conservative in their response bias and their perceptual certainty declined. Furthermore, activation in the striatum of the basal ganglia was also related to cognitive fatigue, criterion, and d'.
+
+- The following behavioral data were analyzed: overall accuracy, the reaction times (RTs) of the correct trials, and signal detection metrics.
+
+- Participants were presented with a visual analog scale (VAS) before and after each block. Participants were asked: “How mentally fatigued are you right now?”
+
+Wylie, G. R., Yao, B., Sandry, J., & DeLuca, J. (2020). Using Signal Detection Theory to Better Understand Cognitive Fatigue. _Frontiers in Psychology_, _11_, 579188. 
+[https://doi.org/10.3389/fpsyg.2020.579188](https://doi.org/10.3389/fpsyg.2020.579188)
+
+:::
+
+## Cognitive Fatigue
+
+:::: {.columns}
+:::{.column width="30%"}
+
+![](../assets/images/fatigue-dprime.png)
+
+![](../assets/images/fatigue-c.png)
+
+:::
+:::{.column width="48%"}
+
+![](../assets/images/fatigue-brain-vasf.png)
+
+![](../assets/images/fatigue-brain-c.png)
+
+:::
+::::

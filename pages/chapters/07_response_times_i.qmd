@@ -1,0 +1,247 @@
+---
+title: "Reaktionszeiten: I"
+description: | 
+    Anwendungen.
+date: "2022-04-05"
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+format:
+    html:
+        toc: true
+        code-link: true
+---
+
+```{r}
+#| include: false
+
+# Set working directory of R
+knitr::opts_knit$set(root.dir = '../../data/session_7')
+```
+
+:::{.callout-note}
+👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/response-times-1.R)
+
+👉 [Daten downloaden](../../data/session_7/data/session-7.csv)
+:::
+
+# ADHD
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+```
+
+```{r}
+#| eval: false
+#| include: false
+
+set.seed(243249)
+d <- tibble(control = brms::rexgaussian(n = 300, 
+                                        mu = 800, 
+                                        sigma = 50, 
+                                        beta = 150),
+            adhd = brms::rexgaussian(n = 300, 
+                                     mu = 850, 
+                                     sigma = 50, 
+                                     beta = 250))
+d |> write_csv("data/session-7.csv")
+```
+
+```{r}
+#| message: false
+#| warning: false
+
+d <- read_csv("data/session-7.csv")
+```
+ 
+```{r}
+glimpse(d)
+```
+
+```{r}
+d <- d |>
+  pivot_longer(everything(), 
+               names_to = "group", values_to = "rt") |> 
+  mutate(group = as_factor(group)) |> 
+  arrange(group)
+```
+
+```{r}
+glimpse(d)
+```
+
+```{r}
+p1 <- d |> 
+  ggplot(aes(rt)) +
+  geom_histogram(aes(y = ..density..), 
+                 colour = "black", fill = "white",
+                 binwidth = 10) +
+  geom_density(lwd = 1, colour = 4,
+               fill = 4, alpha = 0.25) +
+  facet_wrap(~group, ncol = 1) +
+  xlab("Response time [ms]") +
+  xlim(c(0, 2200))
+```
+
+```{r}
+#| message: false
+#| warning: false
+
+p1
+```
+
+## Zusammenfassen: zentrale Tendenz und Dispersion
+
+### Mittelwert und Standardabweichung
+
+```{r}
+d %>% 
+  group_by(group) %>% 
+  summarise(mean = mean(rt),
+            sd = sd(rt))
+```
+
+### Median und Interquartilsbereich
+
+Der Interquartilsbereich repräntiert den Unterschied zwischen dem ersten (25. Perzentil) und dritten (75. Perzentil) Quartil. In diesem Bereich befinden sich 50% der Datenpunkte.
+
+```{r}
+d %>% 
+  group_by(group) %>% 
+  summarise(mean = median(rt),
+            q25 = quantile(rt, probs = 0.25),
+            q75 = quantile(rt, probs = 0.75)) |> 
+  mutate(IQR = q75 - q25)
+```
+
+```{r}
+d %>% 
+  group_by(group) %>% 
+  summarise(mean = median(rt),
+            IQR = IQR(rt))
+```
+
+```{r}
+funs <- list(mean = mean, median = median, 
+             sd = sd, IQR = IQR)
+
+by_group <- d |>
+  group_by(group) |>
+  summarise(across(rt, funs, .names = "{.fn}")) |>
+  mutate(across(where(is.numeric), ~round(., 2)))
+```
+
+```{r}
+by_group
+```
+
+```{r}
+#| message: false
+#| warning: false
+
+p1 +
+  geom_vline(aes(xintercept = mean), 
+             data = by_group,
+             color = "steelblue",
+             lwd = 1.5) +
+  geom_vline(aes(xintercept = median), 
+             data = by_group, 
+             color = "red",
+             lwd = 1.5)
+```
+
+### Zentrale Tendenz bei schiefen Verteilungen
+
+Sowohl Mittelwert als auch Median sind jedoch problematisch als Masse der zentralen Tendenz für asymmetrische Verteilungen. Der Mittelwert kann durch eine hohe Schiefe und Ausreissern verschoben werden, und repräsentiert die zentrale Tendenz der Verteilung nicht besonders gut. 
+
+Der Median ist ein besseres Mass für eine typische Beobachtung aus dieser Verteilung, ist jedoch nicht erwartungstreu, das heisst der Median überschätzt den Populationsmedian. Der Grad der Überschätzung steigt mit sinkender Anzahl Beobachtungen (d.h. vor allem bei kleinen Stichproben).
+
+### Quantile
+
+```{r}
+deciles <- seq(0.1, 0.9, length.out = 9)
+```
+
+```{r}
+quantile_fun <- function(x, probs = c(0.25, 0.5, 0.75)) {
+  tibble(rt = quantile(x, probs, type = 8), quantile = probs)
+}
+```
+
+```{r}
+#| message: false
+#| warning: false
+
+d_quantiles <- d %>% 
+  group_by(group) %>% 
+  summarise(quantile_fun(rt, probs = deciles))
+```
+
+```{r}
+d_quantiles
+```
+
+### Shift function
+
+Wir müssen nun den Dataframe mit den Quantilen ins "wide" Format konvertieren, um zwei Spalten für die `control` und `adhd` Gruppen zu erhalten. Danach können wir die Differenzen zwischen den Gruppen für jedes Quantil berechnen.
+
+```{r}
+d_quantile_differences <- d_quantiles |> 
+  pivot_wider(names_from = "group", values_from = "rt") 
+```
+
+```{r}
+d_quantile_differences
+```
+
+```{r}
+d_quantile_differences <- d_quantile_differences |> 
+    mutate(`control - adhd` = control - adhd)
+```
+
+```{r}
+d_quantile_differences
+```
+
+### Shift function grafisch darstellen
+
+```{r}
+d_quantile_differences %>% 
+  ggplot(aes(x = control, y = `control - adhd`)) +
+  geom_hline(yintercept = 0, linetype = 3) +
+  geom_vline(xintercept = d_quantile_differences %>% 
+               filter(quantile == "50%") %>% 
+               select(adhd) %>% 
+               pull(), linetype = 3) +
+  geom_line(aes(group = 1), color = "steelblue", size = 2) +
+  geom_point(shape = 21, color = "steelblue", fill = "white", size = 5, stroke = 1) +
+  coord_cartesian(ylim = c(-300, 300))
+```
+
+```{r}
+#| eval: false
+
+install.packages("remotes")
+remotes::install_github("GRousselet/rogme")
+```
+
+```{r}
+# library(rogme)
+```
+
+```{r}
+out <- rogme::shifthd(d, rt ~ group)
+```
+
+```{r}
+rogme::plot_sf(out)
+```

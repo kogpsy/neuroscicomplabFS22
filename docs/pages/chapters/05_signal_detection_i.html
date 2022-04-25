@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.301">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Andrew Ellis">
+<meta name="dcterms.date" content="2022-03-15">
+<meta name="description" content="Theory and applications.">
+<title>Neurowissenschaft Computerlab - Signal Detection Theory: I</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script><script src="../../site_libs/quarto-nav/headroom.min.js"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script><meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../../site_libs/quarto-search/fuse.min.js"></script><script src="../../site_libs/quarto-search/quarto-search.js"></script><link href="../..//assets/logo_landing.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script><script src="../../site_libs/quarto-html/popper.min.js"></script><script src="../../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../../site_libs/quarto-html/anchor.min.js"></script><link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script><link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link class="quarto-color-scheme" href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="../../site_libs/bootstrap/bootstrap-dark.min.css">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="../../styles/global.css">
+</head>
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../assets/logo.png" alt=""><span class="navbar-title">Neurowissenschaft Computerlab</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-admin">
+<li>
+    <a class="dropdown-item" href="../../pages/admin/01_overview.html">
+ <span class="dropdown-text">Übersicht</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/admin/02_assessments.html">
+ <span class="dropdown-text">Leistungskontrollen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/admin/03_zulip_forum.html">
+ <span class="dropdown-text">Zulip Forum</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-kapitel" role="button" data-bs-toggle="dropdown" aria-expanded="false">Kapitel</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-kapitel">
+<li>
+    <a class="dropdown-item" href="../../pages/chapters/01_psychopy_experiments.html">
+ <span class="dropdown-text">Verhaltensexperiment mit PsychoPy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/02_importing_data.html">
+ <span class="dropdown-text">Daten importieren</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/03_data_cleaning.html">
+ <span class="dropdown-text">Data cleaning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/04_summarizing_data.html">
+ <span class="dropdown-text">Daten bearbeiten und zusammenfassen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/05_signal_detection_i.html">
+ <span class="dropdown-text">Signal Detection Theory: I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/06_signal_detection_ii.html">
+ <span class="dropdown-text">Signal Detection Theory: II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/07_response_times_i.html">
+ <span class="dropdown-text">Reaktionszeiten: I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/08_response_times_ii.html">
+ <span class="dropdown-text">Reaktionszeiten: II</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-slides" role="button" data-bs-toggle="dropdown" aria-expanded="false">Slides</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-slides">
+<li>
+    <a class="dropdown-item" href="../../slides/01_introduction.html">
+ <span class="dropdown-text">1. Sitzung (22.02.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/02_psychopy.html">
+ <span class="dropdown-text">2. Sitzung (01.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/03_import_and_process_data.html">
+ <span class="dropdown-text">3. Sitzung (08.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/04_process_data.html">
+ <span class="dropdown-text">4. Sitzung (15.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/05_signal_detection.html">
+ <span class="dropdown-text">5. Sitzung (22.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/06_signal_detection_examples.html">
+ <span class="dropdown-text">6. Sitzung (29.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/07_response_times.html">
+ <span class="dropdown-text">7. Sitzung (05.04.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/08_response_times_ii.html">
+ <span class="dropdown-text">8. Sitzung (12.04.2022)</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bungen" role="button" data-bs-toggle="dropdown" aria-expanded="false">Übungen</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bungen">
+<li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_01.html">
+ <span class="dropdown-text">Übung 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_02.html">
+ <span class="dropdown-text">Übung 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_03.html">
+ <span class="dropdown-text">Übung 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_04.html">
+ <span class="dropdown-text">Übung 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_05.html">
+ <span class="dropdown-text">Übung 5</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lösungen" role="button" data-bs-toggle="dropdown" aria-expanded="false">Lösungen</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-lösungen">
+<li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_03.html">
+ <span class="dropdown-text">Übung 3: Lösung</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#signal-detection-theory" id="toc-signal-detection-theory" class="nav-link active" data-scroll-target="#signal-detection-theory">Signal detection theory</a></li>
+  <li><a href="#signal-detection-parameters" id="toc-signal-detection-parameters" class="nav-link" data-scroll-target="#signal-detection-parameters">Signal detection parameters</a></li>
+  <li>
+<a href="#parameter-recovery" id="toc-parameter-recovery" class="nav-link" data-scroll-target="#parameter-recovery">Parameter recovery</a>
+  <ul class="collapse">
+<li><a href="#parameter-recovery-1" id="toc-parameter-recovery-1" class="nav-link" data-scroll-target="#parameter-recovery-1">Parameter recovery</a></li>
+  </ul>
+</li>
+  <li><a href="#memory-experiment" id="toc-memory-experiment" class="nav-link" data-scroll-target="#memory-experiment">Memory experiment</a></li>
+  <li><a href="#memory-experiment-single-subject" id="toc-memory-experiment-single-subject" class="nav-link" data-scroll-target="#memory-experiment-single-subject">Memory experiment: single subject</a></li>
+  <li><a href="#signal-detection-as-glm" id="toc-signal-detection-as-glm" class="nav-link" data-scroll-target="#signal-detection-as-glm">Signal Detection as GLM</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Signal Detection Theory: I</h1>
+</div>
+
+<div>
+  <div class="description">
+    Theory and applications.
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">Andrew Ellis <a href="https://orcid.org/0000-0002-2788-936X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://www.kog.psy.unibe.ch">
+            Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern
+            </a>
+          </p>
+      </div>
+    </div>
+
+
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022-03-15</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header><div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>👉 <a href="../../downloadable_files/signal-detection.R">R Code für dieses Kapitel downloaden</a></p>
+</div>
+</div>
+<section id="signal-detection-theory" class="level1 page-columns page-full"><h1>Signal detection theory</h1>
+<p>We consider an experiment in which a person has to classify a stimulus into one of two possible categories:</p>
+<ul>
+<li>new / old</li>
+<li>left / right</li>
+<li>yes / no</li>
+</ul>
+<p>We can neglect the underlying task, as the math is the same. In the general case, say we present two stimulus categories <code>A</code> and <code>B</code>, that vary along some dimension. The task of the subject in our experiment is to perform a binary classification with the response options <code>A</code> and <code>B</code>. The subject’s performance can be summarized in a classification table, with four possible outcomes:</p>
+<table class="table">
+<thead><tr class="header">
+<th></th>
+<th>Signal</th>
+<th></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Response</strong></td>
+<td>A (yes)</td>
+<td>B (no)</td>
+</tr>
+<tr class="even">
+<td>A (yes)</td>
+<td>Hit</td>
+<td>False alarm (FA)</td>
+</tr>
+<tr class="odd">
+<td>B (no)</td>
+<td>Miss</td>
+<td>Correct rejection (CR)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<strong>Hit</strong>: Stimulus is <code>A</code>, subject responds <code>A</code>
+</li>
+<li>Miss: Stimulus is <code>A</code>, subject responds <code>B</code>
+</li>
+<li>
+<strong>False alarm</strong>: Stimulus is <code>B</code>, subject responds <code>A</code>
+</li>
+<li>Correct rejection: Stimulus is <code>B</code>, subject responds <code>B</code>
+</li>
+</ul>
+<blockquote class="blockquote">
+<p>Given the stimulus, the subject has two response options. Therefore, we consider only the <code>A</code> responses when the stimulus is <code>A</code> (hits) or <code>B</code> (false alarms).</p>
+</blockquote>
+<ul>
+<li><p>The SDT model assumes that on each trial <span class="math inline">\(i\)</span>, a person’s information about a stimulus can be modeled as a random variable <span class="math inline">\(X_i\)</span>.</p></li>
+<li><p>This is drawn from one of two possible distributions, which (in equal variance SDT) differ only in their location, but not their scale ( we assume that <span class="math inline">\(\sigma = 1\)</span>).</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>Example: familiarity. When the subject is shown an image, this evokes a feeling of ’familiarity`. This is a latent <em>strength variable</em>.</p>
+</blockquote>
+<aside>
+SDT does not require any particular distributions, but in practise, Gaussians are often chosen.
+</aside><blockquote class="blockquote">
+<p>Thought experiment: you are a subject in a memory experiment. You were previously shown a number of images, and now you are presented with a mixture of old and new items, and have to say whether you have previously seen the test image.</p>
+</blockquote>
+<p>This can be formulated as the following statistical problem:</p>
+<ol type="1">
+<li><p>You are given a random variable <span class="math inline">\(X\)</span>, i.e.&nbsp;a draw from a normal distribution with a known standard deviation. You also know that distribution can have either of two known means, you just don’t know which one. The two distributions differ only in their mean, and the difference in means is called <code>d'</code>.</p></li>
+<li><p>You are asked to say which distribution that <span class="math inline">\(X\)</span> is most likely to have come from. This is a decision, so you need some sort of decision rule. In this case you can choose a criterion, and compare <span class="math inline">\(X\)</span> to this.</p></li>
+<li><p>You will produce four types of responses: you will either correctly classifiy the presented stimulus, or its internal representation <span class="math inline">\(X\)</span>, as either <code>old</code> or <code>new</code>. You will do this correctly (<code>hits</code> / <code>correct rejections</code>), or you will produce a missclassification (<code>false alarms</code> / <code>misses</code>).</p></li>
+<li><p>From your behavioural data, the number of <code>hits</code> and <code>false alarms</code>, we want to estimate your hit rate and false alarm rate, and then compute your internal (latent) quantities that guided your behaviour.</p></li>
+</ol>
+<p>The internal signal evoked by old and new items is often shown like this:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>New items produce less familiarity than old items, but the internal representation is noisy.</p>
+<p>In order to classify the presented stimulus, based on the evoked familiarity (decision variable), we need a decision rule:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A simple rule is to compare the signal with a criterion <span class="math inline">\(k\)</span>. If the signal <span class="math inline">\(X &gt; k\)</span>, then respond <code>old</code> (“Yes, I have previously seen it”), otherwise respond <code>new</code> (“No, I haven’t seen it before”).</p>
+</section><section id="signal-detection-parameters" class="level1"><h1>Signal detection parameters</h1>
+<p>The commonly known SDT parameters are <span class="math inline">\(d'\)</span> and and <span class="math inline">\(c\)</span>.</p>
+<ul>
+<li>d’: distance between distributions</li>
+</ul>
+<p><span class="math display">\[ d' = c - \phi^{-1}(1-p_{H}) = \phi^{-1}(p_{H}) - \phi^{-1}(p_{FA}) \]</span> which can also be written as: <span class="math display">\[ d' = \phi^{-1}(P(y = 1 | old)) - \phi^{-1}(P(y = 1 | new)) \]</span></p>
+<p>The expression for <span class="math inline">\(d'\)</span></p>
+<ul>
+<li>requires estimating probabilities conditional on the identity of a signal</li>
+<li>requires taking the difference on a transformed (probit) scale</li>
+<li>this is equivalent to a contrast between levels of a factor with two levels as the linear predictor for a response in a GLM</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>k: decision criterion <span class="math display">\[ k = \phi^{-1}(1-p_{FA}) = -\phi^{-1}(p_{FA}) \]</span>
+</li>
+</ul>
+<p>Better: distance to optimal decision boundary (c, or bias) <span class="math display">\[ c = -\frac{1}{2} \left[\phi^{-1}(p_{H}) + \phi^{-1}(p_{FA})\right] \]</span></p>
+<blockquote class="blockquote">
+<p>What we are doing here is <strong>estimating</strong> the hit rate and false alarm rate from observed hits and false alarms, and then computing d’ and c from these estimated probabilities.</p>
+</blockquote>
+<p>We can also write this the other way round:</p>
+<p>When the stimulus is <code>new</code>, we will produce false alarms with probability:</p>
+<p><span class="math display">\[ p_{FA} = P(y = 1 | X = 0) = 1 - \Phi(k) \]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>When the stimulus is <code>old</code>, we will produce hits with probability: <span class="math display">\[ p_{H} = P(y = 1 | X=1) = 1 - \Phi(k-d') \]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>We can write this in one equation:</li>
+</ul>
+<p><span class="math display">\[ P(y = 1 | X = x) = 1 - \Phi(k-d'X) = \Phi(-k + d'X) \]</span> where <span class="math inline">\(X\)</span> is an indicator variable, i.e.&nbsp;takes the value <code>1</code> for <code>old</code> and <code>0</code> for <code>new</code>.</p>
+<p>This produces the probability of giving an <code>old</code> response, given the stimulus. If the stimulus is <code>old</code>, this is the probability of a <code>hit</code>, if the stimulus is <code>new</code>, this is the probability of a <code>false alarm</code>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Compare the signal detection model</p>
+<p><span class="math display">\[ P(y = 1 | X) = \Phi(-k + d'X) \]</span></p>
+<p>to a Generalized Linear Model (GLM): <span class="math display">\[ P(y = 1 | X) = \Phi(\alpha + \beta \cdot X) \]</span></p>
+<ul>
+<li><p>We can estimate SDT parameters <code>k</code> and <code>d'</code> using a probit GLM, if we use dummy coding (or effect coding) for a two-level stimulus factor.</p></li>
+<li><p>The intercept provides an estimate of the normal quantile of the false alarm rate.</p></li>
+<li><p>The stimulus parameter (<span class="math inline">\(\beta\)</span> or <span class="math inline">\(d'\)</span>) provides an estimate of the difference between hit and false alarm rates on the probit scale.</p></li>
+</ul></section><section id="parameter-recovery" class="level1 page-columns page-full"><h1>Parameter recovery</h1>
+<p>To get a feel for how the parameters <code>c</code> and <code>d'</code> relate to observed hit and false alarm rates, we will do the following: we first simulate an observer performing a classification experiment with known parameters, i.e.&nbsp;<code>c</code> and <code>d'</code> are known to us and used to generate the data. We then attempt to recover <code>c</code> and <code>d'</code> from the observed hit and false alarm rates.</p>
+<p>To do this, we can define a function that takes <code>c</code> and <code>d'</code> as input, and then simulates <span class="math inline">\(N\)</span> signal and <span class="math inline">\(N\)</span> noise trials, giving a total of <span class="math inline">\(2\cdot N\)</span> trials.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sim_sdt</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dp</span> <span class="op">=</span> <span class="fl">1</span>, <span class="va">c</span> <span class="op">=</span> <span class="fl">0</span>, <span class="va">N</span> <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">nS</span> <span class="op">&lt;-</span> <span class="va">nN</span> <span class="op">&lt;-</span> <span class="va">N</span>
+
+  <span class="va">pFA</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">c</span> <span class="op">+</span> <span class="va">dp</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>
+  <span class="va">pH</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">c</span> <span class="op">-</span> <span class="va">dp</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>
+  
+  <span class="va">FA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">nN</span>, <span class="va">pFA</span><span class="op">)</span>
+  <span class="va">Hit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">nS</span>, <span class="va">pH</span><span class="op">)</span>
+  
+  <span class="va">CR</span> <span class="op">&lt;-</span> <span class="va">nN</span><span class="op">-</span><span class="va">FA</span>
+  <span class="va">Miss</span> <span class="op">&lt;-</span> <span class="va">nS</span><span class="op">-</span><span class="va">Hit</span>
+
+  <span class="fu">tibble</span><span class="op">(</span><span class="va">Hit</span>, <span class="va">Miss</span>, <span class="va">FA</span>, <span class="va">CR</span><span class="op">)</span>
+<span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We first calculate the probability of a hit, <code>pH</code>, and a false alarm, <code>pFA</code>, as they correspond to the area under the curve to the right of the criterion, under both signal and noise distributions, respectively.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">pFA</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">c</span> <span class="op">+</span> <span class="va">dp</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>
+<span class="va">pH</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">c</span> <span class="op">-</span> <span class="va">dp</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>We are using the bias <code>c</code> to parameterize the distributions here. Alternatively, we could also use the criterion <code>k</code>, which would result in</p>
+</blockquote>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">pFA</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">k</span><span class="op">)</span>
+<span class="va">pH</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">k</span> <span class="op">-</span> <span class="va">dp</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This has the more intuitive interpretation that <code>pFA</code> is simply the area under the noise distribution that lies to the right of the criterion <code>k</code>, or: “given that my criterion is <span class="math inline">\(k\)</span>, what is the probability that my response was a false alarm?”. However, <code>c</code> is a more interesting quantity for us, because it quantifies the devation from an ideal observer.</p>
+<p>We then generate false alarms and hits as binomially distributed random variables, i.e.&nbsp;number of <code>yes</code> responses in <code>N</code> trials, given the hit and false alarm rates, respectively.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">FA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">nN</span>, <span class="va">pFA</span><span class="op">)</span>
+<span class="va">Hit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">nS</span>, <span class="va">pH</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once we have the number of hits and false alarms, we can compute the number of misses and correct rejections, given that we know how many trials were performed in each condition.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">CR</span> <span class="op">&lt;-</span> <span class="va">nN</span><span class="op">-</span><span class="va">FA</span>
+<span class="va">Miss</span> <span class="op">&lt;-</span> <span class="va">nS</span><span class="op">-</span><span class="va">Hit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, we can simulate the behaviour of an observer. An ideal observer would be unbiased, i.e.&nbsp;use a value of <span class="math inline">\(c=0\)</span>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">89</span><span class="op">)</span>
+<span class="va">ideal_observer</span> <span class="op">&lt;-</span> <span class="fu">sim_sdt</span><span class="op">(</span>d <span class="op">=</span> <span class="fl">1</span>, c <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+<span class="va">ideal_observer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+    Hit  Miss    FA    CR
+  &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+1    61    39    26    74</code></pre>
+</div>
+</div>
+<p>One thing to note is that, even an unbiased, ideal observer cannot achieve perfect performance given that <span class="math inline">\(d=1\)</span>.</p>
+<p>We can compute the observer’s accuracy as:</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">ideal_observer</span> |&gt; 
+  <span class="fu">summarise</span><span class="op">(</span>accuracy <span class="op">=</span> <span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">CR</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">CR</span> <span class="op">+</span> <span class="va">Miss</span> <span class="op">+</span> <span class="va">FA</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  accuracy
+     &lt;dbl&gt;
+1    0.675</code></pre>
+</div>
+</div>
+<aside>
+There are of course more elegant ways to compute the accuracy.
+</aside><div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>How can you make the ideal observer achieve an (almost) perfect performance?</p>
+</div>
+</div>
+<p>We can also simulate the behaviour of an observer that is biased to toward giving <code>yes</code> responses, i.e.&nbsp;an observer with a value of <span class="math inline">\(c&lt;0\)</span>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">89</span><span class="op">)</span>
+<span class="va">yes_observer</span> <span class="op">&lt;-</span> <span class="fu">sim_sdt</span><span class="op">(</span>d <span class="op">=</span> <span class="fl">1</span>, c <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">yes_observer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+    Hit  Miss    FA    CR
+  &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+1    92     8    74    26</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">yes_observer</span> |&gt; 
+  <span class="fu">summarise</span><span class="op">(</span>accuracy <span class="op">=</span> <span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">CR</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">CR</span> <span class="op">+</span> <span class="va">Miss</span> <span class="op">+</span> <span class="va">FA</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  accuracy
+     &lt;dbl&gt;
+1     0.59</code></pre>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Here, it should become clear why accuracy by itself is not that informative. The observer that is biased toward saying <code>yes</code> will achieve a very high hit rate, but has to trade this off against a very high false alarm rate. If we just look at accuracy, we might think that the biased observer isn’t good at the task, but using SDT we may discover that it is the choice of criterion that is to blame, not the observer’s ability!</p>
+</div>
+</div>
+<section id="parameter-recovery-1" class="level2"><h2 class="anchored" data-anchor-id="parameter-recovery-1">Parameter recovery</h2>
+<p>We can now attempt to recover the <em>known</em> parameters <code>c</code> and <code>d'</code> from the observed hit and false alarm rates.</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">yes_observer</span> <span class="op">&lt;-</span> <span class="va">yes_observer</span> |&gt;
+    <span class="fu">mutate</span><span class="op">(</span>hit_rate <span class="op">=</span> <span class="va">Hit</span><span class="op">/</span><span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">Miss</span><span class="op">)</span>,
+           fa_rate <span class="op">=</span> <span class="va">FA</span><span class="op">/</span><span class="op">(</span><span class="va">FA</span> <span class="op">+</span> <span class="va">CR</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">yes_observer</span> <span class="op">&lt;-</span> <span class="va">yes_observer</span> |&gt;
+    <span class="fu">mutate</span><span class="op">(</span>zhr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">hit_rate</span><span class="op">)</span>,
+           zfa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">fa_rate</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">yes_observer</span> <span class="op">&lt;-</span> <span class="va">yes_observer</span> |&gt;
+    <span class="fu">mutate</span><span class="op">(</span>dprime <span class="op">=</span> <span class="va">zhr</span> <span class="op">-</span> <span class="va">zfa</span>,
+           k <span class="op">=</span> <span class="op">-</span> <span class="va">zfa</span>,
+           c <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> <span class="op">(</span><span class="va">zhr</span> <span class="op">+</span> <span class="va">zfa</span><span class="op">)</span><span class="op">)</span> |&gt;
+    <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">dprime</span>, <span class="va">c</span><span class="op">)</span>, <span class="va">round</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">yes_observer</span> </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 11
+    Hit  Miss    FA    CR hit_rate fa_rate   zhr   zfa dprime      k     c
+  &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1    92     8    74    26     0.92    0.74  1.41 0.643   0.76 -0.643 -1.02</code></pre>
+</div>
+</div>
+<p>For the biased observer, the valuues we used were <span class="math inline">\(d' = 1\)</span> and <span class="math inline">\(c = -1\)</span>. Are we able to recover these?</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">yes_observer</span> |&gt; <span class="fu">pull</span><span class="op">(</span><span class="va">c</span>, <span class="va">dprime</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> 0.76 
+-1.02 </code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Why is it seemingly difficult to recover theses parameters?</p>
+</div>
+</div>
+</section></section><section id="memory-experiment" class="level1"><h1>Memory experiment</h1>
+<p>Let’s look at an example (borrowing heavily from this <a href="https://vuorre.netlify.com/post/2017/10/09/bayesian-estimation-of-signal-detection-theory-models-part-1/">blog post</a>).</p>
+<p>The data are from a recognition memory experiment:</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># You might first need to install the `remotes` package</span>
+<span class="co"># install.packages("remotes")</span>
+<span class="co"># install sdtalt</span>
+<span class="co"># remotes::install_github("cran/sdtalt")</span>
+
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">sdtalt</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">confcontr</span><span class="op">)</span>
+
+<span class="va">confcontr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">confcontr</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>subno <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">subno</span><span class="op">)</span>,
+         item <span class="op">=</span> <span class="va">isold</span> <span class="op">-</span> <span class="fl">0.5</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">confcontr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3,100 × 4
+   subno sayold isold  item
+   &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 53         1     0  -0.5
+ 2 53         1     1   0.5
+ 3 53         1     1   0.5
+ 4 53         1     1   0.5
+ 5 53         1     0  -0.5
+ 6 53         1     1   0.5
+ 7 53         1     0  -0.5
+ 8 53         0     0  -0.5
+ 9 53         0     1   0.5
+10 53         0     1   0.5
+# … with 3,090 more rows</code></pre>
+</div>
+</div>
+<p>First we classify each response as hit, miss, correct rejection (cr) or false alarm (fa):</p>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt</span> <span class="op">&lt;-</span> <span class="va">confcontr</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span>
+        <span class="va">isold</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">sayold</span><span class="op">==</span><span class="fl">1</span> <span class="op">~</span> <span class="st">"Hit"</span>,
+        <span class="va">isold</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">sayold</span><span class="op">==</span><span class="fl">0</span> <span class="op">~</span> <span class="st">"Miss"</span>,
+        <span class="va">isold</span><span class="op">==</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">sayold</span><span class="op">==</span><span class="fl">0</span> <span class="op">~</span> <span class="st">"CR"</span>,
+        <span class="va">isold</span><span class="op">==</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">sayold</span><span class="op">==</span><span class="fl">1</span> <span class="op">~</span> <span class="st">"FA"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And then count the number of hits, etc.</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">subno</span><span class="op">)</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">type</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">type</span>, values_from <span class="op">=</span> <span class="va">n</span><span class="op">)</span> </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We will need the following two functions later on. The first replaces all instances of <code>NA</code> with <code>0</code>; i.e.&nbsp;if there is a count of zero, then we have the value <code>NA</code> in the data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">replace_NA</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0</span>, <span class="va">x</span><span class="op">)</span>
+    <span class="va">x</span>
+<span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The second function provides a minor correction in case we have hit or false alarm rates of either <code>0</code> or <code>1</code>. Since a <em>rate</em> <span class="math inline">\(r\)</span> is a relative frequency, which we interpret as a probability, it must lie within the range <code>0:1</code>: <span class="math inline">\(0 &lt; r &lt; 1\)</span>. The function adds or subtracts a small number, depending on whether the rate is <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>. In this case, neither function is necessary; we apply them anyway, for demonstration.</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">correct_zero_one</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">rate</span>, <span class="va">e</span> <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span> <span class="op">{</span>
+    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">rate</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+        <span class="va">rate</span> <span class="op">=</span> <span class="va">rate</span> <span class="op">+</span> <span class="va">e</span>
+    <span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">rate</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+        <span class="va">rate</span> <span class="op">=</span> <span class="va">rate</span> <span class="op">-</span> <span class="va">e</span>
+    <span class="op">}</span>
+    <span class="va">rate</span>
+<span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 31 × 5
+# Groups:   subno [31]
+   subno    CR    FA   Hit  Miss
+   &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+ 1 53       33    20    25    22
+ 2 54       39    14    28    19
+ 3 55       36    17    31    16
+ 4 56       43    10    38     9
+ 5 57       35    18    29    18
+ 6 58       41    12    30    17
+ 7 59       46     7    21    26
+ 8 60       38    15    33    14
+ 9 61       42    11    25    22
+10 62       45     8    22    25
+# … with 21 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Hit</span>, <span class="va">Miss</span>, <span class="va">FA</span>, <span class="va">CR</span><span class="op">)</span>, <span class="va">replace_NA</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 31 × 5
+# Groups:   subno [31]
+   subno    CR    FA   Hit  Miss
+   &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+ 1 53       33    20    25    22
+ 2 54       39    14    28    19
+ 3 55       36    17    31    16
+ 4 56       43    10    38     9
+ 5 57       35    18    29    18
+ 6 58       41    12    30    17
+ 7 59       46     7    21    26
+ 8 60       38    15    33    14
+ 9 61       42    11    25    22
+10 62       45     8    22    25
+# … with 21 more rows</code></pre>
+</div>
+</div>
+<p>Next, we <strong>estimate</strong> the hit and false alarm rates, based on the observed number of hits and false alarms.</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>hit_rate <span class="op">=</span> <span class="va">Hit</span><span class="op">/</span><span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">Miss</span><span class="op">)</span>,
+           fa_rate <span class="op">=</span> <span class="va">FA</span><span class="op">/</span><span class="op">(</span><span class="va">FA</span> <span class="op">+</span> <span class="va">CR</span><span class="op">)</span><span class="op">)</span>
+<span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 31 × 7
+# Groups:   subno [31]
+   subno    CR    FA   Hit  Miss hit_rate fa_rate
+   &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+ 1 53       33    20    25    22    0.532   0.377
+ 2 54       39    14    28    19    0.596   0.264
+ 3 55       36    17    31    16    0.660   0.321
+ 4 56       43    10    38     9    0.809   0.189
+ 5 57       35    18    29    18    0.617   0.340
+ 6 58       41    12    30    17    0.638   0.226
+ 7 59       46     7    21    26    0.447   0.132
+ 8 60       38    15    33    14    0.702   0.283
+ 9 61       42    11    25    22    0.532   0.208
+10 62       45     8    22    25    0.468   0.151
+# … with 21 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">hit_rate</span>, <span class="va">fa_rate</span><span class="op">)</span>, <span class="va">correct_zero_one</span><span class="op">)</span><span class="op">)</span>
+<span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 31 × 7
+# Groups:   subno [31]
+   subno    CR    FA   Hit  Miss hit_rate fa_rate
+   &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+ 1 53       33    20    25    22    0.532   0.377
+ 2 54       39    14    28    19    0.596   0.264
+ 3 55       36    17    31    16    0.660   0.321
+ 4 56       43    10    38     9    0.809   0.189
+ 5 57       35    18    29    18    0.617   0.340
+ 6 58       41    12    30    17    0.638   0.226
+ 7 59       46     7    21    26    0.447   0.132
+ 8 60       38    15    33    14    0.702   0.283
+ 9 61       42    11    25    22    0.532   0.208
+10 62       45     8    22    25    0.468   0.151
+# … with 21 more rows</code></pre>
+</div>
+</div>
+<p>Given the hit and false alarm rates, we can calculate the value on the <em>latent strength</em> variable that must result in the hit and false alarm rate.</p>
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>zhr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">hit_rate</span><span class="op">)</span>,
+           zfa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">fa_rate</span><span class="op">)</span><span class="op">)</span>
+<span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 31 × 9
+# Groups:   subno [31]
+   subno    CR    FA   Hit  Miss hit_rate fa_rate     zhr    zfa
+   &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+ 1 53       33    20    25    22    0.532   0.377  0.0801 -0.312
+ 2 54       39    14    28    19    0.596   0.264  0.242  -0.631
+ 3 55       36    17    31    16    0.660   0.321  0.411  -0.466
+ 4 56       43    10    38     9    0.809   0.189  0.872  -0.883
+ 5 57       35    18    29    18    0.617   0.340  0.298  -0.413
+ 6 58       41    12    30    17    0.638   0.226  0.354  -0.751
+ 7 59       46     7    21    26    0.447   0.132 -0.134  -1.12 
+ 8 60       38    15    33    14    0.702   0.283  0.531  -0.574
+ 9 61       42    11    25    22    0.532   0.208  0.0801 -0.815
+10 62       45     8    22    25    0.468   0.151 -0.0801 -1.03 
+# … with 21 more rows</code></pre>
+</div>
+</div>
+<p>Finally, we compute <span class="math inline">\(d'\)</span>, <span class="math inline">\(k\)</span> and <span class="math inline">\(c\)</span> using the formulae given above.</p>
+<div class="cell">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>dprime <span class="op">=</span> <span class="va">zhr</span> <span class="op">-</span> <span class="va">zfa</span>,
+         k <span class="op">=</span> <span class="op">-</span><span class="va">zfa</span>,
+         c <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> <span class="op">(</span><span class="va">zhr</span> <span class="op">+</span> <span class="va">zfa</span><span class="op">)</span><span class="op">)</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">dprime</span>, <span class="va">k</span>, <span class="va">c</span><span class="op">)</span>, <span class="va">round</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 31 × 12
+# Groups:   subno [31]
+   subno    CR    FA   Hit  Miss hit_rate fa_rate     zhr    zfa dprime     k
+   &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+ 1 53       33    20    25    22    0.532   0.377  0.0801 -0.312   0.39  0.31
+ 2 54       39    14    28    19    0.596   0.264  0.242  -0.631   0.87  0.63
+ 3 55       36    17    31    16    0.660   0.321  0.411  -0.466   0.88  0.47
+ 4 56       43    10    38     9    0.809   0.189  0.872  -0.883   1.76  0.88
+ 5 57       35    18    29    18    0.617   0.340  0.298  -0.413   0.71  0.41
+ 6 58       41    12    30    17    0.638   0.226  0.354  -0.751   1.1   0.75
+ 7 59       46     7    21    26    0.447   0.132 -0.134  -1.12    0.98  1.12
+ 8 60       38    15    33    14    0.702   0.283  0.531  -0.574   1.1   0.57
+ 9 61       42    11    25    22    0.532   0.208  0.0801 -0.815   0.9   0.81
+10 62       45     8    22    25    0.468   0.151 -0.0801 -1.03    0.95  1.03
+# … with 21 more rows, and 1 more variable: c &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section><section id="memory-experiment-single-subject" class="level1"><h1>Memory experiment: single subject</h1>
+<p>For simplicity, we first look at the data from subject <code>53</code> only:</p>
+<div class="cell">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">subno</span> <span class="op">==</span> <span class="fl">53</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">subno</span>, <span class="va">hit_rate</span>, <span class="va">fa_rate</span>, <span class="va">zhr</span>, <span class="va">zfa</span>, <span class="va">dprime</span>, <span class="va">k</span>, <span class="va">c</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 8
+# Groups:   subno [1]
+  subno hit_rate fa_rate    zhr    zfa dprime     k     c
+  &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 53       0.532   0.377 0.0801 -0.312   0.39  0.31  0.12</code></pre>
+</div>
+</div>
+</section><section id="signal-detection-as-glm" class="level1"><h1>Signal Detection as GLM</h1>
+<p>A (standard) GLM will give us</p>
+<ul>
+<li>an intercept: this corresponds to <code>-k</code>
+</li>
+<li>a parameter for the indicator <code>isold</code>: this corresponds to <code>d'</code>
+</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">subno53</span> <span class="op">&lt;-</span> <span class="va">confcontr</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">subno</span> <span class="op">==</span> <span class="fl">53</span><span class="op">)</span>
+
+<span class="va">fit_glm_53_k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">sayold</span> <span class="op">~</span> <span class="va">isold</span>, 
+                  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"probit"</span><span class="op">)</span>,
+                  data <span class="op">=</span> <span class="va">subno53</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit_glm_53_k</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = sayold ~ isold, family = binomial(link = "probit"), 
+    data = subno53)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.2322  -0.9734  -0.9734   1.1236   1.3961  
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept)  -0.3124     0.1752  -1.783   0.0746 .
+isold         0.3925     0.2534   1.549   0.1214  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 137.63  on 99  degrees of freedom
+Residual deviance: 135.22  on 98  degrees of freedom
+AIC: 139.22
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">fit_glm_53_c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">sayold</span> <span class="op">~</span> <span class="va">item</span>, 
+                  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"probit"</span><span class="op">)</span>,
+                  data <span class="op">=</span> <span class="va">subno53</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit_glm_53_c</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = sayold ~ item, family = binomial(link = "probit"), 
+    data = subno53)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.2322  -0.9734  -0.9734   1.1236   1.3961  
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)  -0.1162     0.1267  -0.917    0.359
+item          0.3925     0.2534   1.549    0.121
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 137.63  on 99  degrees of freedom
+Residual deviance: 135.22  on 98  degrees of freedom
+AIC: 139.22
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">subno</span> <span class="op">==</span> <span class="fl">53</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">subno</span>, <span class="va">dprime</span>, <span class="va">k</span>, <span class="va">c</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+# Groups:   subno [1]
+  subno dprime     k     c
+  &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 53      0.39  0.31  0.12</code></pre>
+</div>
+</div>
+
+
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{ellis2022,
+  author = {Andrew Ellis},
+  title = {Signal {Detection} {Theory:} {I}},
+  date = {2022-03-15},
+  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/05_signal_detection_i.html},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-ellis2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Andrew Ellis. 2022. <span>“Signal Detection Theory: I.”</span> March 15,
+2022. <a href="https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/05_signal_detection_i.html">https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/05_signal_detection_i.html</a>.
+</div></div></section></div></main><!-- /main --><script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">© Copyright 2022, Andrew Ellis</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kogpsy/neuroscicomplabFS22">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+</div>
+  </div>
+</footer>
+
+
+</body></html>

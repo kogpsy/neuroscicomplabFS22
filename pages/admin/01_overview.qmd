@@ -1,0 +1,53 @@
+---
+title: "Übersicht"
+description: Inhalt des Kurses und Software.
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+format:
+    html:
+        toc: true
+---
+
+# Inhalt dieses Kurses
+
+In diesem Kurs beschäftigen wir uns im weiteren Sinne mit Model-based Cognitive Neuroscience. Dieses Forschungsgebiet existiert noch nicht sehr lange, und ist aus dem Zusammenschluss von mathematischer Modellierung und neurowissenschaftlichen Methoden entstanden.
+
+Wir widmen uns dem behavioralen/kognitiven Teil dieses Forschungsgebiets. Das bedeutet, wir analysieren Daten aus Verhaltensexperimenten --- sowohl mit herkömmlichen statistischen Verfahren, als auch mit mathematischen Modellen. Die Resultate dieser Analysen können wiederum in der Analyse bildgebender Verfahren oder EEG benutzt werden.
+
+<aside>  Es gibt ein sehr gutes Lehrbuch [@forstmannModelBasedCognitiveNeuroscience2015] zum Thema Model-based Cognitive Neuroscience; wir werden einzelne Themen daraus aufgreifen. Das Buch ist auf SpringerLink verfügbar: [An Introduction to Model-Based Cognitive Neuroscience](https://link.springer.com/book/10.1007%2F978-1-4939-2236-9).</aside>
+
+Wir werden folgende Themen im Laufe des Semester behandeln:
+
+- Erstellen von behavioralen Experimenten
+- Importieren und Bearbeiten von Daten (z.B. binäre Daten, Reaktionszeiten)
+- Graphische Darstellung und explorative Datenanalyse
+- Auswahl von statistischen Verfahren 
+- Einführung in die Bayesianische Datenanalyse
+- Analyse messwiederholter Daten anhand von Multilevel Modellen
+- Kognitive Prozessmodelle (mathematische Modelle von Entscheidungsverhalten)
+
+# Software
+
+## Experimente
+Um ein Experiment zu kreieren benutzen wir [PsychoPy](https://www.psychopy.org/). PsychoPy ist ein Python-basiertes Tool, mit dem sich sowohl in einer grafischen Benutzeroberfläche (GUI) als auch mit Python Code Experimente programmieren lassen.
+
+## Datenanalyse
+Um Daten zu verarbeiten (data cleaning), grafisch darzustellen und zu analysieren werden wir R verwenden. Sie sollten daher die aktuelle Version von R installieren (Version `r paste(R.Version()[c("major", "minor")], collapse = ".")`), sowie RStudio.
+
+R 👉 [https://cloud.r-project.org/](https://cloud.r-project.org/)
+
+RStudio 👉 [https://www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download)
+
+Für Bayesianische Datenanalyse verwenden wir ausserdem [JASP](https://jasp-stats.org) und [Stan](https://mc-stan.org/). JASP ist ein GUI Programm, ähnlich wie Jamovi, mit dem sich simple Bayesianische Tests durchführen lassen.
+
+JASP 👉 [https://jasp-stats.org/download/](https://jasp-stats.org/download/)
+
+Stan ist eine probabilistische Programmiersprache, welche wir von R aus benutzen. Die dafür benötigte Software werden wir im Verlauf des Semesters installieren.
+

@@ -1,0 +1,170 @@
+---
+title: "2. Sitzung"
+subtitle: "PsychoPy"
+author: "Andrew Ellis"
+institute: "Neurowissenschaft Computerlab FS 22"
+format:
+  revealjs:
+    theme: [simple, ../styles/reveal.scss]
+    logo: ../assets/logo.png
+    footer: <a href="/">🏠 Neurowissenschaft im Computerlab FS22</a>
+date: "2022-03-01"
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+1
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Bias RDK Experiment
+:::
+
+:::
+::::
+
+## Bias RDK Experiment {.smaller}
+
+:::: {.columns}
+::: {.column width="40%"}
+
+- Random-dot motion direction-discrimination task
+
+- Inside/outside scanner (timing)
+
+- Bias: cue (probability left/right/unbiased)
+
+- Fixation cross
+
+- RDK: 3x3 pixels, coherence 
+
+- 40 bias trials, 40 neutral trials
+
+- 32 valid, 8 invalid trials
+
+:::
+::: {.column width="55%"}
+
+![](../assets/images/bias-payoff-mulder.png)
+:::
+::::
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+2
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+PsychoPy
+:::
+
+:::
+::::
+
+## PsychoPy {.smaller}
+
+:::: {.columns}
+::: {.column width="35%"}
+- [PsychoPy Website](https://www.psychopy.org/)
+
+- [Ressourcen](https://workshops.psychopy.org/teaching/index.html)
+
+- [Walk-through: Builder](https://tu-coding-outreach-group.github.io/cog_summer_workshops_2021/psychopy/index.html)
+
+- [Diskussionsforum](https://discourse.psychopy.org/)
+
+- Kapitel: [Verhaltensexperiment mit PsychoPy](../behavioural-experiments.html)
+:::
+::: {.column width="60%"}
+
+![](../assets/images/psychopy-1.png)
+:::
+::::
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+3
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Pavlovia
+:::
+:::
+::::
+
+## Pavlovia {.smaller}
+
+- [Pavlovia](https://pavlovia.org/#main): 
+
+> Pavlovia is a place for the wide community of researchers in the behavioural sciences to run, share, and explore experiments online.
+
+- [Experimente](https://pavlovia.org/explore?sort=DEFAULT) suchen.
+
+- Zum Beispiel [ChoiceRTT](https://pavlovia.org/explore?sort=DEFAULT) ausprobieren und den [Code](https://gitlab.pavlovia.org/demos/choicertt) anschauen.
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+4
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Understanding your Computer
+:::
+
+:::
+::::
+
+## Understanding your Computer {.smaller}
+
+- Refresh rate: 60 Hz. Ein Frame dauert 1/60 Sekunde, oder 16.667 ms.
+
+```
+from psychopy import visual
+
+win = visual.Window()
+win.getActualFrameRate()
+```
+
+- Keyboard timing: Variabilität ~15 ms.
+
+- Screen refresh fängt oben an und endet (~10 ms später) unten.
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+5
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+🛠 Selber machen
+:::
+
+:::
+::::
+
+## Probieren Sie es selber! {.smaller}
+
+::: {.your-turn}
+Versuchen Sie selber, Teile des Experiments in PsychoPy zu implementieren
+:::
+
+- Wenn Sie eine Starthilfe benötigen, downloaden Sie ein Beipiel: 👉 [Practice Trials](../files/PracticeTrials.zip)
+
+- Eine Einführung finden Sie hier: 👉 [Verhaltensexperiment mit PsychoPy](../behavioural-experiments.html)

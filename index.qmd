@@ -1,0 +1,13 @@
+---
+title: "Neurowissenschaft Computerlab"
+about:
+    template: jolla
+    image: assets/logo_landing.png
+    links:
+    - text: Zulip Forum
+      href: https://neuroscicomplab2022.zulipchat.com/
+    - text: Mail
+      href: mailto:andrew.ellis@unibe.ch
+---
+
+Frühjahrssemester 2022

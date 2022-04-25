@@ -1,0 +1,26 @@
+.content {
+  margin-top: 25px !important;
+}
+
+.title {
+  font-size: 3rem !important;
+  margin-bottom: 10px !important;
+}
+
+.quarto-description {
+  margin-bottom: 40px !important;
+}
+
+.quarto-title-meta {
+  margin-bottom: 30px !important;
+  border-radius: 0.25rem;
+  padding-left: 0.4em;
+  padding-bottom: 0.4em;
+}
+
+.navbar-brand img {
+  max-height: 35px !important;
+  margin-top: -5px;
+  padding-left: 10px;
+  padding-right: 16px;
+}

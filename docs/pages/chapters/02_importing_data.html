@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.301">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Andrew Ellis">
+<meta name="dcterms.date" content="2022-03-08">
+<meta name="description" content="Daten aus Verhaltensexperimenten importieren und bearbeiten.">
+<title>Neurowissenschaft Computerlab - Daten importieren</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script><script src="../../site_libs/quarto-nav/headroom.min.js"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script><meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../../site_libs/quarto-search/fuse.min.js"></script><script src="../../site_libs/quarto-search/quarto-search.js"></script><link href="../..//assets/logo_landing.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script><script src="../../site_libs/quarto-html/popper.min.js"></script><script src="../../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../../site_libs/quarto-html/anchor.min.js"></script><link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script><link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link class="quarto-color-scheme" href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="../../site_libs/bootstrap/bootstrap-dark.min.css">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script><link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link rel="stylesheet" href="../../styles/global.css">
+</head>
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../assets/logo.png" alt=""><span class="navbar-title">Neurowissenschaft Computerlab</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-admin">
+<li>
+    <a class="dropdown-item" href="../../pages/admin/01_overview.html">
+ <span class="dropdown-text">Übersicht</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/admin/02_assessments.html">
+ <span class="dropdown-text">Leistungskontrollen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/admin/03_zulip_forum.html">
+ <span class="dropdown-text">Zulip Forum</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-kapitel" role="button" data-bs-toggle="dropdown" aria-expanded="false">Kapitel</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-kapitel">
+<li>
+    <a class="dropdown-item" href="../../pages/chapters/01_psychopy_experiments.html">
+ <span class="dropdown-text">Verhaltensexperiment mit PsychoPy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/02_importing_data.html">
+ <span class="dropdown-text">Daten importieren</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/03_data_cleaning.html">
+ <span class="dropdown-text">Data cleaning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/04_summarizing_data.html">
+ <span class="dropdown-text">Daten bearbeiten und zusammenfassen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/05_signal_detection_i.html">
+ <span class="dropdown-text">Signal Detection Theory: I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/06_signal_detection_ii.html">
+ <span class="dropdown-text">Signal Detection Theory: II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/07_response_times_i.html">
+ <span class="dropdown-text">Reaktionszeiten: I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/08_response_times_ii.html">
+ <span class="dropdown-text">Reaktionszeiten: II</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-slides" role="button" data-bs-toggle="dropdown" aria-expanded="false">Slides</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-slides">
+<li>
+    <a class="dropdown-item" href="../../slides/01_introduction.html">
+ <span class="dropdown-text">1. Sitzung (22.02.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/02_psychopy.html">
+ <span class="dropdown-text">2. Sitzung (01.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/03_import_and_process_data.html">
+ <span class="dropdown-text">3. Sitzung (08.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/04_process_data.html">
+ <span class="dropdown-text">4. Sitzung (15.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/05_signal_detection.html">
+ <span class="dropdown-text">5. Sitzung (22.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/06_signal_detection_examples.html">
+ <span class="dropdown-text">6. Sitzung (29.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/07_response_times.html">
+ <span class="dropdown-text">7. Sitzung (05.04.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/08_response_times_ii.html">
+ <span class="dropdown-text">8. Sitzung (12.04.2022)</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bungen" role="button" data-bs-toggle="dropdown" aria-expanded="false">Übungen</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bungen">
+<li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_01.html">
+ <span class="dropdown-text">Übung 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_02.html">
+ <span class="dropdown-text">Übung 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_03.html">
+ <span class="dropdown-text">Übung 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_04.html">
+ <span class="dropdown-text">Übung 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_05.html">
+ <span class="dropdown-text">Übung 5</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lösungen" role="button" data-bs-toggle="dropdown" aria-expanded="false">Lösungen</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-lösungen">
+<li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_03.html">
+ <span class="dropdown-text">Übung 3: Lösung</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#rstudio-projekt" id="toc-rstudio-projekt" class="nav-link active" data-scroll-target="#rstudio-projekt">RStudio Projekt</a></li>
+  <li>
+<a href="#einen-datensatz-bearbeiten" id="toc-einen-datensatz-bearbeiten" class="nav-link" data-scroll-target="#einen-datensatz-bearbeiten">Einen Datensatz bearbeiten</a>
+  <ul class="collapse">
+<li>
+<a href="#csv-file-importieren" id="toc-csv-file-importieren" class="nav-link" data-scroll-target="#csv-file-importieren">CSV File importieren</a>
+  <ul class="collapse">
+<li><a href="#variablen-%C3%BCberpr%C3%BCfen" id="toc-variablen-überprüfen" class="nav-link" data-scroll-target="#variablen-%C3%BCberpr%C3%BCfen">Variablen überprüfen</a></li>
+  </ul>
+</li>
+  <li><a href="#practice-trials-l%C3%B6schen" id="toc-practice-trials-löschen" class="nav-link" data-scroll-target="#practice-trials-l%C3%B6schen">Practice Trials löschen</a></li>
+  <li><a href="#variablen-ausw%C3%A4hlen" id="toc-variablen-auswählen" class="nav-link" data-scroll-target="#variablen-ausw%C3%A4hlen">Variablen auswählen</a></li>
+  <li><a href="#variablen-umbennen" id="toc-variablen-umbennen" class="nav-link" data-scroll-target="#variablen-umbennen">Variablen umbennen</a></li>
+  <li><a href="#neue-variablen-definieren" id="toc-neue-variablen-definieren" class="nav-link" data-scroll-target="#neue-variablen-definieren">Neue Variablen definieren</a></li>
+  <li><a href="#gruppierungsvariablen" id="toc-gruppierungsvariablen" class="nav-link" data-scroll-target="#gruppierungsvariablen">Gruppierungsvariablen</a></li>
+  <li><a href="#accuracy-pro-bedingung" id="toc-accuracy-pro-bedingung" class="nav-link" data-scroll-target="#accuracy-pro-bedingung">Accuracy pro Bedingung</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#mehrere-datens%C3%A4tze-bearbeiten" id="toc-mehrere-datensätze-bearbeiten" class="nav-link" data-scroll-target="#mehrere-datens%C3%A4tze-bearbeiten">Mehrere Datensätze bearbeiten</a>
+  <ul class="collapse">
+<li><a href="#funktion-definieren" id="toc-funktion-definieren" class="nav-link" data-scroll-target="#funktion-definieren">Funktion definieren</a></li>
+  <li><a href="#alle-files-in-einem-ordner-auflisten" id="toc-alle-files-in-einem-ordner-auflisten" class="nav-link" data-scroll-target="#alle-files-in-einem-ordner-auflisten">Alle Files in einem Ordner auflisten</a></li>
+  <li><a href="#funktion-auf-liste-anwenden" id="toc-funktion-auf-liste-anwenden" class="nav-link" data-scroll-target="#funktion-auf-liste-anwenden">Funktion auf Liste anwenden</a></li>
+  <li><a href="#variablen-ausw%C3%A4hlen-und-umbennen" id="toc-variablen-auswählen-und-umbennen" class="nav-link" data-scroll-target="#variablen-ausw%C3%A4hlen-und-umbennen">Variablen auswählen und umbennen</a></li>
+  <li>
+<a href="#neue-variablen-definieren-1" id="toc-neue-variablen-definieren-1" class="nav-link" data-scroll-target="#neue-variablen-definieren-1">Neue Variablen definieren</a>
+  <ul class="collapse">
+<li><a href="#korrekte-antworten" id="toc-korrekte-antworten" class="nav-link" data-scroll-target="#korrekte-antworten">Korrekte Antworten</a></li>
+  <li><a href="#cue-bedingungsvariable" id="toc-cue-bedingungsvariable" class="nav-link" data-scroll-target="#cue-bedingungsvariable">Cue-Bedingungsvariable</a></li>
+  <li><a href="#daten-als-csv-speichern" id="toc-daten-als-csv-speichern" class="nav-link" data-scroll-target="#daten-als-csv-speichern">Daten als CSV speichern</a></li>
+  </ul>
+</li>
+  <li><a href="#gruppierungsvariablen-1" id="toc-gruppierungsvariablen-1" class="nav-link" data-scroll-target="#gruppierungsvariablen-1">Gruppierungsvariablen</a></li>
+  <li><a href="#accuracy-pro-personbedingung" id="toc-accuracy-pro-personbedingung" class="nav-link" data-scroll-target="#accuracy-pro-personbedingung">Accuracy pro Person/Bedingung</a></li>
+  <li><a href="#visualisieren" id="toc-visualisieren" class="nav-link" data-scroll-target="#visualisieren">Visualisieren</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Daten importieren</h1>
+</div>
+
+<div>
+  <div class="description">
+    Daten aus Verhaltensexperimenten importieren und bearbeiten.
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">Andrew Ellis <a href="https://orcid.org/0000-0002-2788-936X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://www.kog.psy.unibe.ch">
+            Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern
+            </a>
+          </p>
+      </div>
+    </div>
+
+
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022-03-08</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header><section id="rstudio-projekt" class="level1 page-columns page-full"><h1>RStudio Projekt</h1>
+<p>Nun wollen wir die Datensätze aus dem Verhaltensexperiment von der letzten Sitzung in R importieren.</p>
+<p>Laden Sie das <a href="../../downloadable_files/import-data.zip">RStudio Projekt</a> und öffnen Sie es. Im Projekt ist ein R Script File enthalten (<code>import-data.R</code>).</p>
+<aside>
+Falls Sie nur den R Code möchten, können Sie das File hier downloaden: 👉 <a href="../../downloadable_files/import-data.R">R Code</a>
+</aside></section><section id="einen-datensatz-bearbeiten" class="level1 page-columns page-full"><h1>Einen Datensatz bearbeiten</h1>
+<p>Es gibt zwei Unterordner: <code>testdata</code> und <code>data</code>. In ersterem befindet sich ein Datensatz einer Testperson, in letzterem befinden sich mehrere Datensätze. Wir importieren und bearbeiten zuerst den Datensatz aus dem <code>testdata</code> Ordner, und wenden anschliessend das Gelernte gleichzeitig auf mehrere Datensätze an.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<aside>
+In Ihrem Rstudio Projekt ist dieses File im Ordner <code>testdata</code> gespeichert (Hier in einem Ordner names <code>data/rdktest</code>). Bitte passen Sie den Pfad dementsprechend an, oder verwenden Sie den Code aus dem R Script im RStudio Projekt.
+</aside><section id="csv-file-importieren" class="level2"><h2 class="anchored" data-anchor-id="csv-file-importieren">CSV File importieren</h2>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"testdata/ZZ_rdk-discrimination_2022_Mar_07_1403.csv"</span><span class="op">)</span> </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="variablen-überprüfen" class="level3"><h3 class="anchored" data-anchor-id="variablen-überprüfen">Variablen überprüfen</h3>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">testdata</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 167
+Columns: 39
+$ cue                                        &lt;chr&gt; "none", "left", "right", "l…
+$ direction                                  &lt;chr&gt; "right", "right", "right", …
+$ practice_block_loop.thisRepN               &lt;dbl&gt; 0, 0, 0, 0, 0, 0, NA, NA, N…
+$ practice_block_loop.thisTrialN             &lt;dbl&gt; 0, 1, 2, 3, 4, 5, NA, NA, N…
+$ practice_block_loop.thisN                  &lt;dbl&gt; 0, 1, 2, 3, 4, 5, NA, NA, N…
+$ practice_block_loop.thisIndex              &lt;dbl&gt; 5, 2, 1, 0, 4, 3, NA, NA, N…
+$ main_blocks_loop.thisRepN                  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
+$ main_blocks_loop.thisTrialN                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
+$ main_blocks_loop.thisN                     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
+$ main_blocks_loop.thisIndex                 &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
+$ static_isi.started                         &lt;dbl&gt; 0.01033428, 0.03202713, 0.0…
+$ static_isi.stopped                         &lt;dbl&gt; 2.010334, 2.032027, 2.03217…
+$ fixation_pre.started                       &lt;dbl&gt; 26.79425, 36.16522, 44.7852…
+$ fixation_pre.stopped                       &lt;chr&gt; "None", "None", "None", "No…
+$ image.started                              &lt;dbl&gt; 27.19849, 36.28205, 46.0032…
+$ image.stopped                              &lt;chr&gt; "None", "None", "None", "No…
+$ fixation_post.started                      &lt;dbl&gt; 28.17814, 37.28240, 47.0037…
+$ fixation_post.stopped                      &lt;chr&gt; "None", "None", "None", "No…
+$ dots_background.started                    &lt;dbl&gt; 32.18642, 41.30145, 52.0107…
+$ dots_background.stopped                    &lt;chr&gt; "None", "None", "None", "No…
+$ dots_stimulus.started                      &lt;dbl&gt; 32.18642, 41.30145, 52.0107…
+$ dots_stimulus.stopped                      &lt;chr&gt; "None", "None", "None", "No…
+$ dots_keyboard_response.keys                &lt;chr&gt; "None", "f", "j", "f", "Non…
+$ dots_keyboard_response.started             &lt;dbl&gt; 32.18642, 41.30145, 52.0107…
+$ dots_keyboard_response.stopped             &lt;chr&gt; "None", "None", "None", "No…
+$ feedback_text.started                      &lt;dbl&gt; 33.70200, 42.28899, 52.9229…
+$ feedback_text.stopped                      &lt;chr&gt; "None", "None", "None", "No…
+$ dots_keyboard_response.rt                  &lt;dbl&gt; NA, 0.9339199, 0.8488816, 0…
+$ instruction_main_text.started              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, 81.…
+$ instruction_main_text.stopped              &lt;chr&gt; NA, NA, NA, NA, NA, NA, "No…
+$ instruction_main_keyboard_response.keys    &lt;chr&gt; NA, NA, NA, NA, NA, NA, "sp…
+$ instruction_main_keyboard_response.rt      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, 3.1…
+$ instruction_main_keyboard_response.started &lt;dbl&gt; NA, NA, NA, NA, NA, NA, 81.…
+$ instruction_main_keyboard_response.stopped &lt;chr&gt; NA, NA, NA, NA, NA, NA, "No…
+$ Pseudonym                                  &lt;chr&gt; "ZZ", "ZZ", "ZZ", "ZZ", "ZZ…
+$ date                                       &lt;chr&gt; "2022_Mar_07_1403", "2022_M…
+$ expName                                    &lt;chr&gt; "rdk-discrimination", "rdk-…
+$ psychopyVersion                            &lt;chr&gt; "03.02.21", "03.02.21", "03…
+$ frameRate                                  &lt;dbl&gt; 59.9, 59.9, 59.9, 59.9, 59.…</code></pre>
+</div>
+</div>
+</section></section><section id="practice-trials-löschen" class="level2"><h2 class="anchored" data-anchor-id="practice-trials-löschen">Practice Trials löschen</h2>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/">kableExtra</a></span><span class="op">)</span>
+
+<span class="va">testdata</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html">kbl</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_classic.html">kable_paper</a></span><span class="op">(</span><span class="st">"striped"</span>, full_width <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/column_spec.html">column_spec</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">7</span>, bold <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/row_spec.html">row_spec</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, bold <span class="op">=</span> <span class="cn">TRUE</span>, color <span class="op">=</span> <span class="st">"white"</span>, background <span class="op">=</span> <span class="st">"#D7261E"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class=" lightable-paper lightable-striped" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;"> cue </th>
+   <th style="text-align:left;"> direction </th>
+   <th style="text-align:right;"> practice_block_loop.thisRepN </th>
+   <th style="text-align:right;"> practice_block_loop.thisTrialN </th>
+   <th style="text-align:right;"> practice_block_loop.thisN </th>
+   <th style="text-align:right;"> practice_block_loop.thisIndex </th>
+   <th style="text-align:right;"> main_blocks_loop.thisRepN </th>
+   <th style="text-align:right;"> main_blocks_loop.thisTrialN </th>
+   <th style="text-align:right;"> main_blocks_loop.thisN </th>
+   <th style="text-align:right;"> main_blocks_loop.thisIndex </th>
+   <th style="text-align:right;"> static_isi.started </th>
+   <th style="text-align:right;"> static_isi.stopped </th>
+   <th style="text-align:right;"> fixation_pre.started </th>
+   <th style="text-align:left;"> fixation_pre.stopped </th>
+   <th style="text-align:right;"> image.started </th>
+   <th style="text-align:left;"> image.stopped </th>
+   <th style="text-align:right;"> fixation_post.started </th>
+   <th style="text-align:left;"> fixation_post.stopped </th>
+   <th style="text-align:right;"> dots_background.started </th>
+   <th style="text-align:left;"> dots_background.stopped </th>
+   <th style="text-align:right;"> dots_stimulus.started </th>
+   <th style="text-align:left;"> dots_stimulus.stopped </th>
+   <th style="text-align:left;"> dots_keyboard_response.keys </th>
+   <th style="text-align:right;"> dots_keyboard_response.started </th>
+   <th style="text-align:left;"> dots_keyboard_response.stopped </th>
+   <th style="text-align:right;"> feedback_text.started </th>
+   <th style="text-align:left;"> feedback_text.stopped </th>
+   <th style="text-align:right;"> dots_keyboard_response.rt </th>
+   <th style="text-align:right;"> instruction_main_text.started </th>
+   <th style="text-align:left;"> instruction_main_text.stopped </th>
+   <th style="text-align:left;"> instruction_main_keyboard_response.keys </th>
+   <th style="text-align:right;"> instruction_main_keyboard_response.rt </th>
+   <th style="text-align:right;"> instruction_main_keyboard_response.started </th>
+   <th style="text-align:left;"> instruction_main_keyboard_response.stopped </th>
+   <th style="text-align:left;"> Pseudonym </th>
+   <th style="text-align:left;"> date </th>
+   <th style="text-align:left;"> expName </th>
+   <th style="text-align:left;"> psychopyVersion </th>
+   <th style="text-align:right;"> frameRate </th>
+  </tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> none </td>
+   <td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> right </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 5 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0.0103343 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2.010334 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 26.79425 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 27.19849 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 28.17814 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 32.18642 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 32.18642 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 32.18642 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 33.70200 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> ZZ </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> rdk-discrimination </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 03.02.21 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 59.9 </td>
+  </tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> left </td>
+   <td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> right </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 1 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 1 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0.0320271 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2.032027 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 36.16522 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 36.28205 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 37.28240 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 41.30145 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 41.30145 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> f </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 41.30145 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 42.28899 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0.9339199 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> ZZ </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> rdk-discrimination </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 03.02.21 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 59.9 </td>
+  </tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> right </td>
+   <td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> right </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 1 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0.0321732 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2.032173 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 44.78521 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 46.00329 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 47.00374 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 52.01072 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 52.01072 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> j </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 52.01072 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 52.92295 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0.8488816 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> ZZ </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> rdk-discrimination </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 03.02.21 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 59.9 </td>
+  </tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> left </td>
+   <td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> left </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 3 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 3 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0.0321533 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2.032153 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 55.39138 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 56.19407 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 57.22527 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 61.23181 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 61.23181 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> f </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 61.23181 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 62.21611 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0.9396018 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> ZZ </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> rdk-discrimination </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 03.02.21 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 59.9 </td>
+  </tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> none </td>
+   <td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> left </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 4 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 4 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 4 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0.0321391 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2.032139 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 64.71204 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 64.81315 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 65.84603 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 69.25240 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 69.25240 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 69.25240 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 70.78541 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> ZZ </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> rdk-discrimination </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 03.02.21 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 59.9 </td>
+  </tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> right </td>
+   <td style="text-align:left;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> left </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 5 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 5 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 3 </td>
+   <td style="text-align:right;font-weight: bold;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0.0323178 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2.032318 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 73.24960 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 74.45209 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 75.48391 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 79.99045 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 79.99045 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> f </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 79.99045 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 80.80311 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> None </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 0.7490084 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> ZZ </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> rdk-discrimination </td>
+   <td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 03.02.21 </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> 59.9 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> NA </td>
+   <td style="text-align:left;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 81.30346 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:left;"> space </td>
+   <td style="text-align:right;"> 3.187924 </td>
+   <td style="text-align:right;"> 81.30346 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:left;"> ZZ </td>
+   <td style="text-align:left;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;"> rdk-discrimination </td>
+   <td style="text-align:left;"> 03.02.21 </td>
+   <td style="text-align:right;"> 59.9 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> right </td>
+   <td style="text-align:left;font-weight: bold;"> right </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 0.0160001 </td>
+   <td style="text-align:right;"> 2.016000 </td>
+   <td style="text-align:right;"> 86.52245 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 86.89231 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 87.92302 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 92.92987 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 92.92987 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:left;"> j </td>
+   <td style="text-align:right;"> 92.92987 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 93.70924 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 0.7136441 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ZZ </td>
+   <td style="text-align:left;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;"> rdk-discrimination </td>
+   <td style="text-align:left;"> 03.02.21 </td>
+   <td style="text-align:right;"> 59.9 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> right </td>
+   <td style="text-align:left;font-weight: bold;"> right </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 31 </td>
+   <td style="text-align:right;"> 0.0318162 </td>
+   <td style="text-align:right;"> 2.031816 </td>
+   <td style="text-align:right;"> 96.17699 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 96.54602 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 97.57770 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 101.58423 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 101.58423 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:left;"> j </td>
+   <td style="text-align:right;"> 101.58423 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 102.26673 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 0.6271285 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ZZ </td>
+   <td style="text-align:left;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;"> rdk-discrimination </td>
+   <td style="text-align:left;"> 03.02.21 </td>
+   <td style="text-align:right;"> 59.9 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> none </td>
+   <td style="text-align:left;font-weight: bold;"> right </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> 0 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 66 </td>
+   <td style="text-align:right;"> 0.0321148 </td>
+   <td style="text-align:right;"> 2.032115 </td>
+   <td style="text-align:right;"> 104.76463 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 105.13302 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 106.16508 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 110.67183 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 110.67183 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:left;"> f </td>
+   <td style="text-align:right;"> 110.67183 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 111.38828 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 0.6703410 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ZZ </td>
+   <td style="text-align:left;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;"> rdk-discrimination </td>
+   <td style="text-align:left;"> 03.02.21 </td>
+   <td style="text-align:right;"> 59.9 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> none </td>
+   <td style="text-align:left;font-weight: bold;"> right </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> 0 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 75 </td>
+   <td style="text-align:right;"> 0.0321121 </td>
+   <td style="text-align:right;"> 2.032112 </td>
+   <td style="text-align:right;"> 113.88535 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 115.08794 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 116.11989 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 119.52612 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 119.52612 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:left;"> j </td>
+   <td style="text-align:right;"> 119.52612 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 120.15512 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 0.5738488 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ZZ </td>
+   <td style="text-align:left;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;"> rdk-discrimination </td>
+   <td style="text-align:left;"> 03.02.21 </td>
+   <td style="text-align:right;"> 59.9 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> left </td>
+   <td style="text-align:left;font-weight: bold;"> left </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> NA </td>
+   <td style="text-align:right;font-weight: bold;"> 0 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 0.0321118 </td>
+   <td style="text-align:right;"> 2.032112 </td>
+   <td style="text-align:right;"> 122.62295 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 123.82583 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 124.85742 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 129.36397 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 129.36397 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:left;"> j </td>
+   <td style="text-align:right;"> 129.36397 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 130.25975 </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:right;"> 0.8405913 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ZZ </td>
+   <td style="text-align:left;"> 2022_Mar_07_1403 </td>
+   <td style="text-align:left;"> rdk-discrimination </td>
+   <td style="text-align:left;"> 03.02.21 </td>
+   <td style="text-align:right;"> 59.9 </td>
+  </tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"main_block"</span><span class="op">)</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html">kbl</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_classic.html">kable_paper</a></span><span class="op">(</span><span class="st">"striped"</span>, full_width <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/row_spec.html">row_spec</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, bold <span class="op">=</span> <span class="cn">TRUE</span>, color <span class="op">=</span> <span class="st">"white"</span>, background <span class="op">=</span> <span class="st">"#D7261E"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class=" lightable-paper lightable-striped" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:right;"> main_blocks_loop.thisRepN </th>
+   <th style="text-align:right;"> main_blocks_loop.thisTrialN </th>
+   <th style="text-align:right;"> main_blocks_loop.thisN </th>
+   <th style="text-align:right;"> main_blocks_loop.thisIndex </th>
+  </tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+  </tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+  </tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+  </tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+  </tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+  </tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+  </tr>
+<tr>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+   <td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"> NA </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 18 </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 31 </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 66 </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 75 </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 13 </td>
+  </tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Die Variable <code>main_blocks_loop.thisN</code> ist die Trialnummer. Diese können wir verwenden, um die Zeilen auszuschliessen, die nicht zum Main Block gehören.</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span> |&gt; 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">main_blocks_loop.thisN</span><span class="op">)</span><span class="op">)</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"practice_block_loop"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 160 × 35
+   cue   direction main_blocks_loop.thisRepN main_blocks_loop.… main_blocks_loo…
+   &lt;chr&gt; &lt;chr&gt;                         &lt;dbl&gt;              &lt;dbl&gt;            &lt;dbl&gt;
+ 1 right right                             0                  0                0
+ 2 right right                             0                  1                1
+ 3 none  right                             0                  2                2
+ 4 none  right                             0                  3                3
+ 5 left  left                              0                  4                4
+ 6 none  right                             0                  5                5
+ 7 none  left                              0                  6                6
+ 8 left  left                              0                  7                7
+ 9 left  right                             0                  8                8
+10 none  right                             0                  9                9
+# … with 150 more rows, and 30 more variables:
+#   main_blocks_loop.thisIndex &lt;dbl&gt;, static_isi.started &lt;dbl&gt;,
+#   static_isi.stopped &lt;dbl&gt;, fixation_pre.started &lt;dbl&gt;,
+#   fixation_pre.stopped &lt;chr&gt;, image.started &lt;dbl&gt;, image.stopped &lt;chr&gt;,
+#   fixation_post.started &lt;dbl&gt;, fixation_post.stopped &lt;chr&gt;,
+#   dots_background.started &lt;dbl&gt;, dots_background.stopped &lt;chr&gt;,
+#   dots_stimulus.started &lt;dbl&gt;, dots_stimulus.stopped &lt;chr&gt;, …</code></pre>
+</div>
+</div>
+</section><section id="variablen-auswählen" class="level2"><h2 class="anchored" data-anchor-id="variablen-auswählen">Variablen auswählen</h2>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"static"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"fixation"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"image"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"instruction"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"feedback"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 167 × 23
+   cue   direction practice_block_loop.thisRe… practice_block_… practice_block_…
+   &lt;chr&gt; &lt;chr&gt;                           &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1 none  right                               0                0                0
+ 2 left  right                               0                1                1
+ 3 right right                               0                2                2
+ 4 left  left                                0                3                3
+ 5 none  left                                0                4                4
+ 6 right left                                0                5                5
+ 7 &lt;NA&gt;  &lt;NA&gt;                               NA               NA               NA
+ 8 right right                              NA               NA               NA
+ 9 right right                              NA               NA               NA
+10 none  right                              NA               NA               NA
+# … with 157 more rows, and 18 more variables:
+#   practice_block_loop.thisIndex &lt;dbl&gt;, main_blocks_loop.thisRepN &lt;dbl&gt;,
+#   main_blocks_loop.thisTrialN &lt;dbl&gt;, main_blocks_loop.thisN &lt;dbl&gt;,
+#   main_blocks_loop.thisIndex &lt;dbl&gt;, dots_background.started &lt;dbl&gt;,
+#   dots_background.stopped &lt;chr&gt;, dots_stimulus.started &lt;dbl&gt;,
+#   dots_stimulus.stopped &lt;chr&gt;, dots_keyboard_response.keys &lt;chr&gt;,
+#   dots_keyboard_response.started &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span> <span class="op">&lt;-</span> <span class="va">testdata</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"static"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"fixation"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"image"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"instruction"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"feedback"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 167 × 23
+   cue   direction practice_block_loop.thisRe… practice_block_… practice_block_…
+   &lt;chr&gt; &lt;chr&gt;                           &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1 none  right                               0                0                0
+ 2 left  right                               0                1                1
+ 3 right right                               0                2                2
+ 4 left  left                                0                3                3
+ 5 none  left                                0                4                4
+ 6 right left                                0                5                5
+ 7 &lt;NA&gt;  &lt;NA&gt;                               NA               NA               NA
+ 8 right right                              NA               NA               NA
+ 9 right right                              NA               NA               NA
+10 none  right                              NA               NA               NA
+# … with 157 more rows, and 18 more variables:
+#   practice_block_loop.thisIndex &lt;dbl&gt;, main_blocks_loop.thisRepN &lt;dbl&gt;,
+#   main_blocks_loop.thisTrialN &lt;dbl&gt;, main_blocks_loop.thisN &lt;dbl&gt;,
+#   main_blocks_loop.thisIndex &lt;dbl&gt;, dots_background.started &lt;dbl&gt;,
+#   dots_background.stopped &lt;chr&gt;, dots_stimulus.started &lt;dbl&gt;,
+#   dots_stimulus.stopped &lt;chr&gt;, dots_keyboard_response.keys &lt;chr&gt;,
+#   dots_keyboard_response.started &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+</section><section id="variablen-umbennen" class="level2"><h2 class="anchored" data-anchor-id="variablen-umbennen">Variablen umbennen</h2>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span> <span class="op">&lt;-</span> <span class="va">testdata</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span>trial <span class="op">=</span> <span class="va">main_blocks_loop.thisN</span>,
+           ID <span class="op">=</span> <span class="va">Pseudonym</span>,
+           <span class="va">cue</span>,
+           <span class="va">direction</span>,
+           response <span class="op">=</span> <span class="va">dots_keyboard_response.keys</span>,
+           rt <span class="op">=</span> <span class="va">dots_keyboard_response.rt</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 167 × 6
+   trial ID    cue   direction response     rt
+   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;dbl&gt;
+ 1    NA ZZ    none  right     None     NA    
+ 2    NA ZZ    left  right     f         0.934
+ 3    NA ZZ    right right     j         0.849
+ 4    NA ZZ    left  left      f         0.940
+ 5    NA ZZ    none  left      None     NA    
+ 6    NA ZZ    right left      f         0.749
+ 7    NA ZZ    &lt;NA&gt;  &lt;NA&gt;      &lt;NA&gt;     NA    
+ 8     0 ZZ    right right     j         0.714
+ 9     1 ZZ    right right     j         0.627
+10     2 ZZ    none  right     f         0.670
+# … with 157 more rows</code></pre>
+</div>
+</div>
+</section><section id="neue-variablen-definieren" class="level2"><h2 class="anchored" data-anchor-id="neue-variablen-definieren">Neue Variablen definieren</h2>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span> <span class="op">&lt;-</span> <span class="va">testdata</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>choice <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">response</span> <span class="op">==</span> <span class="st">"j"</span>, <span class="st">"right"</span>, <span class="st">"left"</span><span class="op">)</span>,
+           response <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">choice</span> <span class="op">==</span> <span class="st">"right"</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Alternative:</p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span> <span class="op">&lt;-</span> <span class="va">testdata</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>choice <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">response</span> <span class="op">==</span> <span class="st">"j"</span>, <span class="st">"right"</span>, <span class="st">"left"</span><span class="op">)</span>,
+           response <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">choice</span> <span class="op">==</span> <span class="st">"right"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Wir erstellen ausserdem hier eine Variable, welche angibt, ob der Cue <code>valid</code>, <code>invalid</code> oder <code>neutral</code> war. Ein Cue ist genau dann valide, wenn er dieselbe Richtung hat wie der RDK Stimulus, d.h. <code>cue == direction</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span> <span class="op">&lt;-</span> <span class="va">testdata</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>condition <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">cue</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">~</span> <span class="st">"neutral"</span>,
+                                 <span class="va">cue</span> <span class="op">==</span> <span class="va">direction</span> <span class="op">~</span> <span class="st">"valid"</span>,
+                                 <span class="va">cue</span> <span class="op">!=</span> <span class="va">direction</span> <span class="op">~</span> <span class="st">"invalid"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span> <span class="op">&lt;-</span> <span class="va">testdata</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>correct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">choice</span> <span class="op">==</span> <span class="va">direction</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="gruppierungsvariablen" class="level2"><h2 class="anchored" data-anchor-id="gruppierungsvariablen">Gruppierungsvariablen</h2>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">testdata</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 167
+Columns: 9
+$ trial     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10…
+$ ID        &lt;chr&gt; "ZZ", "ZZ", "ZZ", "ZZ", "ZZ", "ZZ", "ZZ", "ZZ", "ZZ", "ZZ", …
+$ cue       &lt;chr&gt; "none", "left", "right", "left", "none", "right", NA, "right…
+$ direction &lt;chr&gt; "right", "right", "right", "left", "left", "left", NA, "righ…
+$ response  &lt;dbl&gt; 0, 0, 1, 0, 0, 0, NA, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0,…
+$ rt        &lt;dbl&gt; NA, 0.9339199, 0.8488816, 0.9396018, NA, 0.7490084, NA, 0.71…
+$ choice    &lt;chr&gt; "left", "left", "right", "left", "left", "left", NA, "right"…
+$ condition &lt;chr&gt; "neutral", "invalid", "valid", "valid", "neutral", "invalid"…
+$ correct   &lt;dbl&gt; 0, 0, 1, 1, 1, 1, NA, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1,…</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testdata</span> <span class="op">&lt;-</span> <span class="va">testdata</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span><span class="op">(</span><span class="va">is.character</span>, <span class="va">as.factor</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">testdata</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 167
+Columns: 9
+$ trial     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10…
+$ ID        &lt;fct&gt; ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, ZZ, …
+$ cue       &lt;fct&gt; none, left, right, left, none, right, NA, right, right, none…
+$ direction &lt;fct&gt; right, right, right, left, left, left, NA, right, right, rig…
+$ response  &lt;dbl&gt; 0, 0, 1, 0, 0, 0, NA, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0,…
+$ rt        &lt;dbl&gt; NA, 0.9339199, 0.8488816, 0.9396018, NA, 0.7490084, NA, 0.71…
+$ choice    &lt;fct&gt; left, left, right, left, left, left, NA, right, right, left,…
+$ condition &lt;fct&gt; neutral, invalid, valid, valid, neutral, invalid, NA, valid,…
+$ correct   &lt;dbl&gt; 0, 0, 1, 1, 1, 1, NA, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1,…</code></pre>
+</div>
+</div>
+</section><section id="accuracy-pro-bedingung" class="level2"><h2 class="anchored" data-anchor-id="accuracy-pro-bedingung">Accuracy pro Bedingung</h2>
+<p>Wir können nun die <em>accuracy</em> in jeder Cue-Bedingung berechnen. Es gibt hier zwei Möglichkeiten: wir berechen die Anzahl Trials (<code>N</code>), und die Anzahl korrekter Antworten (<code>ncorrect</code>) separat. Der Anteil korrekter Antworten ist dann einfach <code>ncorrect/N</code>. Dasselbe Ergebnis erhalten wir, wenn wir einfach den Mittelwert der korrekten Antworten nehmen.</p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">testaccuracy</span> <span class="op">&lt;-</span> <span class="va">testdata</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">condition</span><span class="op">)</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,
+              ncorrect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">correct</span><span class="op">)</span>,
+              accuracy <span class="op">=</span> <span class="va">ncorrect</span><span class="op">/</span><span class="va">N</span>,
+              accuracy2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">correct</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">testaccuracy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  condition     N ncorrect accuracy accuracy2
+  &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 invalid      18       14    0.778     0.778
+2 neutral      82       67    0.817     0.817
+3 valid        66       62    0.939     0.939
+4 &lt;NA&gt;          1       NA   NA        NA    </code></pre>
+</div>
+</div>
+</section></section><section id="mehrere-datensätze-bearbeiten" class="level1 page-columns page-full"><h1>Mehrere Datensätze bearbeiten</h1>
+<p>Nun werden wir dasselbe wie oben machen, aber dieses Mal für alle <code>.csv</code> Files, die in einem Ordner gespeichert sind.</p>
+<aside>
+In Ihrem Rstudio Projekt sind die Files im Ordner <code>data</code> gespeichert (Hier in einem Ordner names <code>data/rdkdata</code>). Bitte passen Sie den Pfad dementsprechend an, oder verwenden Sie das R Script im RStudio Projekt.
+</aside><section id="funktion-definieren" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="funktion-definieren">Funktion definieren</h2>
+<p>Nun wollen wir die ersten paar Schritte gleichzeitig auf mehrere Files anwenden:</p>
+<ol type="1">
+<li>
+<code>CSV</code> File einlesen</li>
+<li>Filename hinzufügen</li>
+<li>Practice Trials löschen</li>
+<li>Practice Variablen löschen</li>
+</ol>
+<p>Dieser Vorgang ist in R ziemlich elegant. Anstatt dass wir manuell über alle Files iterieren müssen, können wir eine Funktion definieren, die wir auf ein File anwenden können, und dann wenden wir diese Funktion auf alle Files an.</p>
+<aside>
+Mit <code>map_*</code> Funktionen können wir eine Funktion auf alle Elemente einer Liste anwenden. <code>map_dfr</code> macht genau das, und gibt einen Dataframe als Output, in welchem die einzelnen Elemente <em>row-wise</em> zusamengesetzt werden.
+</aside><p>Die Funktion, welche wir auf ein einzelnes <code>.csv</code> File anweden möchten, ist diese:</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">import_function</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">filename</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="va">filename</span><span class="op">)</span> |&gt;
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">filename</span><span class="op">)</span><span class="op">)</span> |&gt;
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">main_blocks_loop.thisN</span><span class="op">)</span><span class="op">)</span> |&gt;
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"practice_block_loop"</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<aside>
+Probieren Sie die Funktion mit dem einzelnen <code>.csv</code> File von oben.
+</aside></section><section id="alle-files-in-einem-ordner-auflisten" class="level2"><h2 class="anchored" data-anchor-id="alle-files-in-einem-ordner-auflisten">Alle Files in einem Ordner auflisten</h2>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">datadir</span> <span class="op">&lt;-</span> <span class="st">"data/"</span>
+<span class="va">list_of_files</span> <span class="op">&lt;-</span> <span class="va">datadir</span> |&gt;
+    <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"csv"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">list_of_files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data//JH_rdk-discrimination_2022_Mar_07_1403.csv"   
+[2] "data//NS_rdk-discrimination_2022_Mar_07_1331.csv"   
+[3] "data//rh_rdk-discrimination_2022_Mar_02_1105.csv"   
+[4] "data//sb_rdk-discrimination_2022_Mar_06_0746.csv"   
+[5] "data//SS91_rdk-discrimination_2022_Mar_06_0953.csv" 
+[6] "data//VP1_rdk-discrimination_2022_Mar_07_1237.csv"  
+[7] "data//VP2_rdk-discrimination_2022_Mar_07_1302.csv"  
+[8] "data//VPN01_rdk-discrimination_2022_Mar_01_2142.csv"
+[9] "data//VPN02_rdk-discrimination_2022_Mar_01_2208.csv"</code></pre>
+</div>
+</div>
+</section><section id="funktion-auf-liste-anwenden" class="level2"><h2 class="anchored" data-anchor-id="funktion-auf-liste-anwenden">Funktion auf Liste anwenden</h2>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">list_of_files</span> |&gt; 
+    <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">import_function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="variablen-auswählen-und-umbennen" class="level2"><h2 class="anchored" data-anchor-id="variablen-auswählen-und-umbennen">Variablen auswählen und umbennen</h2>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"static"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"fixation"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"image"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"instruction"</span><span class="op">)</span>,
+           <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"feedback"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span>trial <span class="op">=</span> <span class="va">main_blocks_loop.thisN</span>,
+           ID <span class="op">=</span> <span class="va">Pseudonym</span>,
+           <span class="va">cue</span>,
+           <span class="va">direction</span>,
+           response <span class="op">=</span> <span class="va">dots_keyboard_response.keys</span>,
+           rt <span class="op">=</span> <span class="va">dots_keyboard_response.rt</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="neue-variablen-definieren-1" class="level2"><h2 class="anchored" data-anchor-id="neue-variablen-definieren-1">Neue Variablen definieren</h2>
+<section id="korrekte-antworten" class="level3"><h3 class="anchored" data-anchor-id="korrekte-antworten">Korrekte Antworten</h3>
+<div class="cell">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>choice <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">response</span> <span class="op">==</span> <span class="st">"j"</span>, <span class="st">"right"</span>, <span class="st">"left"</span><span class="op">)</span>,
+           response <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">choice</span> <span class="op">==</span> <span class="st">"right"</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>correct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">choice</span> <span class="op">==</span> <span class="va">direction</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,440
+Columns: 8
+$ trial     &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+$ ID        &lt;chr&gt; "JH", "JH", "JH", "JH", "JH", "JH", "JH", "JH", "JH", "JH", …
+$ cue       &lt;chr&gt; "right", "right", "none", "none", "left", "none", "none", "l…
+$ direction &lt;chr&gt; "right", "right", "right", "right", "left", "right", "left",…
+$ response  &lt;dbl&gt; 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, …
+$ rt        &lt;dbl&gt; 0.7136441, 0.6271285, 0.6703410, 0.5738488, 0.8405913, 0.667…
+$ choice    &lt;chr&gt; "right", "right", "left", "right", "right", "right", "right"…
+$ correct   &lt;dbl&gt; 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">data</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 8
+   trial ID    cue   direction response    rt choice correct
+   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+ 1     0 JH    right right            1 0.714 right        1
+ 2     1 JH    right right            1 0.627 right        1
+ 3     2 JH    none  right            0 0.670 left         0
+ 4     3 JH    none  right            1 0.574 right        1
+ 5     4 JH    left  left             1 0.841 right        0
+ 6     5 JH    none  right            1 0.668 right        1
+ 7     6 JH    none  left             1 1.12  right        0
+ 8     7 JH    left  left             0 0.640 left         1
+ 9     8 JH    left  right            0 1.13  left         0
+10     9 JH    none  right            1 1.03  right        1
+11    10 JH    none  left             0 1.35  left         1
+12    11 JH    left  left             0 0.688 left         1
+13    12 JH    left  left             0 0.721 left         1
+14    13 JH    none  left             0 0.655 left         1
+15    14 JH    right right            1 1.02  right        1
+16    15 JH    none  right            1 1.12  right        1
+17    16 JH    left  left             0 1.08  left         1
+18    17 JH    right left             0 0.643 left         1
+19    18 JH    right right            1 0.716 right        1
+20    19 JH    left  left             0 0.578 left         1</code></pre>
+</div>
+</div>
+</section><section id="cue-bedingungsvariable" class="level3"><h3 class="anchored" data-anchor-id="cue-bedingungsvariable">Cue-Bedingungsvariable</h3>
+<div class="cell">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>condition <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">cue</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">~</span> <span class="st">"neutral"</span>,
+                                 <span class="va">cue</span> <span class="op">==</span> <span class="va">direction</span> <span class="op">~</span> <span class="st">"valid"</span>,
+                                 <span class="va">cue</span> <span class="op">!=</span> <span class="va">direction</span> <span class="op">~</span> <span class="st">"invalid"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="daten-als-csv-speichern" class="level3"><h3 class="anchored" data-anchor-id="daten-als-csv-speichern">Daten als CSV speichern</h3>
+<p>An dieser Stelle speichern wir den neu kreierten Datensatz als <code>.csv</code> File. Somit können wir die Daten einfach importieren, ohne die ganzen Schritte wiederholen zu müssen.</p>
+<div class="cell">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">data</span> |&gt; <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"data_clean/rdkdata.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">data</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 9
+   trial ID    cue   direction response    rt choice correct condition
+   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    
+ 1     0 JH    right right            1 0.714 right        1 valid    
+ 2     1 JH    right right            1 0.627 right        1 valid    
+ 3     2 JH    none  right            0 0.670 left         0 neutral  
+ 4     3 JH    none  right            1 0.574 right        1 neutral  
+ 5     4 JH    left  left             1 0.841 right        0 valid    
+ 6     5 JH    none  right            1 0.668 right        1 neutral  
+ 7     6 JH    none  left             1 1.12  right        0 neutral  
+ 8     7 JH    left  left             0 0.640 left         1 valid    
+ 9     8 JH    left  right            0 1.13  left         0 invalid  
+10     9 JH    none  right            1 1.03  right        1 neutral  
+11    10 JH    none  left             0 1.35  left         1 neutral  
+12    11 JH    left  left             0 0.688 left         1 valid    
+13    12 JH    left  left             0 0.721 left         1 valid    
+14    13 JH    none  left             0 0.655 left         1 neutral  
+15    14 JH    right right            1 1.02  right        1 valid    
+16    15 JH    none  right            1 1.12  right        1 neutral  
+17    16 JH    left  left             0 1.08  left         1 valid    
+18    17 JH    right left             0 0.643 left         1 invalid  
+19    18 JH    right right            1 0.716 right        1 valid    
+20    19 JH    left  left             0 0.578 left         1 valid    </code></pre>
+</div>
+</div>
+</section></section><section id="gruppierungsvariablen-1" class="level2"><h2 class="anchored" data-anchor-id="gruppierungsvariablen-1">Gruppierungsvariablen</h2>
+<div class="cell">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span><span class="op">(</span><span class="va">is.character</span>, <span class="va">as.factor</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,440
+Columns: 9
+$ trial     &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+$ ID        &lt;fct&gt; JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, JH, …
+$ cue       &lt;fct&gt; right, right, none, none, left, none, none, left, left, none…
+$ direction &lt;fct&gt; right, right, right, right, left, right, left, left, right, …
+$ response  &lt;dbl&gt; 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, …
+$ rt        &lt;dbl&gt; 0.7136441, 0.6271285, 0.6703410, 0.5738488, 0.8405913, 0.667…
+$ choice    &lt;fct&gt; right, right, left, right, right, right, right, left, left, …
+$ correct   &lt;dbl&gt; 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+$ condition &lt;fct&gt; valid, valid, neutral, neutral, valid, neutral, neutral, val…</code></pre>
+</div>
+</div>
+</section><section id="accuracy-pro-personbedingung" class="level2"><h2 class="anchored" data-anchor-id="accuracy-pro-personbedingung">Accuracy pro Person/Bedingung</h2>
+<p>Accuracy pro Person und pro Bedingung berechnen.</p>
+<div class="cell">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">accuracy</span> <span class="op">&lt;-</span> <span class="va">data</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">condition</span><span class="op">)</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,
+              ncorrect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">correct</span><span class="op">)</span>,
+              accuracy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">correct</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'ID'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">accuracy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 27 × 5
+# Groups:   ID [9]
+   ID    condition     N ncorrect accuracy
+   &lt;fct&gt; &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1 JH    invalid      16       13   0.812 
+ 2 JH    neutral      80       66   0.825 
+ 3 JH    valid        64       60   0.938 
+ 4 NS    invalid      16       11   0.688 
+ 5 NS    neutral      80       56   0.7   
+ 6 NS    valid        64       58   0.906 
+ 7 rh    invalid      16        2   0.125 
+ 8 rh    neutral      80       64   0.8   
+ 9 rh    valid        64       61   0.953 
+10 sb    invalid      16        1   0.0625
+# … with 17 more rows</code></pre>
+</div>
+</div>
+</section><section id="visualisieren" class="level2"><h2 class="anchored" data-anchor-id="visualisieren">Visualisieren</h2>
+<div class="cell">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">accuracy</span> |&gt; 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">condition</span>, y <span class="op">=</span> <span class="va">accuracy</span>, fill <span class="op">=</span> <span class="va">condition</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>
+    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>invalid <span class="op">=</span> <span class="st">"#9E0142"</span>,
+    neutral <span class="op">=</span> <span class="st">"#C4C4B7"</span>,
+    valid <span class="op">=</span> <span class="st">"#2EC762"</span><span class="op">)</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    x <span class="op">=</span> <span class="st">"Cue"</span>,
+    y <span class="op">=</span> <span class="st">"Proportion correct"</span>,
+    title <span class="op">=</span> <span class="st">"Accuracy per person/condition"</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_linedraw</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">28</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">ID</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_importing_data_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="1440"></p>
+</div>
+</div>
+
+
+</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{ellis2022,
+  author = {Andrew Ellis},
+  title = {Daten Importieren},
+  date = {2022-03-08},
+  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/02_importing_data.html},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-ellis2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Andrew Ellis. 2022. <span>“Daten Importieren.”</span> March 8, 2022. <a href="https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/02_importing_data.html">https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/02_importing_data.html</a>.
+</div></div></section></div></main><!-- /main --><script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">© Copyright 2022, Andrew Ellis</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kogpsy/neuroscicomplabFS22">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+</div>
+  </div>
+</footer>
+
+
+</body></html>

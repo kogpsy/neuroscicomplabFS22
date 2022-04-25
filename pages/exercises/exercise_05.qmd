@@ -1,0 +1,250 @@
+---
+title: "Übung 5"
+description: |
+  Reaktionszeitverteilungen in einem Simon Task.
+date: "04-13-2022" 
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+format:
+    html:
+        toc: true
+        code-link: true
+---
+```{r}
+#| include: false
+
+# Set working directory of R
+knitr::opts_knit$set(root.dir = '../../data/exercise-05')
+```
+
+:::{.callout-note}
+Die Daten für diese Übung finden Sie hier: 👉 [Download Data](./data/stroop-data.csv)
+
+Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen.
+
+In diesem File finden Sie Beispielscode. Manche Zeilen enthalten `___`. Hier müssen Sie den Code vervollständigen.
+
+Laden Sie bitte Ihre Lösung als R Skript bis **Mittwoch, 27.4.2022, um 00:30 Uhr**, in den Order für Übung 5 auf ILIAS.
+
+Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-5.R*.
+:::
+
+# Aufgabenstellung
+
+In dieser Übung analysieren Sie Verhaltensdaten einer Studie, in welcher der Einfluss der kortikalen Aktivität im medial orbitofrontal cortex (mOFC) bei einer Konfliktsituation auf die Geschwindigkeit nachfolgender Antworten untersucht wurde [@verstynenOrganizationDynamicsCorticostriatal2014a]. Ein Konflikt wurde mittels eines colour-word Stroop Tasks induziert. Der Hauptbefund in Bezug auf die behavioralen Daten:
+
+> In a conflict-related region of the medial orbitofrontal cortex (mOFC), stronger BOLD responses predicted faster response times (RTs) on the next trial.
+
+## Stroop Task
+
+Der durchgeführe Task ist eine Standardversion eines Stroop Tasks:
+
+> Stroop task. Participants performed the color-word version of the Stroop task (Botvinick et al. 2001; Gratton et al. 1992; Macleod 1991; Stroop 1935) comprised of congruent, incongruent, and neutral conditions while in the MR scanner. Participants were instructed to ignore the meaning of the printed word and respond to the ink color in which the word was printed. For example, in the congruent condition the words "RED," "GREEN," and "BLUE" were displayed in the ink colors red, green, and blue, respectively. In this condition, attentional demands were low because the ink color matched the prepotent response of reading the word, so response conflict was at a minimum. However, for the incongruent condition the printed words were different from the ink color in which they were printed (e.g., the word "RED" printed in blue ink). This condition elicited conflict because responding according to the printed word would result in an incorrect response. As a result, attentional demands were high and participants needed to inhibit the prepotent response of reading the word and respond according to the ink color in which the word was printed. On the other hand, the neutral condition consisted of noncolor words presented in an ink color (e.g., the word "CHAIR" printed in red ink) and had a low level of conflict and low attentional demands.
+
+Versuchspersonen musste mit einer Response Box eine von drei Tasten drücken. Es wurde festgehalten, ob die Antwort korrekt war.
+
+> Participants were instructed to respond to the ink color in which the text appeared by pressing buttons under the index, middle, and ring fingers on their right hand, each button corresponding to one of the three colors (red, green, and blue, respectively) on an MR-safe response box. The task was briefly practiced in the scanner to acquaint the participant with the task and to ensure understanding of the instructions. The task began with the presentation of a fixation cross hair for 1,000 ms followed by the Stroop stimulus for 2,000 ms, during which participants were instructed to respond as quickly as possible. A total of 120 trials were presented to each participant (42 congruent, 42 neutral, 36 incongruent). A lower number of incongruent trials was used in order to reduce the expectancy of a stimulus conflict relative to the other conditions.
+
+## Datenanalyse
+
+Von Interesse sind die Reaktionszeiten der *korrekten* Antworten in den Bedingungen *kongruent*, *inkongruent* und *neutral*.
+
+> Behavioral analysis. The primary behavioral variable of interest was response time (RT), recorded as the time between cue onset and registered key press (in milliseconds). All first-level analyses were restricted to correct responses. To determine condition-level effects, a one-way repeated-measures ANOVA was used, as were post hoc one-sample t-tests.
+
+## Daten importieren
+
+```{r}
+library(tidyverse)
+library(viridis)
+```
+
+Angenommen, Sie haben das CSV File in einem Subordner namens `data` gespeichert:
+
+```{r}
+d <- read_csv("data/stroop-data.csv")
+```
+
+```{r}
+glimpse(d)
+```
+
+```{r}
+d <- d |> 
+    mutate(across(where(is.character), ~as_factor(.)),
+           condition = fct_relevel(condition, "congruent"))
+```
+
+Im Datensatz befinden sich die Daten 28 Personen:
+
+```{r}
+length(levels(d$ID))
+```
+
+Die Variable `correct` ist mit "Y" und "N" codiert. Wir bevorzugen die Werte `1` und `0`.
+
+```{r}
+d <- d |> 
+  mutate(correct = if_else(correct == "Y", 1, 0))
+```
+
+## Mittlere RT vs Fehlerrate
+
+Wir plotten zuerst median RT versus Fehlerrate (beides pro VP/Bedingung), um uns einen Überblick zu verschaffen.
+
+```{r}
+d_individual_summary <- d |> 
+  group_by(ID, condition) |>        
+  summarize(RT = median(RT),
+            error_rate = 1 - mean(correct))
+
+head(d_individual_summary)
+```
+
+```{r}
+d_individual_summary |> 
+  ggplot(aes(x = RT, y = error_rate)) +
+  geom_point() +
+  facet_wrap(~condition)
+```
+
+Es sieht aus, als sei die Fehlerrate im Mittel in der inkongruenten Bedingung grösser als in den kongruenten neutralen Bedingungen. Dies ist zu erwarten.
+
+Wir wollen hier nur die Reaktionszeiten korrekter Antworten analysieren. Filtern Sie den Datensatz, so dass nur noch die korrekten Antworten bleiben.
+
+```{r}
+d <- d |> 
+  filter(correct == 1)
+```
+
+## RT Histogramme
+
+Plotten Sie mit folgender Funktion die RT Histogramme zufällig ausgewählter Personen (28 VP sind zuviele, um sie so in einer Grafik darzustellen).
+
+```{r}
+plot_hist <- function(d) {
+  d |> 
+  ggplot(aes(x = RT,
+             fill = condition,
+             color = condition,)) + 
+    geom_histogram(aes(y = ..density..), 
+                   alpha = 0.5, bins = 30) + 
+    # facet_grid(condition~ID) +
+      facet_wrap(~ID) +
+    coord_cartesian(xlim=c(0, 1.8)) +
+    scale_fill_viridis(discrete = TRUE, option = "E") +
+    scale_color_viridis(discrete = TRUE, option = "E")
+}
+```
+
+```{r}
+d |> 
+  filter(ID %in% sample(levels(ID), 4)) |> 
+  plot_hist()
+```
+
+## Aufgaben
+
+### Aufgabe 1
+
+::: exercise
+1)  Berechnen Sie die mittlere RT pro Peron/Bedingung, und stellen Sie die mittlere RT pro Bedingung, gemittelt über Personen, mit Fehlerbalken grafisch dar.
+
+2)  Beschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.
+:::
+
+```{r eval = FALSE}
+by_subject <- d |> 
+  group_by(___) |> 
+  summarise(RT = ___)
+
+agg <- Rmisc::summarySEwithin(by_subject,
+                       measurevar = "RT",
+                       withinvars = "condition",
+                       idvar = "ID",
+                       na.rm = FALSE,
+                       conf.interval = .95)
+```
+
+```{r eval = FALSE}
+agg |> 
+  ggplot(aes(condition, RT)) +
+  geom_line(aes(group = 1), linetype = 3) +   
+  geom_errorbar(aes(ymin = RT-se, ymax = RT+se),
+                width = 0.1, size=1, color="black") +
+  geom_point(size = 4) +
+  theme(legend.position = "none")
+```
+
+```{r include=FALSE}
+by_subject <- d |> 
+  group_by(ID, condition) |> 
+  summarise(RT = mean(RT))
+
+agg <- Rmisc::summarySEwithin(by_subject,
+                       measurevar = "RT",
+                       withinvars = "condition",
+                       idvar = "ID",
+                       na.rm = FALSE,
+                       conf.interval = .95)
+```
+
+```{r eval=FALSE, include=FALSE}
+agg |> 
+  ggplot(aes(condition, RT)) +
+  geom_line(aes(group = 1), linetype = 3) +   
+  geom_errorbar(aes(ymin = RT-se, ymax = RT+se),
+                width = 0.1, size=1, color="black") +
+  geom_point(size = 4) +
+  theme(legend.position = "none")
+```
+
+### Aufgabe 2
+
+::: exercise
+1)  Untersuchen Sie mittels einer *Shift Function* den Unterschied zwischen den Bedingungen `congruent` und `incongruent`.
+
+2)  Beschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.
+
+3)  @pratteExploringDifferencesDistributional2010 haben festgestellt, dass Stroop Effekte bei längeren Reaktionszeiten ansteigen. Ist diese Aussage mit Ihren Befunden vereinbar?
+:::
+
+Zuerst entfernen wir die Faktorstufe `neutral`:
+
+```{r}
+dd <- d |> 
+  filter(!(condition %in% "neutral")) |> 
+  mutate(condition = fct_drop(condition))
+```
+
+Nun verwenden wir die Funktion `hsf()` aus dem `rogme` Package, um Shift Functions für jede Person in den beiden Bedingungen zu berechnen, und die gemittelten Differenzen der Dezile zu erhalten.
+
+Die Formel, welche Sie für die Funktion brauchen, lautet
+
+``` r
+RT ~ condition + ID 
+```
+
+Diese Formel ist so zu lesen: RT Quantile werden durch `condition` und `ID` vorhergesagt.
+
+```{r eval=FALSE, include=TRUE}
+out <- dd |> 
+  rogme::hsf(___)
+```
+
+```{r eval=TRUE, include=FALSE}
+out <- dd |> 
+  rogme::hsf(RT ~ condition + ID)
+```
+
+Stellen Sie die *Shift Function* grafisch dar.
+
+```{r eval=FALSE, include=TRUE}
+rogme::plot_hsf(out)
+```

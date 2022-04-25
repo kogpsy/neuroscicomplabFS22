@@ -1,0 +1,223 @@
+---
+title: "3. Sitzung"
+subtitle: "Daten importieren und verarbeiten"
+author: "Andrew Ellis"
+institute: "Neurowissenschaft Computerlab FS 22"
+format:
+  revealjs:
+    theme: [simple, ../styles/reveal.scss]
+    logo: ../assets/logo.png
+    footer: <a href="/">🏠 Neurowissenschaft im Computerlab FS22</a>
+date: "2022-03-08"
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+1
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Setting up R/RStudio
+:::
+:::
+::::
+
+## Set up R/RStudio {.smaller}
+
+:::: {.columns}
+::: {.column width="45%"}
+
+👉 [Download __R__](https://cloud.r-project.org/)
+
+👉 [Download __RStudio__](https://www.rstudio.com/products/rstudio/download/#download)
+
+:::
+::: {.column width="45%"}
+
+1. RStudio öffnen
+
+2. RStudio einrichten
+
+3. Packages installieren
+```r
+install.packages("tidyverse")
+```
+:::
+::::
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+2
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+R Kenntnisse auffrischen
+:::
+:::
+::::
+
+## R Kenntnisse {.smaller}
+
+:::: {.columns}
+::: {.column width="45%"}
+
+👉 [Einführung in R](https://methodenlehre.github.io/intro-to-rstats)
+ 
+ - Einführung in RStudio
+ 
+ - R Sprache
+ 
+ - Control flow / Funktionen
+ 
+ - Daten importieren / tidy data / visualisieren
+ 
+ - Deskriptive Statistik
+]
+
+:::
+::: {.column width="45%"}
+
+👉 [Data Skills for Reproducible Research](https://psyteachr.github.io/reprores-v2/index.html)
+
+- Reproducible Workflows
+
+- Data visualization
+
+- Data wrangling
+
+- Iteration & Functions
+
+:::
+::::
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+3
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Test Datensatz importieren
+:::
+:::
+::::
+
+## Datensatz importieren {.smaller}
+
+👉 [Download Rstudio Projekt](../downloadable_files/import-data.zip)
+
+- `ZZ_rdk-discrimination_2022_Mar_07_1403` 
+aus dem `testdata` Ordner importieren.
+ 
+- Practice Trials löschen.
+
+- Variablen auswählen und umbennen.
+```
+    - Trial Index
+    - ID
+    - Cue
+    - Direction
+    - Response / RT
+```
+
+- Antworten rekodieren.
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+4
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Mehrere Datensätze importieren
+:::
+:::
+::::
+
+## Mehrere Datensätze importieren {.smaller}
+
+:::: {.columns}
+::: {.column width="45%"}
+
+- Alle `.csv` Files aus dem `data` Ordner importieren.
+
+- Dieselben Schritte wie oben auf alle Datensätze anwenden.
+
+:::
+::: {.column width="45%"}
+
+![](../assets/images/draw-finished-owl.png)
+
+:::
+::::
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+5
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Accuracy
+:::
+:::
+::::
+
+## Anzahl korrekter Antworten {.smaller}
+
+- Accuracy pro Person und pro Bedingung berechnen.
+
+- Bedingungen: 
+```
+   - valid
+   - invalid
+   - neutral
+```
+
+---
+
+:::: {.columns}
+::: {.column width="35%"}
+::: {.topic-number}
+6
+:::
+:::
+::: {.column width="65%"}
+::: {.topic-text}
+Selber ausprobieren
+:::
+:::
+::::
+
+## Probieren Sie es selber! {.smaller}
+
+::: {.your-turn}
+Learning by doing! Expertise in R erreicht man nur, wenn man selber ausprobiert.
+:::
+
+- Kapitel [Daten importieren](../pages/chapters/02_importing_data.html) bearbeiten.
+
+- Fragen stellen.
+
+- Daten mit `esquisse` visualisieren:
+
+```r
+install.packages("esquisse")
+library(esquisse)
+esquisser()
+```

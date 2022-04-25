@@ -1,0 +1,248 @@
+---
+title: "Übung 3"
+description: | 
+    Daten importieren und bereinigen.
+date: "03-18-2022"
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+format:
+    html:
+        toc: true
+        code-link: true
+---
+
+```{r}
+#| include: false
+
+# Set working directory of R
+knitr::opts_knit$set(root.dir = '../../data/exercise_03')
+```
+
+:::{.callout-note}
+Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen. 
+
+In diesem File finden Sie Beispielscode. Manche Zeilen enthalten ` ___ `. Hier müssen Sie den Code vervollständigen.
+
+Laden Sie bitte Ihre Lösung als ZIP File bis **Freitag, 25.03.2022, um 00:00 Uhr**, in den Order für Übung 3 auf ILIAS. Das ZIP File sollte ein R Skript enthalten, sowie den bereinigten Datensatz.
+
+Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-3.zip*.
+:::
+
+# Aufgabenstellung
+
+In dieser Aufgabe bearbeiten Sie Daten aus einem Detektionssexperiment. Versuchspersonen mussten in zwei Bedingungen (`bias` und `no_bias`) ein Signal, welches in Rauschen eingebettet war, detektieren. Im Datensatz sind folgende Variablen:
+
+```
+subject: Subjekt ID
+trial_num: Trialnummer, durchnummeriert in jeder Bedingung
+condition: Bedingung (_Bias_ und _No Bias_)
+signal_present: Indikatorvariable für Signal (0: absent, 1: present)
+correct: Indikatorvariable für korrekte Antwort (0: incorrekt, 1: correct)
+rt: Reaktionszeit in Sekunden
+
+```
+
+## Aufgaben 
+
+:::{.callout-note}
+**Aufgabe 1**
+
+a) Speichern Sie das *CSV* File in Ihren Projektordner.
+
+b) Lesen Sie das *CSV* File ein. Per Konvention verwenden wir den Variablennamen `d` für den Datensatz.
+
+c) Überprüfen Sie, ob alle Variablen vorhanden sind. Verwenden Sie z.B. die Funktion `glimpse()`.
+
+d) Konvertieren Sie die Gruppierungsvariablen `subject` und `condition` zu Faktoren.
+:::
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+```
+
+```{r}
+#| eval: false
+
+d <- read_csv("___")
+```
+
+```{r}
+#| include: false
+
+d <- read_csv("data/data-exercise-03.csv")
+```
+
+Schauen Sie sich die Variablen an:
+
+```{r eval=FALSE}
+#| eval: false
+
+glimpse(d)
+```
+
+Konvertieren Sie die Gruppierungsvariablen zu Faktoren:
+
+```{r}
+#| eval: false
+
+d <- d |>
+    mutate(___ = as_factor(___),
+           ___ = as_factor(___))
+```
+
+```{r}
+#| include: false
+
+d <- d |>
+    mutate(subject = as_factor(subject),
+           condition = as_factor(condition))
+```
+
+:::{.callout-note}
+**Aufgabe 2**
+
+Gibt es Versuchspersonen die in einer der Bedingungen Reaktionszeiten hat, welche mehr als zwei Standardabweichungen **über** dem Bedingungsmittelwert liegen?
+:::
+
+```{r}
+#| eval: false
+
+# summary stats (means) for subjects/conditions
+sum_stats_participants <- d |>
+    group_by(___, ___) |>
+    dplyr::summarise(
+        mean_P = mean(___))
+
+```
+
+```{r}
+#| eval: false
+
+# summary stats (means and SDs) for conditions
+sum_stats_conditions <- d |>
+    group_by(___) |>
+    dplyr::summarise(
+        mean_C = mean(__),
+        sd_C = sd(___))
+```
+
+```{r}
+#| eval: false
+
+sum_stats_participants <-
+    full_join(
+        sum_stats_participants,
+        sum_stats_conditions,
+        by = "condition") |>
+    mutate(outlier_P = ___)
+```
+
+```{r}
+#| eval: false
+
+# show outlier participants
+sum_stats_participants |>
+    filter(outlier_P == 1) |>
+    show()
+```
+
+```{r}
+#| eval: false
+
+excluded <- sum_stats_participants |>
+    filter(outlier_P == 1)
+
+excluded
+```
+
+```{r}
+#| eval: false
+
+d_cleaned <- d |>
+    filter(!(subject %in% excluded$subject)) |>
+    mutate(subject = fct_drop(subject))
+```
+
+:::{.callout-note}
+**Aufgabe 3**
+
+a) Gibt es einzelne Trials, in denen Versuchpersonen länger als 4 Standardabweichungen über dem  Bedingungsmittelwert gebraucht haben, um zu Antworten?
+
+b) Gibt es einzelne Trials, in denen Versuchpersonen zu schnell (unter 100 ms) geantwortet haben?
+
+c) Speichern Sie den bearbeiteten Datensatz als _CSV_ File.
+:::
+
+```{r}
+#| eval: false
+
+d_cleaned <- d_cleaned |>
+    full_join(
+        sum_stats_conditions,
+        by = "condition") |>
+    mutate(
+        trial_type = case_when(
+            ___ > ___ ~ "too slow",
+            ___ < ___ ~ "too fast",
+            TRUE ~ "OK") |>
+            factor(levels = c("OK", "too fast", "too slow")))
+
+```
+
+```{r}
+#| eval: false
+
+d_cleaned |>
+    ggplot(aes(x = trial_num, y = rt, color = trial_type, shape = trial_type)) +
+    geom_point(alpha = 0.6) +
+    facet_grid(~condition) +
+    scale_color_manual(values = c("gray70", "red", "steelblue"))
+```
+
+```{r}
+#| eval: false
+
+d_cleaned |>
+    filter(trial_type != "OK")
+```
+
+
+```{r}
+#| eval: false
+
+d_cleaned <- d_cleaned |>
+    filter(trial_type == "OK") |>
+    select(subject, trial_num, condition, signal_present, correct, rt)
+```
+
+```{r}
+#| eval: false
+
+d_cleaned |>
+    ggplot(aes(x = trial_num, y = rt)) +
+    geom_point(alpha = 0.6) +
+    facet_grid(~condition) +
+    scale_color_manual(values = c("gray70", "red", "steelblue"))
+```
+
+```{r}
+#| eval: false
+
+d_cleaned |> write_csv(___)
+```
+
+:::{.callout-tip}
+**Optionale Aufgabe**
+
+Die Aufgaben oben bieten lediglich Voschläge, wie man "Ausreisser" identifizieren könnte. Wenn Sie andere Voschläge haben, können Sie den Code anpassen, oder selber Code schreiben. Können Sie Ihr Vorgehen begründen?
+:::

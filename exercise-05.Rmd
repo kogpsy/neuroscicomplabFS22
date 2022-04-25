@@ -33,20 +33,16 @@ htmltools::tagList(
 )
 ```
 
-
-:::exercise
+::: exercise
 Die Daten für diese Übung finden Sie hier: 👉 [Download Data](./data/stroop-data.csv)
 
+Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen.
 
-
-Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen. 
-
-In diesem File finden Sie Beispielscode. Manche Zeilen enthalten ` ___ `. Hier müssen Sie den Code vervollständigen.
+In diesem File finden Sie Beispielscode. Manche Zeilen enthalten `___`. Hier müssen Sie den Code vervollständigen.
 
 Laden Sie bitte Ihre Lösung als R Skript bis **Mittwoch, 27.4.2022, um 00:30 Uhr**, in den Order für Übung 5 auf ILIAS.
 
 Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-5.R*.
-
 :::
 
 # Aufgabenstellung
@@ -55,25 +51,21 @@ In dieser Übung analysieren Sie Verhaltensdaten einer Studie, in welcher der Ei
 
 > In a conflict-related region of the medial orbitofrontal cortex (mOFC), stronger BOLD responses predicted faster response times (RTs) on the next trial.
 
-
-
 ## Stroop Task
 
 Der durchgeführe Task ist eine Standardversion eines Stroop Tasks:
 
-> Stroop task. Participants performed the color-word version of the Stroop task (Botvinick et al. 2001; Gratton et al. 1992; Macleod 1991; Stroop 1935) comprised of congruent, incongruent, and neutral conditions while in the MR scanner. Participants were instructed to ignore the meaning of the printed word and respond to the ink color in which the word was printed. For example, in the congruent condition the words “RED,” “GREEN,” and “BLUE” were displayed in the ink colors red, green, and blue, respectively. In this condition, attentional demands were low because the ink color matched the prepotent response of reading the word, so response conflict was at a minimum. However, for the incongruent condition the printed words were different from the ink color in which they were printed (e.g., the word “RED” printed in blue ink). This condition elicited conflict because responding according to the printed word would result in an incorrect response. As a result, attentional demands were high and participants needed to inhibit the prepotent response of reading the word and respond according to the ink color in which the word was printed. On the other hand, the neutral condition consisted of noncolor words presented in an ink color (e.g., the word “CHAIR” printed in red ink) and had a low level of conflict and low attentional demands.
+> Stroop task. Participants performed the color-word version of the Stroop task (Botvinick et al. 2001; Gratton et al. 1992; Macleod 1991; Stroop 1935) comprised of congruent, incongruent, and neutral conditions while in the MR scanner. Participants were instructed to ignore the meaning of the printed word and respond to the ink color in which the word was printed. For example, in the congruent condition the words "RED," "GREEN," and "BLUE" were displayed in the ink colors red, green, and blue, respectively. In this condition, attentional demands were low because the ink color matched the prepotent response of reading the word, so response conflict was at a minimum. However, for the incongruent condition the printed words were different from the ink color in which they were printed (e.g., the word "RED" printed in blue ink). This condition elicited conflict because responding according to the printed word would result in an incorrect response. As a result, attentional demands were high and participants needed to inhibit the prepotent response of reading the word and respond according to the ink color in which the word was printed. On the other hand, the neutral condition consisted of noncolor words presented in an ink color (e.g., the word "CHAIR" printed in red ink) and had a low level of conflict and low attentional demands.
 
 Versuchspersonen musste mit einer Response Box eine von drei Tasten drücken. Es wurde festgehalten, ob die Antwort korrekt war.
 
 > Participants were instructed to respond to the ink color in which the text appeared by pressing buttons under the index, middle, and ring fingers on their right hand, each button corresponding to one of the three colors (red, green, and blue, respectively) on an MR-safe response box. The task was briefly practiced in the scanner to acquaint the participant with the task and to ensure understanding of the instructions. The task began with the presentation of a fixation cross hair for 1,000 ms followed by the Stroop stimulus for 2,000 ms, during which participants were instructed to respond as quickly as possible. A total of 120 trials were presented to each participant (42 congruent, 42 neutral, 36 incongruent). A lower number of incongruent trials was used in order to reduce the expectancy of a stimulus conflict relative to the other conditions.
 
-
 ## Datenanalyse
 
-Von Interesse sind die Reaktionszeiten der _korrekten_ Antworten in den Bedingungen _kongruent_, _inkongruent_ und _neutral_.
+Von Interesse sind die Reaktionszeiten der *korrekten* Antworten in den Bedingungen *kongruent*, *inkongruent* und *neutral*.
 
 > Behavioral analysis. The primary behavioral variable of interest was response time (RT), recorded as the time between cue onset and registered key press (in milliseconds). All first-level analyses were restricted to correct responses. To determine condition-level effects, a one-way repeated-measures ANOVA was used, as were post hoc one-sample t-tests.
-
 
 ## Daten importieren
 
@@ -91,12 +83,12 @@ d <- read_csv("data/stroop-data.csv")
 ```{r}
 glimpse(d)
 ```
+
 ```{r}
 d <- d |> 
     mutate(across(where(is.character), ~as_factor(.)),
            condition = fct_relevel(condition, "congruent"))
 ```
-
 
 Im Datensatz befinden sich die Daten 28 Personen:
 
@@ -111,8 +103,6 @@ d <- d |>
   mutate(correct = if_else(correct == "Y", 1, 0))
 ```
 
-
-
 ## Mittlere RT vs Fehlerrate
 
 Wir plotten zuerst median RT versus Fehlerrate (beides pro VP/Bedingung), um uns einen Überblick zu verschaffen.
@@ -126,7 +116,6 @@ d_individual_summary <- d |>
 head(d_individual_summary)
 ```
 
-
 ```{r}
 d_individual_summary |> 
   ggplot(aes(x = RT, y = error_rate)) +
@@ -134,10 +123,7 @@ d_individual_summary |>
   facet_wrap(~condition)
 ```
 
-
 Es sieht aus, als sei die Fehlerrate im Mittel in der inkongruenten Bedingung grösser als in den kongruenten neutralen Bedingungen. Dies ist zu erwarten.
-
-
 
 Wir wollen hier nur die Reaktionszeiten korrekter Antworten analysieren. Filtern Sie den Datensatz, so dass nur noch die korrekten Antworten bleiben.
 
@@ -145,8 +131,6 @@ Wir wollen hier nur die Reaktionszeiten korrekter Antworten analysieren. Filtern
 d <- d |> 
   filter(correct == 1)
 ```
-
-
 
 ## RT Histogramme
 
@@ -168,7 +152,6 @@ plot_hist <- function(d) {
 }
 ```
 
-
 ```{r}
 d |> 
   filter(ID %in% sample(levels(ID), 4)) |> 
@@ -177,15 +160,13 @@ d |>
 
 ## Aufgaben
 
-
 ### Aufgabe 1
-:::exercise
-1) Berechnen Sie die mittlere RT pro Peron/Bedingung, und stellen Sie die mittlere RT pro Bedingung, gemittelt über Personen, mit Fehlerbalken grafisch dar.
 
-2) Beschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.
+::: exercise
+1)  Berechnen Sie die mittlere RT pro Peron/Bedingung, und stellen Sie die mittlere RT pro Bedingung, gemittelt über Personen, mit Fehlerbalken grafisch dar.
+
+2)  Beschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.
 :::
-
-
 
 ```{r eval = FALSE}
 by_subject <- d |> 
@@ -209,7 +190,6 @@ agg |>
   geom_point(size = 4) +
   theme(legend.position = "none")
 ```
-
 
 ```{r include=FALSE}
 by_subject <- d |> 
@@ -236,15 +216,13 @@ agg |>
 
 ### Aufgabe 2
 
-:::exercise
-1) Untersuchen Sie mittels einer _Shift Function_ den Unterschied zwischen den Bedingungen `congruent` und `incongruent`. 
+::: exercise
+1)  Untersuchen Sie mittels einer *Shift Function* den Unterschied zwischen den Bedingungen `congruent` und `incongruent`.
 
-2) Beschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.
+2)  Beschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.
 
-3) @pratteExploringDifferencesDistributional2010 haben festgestellt, dass Stroop Effekte bei längeren Reaktionszeiten ansteigen. Ist diese Aussage mit Ihren Befunden vereinbar?
-
+3)  @pratteExploringDifferencesDistributional2010 haben festgestellt, dass Stroop Effekte bei längeren Reaktionszeiten ansteigen. Ist diese Aussage mit Ihren Befunden vereinbar?
 :::
-
 
 Zuerst entfernen wir die Faktorstufe `neutral`:
 
@@ -254,14 +232,14 @@ dd <- d |>
   mutate(condition = fct_drop(condition))
 ```
 
+Nun verwenden wir die Funktion `hsf()` aus dem `rogme` Package, um Shift Functions für jede Person in den beiden Bedingungen zu berechnen, und die gemittelten Differenzen der Dezile zu erhalten.
 
-Nun verwenden wir die Funktion `hsf()` aus dem `rogme` Package, um Shift Functions für jede Person in den beiden Bedingungen zu berechnen, und die gemittelten Differenzen der Dezile zu erhalten. 
+Die Formel, welche Sie für die Funktion brauchen, lautet
 
-Die Formel, welche Sie für die Funktion brauchen, lautet 
-
-```r
+``` r
 RT ~ condition + ID 
 ```
+
 Diese Formel ist so zu lesen: RT Quantile werden durch `condition` und `ID` vorhergesagt.
 
 ```{r eval=FALSE, include=TRUE}
@@ -274,12 +252,8 @@ out <- dd |>
   rogme::hsf(RT ~ condition + ID)
 ```
 
-
-Stellen Sie die _Shift Function_ grafisch dar.
-
+Stellen Sie die *Shift Function* grafisch dar.
 
 ```{r eval=FALSE, include=TRUE}
 rogme::plot_hsf(out)
 ```
-
-

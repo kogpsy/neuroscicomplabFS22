@@ -2,7 +2,7 @@
 title: "Übung 3"
 description: | 
     Daten importieren und bereinigen.
-date: "03-18-2022"
+date: "2022-03-18"
 author:
   - name: Andrew Ellis
     url: https://github.com/awellis

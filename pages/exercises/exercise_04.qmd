@@ -2,7 +2,7 @@
 title: "Übung 4"
 description: | 
     Signal Detection Kennzahlen zusammenfassen.
-date: "04-05-2022"
+date: "2022-04-05"
 author:
   - name: Andrew Ellis
     url: https://github.com/awellis

@@ -2,7 +2,7 @@
 title: "Übung 5"
 description: |
   Reaktionszeitverteilungen in einem Simon Task.
-date: "04-13-2022" 
+date: "2022-04-13" 
 author:
   - name: Andrew Ellis
     url: https://github.com/awellis

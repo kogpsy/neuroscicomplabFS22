@@ -173,6 +173,9 @@ as.numeric(2)
 ```{r}
 array(dim = 2)
 ```
+
+
+Aus einer _for_ Loop ausbrechen:
 ```{r}
 #| eval: false
 break()
@@ -210,6 +213,7 @@ dv <- array(dim = time_steps)
 
 
 Evidenzakkumulierung, ausgehend vom _bias_:
+
 ```{r}
 # start accumulating from bias (starting point)
 dv[1] <- rnorm(1, mean = bias, sd = sqrt(dt))

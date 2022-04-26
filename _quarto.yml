@@ -26,6 +26,7 @@ website:
           - pages/chapters/06_signal_detection_ii.qmd
           - pages/chapters/07_response_times_i.qmd
           - pages/chapters/08_response_times_ii.qmd
+          - pages/chapters/09_evidence_accumulation_1.qmd
       - text: Slides
         menu:
           - text: "1. Sitzung (22.02.2022)"
@@ -44,12 +45,14 @@ website:
             file: slides/07_response_times.qmd
           - text: "8. Sitzung (12.04.2022)"
             file: slides/08_response_times_ii.qmd
+          - text: "9. Sitzung (26.04.2022)"
+            file: slides/09_evidence_accumulation.qmd
       - text: Übungen
         menu:
           - pages/exercises/exercise_01.qmd
           - pages/exercises/exercise_02.qmd
           - pages/exercises/exercise_03.qmd
-          - pages/exercises/exercise_04.qmd         
+          - pages/exercises/exercise_04.qmd
           - pages/exercises/exercise_05.qmd
       - text: Lösungen
         menu:

@@ -16,13 +16,13 @@ format:
     html:
         toc: true
         code-link: true
-        code-fold: true
+        code-fold: false
         code-tools: true
 ---
 
-:::{.callout-note}
-👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/evidence-accumulation-1.R)
-:::
+<!-- :::{.callout-note} -->
+<!-- 👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/evidence-accumulation-1.R) -->
+<!-- ::: -->
 
 
 
@@ -36,24 +36,18 @@ library(viridis)
 
 ```
 
-# Diffusion Decision Model
-
-Wir nehmen nun an, dass wir die Zeit in diskrete kleine Intervalle $\Delta t$ einteilen können. Pro Zeiteinheit wird eine Zufallszahl aus dieser Evidenzverteilung gezogen wird, so dass positive Werte als Evidenz für die eine Antwortalternative gezählt wird, während negative Werte als Evidenz für die andere Antwortalternative gezählt wird. Diese Evidenz wird über die Zeit aufsummiert, bis entweder eine obere oder eine untere Grenze erreicht wird. Die aufsummierte Evidenz wird **Decision Variable** genannt. Ist eine der Grenzen erreicht, wird eine Antwort ausgelöst. Die Tendenz der Decision Variable, auf- oder abzusteigen, nennt man **drift rate**. Diese hat natürlich etwas mit dem Stimulus zu tun---je stärker der Stimulus, desto grösser wird die drift rate.
-
-In Experimenten zum Bewegungssehen wird oft ein 'random dot motion' task verwendet. Hier muss entschieden werden, ob sich eine Punktwolke nach rechts oder nach links bewegt. Es wird hier angenommen, dass die drift rate von der Stimulusstärke abhängt; in diesem Fall ist das die Kohärenz, d.h. der Anteil der Punkte, welcher sich kohärent in eine Richtung bewegt.
-
-![Figure from @mulderBiasBrainDiffusion2012a](../../assets/images/ddm-illustration.png)
-
-Die Distanz zwischen den Grenzen wird **threshold** gennant, und der Anfangspunkt der Evidenzakkumulierung wird **bias** genannt. Die letzte wichtige Komponente dieses Modells ist die **non-decision time**. Darunter werden alle Prozesse zusammengefasst, welche ausgefährt werden müssen, jedoch nicht direkt mit der Entscheidung zu tun haben. Darunter fällt z.B. die Ausführung der Antwort durch das motorische System, aber auch die sensorische Verarbeitung. Wird dieser Entscheidungsprozess oft wiederholt, resultieren daraus Reaktionszeitverteilungen für korrekte und inkorrekte Entscheidungen.
-
 
 # Model in R
+Wir versuchen, nun eine Entscheidung in R zu simulieren. Wir gehen davon aus, dass wir die Zeit in ganz kleine Schritten $\Delta_t$ unterteilen (diskrete Zeit).
 
-In R können wir die aktuelle Decision Variable zu Zeitpunkt $t$ als normalverteilte Zufallszahl modellieren, bei der die `driftrate` den Mittelwert der Evidenz repräsentiert, und `sd` die Standardabweichung.
+Wir modellieren die aktuelle Decision Variable zu Zeitpunkt $t$ als normalverteilte Zufallszahl, bei der die `driftrate` den Mittelwert der Evidenz repräsentiert, und `sd` die Standardabweichung.
 
 ```{r}
 driftrate <- 0.5
 sd <- 0.1
+```
+
+```{r}
 evidence <- rnorm(n = 1, mean = driftrate, sd = sd)
 evidence
 ```
@@ -67,41 +61,56 @@ Es wird angenommen, dass dieser Aspekt einigermassen gut die Vorgänge im Gehirn
 
 Wenn wir dieses Prozess nun über einen Zeitraum wiederholen, und die `evidence` Werte aufsummieren, erhalten wir die *decision variable*. Diese sieht aus wie ein *random walk* mit einem Drift in die Richtung der durchschnittlichen Evidenz.
 
-:::example
-**Random walk simulieren**
+
+## Random walk simulieren
 
 Ein random walk ist das Resultat der Aufsummierung von Zufallszahlen. Probieren Sie es selber aus; simulieren Sie einen random walk mit 100 Zeitschritten. Fangen Sie bei $0$ an, ziehen Sie 99 normalverteilte Zufallszahlen und berechnen Sie die kumulierte Summe.  Plotten Sie das Resultat.
 
 
 Dieser random walk hat keinen Trend, weil wir immer aus einer Normalverteilung mit Mittelwert $\mu=0$ ziehen. Wenn wir stattdessen aus einer Verteilung mit $\mu=0.1$ ziehen, erhalten wir einen positiven Trend.
 
-```{r code_folding = TRUE}
+```{r}
 set.seed(546)
 
 # hier z.B> standardnormalverteilte Zahlen
 zufallszahlen_1 <- c(0, rnorm(99, 0, 1))
 random_walk_1 <- cumsum(zufallszahlen_1)
+
 plot(1:100, random_walk_1, type = "s", col = "#7fc97f", 
      ylim=c(-10,30), lwd = 2, 
      xlab = "Zeit", ylab="Random Walk")
+```
 
+```{r}
 zufallszahlen_2 <- c(0, rnorm(99, 0.3, 1))
 random_walk_2 <- cumsum(zufallszahlen_2)
 
+plot(1:100, random_walk_1, type = "s", col = "#7fc97f", 
+     ylim=c(-10,30), lwd = 2, 
+     xlab = "Zeit", ylab="Random Walk")
 lines(1:100, random_walk_2, pch = 18, col = "#beaed4", 
       type = "s", lwd = 2)
 
 legend("topleft", legend=c("Ohne Trend", "Mit Trend"),
        col=c("#7fc97f", "#beaed4"), lty = c(1, 1))
 ```
-:::
 
+
+
+
+
+
+## Evidenzakkumulierung
 
 Die Evidenzakkumulierung wird analog modelliert. Wenn wir explizit die Zeitschritte als Iterationen aufschreiben, können wir dies in R mit einer `for` Loop machen.
 
-```{r code_folding = TRUE}
+```{r}
+driftrate <- 0.5
+sd <- 0.1
+
 n_steps <- 10
 evidence <- rep(NA, n_steps)
+
 dv <- rep(NA, n_steps)
 
 time_steps <- 1:n_steps
@@ -117,20 +126,149 @@ for (t in 2:n_steps) {
 }
 ```
 
+
 ```{r}
-tibble(time_steps, evidence, dv) %>% 
-    pivot_longer(c(evidence, dv), names_to = "type", values_to = "value") %>% 
+tibble(time_steps, evidence, dv) |> 
+    pivot_longer(c(evidence, dv), names_to = "type", values_to = "value") |> 
     ggplot(aes(time_steps, value, linetype = type, color = type)) +
     geom_line() +
     geom_point(size = 4) +
     scale_color_viridis_d(begin = 0.2, end = 0.5)
 ```
 
+
 Die Decision Variable `dv` repräsentiert nun die kumulierten Evidenz, aufgrund dessen das Gehirn eine Entscheiung treffen kann. Wenn die Decision Variable entweder grösser als die ober Grenze ist, oder kleiner als die untere Grenze, wird die Evidenzakkumulierung abgebrochen, und eine Antwort wird ausgelöst. Wir können nun noch die "non-decision time" hinzufügen, und den Anfangspunkt der Evidenzakkumulierung. Dieser Anfangspunkt ist ein sehr wichtiger Parameter, denn wenn der Anfagnspunkt nicht genau in der Mitte zwischen den beiden Grenzen liegt, dann braucht es natürlich weniger Evindenz, um die Grenze zu erreichen, welche näher beim Anfangspunkt liegt.
 
 Anhand der folgenden Funktion lässt sich ein simpler Entscheidungsprozess simulieren, welcher alle wesentlichen Komponenten enthält: die `drift rate`, `boundary separation`, `bias` und die non-decision time `ndt`.
 
-```{r code_folding=TRUE}
+```{r echo=FALSE}
+tribble(~Parameter, ~Bedeutung, ~Anwendung,
+        "drift rate", "Qualität der Evidenz pro Zeiteinheit", "Task Schwierigkeit, Fähigkeit",
+        "bias", "Anfangspunkt der Evidenzakkumulierung", "A priori Präferenz für eine der beiden Alternativen",
+        "boundary separation", "Vorsicht (caution)", "Speed-Accuracy Trade-off",
+        "non-decision time", "Verzögerung", "Periphere Prozesse") |> 
+
+  knitr::kable()
+```
+
+## DDM Function
+
+Um den Code zu verstehen, brauchen wir ein paar neue R Funktionen.
+
+```{r}
+seq_along(c("a", "b", "c"))
+```
+
+```{r}
+min(1, -2)
+```
+```{r}
+max(3, 4)
+```
+
+```{r}
+as.numeric(2)
+```
+
+```{r}
+array(dim = 2)
+```
+```{r}
+#| eval: false
+break()
+```
+
+
+
+Zeitangaben in Sekunden:
+
+```{r}
+bias <- 0.5
+driftrate <- 0.8
+decision_boundary <- 2
+ndt <- 0.5
+diffvar <- 0.1
+dt <- 0.001
+max_time <- 6
+```
+
+Bias muss zwischen den decisioon boundaries liegen.
+
+```{r}
+# rescale bias so that 0.5 lies halfway between upper and lower bound
+bias <- as.numeric(2 * decision_boundary * bias - decision_boundary)
+```
+
+
+Zeitschritte:
+
+```{r}
+# initialize time_steps and dv
+time_steps <- max_time/dt
+dv <- array(dim = time_steps)
+```
+
+
+Evidenzakkumulierung, ausgehend vom _bias_:
+```{r}
+# start accumulating from bias (starting point)
+dv[1] <- rnorm(1, mean = bias, sd = sqrt(dt))
+```
+
+
+
+```{r}
+for (j in 2:time_steps) {
+
+    # non-decision time
+    if (j <= ndt/dt) {
+        # dv bleibt gleich
+        dv[j] <- dv[j-1]
+    }
+    else {
+        # Akkumulierung fängt an
+        error <- rnorm(1, 0, sqrt(diffvar * dt))
+        # dv ist alte dv plus drift plus noise
+        dv[j] <- dv[j-1] + driftrate * dt + error  # Cobb & Zacks (1985), Eq. 1.14
+        
+        # decision
+        if (abs(dv[j]) > decision_boundary) {
+            dv[j] <- dplyr::if_else(dv[j] > 0,
+                             min(dv[j], decision_boundary),
+                             max(dv[j], -decision_boundary))
+            break()
+        }
+    }
+}
+```
+
+
+
+```{r}
+d <- dplyr::tibble(time = round(seq_along(dv) * dt, 3),
+                     dv = dv,
+                     steps = seq_along(dv),
+                     driftrate = driftrate,
+                     decision_boundary = decision_boundary,
+                     bias = bias,
+                     ndt = ndt)
+```
+
+
+
+```{r}
+d |> 
+    ggplot(aes(time, dv)) +
+    geom_hline(yintercept = 0, linetype = 3) +
+    geom_line() +
+    scale_color_viridis_d(end = 0.8) +
+    geom_hline(yintercept = c(-2, 2), color = "black", size = 1) 
+```
+
+
+### Function
+
+```{r}
 drift_diffusion <- function(bias = 0.5,
                             driftrate = 0.8,
                             decision_boundary = 2,
@@ -180,42 +318,14 @@ drift_diffusion <- function(bias = 0.5,
 ```
 
 
-:::example
-**Entscheidungsprozess in Pseudo-Code:**
-
-Hier ist derselbe Algorithmus wie oben, aber in Pseudo-Code, anstelle von R Code.
-
-1) Wähle einen Punkt zwischen Unter- und Obergrenze. Dieser Punkt ist der `bias`. Wenn dieser genau 0.5 ist, sind wir auf halben Weg zwischen den Grenzen.
-
-2) Ziehe Evidenz aus einer Normalverteilung mit Mittelwert 0 und addiere die Differenz zwischen 0.5 und dem bias. Hier fangen wir mit der Akkumulierung an.
-
-3) Warte bis die non-decision time vorbei ist.
-
-4) Fange an, Evidenz aus einer Normalverteilung mit $\mu = \text{driftrate}$ zu ziehen. Addiere die aktuelle Evidenz zur akkumulierten decision variable.
-
-5) Wiederhole dies, bis eine der Grenzen erreicht ist.
-
-6) Entscheide dich für diejenige Alternative, dessen Grenze du erreicht hast.
-:::
 
 
+## Auswirkungen der Parameter
 
 Wir können nun einige Trials plotten, um den Effekt dieser Parameter zu visualisieren.
 
 
-```{r echo=FALSE}
-# library(kableExtra)
-tribble(~Parameter, ~Bedeutung, ~Anwendung,
-        "drift rate", "Qualität der Evidenz pro Zeiteinheit", "Task Schwierigkeit, Fähigkeit",
-        "bias", "Anfangspunkt der Evidenzakkumulierung", "A priori Präferenz für eine der beiden Alternativen",
-        "boundary separation", "Vorsicht (caution)", "Speed-Accuracy Trade-off",
-        "non'decision time", "Verzögerung", "Periphere Prozesse") %>% 
-
-  knitr::kable()
-```
-
-
-## Drift rate
+### Drift rate
 
 Wir fangen an mit der drift rate. Wenn diese $>> 0$ ist, wird die Obergrenze schnell erreicht, und es wir wenige Fehler geben. Ist die drift rate kleiner, aber immer noch $> 0$, wird die durschnittliche Zeit länger, um eine korrekte Antwort zu geben.
 
@@ -224,12 +334,12 @@ Wir fangen an mit der drift rate. Wenn diese $>> 0$ ist, wird die Obergrenze sch
 
 set.seed(829)
 
-slow <- drift_diffusion(driftrate = 0.8) %>% mutate(type = "slow")
-fast <- drift_diffusion(driftrate = 1.2) %>% mutate(type = "fast")
+slow <- drift_diffusion(driftrate = 0.8) |> mutate(type = "slow")
+fast <- drift_diffusion(driftrate = 1.2) |> mutate(type = "fast")
 
 fastslow <- bind_rows(fast, slow) 
 
-fastslow %>% 
+fastslow |> 
     ggplot(aes(time, dv, color = type)) +
     geom_hline(yintercept = 0, linetype = 3) +
     geom_line() +
@@ -238,22 +348,22 @@ fastslow %>%
     ggtitle("Grosse vs. kleine Drift Rate")
 ```
 
-## Bias
+### Bias
 
 Wenn der bias $>0.5$ ist, wird die Obergrenze schneller erreicht. Hier gibt es nun eine Interaktion mit der drift rate---ist diese klein, und der bias $<0.5$, ist die Chance, schnelle Fehler zu machen erhöht.
 
 ```{r code_folding = TRUE}
 set.seed(29)
 
-unbiased <- drift_diffusion(bias = 0.5) %>% mutate(type = "unbiased")
-upbiased <- drift_diffusion(bias = 0.7) %>% mutate(type = "upbiased")
-downbiased <- drift_diffusion(bias = 0.3) %>% mutate(type = "downbiased")
+unbiased <- drift_diffusion(bias = 0.5) |> mutate(type = "unbiased")
+upbiased <- drift_diffusion(bias = 0.7) |> mutate(type = "upbiased")
+downbiased <- drift_diffusion(bias = 0.3) |> mutate(type = "downbiased")
 
 
 
 bias <- bind_rows(unbiased, upbiased, downbiased) 
 
-bias %>% 
+bias |> 
     ggplot(aes(time, dv, color = type)) +
     geom_hline(yintercept = 0, linetype = 3) +
     geom_line() +
@@ -263,7 +373,7 @@ bias %>%
 ```
 
 
-## Boundary separation
+### Boundary separation
 
 Liegen die Grenzen weiter auseinander, braucht es mehr akkumulierte Evidenz, um eine der Grenzen zu erreichen. Dies führt dazu, dass weniger Fehler gemacht werden, da die zufällige Fluktuation über längere Zeit hinweg einen weniger starken Einfluss hat. Deshalb kann eine Verschiebung der Grenzen den Speed-Accuracy Trade-off erklären.
 
@@ -271,15 +381,15 @@ Liegen die Grenzen weiter auseinander, braucht es mehr akkumulierte Evidenz, um 
 ```{r code_folding = TRUE}
 set.seed(84)
 
-carefree <- drift_diffusion(decision_boundary = 1.6) %>% mutate(type = "carefree")
-cautious <- drift_diffusion(decision_boundary = 2.1) %>% mutate(type = "cautious")
+carefree <- drift_diffusion(decision_boundary = 1.6) |> mutate(type = "carefree")
+cautious <- drift_diffusion(decision_boundary = 2.1) |> mutate(type = "cautious")
 
 cautiouscareless <- bind_rows(carefree, cautious) 
 
 decision_boundaries <- tribble(~type, ~decision_boundary,
                                "carefree", 1.6,
                                "cautious", 2.1)
-cautiouscareless %>% 
+cautiouscareless |> 
     ggplot(aes(time, dv, color = type)) +
     geom_hline(yintercept = 0, linetype = 3) +
     geom_line() +
@@ -289,7 +399,7 @@ cautiouscareless %>%
     ggtitle("Unterschiede im Abstand zwischen den Grenzen")
 ```
 
-## Non-decision time
+### Non-decision time
 
 Eine Veränderung der non-decision time hat eine Auswirkung auf die durschnittliche Reaktionszeit, hat aber keinen Einfluss auf die Fehlerrate.
 
@@ -297,8 +407,8 @@ Eine Veränderung der non-decision time hat eine Auswirkung auf die durschnittli
 ```{r code_folding = TRUE}
 set.seed(4534)
 
-longndt <- drift_diffusion(ndt = 0.7) %>% mutate(type = "longndt")
-shortndt <- drift_diffusion(ndt = 0.2) %>% mutate(type = "shortndt")
+longndt <- drift_diffusion(ndt = 0.7) |> mutate(type = "longndt")
+shortndt <- drift_diffusion(ndt = 0.2) |> mutate(type = "shortndt")
 
 ndt <- bind_rows(longndt, shortndt) 
 
@@ -306,7 +416,7 @@ ndts <- tribble(~type, ~ndt,
                 "longndt", 0.7,
                 "shortndt", 0.2)
 
-ndt %>% 
+ndt |> 
     ggplot(aes(time, dv, color = type)) +
     geom_hline(yintercept = 0, linetype = 3) +
     geom_line() +
@@ -318,7 +428,7 @@ ndt %>%
 
 
 
-# Simulationen
+## Simulationen
 
 
 Die Verteilungsfunktion sind im R Package `rtdists` enthalten. Damit können zum Beispiel Zufallszahlen aus der DDM Verteilung ziehen, ohne dass wir den Prozess wie oben Schritt für Schritt modellieren müssen.
@@ -366,8 +476,8 @@ rts |>
 
 
 ```{r}
-rts %>% 
-    group_by(response) %>% 
+rts |> 
+    group_by(response) |> 
     summarise(mean = mean(rt),
               median = median(rt),
               sd = sd(rt))

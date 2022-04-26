@@ -34,8 +34,6 @@ format:
 library(tidyverse)
 library(viridis)
 
-theme_set(theme_grey(base_size = 14) +
-            theme(panel.grid = element_blank()))
 ```
 
 # Diffusion Decision Model

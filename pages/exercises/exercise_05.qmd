@@ -25,7 +25,7 @@ knitr::opts_knit$set(root.dir = '../../data/exercise-05')
 ```
 
 :::{.callout-note}
-Die Daten für diese Übung finden Sie hier: 👉 [Download Data](./data/stroop-data.csv)
+Die Daten für diese Übung finden Sie hier: 👉 [Download Data](../../data/exercise-05/data/stroop-data.csv)
 
 Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen.
 

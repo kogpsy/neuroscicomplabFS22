@@ -1,0 +1,204 @@
+---
+title: "9. Sitzung"
+subtitle: "Evidence accumulation models: I"
+author: "Andrew Ellis"
+institute: "Neurowissenschaft Computerlab FS 22"
+format:
+  revealjs:
+    theme: [simple, ../styles/reveal.scss]
+    logo: ../assets/logo.png
+    footer: <a href="/">🏠 Neurowissenschaft Computerlab FS22</a>
+    # smaller: true
+    slide-number: c/t
+    chalkboard: true
+    scrollable: true 
+    code-fold: true
+    code-summary: "Show code"
+    code-tools: true
+date: "2022-04-26"
+---
+
+```{r}
+#| include: false
+
+library(tidyverse)
+```
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="35%"}
+::: topic-number
+1
+:::
+:::
+
+::: {.column width="65%"}
+::: topic-text
+What are decisions?
+:::
+:::
+:::
+
+## Decision {.smaller}
+
+- Jeden Tag treffen wir Tausende von kleinen Entscheidungen (unter Zeitdruck).
+
+- Viele davon sind trivial (z. B. welches Paar Socken man anziehen oder welche Fernsehserie man schauen soll) und automatisch (z. B. wie man den Kollegen morgens begrüsst oder welches Wort man als nächstes in eine E-Mail schreiben soll).
+
+- Nach einiger Überlegung muss eine Entscheidung auf der Grundlage der Daten getroffen werden. 
+
+- Die meisten Entscheidungen im wirklichen Leben setzen sich aus zwei separaten Entscheidungen zusammen: zuerst die Entscheidung, mit dem Überlegen aufzuhören und zu handeln, und dann die Entscheidung oder Handlung selbst.
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="35%"}
+::: topic-number
+2
+:::
+:::
+
+::: {.column width="65%"}
+::: topic-text
+Sequential Sampling
+:::
+:::
+:::
+
+
+## Sequential Sampling
+
+- Statistik: Daten (evidence) werden im Laufe der Zeit gesammelt, und der Statistiker muss entscheiden, wann er die Datenerfassung beenden und eine Entscheidung treffen muss.
+
+- Der sequentielle Charakter der Entscheidungsfindung ist eine grundlegende Eigenschaft des menschlichen Nervensystems und spiegelt seine Unfähigkeit wider, Informationen sofort zu verarbeiten..
+
+- Um die Dynamik der Entscheidungsfindung zu verstehen, konzentrieren sich die meisten Studien auf einfache, wiederholbare Wahlprobleme mit nur zwei (binären) Alternativen.
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="35%"}
+::: topic-number
+3
+:::
+:::
+
+::: {.column width="65%"}
+::: topic-text
+Gesetzmässigkeiten
+:::
+:::
+:::
+
+## Gesetzmässigkeiten 
+
+- Daten von elementaren Entscheidungsaufgaben lassen mehrere gesetzesähnliche Muster erkennen, die jedes Modell der Entscheidungsfindung berücksichtigen muss.
+
+- Die mittlere RT ist für einfache Stimuli kürzer als für schwierige Reize.. 
+
+- "Speed stress" verkürzt die mittlere RT, erhöht aber den Anteil der Fehlerrate.
+
+- Mittlere RT ist proportional yur Standardabweichung.
+
+- Manipulationen, die die Geschwindigkeit der richtigen Antworten erhöhen, erhöhen auch die Geschwindigkeit der Fehlerantworten.
+
+- RT-Verteilungen sind rechtsschief, und diese Schiefe nimmt mit der Schwierigkeit der Aufgabe zu.
+
+- Bei schwierigen Aufgaben ist die mittlere Fehler-RT oft langsamer als die mittlere korrekte RT - dieses Muster kann durch "Geschwindigkeitsstress"speed stress"  umgekehrt werden.
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="35%"}
+::: topic-number
+4
+:::
+:::
+
+::: {.column width="65%"}
+::: topic-text
+Diffusion Decision Model
+:::
+:::
+:::
+
+
+## Diffusion Decision Model
+
+- Das von Roger Ratcliff entwickelte Modell hat seinen Ursprung in Modellen zu den Bewegungen von Partikeln in einer Flüssigkeit, und geht auf Arbeiten von Albert Einstein und [Norbert Wiener](https://en.wikipedia.org/wiki/Norbert_Wiener) zurück. 
+- Binäre Entscheidungen basieren auf der Anhäufung von verrauschten Beweisen, beginnend am Ausgangspunkt und endend an einer Entscheidungsschwelle, die mit einer bestimmten Entscheidung verbunden ist.
+
+---
+
+![Aus Mulder et al. (2012)](../assets/images/ddm-mulder.png)
+
+
+------------
+
+![RT Verteilungen](../assets/images/ddm-illustration.png)
+
+
+
+## DDM Parameter {.even-smaller}
+
+Das Modell hat vier Parameter. ^[Hier schauen wir uns eine vereinfachte Version dieses Modells an, welches nur 4 Parameter. Im "standard" DDM hat es 7 Parameter.]
+
+1) Drift rate steht für die durchschnittliche Anzahl von Beweisen pro Zeiteinheit und ist ein Index für die Schwierigkeit der Aufgabe oder die Fähigkeit des Subjekts. 
+
+2) Boundary separation stellt die Vorsicht dar; eine größere Trennung der Grenzen führt zu weniger Fehlern (wegen geringerer Auswirkung des Diffusionsrauschens innerhalb des Trials), jedoch um den Preis einer langsameren Reaktion (speed-accuracy tradeoff).
+ 
+3) Starting point repräsentiert die a-priori Präferenz für eine der  Wahlalternativen. 
+
+4) Non-decision time ist ein Verzögerungsparameter, der die Zeit für periphere Prozesse (Kodierung eines Reizes,  Umwandlung der Repräsentation des Reizes in eine entscheidungsbezogene Repräsentation) und Ausführung einer Reaktion misst. 
+
+- Gesamtzeit für eine Reaktion ist die Zeit für die Ausbreitung vom Startpunkt bis zur Grenze plus die Non-decision time
+
+
+
+
+
+## Beispiele
+
+- Altern: ältere Erwachsene sind oft langsamer als jüngere, machen aber nicht mehr Fehler. DDM Resultate haben gezeigt, dass es nicht immer kognitive Fähigkeiten sind, welche mit dem alter abnehmen, sondern oftmals periphere Prozesse und _grössere Vorsicht_. Dies konnte in Studien zu numerosity judgments, lexical decisions und recognition memory gezeigt werden.
+
+- Arbeitsgedächtnis und IQ: ein höherer IQ geht mit einer grösserern drift rate einher. 
+
+- Klinische Studien: Patienten mit Angststörungen haben eine höhere drift rate für bedrohliche Wörter/Bilder mit bedrohlichem Inhalt.
+
+Anhand von DDM können Neuowissenschaftler Hirnmessungen mit kognitiven Prozessen assoziieren, anstelle von behavioralen "Effekten".  
+
+
+
+
+
+## DDM Annahmen {.smaller}
+
+1) Binary decision making: DDM ist ein Model für binäre Entscheidungen.
+
+> Stroop-Aufgabe. Obwohl es mehrere Antworten gibt (eine für jede Farbe), könnte man versuchen, die Genauigkeitsdaten mit dem Diffusionsmodell zu modellieren und dabei unterschiedliche Driftraten für kongruente und inkongruente Versuche zu berücksichtigen.
+
+
+2) Continuous sampling: Entscheidungen beruhen auf einem kontinuierlichen Verarbeitung von Daten.
+
+3) Single-stage processing: Entscheidungen basieren auf einer einstufigen Verarbeitung.
+
+4) Parameter sind konstant. Das heisst z.B. drift rate kann sich nicht über Zeit verändern.
+
+
+## Fitting Parameters
+
+- Wir simulieren nun einen Evidenz Accumulation Process Schritt-für-Schritt. Damit können wir Zufallszahlen generieren.
+
+- Um Parameter Fitting zu machen, brauchen wir jedoch die Wahrscheinlichkeitsdichte, d.h. die Wahrscheinlichkeit, die gegebene Grenze in der gegebenen Zeit zu erreichen (gegeben die Parameter).
+
+- Dies machen wir in der nächsten Sitzung.
+
+
+## Literature {.smaller}
+
+- Voss, A., Nagler, M., & Lerche, V. (2013). Diffusion Models in Experimental Psychology: A Practical Introduction. Experimental Psychology, 60(6), 385–402. https://doi.org/10.1027/1618-3169/a000218
+
+- Forstmann, B. U., Ratcliff, R., & Wagenmakers, E.-J. (2016). Sequential Sampling Models in Cognitive Neuroscience: Advantages, Applications, and Extensions. Annual Review of Psychology, 67, 641–666. https://doi.org/10.1146/annurev-psych-122414-033645
+
+- Ratcliff, R., & McKoon, G. (2008). The Diffusion Decision Model: Theory and Data for Two-Choice Decision Tasks. Neural Computation, 20(4), 873–922. https://doi.org/10.1162/neco.2008.12-06-420

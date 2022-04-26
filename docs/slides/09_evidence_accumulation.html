@@ -18,69 +18,6 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css" id="theme">
   <link href="..//assets/logo_landing.png" rel="icon" type="image/png">
@@ -390,21 +327,12 @@
 
 <section id="title-slide" class="center">
   <h1 class="title">9. Sitzung</h1>
-  <p class="subtitle">Evidence accumulation</p>
+  <p class="subtitle">Evidence accumulation models: I</p>
   <p class="author">Andrew Ellis</p>
   <p class="institute">Neurowissenschaft Computerlab FS 22</p>
   <p class="date">2022-04-26</p>
 </section>
 
-<section id="next-sessions" class="slide level2">
-<h2>Next sessions</h2>
-<ul>
-<li><p>Evidence accumulation 1</p></li>
-<li><p>Evidence accumulation 2</p></li>
-<li><p>Bayesian data analysis</p></li>
-<li><p>Is the brain Bayesian?</p></li>
-</ul>
-</section>
 <section class="slide level2">
 
 <div class="columns">
@@ -414,44 +342,19 @@
 </div>
 </div><div class="column" style="width:65%;">
 <div class="topic-text">
-<p>What can we learn?</p>
+<p>What are decisions?</p>
 </div>
 </div>
 </div>
 </section>
-<section id="adhd-response-time-variability" class="slide level2">
-<h2>ADHD: Response Time Variability</h2>
+<section id="decision" class="slide level2 smaller">
+<h2>Decision</h2>
 <ul>
-<li><p>Children with ADHD show cognitive impairments in attention, inhibitory control, and working memory compared with typically-developing children.</p></li>
-<li><p>No specific cognitive impairment is universal across patients with ADHD. One of the more consistent findings in the ADHD neuropsychology literature is increased reaction time variability (RTV), also known as intra-individual variability, on computerized tasks.</p></li>
-<li><p>Children with ADHD have also been shown to be less able to deactivate the DMN than controls, and this inability to deactivate the DMN has been directly related to RTV.</p></li>
-<li><p>Does RTV reflect a single construct or process? The vast majority of studies have used a reaction time standard deviation (RTSD).</p></li>
+<li><p>Jeden Tag treffen wir Tausende von kleinen Entscheidungen (unter Zeitdruck).</p></li>
+<li><p>Viele davon sind trivial (z. B. welches Paar Socken man anziehen oder welche Fernsehserie man schauen soll) und automatisch (z. B. wie man den Kollegen morgens begrüsst oder welches Wort man als nächstes in eine E-Mail schreiben soll).</p></li>
+<li><p>Nach einiger Überlegung muss eine Entscheidung auf der Grundlage der Daten getroffen werden.</p></li>
+<li><p>Die meisten Entscheidungen im wirklichen Leben setzen sich aus zwei separaten Entscheidungen zusammen: zuerst die Entscheidung, mit dem Überlegen aufzuhören und zu handeln, und dann die Entscheidung oder Handlung selbst.</p></li>
 </ul>
-</section>
-<section id="facilitation" class="slide level2">
-<h2>Facilitation</h2>
-<ul>
-<li><p>Stroop task vs Simon task</p></li>
-<li><p>Facilitation effects in both task.</p></li>
-<li><p>Stroop effects are smallest for fast responses and increase as responses slow.</p></li>
-<li><p>Simon effects are largest for fast responses but decrease, and even reverse, as responses slow (see <a href="https://www.psytoolkit.org/experiment-library/simon.html">DEMO</a>).</p></li>
-</ul>
-<p>Pratte, M. S., Rouder, J. N., Morey, R. D., &amp; Feng, C. (2010). Exploring the differences in distributional properties between Stroop and Simon effects using delta plots. Attention, Perception, &amp; Psychophysics, 72(7), 2013–2025. https://doi.org/10.3758/APP.72.7.2013</p>
-</section>
-<section id="experimental-manipulations" class="slide level2">
-<h2>Experimental manipulations</h2>
-<div class="columns">
-<div class="column" style="width:40%;">
-<ul>
-<li><p>affects most strongly slow behavioural responses, but with limited effects on fast responses.</p></li>
-<li><p>affects all responses, fast and slow, similarly.</p></li>
-<li><p>has stronger effects on fast responses, and weaker ones for slow responses.</p></li>
-</ul>
-</div><div class="column" style="width:58%;">
-<p><img data-src="../assets/images/manipulations.png"></p>
-</div>
-</div>
-<p>Distribution analysis provides much stronger constraints on the underlying cognitive architecture than comparisons limited to e.g.&nbsp;mean or median reaction times across participants.</p>
 </section>
 <section class="slide level2">
 
@@ -462,44 +365,18 @@
 </div>
 </div><div class="column" style="width:65%;">
 <div class="topic-text">
-<p>Shift Function</p>
+<p>Sequential Sampling</p>
 </div>
 </div>
 </div>
 </section>
-<section id="shift-function-independent-groups" class="slide level2">
-<h2>Shift Function: Independent Groups</h2>
-<div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Uniform shift</a></li><li><a href="#tabset-1-2">Shift function</a></li><li><a href="#tabset-1-3">Plot shift function</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1">
-<div class="cell">
-<div class="cell-output-display">
-<p><img data-src="09_evidence_accumulation_1_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
-</div>
-</div>
-</div>
-<div id="tabset-1-2">
-<div class="larger">
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>out <span class="ot">&lt;-</span> <span class="fu">shifthd_pbci</span>(df, <span class="at">nboot =</span> <span class="dv">200</span>, <span class="at">adj_ci =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>p <span class="ot">&lt;-</span> <span class="fu">plot_sf</span>(out, <span class="at">plot_theme =</span> <span class="dv">1</span>)[[<span class="dv">1</span>]] <span class="sc">+</span> </span>
-<span id="cb1-3"><a href="#cb1-3"></a>     <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">colour=</span><span class="st">"black"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</div>
-</div>
-<div id="tabset-1-3">
-<div class="cell">
-<div class="cell-output-display">
-<p><img data-src="09_evidence_accumulation_1_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
-</div>
-</div>
-</div>
-</div>
-</div>
+<section id="sequential-sampling" class="slide level2">
+<h2>Sequential Sampling</h2>
+<ul>
+<li><p>Statistik: Daten (evidence) werden im Laufe der Zeit gesammelt, und der Statistiker muss entscheiden, wann er die Datenerfassung beenden und eine Entscheidung treffen muss.</p></li>
+<li><p>Der sequentielle Charakter der Entscheidungsfindung ist eine grundlegende Eigenschaft des menschlichen Nervensystems und spiegelt seine Unfähigkeit wider, Informationen sofort zu verarbeiten..</p></li>
+<li><p>Um die Dynamik der Entscheidungsfindung zu verstehen, konzentrieren sich die meisten Studien auf einfache, wiederholbare Wahlprobleme mit nur zwei (binären) Alternativen.</p></li>
+</ul>
 </section>
 <section class="slide level2">
 
@@ -510,98 +387,23 @@
 </div>
 </div><div class="column" style="width:65%;">
 <div class="topic-text">
-<p>Hierarchical Shift Function</p>
+<p>Gesetzmässigkeiten</p>
 </div>
 </div>
 </div>
 </section>
-<section id="hierarchical-shift-function" class="slide level2">
-<h2>Hierarchical Shift Function</h2>
-<ol type="1">
-<li><p>quantiles are computed for the distribution of measurements from each condition and each participant.</p></li>
-<li><p>the quantiles are subtracted in each participant.</p></li>
-<li><p>a trimmed mean is computed across participants for each quantile.</p></li>
-<li><p>Confidence intervals are computed using the percentile bootstrap.</p></li>
-</ol>
+<section id="gesetzmässigkeiten" class="slide level2">
+<h2>Gesetzmässigkeiten</h2>
+<ul>
+<li><p>Daten von elementaren Entscheidungsaufgaben lassen mehrere gesetzesähnliche Muster erkennen, die jedes Modell der Entscheidungsfindung berücksichtigen muss.</p></li>
+<li><p>Die mittlere RT ist für einfache Stimuli kürzer als für schwierige Reize..</p></li>
+<li><p>“Speed stress” verkürzt die mittlere RT, erhöht aber den Anteil der Fehlerrate.</p></li>
+<li><p>Mittlere RT ist proportional yur Standardabweichung.</p></li>
+<li><p>Manipulationen, die die Geschwindigkeit der richtigen Antworten erhöhen, erhöhen auch die Geschwindigkeit der Fehlerantworten.</p></li>
+<li><p>RT-Verteilungen sind rechtsschief, und diese Schiefe nimmt mit der Schwierigkeit der Aufgabe zu.</p></li>
+<li><p>Bei schwierigen Aufgaben ist die mittlere Fehler-RT oft langsamer als die mittlere korrekte RT - dieses Muster kann durch “Geschwindigkeitsstress”speed stress” umgekehrt werden.</p></li>
+</ul>
 </section>
-<section id="hierarchical-shift-function-1" class="slide level2">
-<h2>Hierarchical Shift Function</h2>
-<div class="cell">
-
-</div>
-<div class="panel-tabset">
-<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Shift function</a></li><li><a href="#tabset-2-2">Plot shift function</a></li><li><a href="#tabset-2-3">Stochastic dominance</a></li></ul>
-<div class="tab-content">
-<div id="tabset-2-1">
-<div class="larger">
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>out <span class="ot">&lt;-</span> <span class="fu">hsf</span>(df, rt <span class="sc">~</span> cond <span class="sc">+</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</div>
-</div>
-<div id="tabset-2-2">
-<div class="width-80">
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plot_hsf</span>(out)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<p><img data-src="09_evidence_accumulation_1_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-2-3">
-<p><strong>Participants with all quantile differences &gt; 0</strong></p>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>nq <span class="ot">&lt;-</span> <span class="fu">length</span>(out<span class="sc">$</span>quantiles)</span>
-<span id="cb4-2"><a href="#cb4-2"></a>pdmt0 <span class="ot">&lt;-</span> <span class="fu">apply</span>(out<span class="sc">$</span>individual_sf <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">2</span>, sum)</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">'In '</span>,<span class="fu">sum</span>(pdmt0 <span class="sc">==</span> nq),<span class="st">' participants ('</span>,<span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(pdmt0 <span class="sc">==</span> nq) <span class="sc">/</span> np, <span class="at">digits =</span> <span class="dv">1</span>),<span class="st">'%), all quantile differences are more than to zero'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "In 0 participants (0%), all quantile differences are more than to zero"</code></pre>
-</div>
-</div>
-<p><strong>Participants with all quantile differences &lt; 0</strong></p>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>pdlt0 <span class="ot">&lt;-</span> <span class="fu">apply</span>(out<span class="sc">$</span>individual_sf <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">2</span>, sum)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">'In '</span>,<span class="fu">sum</span>(pdlt0 <span class="sc">==</span> nq),<span class="st">' participants ('</span>,<span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(pdlt0 <span class="sc">==</span> nq) <span class="sc">/</span> np, <span class="at">digits =</span> <span class="dv">1</span>),<span class="st">'%), all quantile differences are less than to zero'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "In 22 participants (73.3%), all quantile differences are less than to zero"</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="hierarchical-shift-function-2" class="slide level2">
-<h2>Hierarchical Shift Function</h2>
-<p>Alternative bootstrapping method: <code>hsf_pb()</code></p>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">set.seed</span>(<span class="dv">8899</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>out <span class="ot">&lt;-</span> rogme<span class="sc">::</span><span class="fu">hsf_pb</span>(df, rt <span class="sc">~</span> cond <span class="sc">+</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>rogme<span class="sc">::</span><span class="fu">plot_hsf_pb</span>(out, <span class="at">interv =</span> <span class="st">"ci"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-
-</div>
-<img data-src="09_evidence_accumulation_1_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
 <section class="slide level2">
 
 <div class="columns">
@@ -611,169 +413,84 @@
 </div>
 </div><div class="column" style="width:65%;">
 <div class="topic-text">
-<p>Bootstrapping</p>
+<p>Diffusion Decision Model</p>
 </div>
 </div>
 </div>
 </section>
-<section id="bootstrapping" class="slide level2 even-smaller">
-<h2>Bootstrapping</h2>
-<blockquote>
-<p>“The bootstrap is a computer-based method for assigning measures of accuracy to statistical estimates.” Efron &amp; Tibshirani, An introduction to the bootstrap, 1993</p>
-</blockquote>
-<blockquote>
-<p>“The central idea is that it may sometimes be better to draw conclusions about the characteristics of a population strictly from the sample at hand, rather than by making perhaps unrealistic assumptions about the population.” Mooney &amp; Duval, Bootstrapping, 1993</p>
-</blockquote>
+<section id="diffusion-decision-model" class="slide level2">
+<h2>Diffusion Decision Model</h2>
 <ul>
-<li><p>Like all bootstrap methods, the percentile bootstrap relies on a simple &amp; intuitive idea: instead of making assumptions about the underlying distributions from which our observations could have been sampled, we use the data themselves to estimate sampling distributions.</p></li>
-<li><p>In turn, we can use these estimated sampling distributions to compute confidence intervals, estimate standard errors, estimate bias, and test hypotheses (Efron &amp; Tibshirani, 1993; Mooney &amp; Duval, 1993; Wilcox, 2012).</p></li>
-<li><p>The core principle to estimate sampling distributions is resampling. The technique was developed &amp; popularised by Brad Efron as the bootstrap.</p></li>
+<li>Das von Roger Ratcliff entwickelte Modell hat seinen Ursprung in Modellen zu den Bewegungen von Partikeln in einer Flüssigkeit, und geht auf Arbeiten von Albert Einstein und <a href="https://en.wikipedia.org/wiki/Norbert_Wiener">Norbert Wiener</a> zurück.</li>
+<li>Binäre Entscheidungen basieren auf der Anhäufung von verrauschten Beweisen, beginnend am Ausgangspunkt und endend an einer Entscheidungsschwelle, die mit einer bestimmten Entscheidung verbunden ist.</li>
 </ul>
 </section>
-<section id="bootstrapping-1" class="slide level2">
-<h2>Bootstrapping</h2>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">183</span>, <span class="dv">192</span>, <span class="dv">182</span>, <span class="dv">183</span>, <span class="dv">177</span>, <span class="dv">185</span>, <span class="dv">188</span>, <span class="dv">188</span>, <span class="dv">182</span>, <span class="dv">185</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(heights, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-2"><a href="#cb11-2"></a>v1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] 188 183 188 183 182 177 188 188 188 192</code></pre>
-</div>
-</div>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(heights, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-2"><a href="#cb13-2"></a>v2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] 192 183 185 185 177 185 185 185 182 192</code></pre>
-</div>
-</div>
-<p>Essentially, we are doing fake experiments using only the observations from our sample. And for each of these fake experiments, or bootstrap sample, we can compute any estimate of interest, for instance the median.</p>
-<p>For a visualization, see this <a href="https://seeing-theory.brown.edu/frequentist-inference/index.html#section2">demo</a>.</p>
+<section class="slide level2">
+
+
+<img data-src="../assets/images/ddm-mulder.png" class="r-stretch quarto-figure-center"><p class="caption">Aus Mulder et al.&nbsp;(2012)</p></section>
+<section class="slide level2">
+
+
+<img data-src="../assets/images/ddm-illustration.png" class="r-stretch quarto-figure-center"><p class="caption">RT Verteilungen</p></section>
+<section id="ddm-parameter" class="slide level2 even-smaller">
+<h2>DDM Parameter</h2>
+<p>Das Modell hat vier Parameter. <sup>1</sup></p>
+<ol type="1">
+<li><p>Drift rate steht für die durchschnittliche Anzahl von Beweisen pro Zeiteinheit und ist ein Index für die Schwierigkeit der Aufgabe oder die Fähigkeit des Subjekts.</p></li>
+<li><p>Boundary separation stellt die Vorsicht dar; eine größere Trennung der Grenzen führt zu weniger Fehlern (wegen geringerer Auswirkung des Diffusionsrauschens innerhalb des Trials), jedoch um den Preis einer langsameren Reaktion (speed-accuracy tradeoff).</p></li>
+<li><p>Starting point repräsentiert die a-priori Präferenz für eine der Wahlalternativen.</p></li>
+<li><p>Non-decision time ist ein Verzögerungsparameter, der die Zeit für periphere Prozesse (Kodierung eines Reizes, Umwandlung der Repräsentation des Reizes in eine entscheidungsbezogene Repräsentation) und Ausführung einer Reaktion misst.</p></li>
+</ol>
+<ul>
+<li>Gesamtzeit für eine Reaktion ist die Zeit für die Ausbreitung vom Startpunkt bis zur Grenze plus die Non-decision time</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn1" role="doc-endnote"><p>Hier schauen wir uns eine vereinfachte Version dieses Modells an, welches nur 4 Parameter. Im “standard” DDM hat es 7 Parameter.</p></li></ol></aside></section>
+<section id="beispiele" class="slide level2">
+<h2>Beispiele</h2>
+<ul>
+<li><p>Altern: ältere Erwachsene sind oft langsamer als jüngere, machen aber nicht mehr Fehler. DDM Resultate haben gezeigt, dass es nicht immer kognitive Fähigkeiten sind, welche mit dem alter abnehmen, sondern oftmals periphere Prozesse und <em>grössere Vorsicht</em>. Dies konnte in Studien zu numerosity judgments, lexical decisions und recognition memory gezeigt werden.</p></li>
+<li><p>Arbeitsgedächtnis und IQ: ein höherer IQ geht mit einer grösserern drift rate einher.</p></li>
+<li><p>Klinische Studien: Patienten mit Angststörungen haben eine höhere drift rate für bedrohliche Wörter/Bilder mit bedrohlichem Inhalt.</p></li>
+</ul>
+<p>Anhand von DDM können Neuowissenschaftler Hirnmessungen mit kognitiven Prozessen assoziieren, anstelle von behavioralen “Effekten”.</p>
 </section>
-<section id="bootstrapping-2" class="slide level2">
-<h2>Bootstrapping</h2>
-<div class="panel-tabset">
-<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Function to resample and compute mean</a></li><li><a href="#tabset-3-2">Repeat N times</a></li><li><a href="#tabset-3-3">Visualize</a></li></ul>
-<div class="tab-content">
-<div id="tabset-3-1">
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(v) {</span>
-<span id="cb15-2"><a href="#cb15-2"></a>  vv <span class="ot">&lt;-</span> <span class="fu">sample</span>(v, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb15-3"><a href="#cb15-3"></a>  <span class="fu">mean</span>(vv)</span>
-<span id="cb15-4"><a href="#cb15-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</div>
-<div id="tabset-3-2">
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>N <span class="ot">&lt;-</span> <span class="dv">4000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>b1 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> N, <span class="fu">f</span>(heights))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb18-2"><a href="#cb18-2"></a>b2 <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span>N, <span class="sc">~</span><span class="fu">f</span>(heights))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">b1 =</span> b1, <span class="at">b2 =</span> b2) <span class="sc">|&gt;</span> </span>
-<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"bootstrap"</span>, <span class="at">values_to =</span> <span class="st">"mean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</div>
-<div id="tabset-3-3">
-<div class="width-80">
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>d <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(mean, <span class="at">fill =</span> bootstrap)) <span class="sc">+</span> </span>
-<span id="cb20-3"><a href="#cb20-3"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>bootstrap)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<p><img data-src="09_evidence_accumulation_1_files/figure-revealjs/unnamed-chunk-20-1.png" width="960"></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+<section id="ddm-annahmen" class="slide level2 smaller">
+<h2>DDM Annahmen</h2>
+<ol type="1">
+<li>Binary decision making: DDM ist ein Model für binäre Entscheidungen.</li>
+</ol>
+<blockquote>
+<p>Stroop-Aufgabe. Obwohl es mehrere Antworten gibt (eine für jede Farbe), könnte man versuchen, die Genauigkeitsdaten mit dem Diffusionsmodell zu modellieren und dabei unterschiedliche Driftraten für kongruente und inkongruente Versuche zu berücksichtigen.</p>
+</blockquote>
+<ol start="2" type="1">
+<li><p>Continuous sampling: Entscheidungen beruhen auf einem kontinuierlichen Verarbeitung von Daten.</p></li>
+<li><p>Single-stage processing: Entscheidungen basieren auf einer einstufigen Verarbeitung.</p></li>
+<li><p>Parameter sind konstant. Das heisst z.B. drift rate kann sich nicht über Zeit verändern.</p></li>
+</ol>
 </section>
-<section id="bootstrapping-3" class="slide level2">
-<h2>Bootstrapping</h2>
-<p>Bootstrapped standard error of the mean:</p>
-<div class="panel-tabset">
-<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Method 1</a></li><li><a href="#tabset-4-2">Method 2</a></li></ul>
-<div class="tab-content">
-<div id="tabset-4-1">
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>d <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">group_by</span>(bootstrap) <span class="sc">|&gt;</span> </span>
-<span id="cb21-3"><a href="#cb21-3"></a>  tidybayes<span class="sc">::</span><span class="fu">mean_qi</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 7
-  bootstrap  mean .lower .upper .width .point .interval
-  &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
-1 b1         185.    182   187    0.95 mean   qi       
-2 b2         185.    182   187.   0.95 mean   qi       </code></pre>
-</div>
-</div>
-</div>
-<div id="tabset-4-2">
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>d <span class="sc">|&gt;</span> </span>
-<span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">group_by</span>(bootstrap) <span class="sc">|&gt;</span> </span>
-<span id="cb23-3"><a href="#cb23-3"></a>  <span class="fu">summarize</span>(<span class="at">estimate =</span> <span class="fu">mean</span>(mean), </span>
-<span id="cb23-4"><a href="#cb23-4"></a>            <span class="at">lower =</span> <span class="fu">quantile</span>(mean, <span class="at">probs =</span> <span class="fl">0.025</span>),</span>
-<span id="cb23-5"><a href="#cb23-5"></a>            <span class="at">upper =</span> <span class="fu">quantile</span>(mean, <span class="at">probs =</span> <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 4
-  bootstrap estimate lower upper
-  &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 b1            185.   182  187 
-2 b2            185.   182  187.</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
+<section id="fitting-parameters" class="slide level2">
+<h2>Fitting Parameters</h2>
+<ul>
+<li><p>Wir simulieren nun einen Evidenz Accumulation Process Schritt-für-Schritt. Damit können wir Zufallszahlen generieren.</p></li>
+<li><p>Um Parameter Fitting zu machen, brauchen wir jedoch die Wahrscheinlichkeitsdichte, d.h. die Wahrscheinlichkeit, die gegebene Grenze in der gegebenen Zeit zu erreichen (gegeben die Parameter).</p></li>
+<li><p>Dies machen wir in der nächsten Sitzung.</p></li>
+</ul>
+</section>
+<section id="literature" class="slide level2 smaller">
+<h2>Literature</h2>
+<ul>
+<li><p>Voss, A., Nagler, M., &amp; Lerche, V. (2013). Diffusion Models in Experimental Psychology: A Practical Introduction. Experimental Psychology, 60(6), 385–402. https://doi.org/10.1027/1618-3169/a000218</p></li>
+<li><p>Forstmann, B. U., Ratcliff, R., &amp; Wagenmakers, E.-J. (2016). Sequential Sampling Models in Cognitive Neuroscience: Advantages, Applications, and Extensions. Annual Review of Psychology, 67, 641–666. https://doi.org/10.1146/annurev-psych-122414-033645</p></li>
+<li><p>Ratcliff, R., &amp; McKoon, G. (2008). The Diffusion Decision Model: Theory and Data for Two-Choice Decision Tasks. Neural Computation, 20(4), 873–922. https://doi.org/10.1162/neco.2008.12-06-420</p></li>
+</ul>
 
 
 <img src="../assets/logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
-<p><a href="../">🏠 Neurowissenschaft im Computerlab FS22</a></p>
+<p><a href="../">🏠 Neurowissenschaft Computerlab FS22</a></p>
 </div>
 </section>
+
     </div>
   </div>
 

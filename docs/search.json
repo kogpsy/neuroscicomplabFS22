@@ -126,90 +126,6 @@
     "text": "Beyond mean differences\n\n\n\n\n🏠 Neurowissenschaft im Computerlab FS22"
   },
   {
-    "objectID": "slides/09_evidence_accumulation_1.html#next-sessions",
-    "href": "slides/09_evidence_accumulation_1.html#next-sessions",
-    "title": "9. Sitzung",
-    "section": "Next sessions",
-    "text": "Next sessions\n\nEvidence accumulation 1\nEvidence accumulation 2\nBayesian data analysis\nIs the brain Bayesian?"
-  },
-  {
-    "objectID": "slides/09_evidence_accumulation_1.html#adhd-response-time-variability",
-    "href": "slides/09_evidence_accumulation_1.html#adhd-response-time-variability",
-    "title": "9. Sitzung",
-    "section": "ADHD: Response Time Variability",
-    "text": "ADHD: Response Time Variability\n\nChildren with ADHD show cognitive impairments in attention, inhibitory control, and working memory compared with typically-developing children.\nNo specific cognitive impairment is universal across patients with ADHD. One of the more consistent findings in the ADHD neuropsychology literature is increased reaction time variability (RTV), also known as intra-individual variability, on computerized tasks.\nChildren with ADHD have also been shown to be less able to deactivate the DMN than controls, and this inability to deactivate the DMN has been directly related to RTV.\nDoes RTV reflect a single construct or process? The vast majority of studies have used a reaction time standard deviation (RTSD)."
-  },
-  {
-    "objectID": "slides/09_evidence_accumulation_1.html#facilitation",
-    "href": "slides/09_evidence_accumulation_1.html#facilitation",
-    "title": "9. Sitzung",
-    "section": "Facilitation",
-    "text": "Facilitation\n\nStroop task vs Simon task\nFacilitation effects in both task.\nStroop effects are smallest for fast responses and increase as responses slow.\nSimon effects are largest for fast responses but decrease, and even reverse, as responses slow (see DEMO).\n\nPratte, M. S., Rouder, J. N., Morey, R. D., & Feng, C. (2010). Exploring the differences in distributional properties between Stroop and Simon effects using delta plots. Attention, Perception, & Psychophysics, 72(7), 2013–2025. https://doi.org/10.3758/APP.72.7.2013"
-  },
-  {
-    "objectID": "slides/09_evidence_accumulation_1.html#experimental-manipulations",
-    "href": "slides/09_evidence_accumulation_1.html#experimental-manipulations",
-    "title": "9. Sitzung",
-    "section": "Experimental manipulations",
-    "text": "Experimental manipulations\n\n\n\naffects most strongly slow behavioural responses, but with limited effects on fast responses.\naffects all responses, fast and slow, similarly.\nhas stronger effects on fast responses, and weaker ones for slow responses.\n\n\n\n\n\nDistribution analysis provides much stronger constraints on the underlying cognitive architecture than comparisons limited to e.g. mean or median reaction times across participants."
-  },
-  {
-    "objectID": "slides/09_evidence_accumulation_1.html#shift-function-independent-groups",
-    "href": "slides/09_evidence_accumulation_1.html#shift-function-independent-groups",
-    "title": "9. Sitzung",
-    "section": "Shift Function: Independent Groups",
-    "text": "Shift Function: Independent Groups\n\nUniform shiftShift functionPlot shift function\n\n\n\n\n\n\n\n\n\n\n\n\nShow code\nout <- shifthd_pbci(df, nboot = 200, adj_ci = FALSE)\np <- plot_sf(out, plot_theme = 1)[[1]] + \n     theme(axis.text = element_text(size = 16, colour=\"black\"))"
-  },
-  {
-    "objectID": "slides/09_evidence_accumulation_1.html#hierarchical-shift-function",
-    "href": "slides/09_evidence_accumulation_1.html#hierarchical-shift-function",
-    "title": "9. Sitzung",
-    "section": "Hierarchical Shift Function",
-    "text": "Hierarchical Shift Function\n\nquantiles are computed for the distribution of measurements from each condition and each participant.\nthe quantiles are subtracted in each participant.\na trimmed mean is computed across participants for each quantile.\nConfidence intervals are computed using the percentile bootstrap."
-  },
-  {
-    "objectID": "slides/09_evidence_accumulation_1.html#hierarchical-shift-function-1",
-    "href": "slides/09_evidence_accumulation_1.html#hierarchical-shift-function-1",
-    "title": "9. Sitzung",
-    "section": "Hierarchical Shift Function",
-    "text": "Hierarchical Shift Function\n\n\n\n\nShift functionPlot shift functionStochastic dominance\n\n\n\n\n\nShow code\nout <- hsf(df, rt ~ cond + id)\n\n\n\n\n\n\n\n\nShow code\np <- plot_hsf(out)\np\n\n\n\n\n\n\n\n\nParticipants with all quantile differences > 0\n\n\nShow code\nnq <- length(out$quantiles)\npdmt0 <- apply(out$individual_sf > 0, 2, sum)\nprint(paste0('In ',sum(pdmt0 == nq),' participants (',round(100 * sum(pdmt0 == nq) / np, digits = 1),'%), all quantile differences are more than to zero'))\n\n\n[1] \"In 0 participants (0%), all quantile differences are more than to zero\"\n\n\nParticipants with all quantile differences < 0\n\n\nShow code\npdlt0 <- apply(out$individual_sf < 0, 2, sum)\nprint(paste0('In ',sum(pdlt0 == nq),' participants (',round(100 * sum(pdlt0 == nq) / np, digits = 1),'%), all quantile differences are less than to zero'))\n\n\n[1] \"In 22 participants (73.3%), all quantile differences are less than to zero\""
-  },
-  {
-    "objectID": "slides/09_evidence_accumulation_1.html#hierarchical-shift-function-2",
-    "href": "slides/09_evidence_accumulation_1.html#hierarchical-shift-function-2",
-    "title": "9. Sitzung",
-    "section": "Hierarchical Shift Function",
-    "text": "Hierarchical Shift Function\nAlternative bootstrapping method: hsf_pb()\n\n\nShow code\nset.seed(8899)\nout <- rogme::hsf_pb(df, rt ~ cond + id)\n\n\n\n\nShow code\nrogme::plot_hsf_pb(out, interv = \"ci\")"
-  },
-  {
-    "objectID": "slides/09_evidence_accumulation_1.html#bootstrapping",
-    "href": "slides/09_evidence_accumulation_1.html#bootstrapping",
-    "title": "9. Sitzung",
-    "section": "Bootstrapping",
-    "text": "Bootstrapping\n\n“The bootstrap is a computer-based method for assigning measures of accuracy to statistical estimates.” Efron & Tibshirani, An introduction to the bootstrap, 1993\n\n\n“The central idea is that it may sometimes be better to draw conclusions about the characteristics of a population strictly from the sample at hand, rather than by making perhaps unrealistic assumptions about the population.” Mooney & Duval, Bootstrapping, 1993\n\n\nLike all bootstrap methods, the percentile bootstrap relies on a simple & intuitive idea: instead of making assumptions about the underlying distributions from which our observations could have been sampled, we use the data themselves to estimate sampling distributions.\nIn turn, we can use these estimated sampling distributions to compute confidence intervals, estimate standard errors, estimate bias, and test hypotheses (Efron & Tibshirani, 1993; Mooney & Duval, 1993; Wilcox, 2012).\nThe core principle to estimate sampling distributions is resampling. The technique was developed & popularised by Brad Efron as the bootstrap."
-  },
-  {
-    "objectID": "slides/09_evidence_accumulation_1.html#bootstrapping-1",
-    "href": "slides/09_evidence_accumulation_1.html#bootstrapping-1",
-    "title": "9. Sitzung",
-    "section": "Bootstrapping",
-    "text": "Bootstrapping\n\n\nShow code\nheights <- c(183, 192, 182, 183, 177, 185, 188, 188, 182, 185)\n\n\n\n\nShow code\nv1 <- sample(heights, replace = TRUE)\nv1\n\n\n [1] 188 183 188 183 182 177 188 188 188 192\n\n\n\n\nShow code\nv2 <- sample(heights, replace = TRUE)\nv2\n\n\n [1] 192 183 185 185 177 185 185 185 182 192\n\n\nEssentially, we are doing fake experiments using only the observations from our sample. And for each of these fake experiments, or bootstrap sample, we can compute any estimate of interest, for instance the median.\nFor a visualization, see this demo."
-  },
-  {
-    "objectID": "slides/09_evidence_accumulation_1.html#bootstrapping-2",
-    "href": "slides/09_evidence_accumulation_1.html#bootstrapping-2",
-    "title": "9. Sitzung",
-    "section": "Bootstrapping",
-    "text": "Bootstrapping\n\nFunction to resample and compute meanRepeat N timesVisualize\n\n\n\n\nShow code\nf <- function(v) {\n  vv <- sample(v, replace = TRUE)\n  mean(vv)\n}\n\n\n\n\n\n\nShow code\nN <- 4000\n\n\n\n\nShow code\nb1 <- replicate(n = N, f(heights))\n\n\n\n\nShow code\nlibrary(purrr)\nb2 <- map_dbl(1:N, ~f(heights))\n\n\n\n\nShow code\nd <- tibble(b1 = b1, b2 = b2) |> \n  pivot_longer(everything(), names_to = \"bootstrap\", values_to = \"mean\")\n\n\n\n\n\n\n\nShow code\nd |> \n  ggplot(aes(mean, fill = bootstrap)) + \n  geom_histogram() +\n  facet_wrap(~bootstrap)"
-  },
-  {
-    "objectID": "slides/09_evidence_accumulation_1.html#bootstrapping-3",
-    "href": "slides/09_evidence_accumulation_1.html#bootstrapping-3",
-    "title": "9. Sitzung",
-    "section": "Bootstrapping",
-    "text": "Bootstrapping\nBootstrapped standard error of the mean:\n\nMethod 1Method 2\n\n\n\n\nShow code\nd |> \n  group_by(bootstrap) |> \n  tidybayes::mean_qi()\n\n\n# A tibble: 2 × 7\n  bootstrap  mean .lower .upper .width .point .interval\n  <chr>     <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>    \n1 b1         185.    182   187    0.95 mean   qi       \n2 b2         185.    182   187.   0.95 mean   qi       \n\n\n\n\n\n\nShow code\nd |> \n  group_by(bootstrap) |> \n  summarize(estimate = mean(mean), \n            lower = quantile(mean, probs = 0.025),\n            upper = quantile(mean, probs = 0.975))\n\n\n# A tibble: 2 × 4\n  bootstrap estimate lower upper\n  <chr>        <dbl> <dbl> <dbl>\n1 b1            185.   182  187 \n2 b2            185.   182  187.\n\n\n\n\n\n\n\n\n🏠 Neurowissenschaft im Computerlab FS22"
-  },
-  {
     "objectID": "slides/08_response_times_ii.html#next-sessions",
     "href": "slides/08_response_times_ii.html#next-sessions",
     "title": "8. Sitzung",
@@ -355,6 +271,69 @@
     "title": "1. Sitzung",
     "section": "Wichtige Skills",
     "text": "Wichtige Skills\n\n\n\nTheorien über Entscheidungsverhalten\nExperimente programmieren\n\nTiming (inside/outside scanner)\n\nData cleaning and manipulation (data wrangling)\nStatistische Verfahren für messwiederholte Daten\n\nPsychometric curve\nBinary choices / Reaktionszeiten\nrepeated-measures ANOVA\n\n\n\n\nGrafische Darstellung der Resultate\nKognitive Prozessmodelle\n\nfit Diffusion Decision Model (DDM)\n\nAuswertung von fRMI Daten\n\n\n\n\nMit diesen Themen (ausser der Analyse von fMRI Daten) beschäftigen wir uns in diesem Kurs.\n\n\n\n🏠 Neurowissenschaft im Computerlab FS22"
+  },
+  {
+    "objectID": "slides/09_evidence_accumulation.html#decision",
+    "href": "slides/09_evidence_accumulation.html#decision",
+    "title": "9. Sitzung",
+    "section": "Decision",
+    "text": "Decision\n\nJeden Tag treffen wir Tausende von kleinen Entscheidungen (unter Zeitdruck).\nViele davon sind trivial (z. B. welches Paar Socken man anziehen oder welche Fernsehserie man schauen soll) und automatisch (z. B. wie man den Kollegen morgens begrüsst oder welches Wort man als nächstes in eine E-Mail schreiben soll).\nNach einiger Überlegung muss eine Entscheidung auf der Grundlage der Daten getroffen werden.\nDie meisten Entscheidungen im wirklichen Leben setzen sich aus zwei separaten Entscheidungen zusammen: zuerst die Entscheidung, mit dem Überlegen aufzuhören und zu handeln, und dann die Entscheidung oder Handlung selbst."
+  },
+  {
+    "objectID": "slides/09_evidence_accumulation.html#sequential-sampling",
+    "href": "slides/09_evidence_accumulation.html#sequential-sampling",
+    "title": "9. Sitzung",
+    "section": "Sequential Sampling",
+    "text": "Sequential Sampling\n\nStatistik: Daten (evidence) werden im Laufe der Zeit gesammelt, und der Statistiker muss entscheiden, wann er die Datenerfassung beenden und eine Entscheidung treffen muss.\nDer sequentielle Charakter der Entscheidungsfindung ist eine grundlegende Eigenschaft des menschlichen Nervensystems und spiegelt seine Unfähigkeit wider, Informationen sofort zu verarbeiten..\nUm die Dynamik der Entscheidungsfindung zu verstehen, konzentrieren sich die meisten Studien auf einfache, wiederholbare Wahlprobleme mit nur zwei (binären) Alternativen."
+  },
+  {
+    "objectID": "slides/09_evidence_accumulation.html#gesetzmässigkeiten",
+    "href": "slides/09_evidence_accumulation.html#gesetzmässigkeiten",
+    "title": "9. Sitzung",
+    "section": "Gesetzmässigkeiten",
+    "text": "Gesetzmässigkeiten\n\nDaten von elementaren Entscheidungsaufgaben lassen mehrere gesetzesähnliche Muster erkennen, die jedes Modell der Entscheidungsfindung berücksichtigen muss.\nDie mittlere RT ist für einfache Stimuli kürzer als für schwierige Reize..\n“Speed stress” verkürzt die mittlere RT, erhöht aber den Anteil der Fehlerrate.\nMittlere RT ist proportional yur Standardabweichung.\nManipulationen, die die Geschwindigkeit der richtigen Antworten erhöhen, erhöhen auch die Geschwindigkeit der Fehlerantworten.\nRT-Verteilungen sind rechtsschief, und diese Schiefe nimmt mit der Schwierigkeit der Aufgabe zu.\nBei schwierigen Aufgaben ist die mittlere Fehler-RT oft langsamer als die mittlere korrekte RT - dieses Muster kann durch “Geschwindigkeitsstress”speed stress” umgekehrt werden."
+  },
+  {
+    "objectID": "slides/09_evidence_accumulation.html#diffusion-decision-model",
+    "href": "slides/09_evidence_accumulation.html#diffusion-decision-model",
+    "title": "9. Sitzung",
+    "section": "Diffusion Decision Model",
+    "text": "Diffusion Decision Model\n\nDas von Roger Ratcliff entwickelte Modell hat seinen Ursprung in Modellen zu den Bewegungen von Partikeln in einer Flüssigkeit, und geht auf Arbeiten von Albert Einstein und Norbert Wiener zurück.\nBinäre Entscheidungen basieren auf der Anhäufung von verrauschten Beweisen, beginnend am Ausgangspunkt und endend an einer Entscheidungsschwelle, die mit einer bestimmten Entscheidung verbunden ist."
+  },
+  {
+    "objectID": "slides/09_evidence_accumulation.html#ddm-parameter",
+    "href": "slides/09_evidence_accumulation.html#ddm-parameter",
+    "title": "9. Sitzung",
+    "section": "DDM Parameter",
+    "text": "DDM Parameter\nDas Modell hat vier Parameter. 1\n\nDrift rate steht für die durchschnittliche Anzahl von Beweisen pro Zeiteinheit und ist ein Index für die Schwierigkeit der Aufgabe oder die Fähigkeit des Subjekts.\nBoundary separation stellt die Vorsicht dar; eine größere Trennung der Grenzen führt zu weniger Fehlern (wegen geringerer Auswirkung des Diffusionsrauschens innerhalb des Trials), jedoch um den Preis einer langsameren Reaktion (speed-accuracy tradeoff).\nStarting point repräsentiert die a-priori Präferenz für eine der Wahlalternativen.\nNon-decision time ist ein Verzögerungsparameter, der die Zeit für periphere Prozesse (Kodierung eines Reizes, Umwandlung der Repräsentation des Reizes in eine entscheidungsbezogene Repräsentation) und Ausführung einer Reaktion misst.\n\n\nGesamtzeit für eine Reaktion ist die Zeit für die Ausbreitung vom Startpunkt bis zur Grenze plus die Non-decision time\n\nHier schauen wir uns eine vereinfachte Version dieses Modells an, welches nur 4 Parameter. Im “standard” DDM hat es 7 Parameter."
+  },
+  {
+    "objectID": "slides/09_evidence_accumulation.html#beispiele",
+    "href": "slides/09_evidence_accumulation.html#beispiele",
+    "title": "9. Sitzung",
+    "section": "Beispiele",
+    "text": "Beispiele\n\nAltern: ältere Erwachsene sind oft langsamer als jüngere, machen aber nicht mehr Fehler. DDM Resultate haben gezeigt, dass es nicht immer kognitive Fähigkeiten sind, welche mit dem alter abnehmen, sondern oftmals periphere Prozesse und grössere Vorsicht. Dies konnte in Studien zu numerosity judgments, lexical decisions und recognition memory gezeigt werden.\nArbeitsgedächtnis und IQ: ein höherer IQ geht mit einer grösserern drift rate einher.\nKlinische Studien: Patienten mit Angststörungen haben eine höhere drift rate für bedrohliche Wörter/Bilder mit bedrohlichem Inhalt.\n\nAnhand von DDM können Neuowissenschaftler Hirnmessungen mit kognitiven Prozessen assoziieren, anstelle von behavioralen “Effekten”."
+  },
+  {
+    "objectID": "slides/09_evidence_accumulation.html#ddm-annahmen",
+    "href": "slides/09_evidence_accumulation.html#ddm-annahmen",
+    "title": "9. Sitzung",
+    "section": "DDM Annahmen",
+    "text": "DDM Annahmen\n\nBinary decision making: DDM ist ein Model für binäre Entscheidungen.\n\n\nStroop-Aufgabe. Obwohl es mehrere Antworten gibt (eine für jede Farbe), könnte man versuchen, die Genauigkeitsdaten mit dem Diffusionsmodell zu modellieren und dabei unterschiedliche Driftraten für kongruente und inkongruente Versuche zu berücksichtigen.\n\n\nContinuous sampling: Entscheidungen beruhen auf einem kontinuierlichen Verarbeitung von Daten.\nSingle-stage processing: Entscheidungen basieren auf einer einstufigen Verarbeitung.\nParameter sind konstant. Das heisst z.B. drift rate kann sich nicht über Zeit verändern."
+  },
+  {
+    "objectID": "slides/09_evidence_accumulation.html#fitting-parameters",
+    "href": "slides/09_evidence_accumulation.html#fitting-parameters",
+    "title": "9. Sitzung",
+    "section": "Fitting Parameters",
+    "text": "Fitting Parameters\n\nWir simulieren nun einen Evidenz Accumulation Process Schritt-für-Schritt. Damit können wir Zufallszahlen generieren.\nUm Parameter Fitting zu machen, brauchen wir jedoch die Wahrscheinlichkeitsdichte, d.h. die Wahrscheinlichkeit, die gegebene Grenze in der gegebenen Zeit zu erreichen (gegeben die Parameter).\nDies machen wir in der nächsten Sitzung."
+  },
+  {
+    "objectID": "slides/09_evidence_accumulation.html#literature",
+    "href": "slides/09_evidence_accumulation.html#literature",
+    "title": "9. Sitzung",
+    "section": "Literature",
+    "text": "Literature\n\nVoss, A., Nagler, M., & Lerche, V. (2013). Diffusion Models in Experimental Psychology: A Practical Introduction. Experimental Psychology, 60(6), 385–402. https://doi.org/10.1027/1618-3169/a000218\nForstmann, B. U., Ratcliff, R., & Wagenmakers, E.-J. (2016). Sequential Sampling Models in Cognitive Neuroscience: Advantages, Applications, and Extensions. Annual Review of Psychology, 67, 641–666. https://doi.org/10.1146/annurev-psych-122414-033645\nRatcliff, R., & McKoon, G. (2008). The Diffusion Decision Model: Theory and Data for Two-Choice Decision Tasks. Neural Computation, 20(4), 873–922. https://doi.org/10.1162/neco.2008.12-06-420\n\n\n\n\n🏠 Neurowissenschaft Computerlab FS22"
   },
   {
     "objectID": "slides/02_psychopy.html#bias-rdk-experiment",
@@ -621,6 +600,41 @@
     "title": "Daten bearbeiten und zusammenfassen",
     "section": "Über Versuchsperson aggregieren",
     "text": "Über Versuchsperson aggregieren\n\nrtsum <- data |>\n  drop_na(rt) |> \n    Rmisc::summarySEwithin(measurevar = \"rt\",\n                               withinvars = \"condition\",\n                               idvar = \"ID\",\n                               na.rm = FALSE,\n                               conf.interval = 0.95)\nrtsum\n\n  condition   N        rt        sd         se         ci\n1   invalid 141 0.7055247 0.2204498 0.01856522 0.03670444\n2   neutral 710 0.7238269 0.2449543 0.00919297 0.01804870\n3     valid 568 0.6716487 0.2482698 0.01041717 0.02046095\n\n\n\np_rt <- rtsum |>\n    ggplot(aes(x = condition, y = rt, group = 1)) +\n    geom_line() +\n    geom_errorbar(width = .1, aes(ymin = rt-se, ymax = rt+se), colour=\"red\") +\n    geom_point(shape=21, size=3, fill=\"white\")\n\n\np_rt\n\n\n\n\n\nlibrary(patchwork)\n\n\np_accuracy / p_rt"
+  },
+  {
+    "objectID": "pages/chapters/09_evidence_accumulation_1.html",
+    "href": "pages/chapters/09_evidence_accumulation_1.html",
+    "title": "Evidence Accumulation Models: I",
+    "section": "",
+    "text": "Note\n\n\n\n👉 R Code für dieses Kapitel downloaden"
+  },
+  {
+    "objectID": "pages/chapters/09_evidence_accumulation_1.html#drift-rate",
+    "href": "pages/chapters/09_evidence_accumulation_1.html#drift-rate",
+    "title": "Evidence Accumulation Models: I",
+    "section": "Drift rate",
+    "text": "Drift rate\nWir fangen an mit der drift rate. Wenn diese \\(>> 0\\) ist, wird die Obergrenze schnell erreicht, und es wir wenige Fehler geben. Ist die drift rate kleiner, aber immer noch \\(> 0\\), wird die durschnittliche Zeit länger, um eine korrekte Antwort zu geben.\n\nCodeset.seed(829)\n\nslow <- drift_diffusion(driftrate = 0.8) %>% mutate(type = \"slow\")\nfast <- drift_diffusion(driftrate = 1.2) %>% mutate(type = \"fast\")\n\nfastslow <- bind_rows(fast, slow) \n\nfastslow %>% \n    ggplot(aes(time, dv, color = type)) +\n    geom_hline(yintercept = 0, linetype = 3) +\n    geom_line() +\n    scale_color_viridis_d(end = 0.8) +\n    geom_hline(yintercept = c(-2, 2), color = \"black\", size = 1) +\n    ggtitle(\"Grosse vs. kleine Drift Rate\")"
+  },
+  {
+    "objectID": "pages/chapters/09_evidence_accumulation_1.html#bias",
+    "href": "pages/chapters/09_evidence_accumulation_1.html#bias",
+    "title": "Evidence Accumulation Models: I",
+    "section": "Bias",
+    "text": "Bias\nWenn der bias \\(>0.5\\) ist, wird die Obergrenze schneller erreicht. Hier gibt es nun eine Interaktion mit der drift rate—ist diese klein, und der bias \\(<0.5\\), ist die Chance, schnelle Fehler zu machen erhöht.\n\nCodeset.seed(29)\n\nunbiased <- drift_diffusion(bias = 0.5) %>% mutate(type = \"unbiased\")\nupbiased <- drift_diffusion(bias = 0.7) %>% mutate(type = \"upbiased\")\ndownbiased <- drift_diffusion(bias = 0.3) %>% mutate(type = \"downbiased\")\n\n\n\nbias <- bind_rows(unbiased, upbiased, downbiased) \n\nbias %>% \n    ggplot(aes(time, dv, color = type)) +\n    geom_hline(yintercept = 0, linetype = 3) +\n    geom_line() +\n    scale_color_viridis_d(end = 0.8) +\n    geom_hline(yintercept = c(-2, 2), color = \"black\", size = 1) +\n    ggtitle(\"Anfangspunkte\")\n\nWarning: Removed 8605 row(s) containing missing values (geom_path)."
+  },
+  {
+    "objectID": "pages/chapters/09_evidence_accumulation_1.html#boundary-separation",
+    "href": "pages/chapters/09_evidence_accumulation_1.html#boundary-separation",
+    "title": "Evidence Accumulation Models: I",
+    "section": "Boundary separation",
+    "text": "Boundary separation\nLiegen die Grenzen weiter auseinander, braucht es mehr akkumulierte Evidenz, um eine der Grenzen zu erreichen. Dies führt dazu, dass weniger Fehler gemacht werden, da die zufällige Fluktuation über längere Zeit hinweg einen weniger starken Einfluss hat. Deshalb kann eine Verschiebung der Grenzen den Speed-Accuracy Trade-off erklären.\n\nCodeset.seed(84)\n\ncarefree <- drift_diffusion(decision_boundary = 1.6) %>% mutate(type = \"carefree\")\ncautious <- drift_diffusion(decision_boundary = 2.1) %>% mutate(type = \"cautious\")\n\ncautiouscareless <- bind_rows(carefree, cautious) \n\ndecision_boundaries <- tribble(~type, ~decision_boundary,\n                               \"carefree\", 1.6,\n                               \"cautious\", 2.1)\ncautiouscareless %>% \n    ggplot(aes(time, dv, color = type)) +\n    geom_hline(yintercept = 0, linetype = 3) +\n    geom_line() +\n    scale_color_viridis_d(end = 0.8) +\n    geom_hline(aes(yintercept = decision_boundary, color = type), data = decision_boundaries) +\n    geom_hline(aes(yintercept = -decision_boundary, color = type), data = decision_boundaries) +\n    ggtitle(\"Unterschiede im Abstand zwischen den Grenzen\")\n\nWarning: Removed 7157 row(s) containing missing values (geom_path)."
+  },
+  {
+    "objectID": "pages/chapters/09_evidence_accumulation_1.html#non-decision-time",
+    "href": "pages/chapters/09_evidence_accumulation_1.html#non-decision-time",
+    "title": "Evidence Accumulation Models: I",
+    "section": "Non-decision time",
+    "text": "Non-decision time\nEine Veränderung der non-decision time hat eine Auswirkung auf die durschnittliche Reaktionszeit, hat aber keinen Einfluss auf die Fehlerrate.\n\nCodeset.seed(4534)\n\nlongndt <- drift_diffusion(ndt = 0.7) %>% mutate(type = \"longndt\")\nshortndt <- drift_diffusion(ndt = 0.2) %>% mutate(type = \"shortndt\")\n\nndt <- bind_rows(longndt, shortndt) \n\nndts <- tribble(~type, ~ndt,\n                \"longndt\", 0.7,\n                \"shortndt\", 0.2)\n\nndt %>% \n    ggplot(aes(time, dv, color = type)) +\n    geom_hline(yintercept = 0, linetype = 3) +\n    geom_line() +\n    scale_color_viridis_d(end = 0.8) +\n    geom_vline(aes(xintercept = ndt, color = type), data = ndts) +\n    geom_hline(yintercept = c(-2, 2), color = \"black\", size = 1) +\n    ggtitle(\"Unterschiede in der Non-Decision Time\")\n\nWarning: Removed 6407 row(s) containing missing values (geom_path)."
   },
   {
     "objectID": "pages/chapters/06_signal_detection_ii.html",

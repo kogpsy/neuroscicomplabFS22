@@ -12,6 +12,8 @@ author:
 license: CC BY
 citation: true
 bibliography: ../../bibliography.bib
+reference-location: margin
+citation-location: margin
 format:
     html:
         toc: true
@@ -170,8 +172,8 @@ lik <- ddiffusion(rt = rts$rt,
 
 Next, we can compute the negative log likelihood. If you look at this vector, you will see that there a number of data points for which the log likelihood is `-Inf`, meaning that the probability of that data point given the initial parameters is $0$. 
 
-:::aside
-This means that we should try to make our function robust; we will do so in the next exerices.
+::: {.column-margin}
+This means that we should try to make our function robust; we will do so in the next exercise.
 :::
 
 ```{r}

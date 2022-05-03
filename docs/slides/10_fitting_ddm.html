@@ -442,8 +442,8 @@ z: bias</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 500
 Columns: 2
-$ rt       &lt;dbl&gt; 0.6449846, 0.5182903, 0.7366631, 0.7223022, 1.5451420, 0.7142…
-$ response &lt;fct&gt; lower, lower, upper, upper, upper, upper, upper, upper, lower…</code></pre>
+$ rt       &lt;dbl&gt; 0.9758598, 0.6391492, 0.6175004, 0.8077944, 0.5595806, 0.5358…
+$ response &lt;fct&gt; upper, upper, lower, upper, lower, lower, lower, lower, lower…</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -453,12 +453,12 @@ $ response &lt;fct&gt; lower, lower, upper, upper, upper, upper, upper, upper, l
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>         rt response
-1 0.6449846    lower
-2 0.5182903    lower
-3 0.7366631    upper
-4 0.7223022    upper
-5 1.5451420    upper
-6 0.7142398    upper</code></pre>
+1 0.9758598    upper
+2 0.6391492    upper
+3 0.6175004    lower
+4 0.8077944    upper
+5 0.5595806    lower
+6 0.5358737    lower</code></pre>
 </div>
 </div>
 </section>
@@ -518,10 +518,10 @@ $ response &lt;fct&gt; lower, lower, upper, upper, upper, upper, upper, upper, l
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 4
-  response  mean median     sd
-  &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1 lower    0.573  0.540 0.0801
-2 upper    0.753  0.716 0.154 </code></pre>
+  response  mean median    sd
+  &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1 lower    0.583  0.541 0.117
+2 upper    0.761  0.716 0.163</code></pre>
 </div>
 </div>
 </section>
@@ -551,7 +551,7 @@ $ response &lt;fct&gt; lower, lower, upper, upper, upper, upper, upper, upper, l
 <h2>Wahrscheinlichkeit der Daten</h2>
 <p>Wenn wir eine Reihe von Datenpunkten haben (wie es in der Regel bei psychologischen Experimenten der Fall ist), können wir eine gemeinsame Wahrscheinlichkeit oder Wahrscheinlichkeitsdichte für die Daten in einem Datenvektor y erhalten, indem wir die einzelnen Wahrscheinlichkeiten oder Wahrscheinlichkeitsdichten miteinander multiplizieren, wobei wir davon ausgehen, dass die Beobachtungen in y unabhängig sind:</p>
 <p><span class="math display">\[
-f(\bf{y}|\bf{\theta} = \prod^k{f(\y_k | \bf{\theta})})
+f(\bf{y}|\bf{\theta} = \prod^k{f(y_k | \bf{\theta})})
 \]</span></p>
 <ul>
 <li><span class="math inline">\(k\)</span> indiziert die Datenpunkte <span class="math inline">\(y_k\)</span> im Vektor <span class="math inline">\(\bf{y}\)</span>.</li>
@@ -577,21 +577,26 @@ L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">set.seed</span>(<span class="dv">91</span>)</span>
 <span id="cb12-2"><a href="#cb12-2"></a></span>
-<span id="cb12-3"><a href="#cb12-3"></a>heads <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3"></a>heads <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="fl">0.5</span>)</span>
+<span id="cb12-4"><a href="#cb12-4"></a>heads</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 48</code></pre>
 </div>
-<p>Wahrschienlichkeit der Daten gegeben <span class="math inline">\(p = 0.6\)</span> ::: {.cell}</p>
+</div>
+<p>Wahrschienlichkeit der Daten gegeben <span class="math inline">\(p = 0.6\)</span></p>
+<div class="cell">
 <details>
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>biased_prob <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="co"># Using R's dbinom function (density function for a given binomial distribution)</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="fu">dbinom</span>(heads,<span class="dv">100</span>, biased_prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>biased_prob <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="co"># Using R's dbinom function (density function for a given binomial distribution)</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="fu">dbinom</span>(heads, <span class="dv">100</span>, biased_prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.004244495</code></pre>
 </div>
-<p>:::</p>
+</div>
 </section>
 <section id="beispiel-kartenspiel-zwischen-2-spielern" class="slide level2">
 <h2>Beispiel Kartenspiel zwischen 2 Spielern</h2>
@@ -601,8 +606,8 @@ L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
 <div class="cell">
 <details>
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>wins <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>games <span class="ot">&lt;-</span> <span class="dv">9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>wins <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>games <span class="ot">&lt;-</span> <span class="dv">9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <ul>
@@ -611,8 +616,8 @@ L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
 <div class="cell">
 <details>
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>n_points <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>p_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>( <span class="at">from=</span><span class="dv">0</span> , <span class="at">to=</span><span class="dv">1</span> , <span class="at">length.out =</span> n_points )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>n_points <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>p_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>( <span class="at">from=</span><span class="dv">0</span> , <span class="at">to=</span><span class="dv">1</span> , <span class="at">length.out =</span> n_points )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <ul>
@@ -621,7 +626,7 @@ L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
 <div class="cell">
 <details>
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(wins , <span class="at">size =</span> games , <span class="at">prob =</span> p_grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(wins, <span class="at">size =</span> games , <span class="at">prob =</span> p_grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -630,7 +635,7 @@ L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
 <div class="cell">
 <details>
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">plot</span>(p_grid , likelihood, <span class="at">type=</span><span class="st">"l"</span>, <span class="at">main=</span><span class="st">"Likelihood"</span>, <span class="at">col =</span> <span class="st">"firebrick3"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">plot</span>(p_grid , likelihood, <span class="at">type=</span><span class="st">"l"</span>, <span class="at">main=</span><span class="st">"Likelihood"</span>, <span class="at">col =</span> <span class="st">"firebrick3"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 
 </div>
@@ -640,7 +645,7 @@ L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
 <div class="cell">
 <details>
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">which.max</span>(likelihood)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">which.max</span>(likelihood)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 67</code></pre>
@@ -652,7 +657,7 @@ L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
 <div class="cell">
 <details>
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>p_grid[<span class="fu">which.max</span>(likelihood)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>p_grid[<span class="fu">which.max</span>(likelihood)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6666667</code></pre>
@@ -665,19 +670,6 @@ L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
 <li>Definiere eine Funktion, welche die <strong>negative log</strong> Wahrscheinlichkeitsfunktion für einen bestimmten Wert von p berechnet.</li>
 <li>Suche nach dem Wert von p, für den diese Funktion minimiert wird.</li>
 </ul>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>likelihood <span class="ot">&lt;-</span> <span class="cf">function</span>(p){</span>
-<span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">dbinom</span>(heads, <span class="dv">100</span>, p)</span>
-<span id="cb23-3"><a href="#cb23-3"></a>}</span>
-<span id="cb23-4"><a href="#cb23-4"></a></span>
-<span id="cb23-5"><a href="#cb23-5"></a><span class="fu">likelihood</span>(biased_prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.004244495</code></pre>
-</div>
-</div>
 </section>
 <section id="binomial-likelihood" class="slide level2">
 <h2>Binomial Likelihood</h2>
@@ -692,10 +684,10 @@ lnL(\bf{\theta} | \bf{y}) = \sum^k_{k=1}{ln L(\bf{\theta} | y_k})
 <div class="cell">
 <details>
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>loglik <span class="ot">&lt;-</span> <span class="cf">function</span>(p){</span>
-<span id="cb25-2"><a href="#cb25-2"></a>  likelihoods <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(heads, <span class="dv">100</span>, p)<span class="sc">*-</span><span class="dv">1</span></span>
-<span id="cb25-3"><a href="#cb25-3"></a>   <span class="fu">return</span>(<span class="sc">-</span><span class="fu">sum</span>(<span class="fu">log</span>(likelihoods)))</span>
-<span id="cb25-4"><a href="#cb25-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>loglik <span class="ot">&lt;-</span> <span class="cf">function</span>(p){</span>
+<span id="cb24-2"><a href="#cb24-2"></a>  likelihoods <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(heads, <span class="dv">100</span>, p)</span>
+<span id="cb24-3"><a href="#cb24-3"></a>   <span class="fu">return</span>(<span class="sc">-</span><span class="fu">sum</span>(<span class="fu">log</span>(likelihoods)))</span>
+<span id="cb24-4"><a href="#cb24-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -704,14 +696,14 @@ lnL(\bf{\theta} | \bf{y}) = \sum^k_{k=1}{ln L(\bf{\theta} | y_k})
 <div class="cell">
 <details>
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">nlm</span>(loglik, <span class="fl">0.5</span>, <span class="at">stepmax=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">nlm</span>(loglik, <span class="fl">0.1</span>, <span class="at">stepmax=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>$minimum
-[1] 1.797693e+308
+[1] 2.530081
 
 $estimate
-[1] 0.5
+[1] 0.4799995
 
 $gradient
 [1] 0
@@ -720,7 +712,7 @@ $code
 [1] 1
 
 $iterations
-[1] 0</code></pre>
+[1] 8</code></pre>
 </div>
 </div>
 

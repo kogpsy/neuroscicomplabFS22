@@ -168,7 +168,7 @@ Maximum likelihood estimation
 Wenn wir eine Reihe von Datenpunkten haben (wie es in der Regel bei psychologischen Experimenten der Fall ist), können wir eine gemeinsame Wahrscheinlichkeit oder Wahrscheinlichkeitsdichte für die Daten in einem Datenvektor y erhalten, indem wir die einzelnen Wahrscheinlichkeiten oder Wahrscheinlichkeitsdichten miteinander multiplizieren, wobei wir davon ausgehen, dass die Beobachtungen in y unabhängig sind:
 
 $$
-f(\bf{y}|\bf{\theta} = \prod^k{f(\y_k | \bf{\theta})})
+f(\bf{y}|\bf{\theta} = \prod^k{f(y_k | \bf{\theta})})
 $$
 
 - $k$ indiziert die Datenpunkte $y_k$ im Vektor $\bf{y}$.
@@ -193,16 +193,18 @@ Wir werfen eine Münze:
 set.seed(91)
 
 heads <- rbinom(1, 100, 0.5)
+heads
 ```
 
 
 
 Wahrschienlichkeit der Daten gegeben $p = 0.6$
+
 ```{r}
 biased_prob <- 0.6
 
 # Using R's dbinom function (density function for a given binomial distribution)
-dbinom(heads,100, biased_prob)
+dbinom(heads, 100, biased_prob)
 ```
 
 
@@ -225,7 +227,7 @@ p_grid <- seq( from=0 , to=1 , length.out = n_points )
 - Nun berechnen wir die Wahrscheinlichkeit der Daten, gegeben die Parameterwerte:
 
 ```{r}
-likelihood <- dbinom(wins , size = games , prob = p_grid)
+likelihood <- dbinom(wins, size = games , prob = p_grid)
 ```
 
 ## Beispiel Kartenspiel zwischen 2 Spielern
@@ -249,18 +251,19 @@ p_grid[which.max(likelihood)]
 
 
 
+### Mit Bernoulli Verteilung
+
+```{r}
+trials <- c(rep(1, wins), rep(0, games-wins))
+```
+
+
+
+
 ## MLE: Negative Log Likelihood minimieren
 
 - Definiere eine Funktion, welche die __negative log__ Wahrscheinlichkeitsfunktion für einen bestimmten Wert von p berechnet.
 - Suche nach dem Wert von p, für den diese Funktion minimiert wird.
-
-```{r}
-likelihood <- function(p){
-  dbinom(heads, 100, p)
-}
-
-likelihood(biased_prob)
-```
 
 
 ## Binomial Likelihood
@@ -279,7 +282,7 @@ $$
 
 ```{r}
 loglik <- function(p){
-  likelihoods <- dbinom(heads, 100, p)*-1
+  likelihoods <- dbinom(heads, 100, p)
    return(-sum(log(likelihoods)))
 }
 ```
@@ -288,6 +291,6 @@ loglik <- function(p){
 ## Minimieren
 
 ```{r}
-nlm(loglik, 0.5, stepmax=0.5)
+nlm(loglik, 0.1, stepmax=0.1)
 ```
 

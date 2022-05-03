@@ -38,14 +38,37 @@ library(viridis)
 
 
 
-## Fitting models to data: Paramter estimation
+## Fitting models to data: Parameter estimation
 
-The goal of fitting a model to data is to find those best-fitting parameter values, i.e. we want to estimate parameters from the data. This is done by minimizing the error between the model's predictions and the data.
+The goal of fitting a model to data is to find the best-fitting parameter values. In other words, we want to find parameters of the model for which the probability of observing the data is maximized. i.e. we want to estimate parameters from the data. This is done by minimizing the error between the model's predictions and the data.
 
-Here, we will look at maximum likelihood estimation (MLE). The main idea is that we try to find a set of parameters such that the probability of observing the (fixed) data.
+Here, we will look at __maximum likelihood estimation (MLE)__. The likelihood function is a function that represents how likely it is to obtain a certain set of observations from a given model. We’re considering the set of observations as fixed, and now we’re considering under which set of model parameters we would be most likely to observe those data.
+
+Due to the fact that computers have numerical issues when calculating with very small numbers, i.e. probabilities, we don't work with probabilities, but instead the natural logarithm of the probabilities (in R this is the `log()` function).
+
+```{r}
+very_small_number <- 1e-6
+very_small_number
+```
+```{r}
+log(very_small_number)
+```
+
+A further point is that, by convention, most existing routines for optimizing functions perform minimization, instead of maximization. Therefore, if we want to use functions, such as e.g. `optim()` in R, we need to minimize the negative log likelihood. This is equivalent to maximizing the likelihood; minimizing the negative log likelihood results in finding the set of parameters for which the probability of the data is maximal.
 
 
-The likelihood function is a function that represents how likely it is to obtain a certain set of observations from a given model. We’re considering the set of observations as fixed — they’ve happened, they’re in the past — and now we’re considering under which set of model parameters we would be most likely to observe them.
+```{r}
+tibble(x = seq(0, 1, length = 1e3)) |> 
+  ggplot(aes(x))+ 
+  stat_function(fun=function(x) -log(x),
+                size = 1.5) +
+  xlab("Probability") + ylab("Negative log likelihood")
+```
+
+
+
+
+
 
 ## Generate some data with known parameters
 
@@ -61,22 +84,36 @@ boundary <- 0.1
 bias <- 0.5
 ndt <- 0.05
 
-genparms <- c(boundary, drift, bias*boundary, ndt)           
-names(genparms) <- c("a", "v", "z", "t0") 
-
+genparams <- c(boundary, 
+               drift, 
+               bias*boundary,
+               ndt)           
+names(genparams) <- c("a", "v", "z", "t0") 
 ```
 
+It is important to note that the `*diffusion()` functions take the absolute starting as an argument, instead of the relative starting point. For this reason, we need to compute the absolute starting as $z = bias * a$. If the relative bias is `0.5`, meaning that it is halfway between the boundaries, then the absolute starting point is 
+`z = 0.5 * a`.
 
 
 ```{r}
+set.seed(54)
 rts <- rdiffusion(n = 500,
-                  a=genparms["a"],
-                  v=genparms["v"], 
-                  t0=genparms["t0"], 
-                  z=genparms["z"],
-                  s=.1)  
+                  a=genparams["a"],
+                  v=genparams["v"], 
+                  t0=genparams["t0"], 
+                  z=genparams["z"],
+                  s=0.1)  
 ```
 
+```{r}
+rts |>
+  ggplot(aes(rt, response, fill = response)) +
+  geom_violin() +
+  geom_jitter(height = 0.1, alpha = 0.5) +
+  scale_fill_viridis_d(option = "B", direction = -1,
+                       begin = 1/3, end = 3/3) +
+  xlim(c(0, 1.5))
+```
 
 
 ## Define log likelihood function
@@ -91,8 +128,7 @@ diffusionloglik <- function(pars, rt, response)
                           v=pars["v"], 
                           t0=pars["t0"], 
                           z=pars["z"], 
-                          s=.1,
-                          precision=1)      
+                          s=0.1,)      
   return(-sum(log(likelihoods)))
 }  
 ```
@@ -102,19 +138,51 @@ diffusionloglik <- function(pars, rt, response)
 ## Generate starting values for parameters
 
 ```{r}
-init_parms <- c(runif(1, 0.01, 0.4), 
-           runif(1, 0.01, 0.5),
-           runif(1, 0, 0.1),
-           runif(1, 0, 0.1))
-names(init_parms) <- c("a", "v", "z", "t0") 
+set.seed(342)
+init_params <- c(runif(1, 0.01, 0.4),
+                runif(1, 0.01, 0.1),
+                runif(1, 0, 0.1),
+                runif(1, 0, 0.1))
 
+names(init_params) <- c("a", "v", "z", "t0")
 ```
+
+
 
 
 ## Estimate parameters
 
+Now, we can evaluate the density function for the DDM, given, the initial parameters:
+
 ```{r}
-fit <- optim(init_parms, 
+pars <- init_params
+
+lik <- ddiffusion(rt = rts$rt, 
+           response = rts$response,                 
+           a = pars["a"], 
+           v = pars["v"], 
+           t0 = pars["t0"], 
+           z = pars["z"], 
+           s = 0.1,
+           precision = 1) 
+```
+
+
+Next, we can compute the negative log likelihood. If you look at this vector, you will see that there a number of data points for which the log likelihood is `-Inf`, meaning that the probability of that data point given the initial parameters is $0$. 
+
+:::aside
+This means that we should try to make our function robust; we will do so in the next exerices.
+:::
+
+```{r}
+loglik <- log(lik)
+```
+
+
+Now, we can repeatedly evaluate the log likelihood, and adjust the parameters so that the negative log likelihood becomes successively smaller. To do this, we use the R function `optim()`.
+
+```{r}
+fit <- optim(init_params, 
              diffusionloglik, 
              gr = NULL, 
              rt = rts$rt, 
@@ -135,7 +203,7 @@ round(fit$par, 3)
 
 
 ```{r}
-genparms
+genparams
 ```
 
 
@@ -164,7 +232,7 @@ diffusionloglik <- function(pars, rt, response)
 
 
 ```{r}
-genparms <- c(.1,.2,.5,.05,.2,.05)           
+genparms <- c(.1, .2, .5, .05, .2, .05)           
 names(genparms) <- c("a", "v", "t0", "sz", "st0", "sv") 
 ```
 

@@ -221,7 +221,7 @@ games <- 9
 
 ```{r}
 n_points <- 100
-p_grid <- seq( from=0 , to=1 , length.out = n_points )
+p_grid <- seq( from=0.001 , to=0.999 , length.out = n_points )
 ```
 
 - Nun berechnen wir die Wahrscheinlichkeit der Daten, gegeben die Parameterwerte:
@@ -249,13 +249,6 @@ which.max(likelihood)
 p_grid[which.max(likelihood)]
 ```
 
-
-
-### Mit Bernoulli Verteilung
-
-```{r}
-trials <- c(rep(1, wins), rep(0, games-wins))
-```
 
 
 

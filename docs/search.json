@@ -291,7 +291,7 @@
     "href": "slides/10_fitting_ddm.html#simulate",
     "title": "10. Sitzung",
     "section": "Simulate",
-    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.9758598, 0.6391492, 0.6175004, 0.8077944, 0.5595806, 0.5358…\n$ response <fct> upper, upper, lower, upper, lower, lower, lower, lower, lower…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.9758598    upper\n2 0.6391492    upper\n3 0.6175004    lower\n4 0.8077944    upper\n5 0.5595806    lower\n6 0.5358737    lower"
+    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.6060518, 0.8857116, 0.8997969, 0.8759806, 0.5271096, 0.6382…\n$ response <fct> upper, upper, upper, upper, lower, lower, lower, upper, lower…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.6060518    upper\n2 0.8857116    upper\n3 0.8997969    upper\n4 0.8759806    upper\n5 0.5271096    lower\n6 0.6382130    lower"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#grafisch-darstellen",
@@ -312,7 +312,7 @@
     "href": "slides/10_fitting_ddm.html#zusammenfassen",
     "title": "10. Sitzung",
     "section": "Zusammenfassen",
-    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.583  0.541 0.117\n2 upper    0.761  0.716 0.163"
+    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.587  0.542 0.118\n2 upper    0.745  0.704 0.146"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#maximum-likelihood-schätzung",
@@ -347,14 +347,14 @@
     "href": "slides/10_fitting_ddm.html#beispiel-kartenspiel-zwischen-2-spielern",
     "title": "10. Sitzung",
     "section": "Beispiel Kartenspiel zwischen 2 Spielern",
-    "text": "Beispiel Kartenspiel zwischen 2 Spielern\n\nSpieler A gewinnt 6 Mal in 9 Spielen:\n\n\n\nShow code\nwins <- 6\ngames <- 9\n\n\n\nWir definieren einen Vektor mit 100 möglichen Parameterwerten:\n\n\n\nShow code\nn_points <- 100\np_grid <- seq( from=0 , to=1 , length.out = n_points )\n\n\n\nNun berechnen wir die Wahrscheinlichkeit der Daten, gegeben die Parameterwerte:\n\n\n\nShow code\nlikelihood <- dbinom(wins, size = games , prob = p_grid)"
+    "text": "Beispiel Kartenspiel zwischen 2 Spielern\n\nSpieler A gewinnt 6 Mal in 9 Spielen:\n\n\n\nShow code\nwins <- 6\ngames <- 9\n\n\n\nWir definieren einen Vektor mit 100 möglichen Parameterwerten:\n\n\n\nShow code\nn_points <- 100\np_grid <- seq( from=0.001 , to=0.999 , length.out = n_points )\n\n\n\nNun berechnen wir die Wahrscheinlichkeit der Daten, gegeben die Parameterwerte:\n\n\n\nShow code\nlikelihood <- dbinom(wins, size = games , prob = p_grid)"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#beispiel-kartenspiel-zwischen-2-spielern-1",
     "href": "slides/10_fitting_ddm.html#beispiel-kartenspiel-zwischen-2-spielern-1",
     "title": "10. Sitzung",
     "section": "Beispiel Kartenspiel zwischen 2 Spielern",
-    "text": "Beispiel Kartenspiel zwischen 2 Spielern\n\n\nShow code\nplot(p_grid , likelihood, type=\"l\", main=\"Likelihood\", col = \"firebrick3\", lwd = 2)\n\n\n\n\nIndex des Parameterwertes, welcher die Likelihood maximiert:\n\n\n\nShow code\nwhich.max(likelihood)\n\n\n[1] 67\n\n\n\nParameterwert andiesem Index:\n\n\n\nShow code\np_grid[which.max(likelihood)]\n\n\n[1] 0.6666667"
+    "text": "Beispiel Kartenspiel zwischen 2 Spielern\n\n\nShow code\nplot(p_grid , likelihood, type=\"l\", main=\"Likelihood\", col = \"firebrick3\", lwd = 2)\n\n\n\n\nIndex des Parameterwertes, welcher die Likelihood maximiert:\n\n\n\nShow code\nwhich.max(likelihood)\n\n\n[1] 67\n\n\n\nParameterwert andiesem Index:\n\n\n\nShow code\np_grid[which.max(likelihood)]\n\n\n[1] 0.6663333"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#mle-negative-log-likelihood-minimieren",

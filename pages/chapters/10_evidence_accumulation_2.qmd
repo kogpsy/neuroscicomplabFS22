@@ -130,7 +130,7 @@ diffusionloglik <- function(pars, rt, response)
                           v=pars["v"], 
                           t0=pars["t0"], 
                           z=pars["z"], 
-                          s=0.1,)      
+                          s=0.1)      
   return(-sum(log(likelihoods)))
 }  
 ```
@@ -165,9 +165,9 @@ lik <- ddiffusion(rt = rts$rt,
            v = pars["v"], 
            t0 = pars["t0"], 
            z = pars["z"], 
-           s = 0.1,
-           precision = 1) 
+           s = 0.1) 
 ```
+
 
 
 Next, we can compute the negative log likelihood. If you look at this vector, you will see that there a number of data points for which the log likelihood is `-Inf`, meaning that the probability of that data point given the initial parameters is $0$. 
@@ -180,6 +180,12 @@ This means that we should try to make our function robust; we will do so in the 
 loglik <- log(lik)
 ```
 
+We can also use our function to calculate the negative log likelihood.
+
+```{r}
+diffusionloglik(init_params, rt = rts$rt, 
+           response = rts$response)
+```
 
 Now, we can repeatedly evaluate the log likelihood, and adjust the parameters so that the negative log likelihood becomes successively smaller. To do this, we use the R function `optim()`.
 

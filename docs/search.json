@@ -291,7 +291,7 @@
     "href": "slides/10_fitting_ddm.html#simulate",
     "title": "10. Sitzung",
     "section": "Simulate",
-    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.8425929, 0.7833915, 0.5282053, 0.5096522, 0.8637899, 0.5707…\n$ response <fct> lower, upper, lower, lower, upper, upper, upper, lower, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.8425929    lower\n2 0.7833915    upper\n3 0.5282053    lower\n4 0.5096522    lower\n5 0.8637899    upper\n6 0.5707813    upper"
+    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.8604847, 0.5134541, 0.5284915, 0.5409243, 0.7049226, 0.5570…\n$ response <fct> upper, lower, lower, lower, upper, upper, upper, lower, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.8604847    upper\n2 0.5134541    lower\n3 0.5284915    lower\n4 0.5409243    lower\n5 0.7049226    upper\n6 0.5570248    upper"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#grafisch-darstellen",
@@ -312,7 +312,7 @@
     "href": "slides/10_fitting_ddm.html#zusammenfassen",
     "title": "10. Sitzung",
     "section": "Zusammenfassen",
-    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.580  0.542 0.100\n2 upper    0.760  0.717 0.162"
+    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median     sd\n  <fct>    <dbl>  <dbl>  <dbl>\n1 lower    0.582  0.542 0.0988\n2 upper    0.758  0.713 0.158"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#maximum-likelihood-schätzung",
@@ -907,7 +907,7 @@
     "href": "pages/chapters/10_evidence_accumulation_2.html#define-log-likelihood-function",
     "title": "Evidence Accumulation Models: II",
     "section": "Define log likelihood function",
-    "text": "Define log likelihood function\nThis function returns the negative log probability of the data, given the parameters.\n\ndiffusionloglik <- function(pars, rt, response) \n{\n  likelihoods <- ddiffusion(rt, response=response,                 \n                          a=pars[\"a\"], \n                          v=pars[\"v\"], \n                          t0=pars[\"t0\"], \n                          z=pars[\"z\"], \n                          s=0.1,)      \n  return(-sum(log(likelihoods)))\n}"
+    "text": "Define log likelihood function\nThis function returns the negative log probability of the data, given the parameters.\n\ndiffusionloglik <- function(pars, rt, response) \n{\n  likelihoods <- ddiffusion(rt, response=response,                 \n                          a=pars[\"a\"], \n                          v=pars[\"v\"], \n                          t0=pars[\"t0\"], \n                          z=pars[\"z\"], \n                          s=0.1)      \n  return(-sum(log(likelihoods)))\n}"
   },
   {
     "objectID": "pages/chapters/10_evidence_accumulation_2.html#generate-starting-values-for-parameters",
@@ -921,7 +921,7 @@
     "href": "pages/chapters/10_evidence_accumulation_2.html#estimate-parameters",
     "title": "Evidence Accumulation Models: II",
     "section": "Estimate parameters",
-    "text": "Estimate parameters\nNow, we can evaluate the density function for the DDM, given, the initial parameters:\n\npars <- init_params\n\nlik <- ddiffusion(rt = rts$rt, \n           response = rts$response,                 \n           a = pars[\"a\"], \n           v = pars[\"v\"], \n           t0 = pars[\"t0\"], \n           z = pars[\"z\"], \n           s = 0.1,\n           precision = 1) \n\nNext, we can compute the negative log likelihood. If you look at this vector, you will see that there a number of data points for which the log likelihood is -Inf, meaning that the probability of that data point given the initial parameters is \\(0\\).\n\n\nThis means that we should try to make our function robust; we will do so in the next exercise.\n\nloglik <- log(lik)\n\nNow, we can repeatedly evaluate the log likelihood, and adjust the parameters so that the negative log likelihood becomes successively smaller. To do this, we use the R function optim().\n\nfit <- optim(init_params, \n             diffusionloglik, \n             gr = NULL, \n             rt = rts$rt, \n             response = rts$response)\n\n\nfit\n\n$par\n         a          v          z         t0 \n0.09861885 0.18515304 0.04884865 0.05056087 \n\n$value\n[1] -200.4542\n\n$counts\nfunction gradient \n     255       NA \n\n$convergence\n[1] 0\n\n$message\nNULL"
+    "text": "Estimate parameters\nNow, we can evaluate the density function for the DDM, given, the initial parameters:\n\npars <- init_params\n\nlik <- ddiffusion(rt = rts$rt, \n           response = rts$response,                 \n           a = pars[\"a\"], \n           v = pars[\"v\"], \n           t0 = pars[\"t0\"], \n           z = pars[\"z\"], \n           s = 0.1) \n\nNext, we can compute the negative log likelihood. If you look at this vector, you will see that there a number of data points for which the log likelihood is -Inf, meaning that the probability of that data point given the initial parameters is \\(0\\).\n\n\nThis means that we should try to make our function robust; we will do so in the next exercise.\n\nloglik <- log(lik)\n\nWe can also use our function to calculate the negative log likelihood.\n\ndiffusionloglik(init_params, rt = rts$rt, \n           response = rts$response)\n\n[1] 503.2724\n\n\nNow, we can repeatedly evaluate the log likelihood, and adjust the parameters so that the negative log likelihood becomes successively smaller. To do this, we use the R function optim().\n\nfit <- optim(init_params, \n             diffusionloglik, \n             gr = NULL, \n             rt = rts$rt, \n             response = rts$response)\n\n\nfit\n\n$par\n         a          v          z         t0 \n0.09861885 0.18515304 0.04884865 0.05056087 \n\n$value\n[1] -200.4542\n\n$counts\nfunction gradient \n     255       NA \n\n$convergence\n[1] 0\n\n$message\nNULL"
   },
   {
     "objectID": "pages/chapters/10_evidence_accumulation_2.html#compare-estimated-parameters-to-true-parameters",

@@ -27,6 +27,7 @@ website:
           - pages/chapters/07_response_times_i.qmd
           - pages/chapters/08_response_times_ii.qmd
           - pages/chapters/09_evidence_accumulation_1.qmd
+          - pages/chapters/10_evidence_accumulation_2.qmd
       - text: Slides
         menu:
           - text: "1. Sitzung (22.02.2022)"
@@ -47,6 +48,8 @@ website:
             file: slides/08_response_times_ii.qmd
           - text: "9. Sitzung (26.04.2022)"
             file: slides/09_evidence_accumulation.qmd
+          - text: "10. Sitzung (03.05.2022)"
+            file: slides/10_fitting_ddm.qmd
       - text: Übungen
         menu:
           - pages/exercises/exercise_01.qmd

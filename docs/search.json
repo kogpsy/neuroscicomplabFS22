@@ -273,6 +273,118 @@
     "text": "Wichtige Skills\n\n\n\nTheorien über Entscheidungsverhalten\nExperimente programmieren\n\nTiming (inside/outside scanner)\n\nData cleaning and manipulation (data wrangling)\nStatistische Verfahren für messwiederholte Daten\n\nPsychometric curve\nBinary choices / Reaktionszeiten\nrepeated-measures ANOVA\n\n\n\n\nGrafische Darstellung der Resultate\nKognitive Prozessmodelle\n\nfit Diffusion Decision Model (DDM)\n\nAuswertung von fRMI Daten\n\n\n\n\nMit diesen Themen (ausser der Analyse von fMRI Daten) beschäftigen wir uns in diesem Kurs.\n\n\n\n🏠 Neurowissenschaft im Computerlab FS22"
   },
   {
+    "objectID": "slides/10_fitting_ddm.html#simulating-rt-and-choice-data",
+    "href": "slides/10_fitting_ddm.html#simulating-rt-and-choice-data",
+    "title": "10. Sitzung",
+    "section": "Simulating RT and choice data",
+    "text": "Simulating RT and choice data\nLoad library\n\n\nShow code\nlibrary(rtdists)"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#parameters",
+    "href": "slides/10_fitting_ddm.html#parameters",
+    "title": "10. Sitzung",
+    "section": "Parameters",
+    "text": "Parameters\nMit rdiffusion() können wir ein Experiment simulieren, bei dem die Fehler im Schnitt schneller als die korrekten Antworten sind, indem wir eine A Priori Präferenz für die Untergrenze definieren (z = 0.2).\nDie 5 wichtigsten Argumente der Funktion sind:\nn: Anzahl Zufallszahlen\na: boundary separation\nv: drift rate\nt0: non-decision time\nz: bias"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#simulate",
+    "href": "slides/10_fitting_ddm.html#simulate",
+    "title": "10. Sitzung",
+    "section": "Simulate",
+    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.6449846, 0.5182903, 0.7366631, 0.7223022, 1.5451420, 0.7142…\n$ response <fct> lower, lower, upper, upper, upper, upper, upper, upper, lower…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.6449846    lower\n2 0.5182903    lower\n3 0.7366631    upper\n4 0.7223022    upper\n5 1.5451420    upper\n6 0.7142398    upper"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#grafisch-darstellen",
+    "href": "slides/10_fitting_ddm.html#grafisch-darstellen",
+    "title": "10. Sitzung",
+    "section": "Grafisch darstellen",
+    "text": "Grafisch darstellen\n\n\nShow code\nrts |> \n  ggplot(aes(rt, response, fill = response)) +\n  geom_violin() +\n  geom_jitter(height = 0.1, alpha = 0.5) +\n  scale_fill_viridis_d(option = \"B\", direction = -1, \n                       begin = 1/3, end = 3/3) +\n  xlim(c(0, 2))"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#effect-of-bias",
+    "href": "slides/10_fitting_ddm.html#effect-of-bias",
+    "title": "10. Sitzung",
+    "section": "Effect of Bias",
+    "text": "Effect of Bias\n\n\nShow code\nd <- bind_rows(\n  rdiffusion(500, a = 2, v = 1.5, t0 = 0.2, z = 0.5) |> \n  mutate(type = \"unbiased\"),\n  rdiffusion(500, a = 2, v = 1.5, t0 = 0.2, z = 0.2) |> \n  mutate(type = \"biased\"))\n\n\n\n\nShow code\nd |> \n  ggplot(aes(rt, response, fill = response)) +\n  geom_violin() +\n  geom_jitter(height = 0.1, alpha = 0.5) +\n  scale_fill_viridis_d(option = \"B\", direction = -1, \n                       begin = 1/3, end = 3/3) +\n  xlim(c(0, 2)) +\n  facet_wrap(~type, ncol = 1)"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#zusammenfassen",
+    "href": "slides/10_fitting_ddm.html#zusammenfassen",
+    "title": "10. Sitzung",
+    "section": "Zusammenfassen",
+    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median     sd\n  <fct>    <dbl>  <dbl>  <dbl>\n1 lower    0.573  0.540 0.0801\n2 upper    0.753  0.716 0.154"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#maximum-likelihood-schätzung",
+    "href": "slides/10_fitting_ddm.html#maximum-likelihood-schätzung",
+    "title": "10. Sitzung",
+    "section": "Maximum Likelihood Schätzung",
+    "text": "Maximum Likelihood Schätzung\n\nDie Likelihood - genauer gesagt die Likelihood-Funktion - ist eine Funktion, die angibt, wie wahrscheinlich es ist, einen bestimmten Satz von Beobachtungen mit einem bestimmten Modell zu erhalten.\nWir betrachten die Menge der Beobachtungen (Daten) als gegeben.\nNun überlegen wir, bei welchem Satz von Modellparametern wir die Daten am wahrscheinlichsten beobachten würden."
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#wahrscheinlichkeit-der-daten",
+    "href": "slides/10_fitting_ddm.html#wahrscheinlichkeit-der-daten",
+    "title": "10. Sitzung",
+    "section": "Wahrscheinlichkeit der Daten",
+    "text": "Wahrscheinlichkeit der Daten\nWenn wir eine Reihe von Datenpunkten haben (wie es in der Regel bei psychologischen Experimenten der Fall ist), können wir eine gemeinsame Wahrscheinlichkeit oder Wahrscheinlichkeitsdichte für die Daten in einem Datenvektor y erhalten, indem wir die einzelnen Wahrscheinlichkeiten oder Wahrscheinlichkeitsdichten miteinander multiplizieren, wobei wir davon ausgehen, dass die Beobachtungen in y unabhängig sind:\n\\[\nf(\\bf{y}|\\bf{\\theta} = \\prod^k{f(\\y_k | \\bf{\\theta})})\n\\]\n\n\\(k\\) indiziert die Datenpunkte \\(y_k\\) im Vektor \\(\\bf{y}\\)."
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#likelihood-funktion",
+    "href": "slides/10_fitting_ddm.html#likelihood-funktion",
+    "title": "10. Sitzung",
+    "section": "Likelihood Funktion",
+    "text": "Likelihood Funktion\nDer Unterschied zwischen Wahrscheinlichkeit und Likelihood besteht darin, dass wir uns hier für die verschiedenen mögliche Parameterwerte beziehen, und die Likelihood-Funktion sagt uns, wie wahrscheinlich jeder dieser Parameterwerte angesichts der von uns beobachteten Daten ist.\n\\[\nL(\\bf{\\theta} | \\bf{y}) = \\prod^k{L(\\bf{\\theta} | y_k})\n\\]"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#beisiel-binomial-likelihood",
+    "href": "slides/10_fitting_ddm.html#beisiel-binomial-likelihood",
+    "title": "10. Sitzung",
+    "section": "Beisiel: Binomial likelihood",
+    "text": "Beisiel: Binomial likelihood\nWir werfen eine Münze:\n\nzwei mögliche Ergebnisse (Kopf und Zahl),\nfeste Anzahl von “Versuchen” (100 Münzwürfe)\nfeste Wahrscheinlichkeit für “Erfolg” (d. h. Kopf)\n\n\n\nShow code\nset.seed(91)\n\nheads <- rbinom(1, 100, 0.5)\n\n\nWahrschienlichkeit der Daten gegeben \\(p = 0.6\\) ::: {.cell}\n\nShow code\nbiased_prob <- 0.6\n\n# Using R's dbinom function (density function for a given binomial distribution)\ndbinom(heads,100, biased_prob)\n\n\n[1] 0.004244495\n\n:::"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#beispiel-kartenspiel-zwischen-2-spielern",
+    "href": "slides/10_fitting_ddm.html#beispiel-kartenspiel-zwischen-2-spielern",
+    "title": "10. Sitzung",
+    "section": "Beispiel Kartenspiel zwischen 2 Spielern",
+    "text": "Beispiel Kartenspiel zwischen 2 Spielern\n\nSpieler A gewinnt 6 Mal in 9 Spielen:\n\n\n\nShow code\nwins <- 6\ngames <- 9\n\n\n\nWir definieren einen Vektor mit 100 möglichen Parameterwerten:\n\n\n\nShow code\nn_points <- 100\np_grid <- seq( from=0 , to=1 , length.out = n_points )\n\n\n\nNun berechnen wir die Wahrscheinlichkeit der Daten, gegeben die Parameterwerte:\n\n\n\nShow code\nlikelihood <- dbinom(wins , size = games , prob = p_grid)"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#beispiel-kartenspiel-zwischen-2-spielern-1",
+    "href": "slides/10_fitting_ddm.html#beispiel-kartenspiel-zwischen-2-spielern-1",
+    "title": "10. Sitzung",
+    "section": "Beispiel Kartenspiel zwischen 2 Spielern",
+    "text": "Beispiel Kartenspiel zwischen 2 Spielern\n\n\nShow code\nplot(p_grid , likelihood, type=\"l\", main=\"Likelihood\", col = \"firebrick3\", lwd = 2)\n\n\n\n\nIndex des Parameterwertes, welcher die Likelihood maximiert:\n\n\n\nShow code\nwhich.max(likelihood)\n\n\n[1] 67\n\n\n\nParameterwert andiesem Index:\n\n\n\nShow code\np_grid[which.max(likelihood)]\n\n\n[1] 0.6666667"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#mle-negative-log-likelihood-minimieren",
+    "href": "slides/10_fitting_ddm.html#mle-negative-log-likelihood-minimieren",
+    "title": "10. Sitzung",
+    "section": "MLE: Negative Log Likelihood minimieren",
+    "text": "MLE: Negative Log Likelihood minimieren\n\nDefiniere eine Funktion, welche die negative log Wahrscheinlichkeitsfunktion für einen bestimmten Wert von p berechnet.\nSuche nach dem Wert von p, für den diese Funktion minimiert wird.\n\n\n\nShow code\nlikelihood <- function(p){\n  dbinom(heads, 100, p)\n}\n\nlikelihood(biased_prob)\n\n\n[1] 0.004244495"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#binomial-likelihood",
+    "href": "slides/10_fitting_ddm.html#binomial-likelihood",
+    "title": "10. Sitzung",
+    "section": "Binomial Likelihood",
+    "text": "Binomial Likelihood\n\\[\nf(k | p_{heads}, N) = \\binom{N}{k} p_{heads}^k (1-p_{heads}^{N-k})\n\\] \\[\nlnL(\\bf{\\theta} | \\bf{y}) = \\sum^k_{k=1}{ln L(\\bf{\\theta} | y_k})\n\\]"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#funktion-definieren",
+    "href": "slides/10_fitting_ddm.html#funktion-definieren",
+    "title": "10. Sitzung",
+    "section": "Funktion definieren",
+    "text": "Funktion definieren\n\n\nShow code\nloglik <- function(p){\n  likelihoods <- dbinom(heads, 100, p)*-1\n   return(-sum(log(likelihoods)))\n}"
+  },
+  {
+    "objectID": "slides/10_fitting_ddm.html#minimieren",
+    "href": "slides/10_fitting_ddm.html#minimieren",
+    "title": "10. Sitzung",
+    "section": "Minimieren",
+    "text": "Minimieren\n\n\nShow code\nnlm(loglik, 0.5, stepmax=0.5)\n\n\n$minimum\n[1] 1.797693e+308\n\n$estimate\n[1] 0.5\n\n$gradient\n[1] 0\n\n$code\n[1] 1\n\n$iterations\n[1] 0\n\n\n\n\n\n🏠 Neurowissenschaft Computerlab FS22"
+  },
+  {
     "objectID": "slides/09_evidence_accumulation.html#decision",
     "href": "slides/09_evidence_accumulation.html#decision",
     "title": "9. Sitzung",
@@ -546,6 +658,13 @@
     "text": "Visualisieren\n\naccuracy |> \n  ggplot(aes(x = condition, y = accuracy, fill = condition)) +\n  geom_col() +\n  scale_fill_manual(\n    values = c(invalid = \"#9E0142\",\n    neutral = \"#C4C4B7\",\n    valid = \"#2EC762\")\n  ) +\n  labs(\n    x = \"Cue\",\n    y = \"Proportion correct\",\n    title = \"Accuracy per person/condition\"\n  ) +\n  theme_linedraw(base_size = 28) +\n  facet_wrap(~ID)"
   },
   {
+    "objectID": "pages/chapters/14-Bayesian-models-of-perception.html",
+    "href": "pages/chapters/14-Bayesian-models-of-perception.html",
+    "title": "Bayesian Models of Perception",
+    "section": "",
+    "text": "References\n\nVincent, Benjamin T. 2015. “A Tutorial on Bayesian Models of Perception.” Journal of Mathematical Psychology 66 (June): 103–14. https://doi.org/10.1016/j.jmp.2015.02.001.\n\nReusehttps://creativecommons.org/licenses/by/4.0/CitationBibTeX citation:@online{ellis2022,\n  author = {Andrew Ellis},\n  title = {Bayesian {Models} of {Perception}},\n  date = {2022-05-31},\n  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/14-Bayesian-models-of-perception.html},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nAndrew Ellis. 2022. “Bayesian Models of Perception.” May\n31, 2022. https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/14-Bayesian-models-of-perception.html."
+  },
+  {
     "objectID": "pages/chapters/04_summarizing_data.html",
     "href": "pages/chapters/04_summarizing_data.html",
     "title": "Daten bearbeiten und zusammenfassen",
@@ -768,6 +887,55 @@
     "title": "Reaktionszeiten: I",
     "section": "Zusammenfassen: zentrale Tendenz und Dispersion",
     "text": "Zusammenfassen: zentrale Tendenz und Dispersion\nMittelwert und Standardabweichung\n\nd %>% \n  group_by(group) %>% \n  summarise(mean = mean(rt),\n            sd = sd(rt))\n\n# A tibble: 2 × 3\n  group    mean    sd\n  <fct>   <dbl> <dbl>\n1 control  822.  171.\n2 adhd     839.  214.\n\n\nMedian und Interquartilsbereich\nDer Interquartilsbereich repräntiert den Unterschied zwischen dem ersten (25. Perzentil) und dritten (75. Perzentil) Quartil. In diesem Bereich befinden sich 50% der Datenpunkte.\n\nd %>% \n  group_by(group) %>% \n  summarise(mean = median(rt),\n            q25 = quantile(rt, probs = 0.25),\n            q75 = quantile(rt, probs = 0.75)) |> \n  mutate(IQR = q75 - q25)\n\n# A tibble: 2 × 5\n  group    mean   q25   q75   IQR\n  <fct>   <dbl> <dbl> <dbl> <dbl>\n1 control  782.  694.  898.  205.\n2 adhd     784.  694.  923.  228.\n\n\n\nd %>% \n  group_by(group) %>% \n  summarise(mean = median(rt),\n            IQR = IQR(rt))\n\n# A tibble: 2 × 3\n  group    mean   IQR\n  <fct>   <dbl> <dbl>\n1 control  782.  205.\n2 adhd     784.  228.\n\n\n\nfuns <- list(mean = mean, median = median, \n             sd = sd, IQR = IQR)\n\nby_group <- d |>\n  group_by(group) |>\n  summarise(across(rt, funs, .names = \"{.fn}\")) |>\n  mutate(across(where(is.numeric), ~round(., 2)))\n\n\nby_group\n\n# A tibble: 2 × 5\n  group    mean median    sd   IQR\n  <fct>   <dbl>  <dbl> <dbl> <dbl>\n1 control  822.   782.  171.  205.\n2 adhd     839.   784.  214.  228.\n\n\n\np1 +\n  geom_vline(aes(xintercept = mean), \n             data = by_group,\n             color = \"steelblue\",\n             lwd = 1.5) +\n  geom_vline(aes(xintercept = median), \n             data = by_group, \n             color = \"red\",\n             lwd = 1.5)\n\n\n\n\nZentrale Tendenz bei schiefen Verteilungen\nSowohl Mittelwert als auch Median sind jedoch problematisch als Masse der zentralen Tendenz für asymmetrische Verteilungen. Der Mittelwert kann durch eine hohe Schiefe und Ausreissern verschoben werden, und repräsentiert die zentrale Tendenz der Verteilung nicht besonders gut.\nDer Median ist ein besseres Mass für eine typische Beobachtung aus dieser Verteilung, ist jedoch nicht erwartungstreu, das heisst der Median überschätzt den Populationsmedian. Der Grad der Überschätzung steigt mit sinkender Anzahl Beobachtungen (d.h. vor allem bei kleinen Stichproben).\nQuantile\n\ndeciles <- seq(0.1, 0.9, length.out = 9)\n\n\nquantile_fun <- function(x, probs = c(0.25, 0.5, 0.75)) {\n  tibble(rt = quantile(x, probs, type = 8), quantile = probs)\n}\n\n\nd_quantiles <- d %>% \n  group_by(group) %>% \n  summarise(quantile_fun(rt, probs = deciles))\n\n\nd_quantiles\n\n# A tibble: 18 × 3\n# Groups:   group [2]\n   group      rt quantile\n   <fct>   <dbl>    <dbl>\n 1 control  649.      0.1\n 2 control  684.      0.2\n 3 control  711.      0.3\n 4 control  740.      0.4\n 5 control  782.      0.5\n 6 control  826.      0.6\n 7 control  875.      0.7\n 8 control  949.      0.8\n 9 control 1045.      0.9\n10 adhd     631.      0.1\n11 adhd     674.      0.2\n12 adhd     712.      0.3\n13 adhd     745.      0.4\n14 adhd     784.      0.5\n15 adhd     828.      0.6\n16 adhd     874.      0.7\n17 adhd     980.      0.8\n18 adhd    1108.      0.9\n\n\nShift function\nWir müssen nun den Dataframe mit den Quantilen ins “wide” Format konvertieren, um zwei Spalten für die control und adhd Gruppen zu erhalten. Danach können wir die Differenzen zwischen den Gruppen für jedes Quantil berechnen.\n\nd_quantile_differences <- d_quantiles |> \n  pivot_wider(names_from = \"group\", values_from = \"rt\") \n\n\nd_quantile_differences\n\n# A tibble: 9 × 3\n  quantile control  adhd\n     <dbl>   <dbl> <dbl>\n1      0.1    649.  631.\n2      0.2    684.  674.\n3      0.3    711.  712.\n4      0.4    740.  745.\n5      0.5    782.  784.\n6      0.6    826.  828.\n7      0.7    875.  874.\n8      0.8    949.  980.\n9      0.9   1045. 1108.\n\n\n\nd_quantile_differences <- d_quantile_differences |> \n    mutate(`control - adhd` = control - adhd)\n\n\nd_quantile_differences\n\n# A tibble: 9 × 4\n  quantile control  adhd `control - adhd`\n     <dbl>   <dbl> <dbl>            <dbl>\n1      0.1    649.  631.            18.2 \n2      0.2    684.  674.            10.6 \n3      0.3    711.  712.            -1.45\n4      0.4    740.  745.            -4.99\n5      0.5    782.  784.            -2.16\n6      0.6    826.  828.            -1.57\n7      0.7    875.  874.             1.42\n8      0.8    949.  980.           -30.4 \n9      0.9   1045. 1108.           -62.8 \n\n\nShift function grafisch darstellen\n\nd_quantile_differences %>% \n  ggplot(aes(x = control, y = `control - adhd`)) +\n  geom_hline(yintercept = 0, linetype = 3) +\n  geom_vline(xintercept = d_quantile_differences %>% \n               filter(quantile == \"50%\") %>% \n               select(adhd) %>% \n               pull(), linetype = 3) +\n  geom_line(aes(group = 1), color = \"steelblue\", size = 2) +\n  geom_point(shape = 21, color = \"steelblue\", fill = \"white\", size = 5, stroke = 1) +\n  coord_cartesian(ylim = c(-300, 300))\n\n\n\n\n\ninstall.packages(\"remotes\")\nremotes::install_github(\"GRousselet/rogme\")\n\n\n# library(rogme)\n\n\nout <- rogme::shifthd(d, rt ~ group)\n\n\nrogme::plot_sf(out)\n\n[[1]]"
+  },
+  {
+    "objectID": "pages/chapters/10_evidence_accumulation_2.html#fitting-models-to-data-paramter-estimation",
+    "href": "pages/chapters/10_evidence_accumulation_2.html#fitting-models-to-data-paramter-estimation",
+    "title": "Evidence Accumulation Models: II",
+    "section": "Fitting models to data: Paramter estimation",
+    "text": "Fitting models to data: Paramter estimation\nThe goal of fitting a model to data is to find those best-fitting parameter values, i.e. we want to estimate parameters from the data. This is done by minimizing the error between the model’s predictions and the data.\nHere, we will look at maximum likelihood estimation (MLE). The main idea is that we try to find a set of parameters such that the probability of observing the (fixed) data.\nThe likelihood function is a function that represents how likely it is to obtain a certain set of observations from a given model. We’re considering the set of observations as fixed — they’ve happened, they’re in the past — and now we’re considering under which set of model parameters we would be most likely to observe them."
+  },
+  {
+    "objectID": "pages/chapters/10_evidence_accumulation_2.html#generate-some-data-with-known-parameters",
+    "href": "pages/chapters/10_evidence_accumulation_2.html#generate-some-data-with-known-parameters",
+    "title": "Evidence Accumulation Models: II",
+    "section": "Generate some data with known parameters",
+    "text": "Generate some data with known parameters\nGenerate RTs from the diffusion model as data.\n\nlibrary(rtdists)\n\ndrift <- 0.2\nboundary <- 0.1\nbias <- 0.5\nndt <- 0.05\n\ngenparms <- c(boundary, drift, bias*boundary, ndt)           \nnames(genparms) <- c(\"a\", \"v\", \"z\", \"t0\") \n\n\nrts <- rdiffusion(n = 500,\n                  a=genparms[\"a\"],\n                  v=genparms[\"v\"], \n                  t0=genparms[\"t0\"], \n                  z=genparms[\"z\"],\n                  s=.1)"
+  },
+  {
+    "objectID": "pages/chapters/10_evidence_accumulation_2.html#define-log-likelihood-function",
+    "href": "pages/chapters/10_evidence_accumulation_2.html#define-log-likelihood-function",
+    "title": "Evidence Accumulation Models: II",
+    "section": "Define log likelihood function",
+    "text": "Define log likelihood function\nThis function returns the negative log probability of the data, given the parameters.\n\ndiffusionloglik <- function(pars, rt, response) \n{\n  likelihoods <- ddiffusion(rt, response=response,                 \n                          a=pars[\"a\"], \n                          v=pars[\"v\"], \n                          t0=pars[\"t0\"], \n                          z=pars[\"z\"], \n                          s=.1,\n                          precision=1)      \n  return(-sum(log(likelihoods)))\n}"
+  },
+  {
+    "objectID": "pages/chapters/10_evidence_accumulation_2.html#generate-starting-values-for-parameters",
+    "href": "pages/chapters/10_evidence_accumulation_2.html#generate-starting-values-for-parameters",
+    "title": "Evidence Accumulation Models: II",
+    "section": "Generate starting values for parameters",
+    "text": "Generate starting values for parameters\n\ninit_parms <- c(runif(1, 0.01, 0.4), \n           runif(1, 0.01, 0.5),\n           runif(1, 0, 0.1),\n           runif(1, 0, 0.1))\nnames(init_parms) <- c(\"a\", \"v\", \"z\", \"t0\")"
+  },
+  {
+    "objectID": "pages/chapters/10_evidence_accumulation_2.html#estimate-parameters",
+    "href": "pages/chapters/10_evidence_accumulation_2.html#estimate-parameters",
+    "title": "Evidence Accumulation Models: II",
+    "section": "Estimate parameters",
+    "text": "Estimate parameters\n\nfit <- optim(init_parms, \n             diffusionloglik, \n             gr = NULL, \n             rt = rts$rt, \n             response = rts$response)\n\n\nfit\n\n$par\n         a          v          z         t0 \n0.10277359 0.17283897 0.05532837 0.04871508 \n\n$value\n[1] -187.864\n\n$counts\nfunction gradient \n     501       NA \n\n$convergence\n[1] 1\n\n$message\nNULL"
+  },
+  {
+    "objectID": "pages/chapters/10_evidence_accumulation_2.html#compare-estimated-parameters-to-true-parameters",
+    "href": "pages/chapters/10_evidence_accumulation_2.html#compare-estimated-parameters-to-true-parameters",
+    "title": "Evidence Accumulation Models: II",
+    "section": "Compare estimated parameters to true parameters",
+    "text": "Compare estimated parameters to true parameters\n\nround(fit$par, 3)\n\n    a     v     z    t0 \n0.103 0.173 0.055 0.049 \n\n\n\ngenparms\n\n   a    v    z   t0 \n0.10 0.20 0.05 0.05"
+  },
+  {
+    "objectID": "pages/chapters/10_evidence_accumulation_2.html#example-full-ddm",
+    "href": "pages/chapters/10_evidence_accumulation_2.html#example-full-ddm",
+    "title": "Evidence Accumulation Models: II",
+    "section": "Example: full DDM",
+    "text": "Example: full DDM\n\ndiffusionloglik <- function(pars, rt, response) \n{\n  likelihoods <- tryCatch(ddiffusion(rt, response=response,                 \n                          a=pars[\"a\"], \n                          v=pars[\"v\"], \n                          t0=pars[\"t0\"], \n                          z=0.5*pars[\"a\"], \n                          sz=pars[\"sz\"], \n                          st0=pars[\"st0\"], \n                          sv=pars[\"sv\"],s=.1,precision=1),\n                        error = function(e) 0)  \n  \n  if (any(likelihoods==0)) return(1e6) \n  return(-sum(log(likelihoods)))\n}  \n\n\ngenparms <- c(.1,.2,.5,.05,.2,.05)           \nnames(genparms) <- c(\"a\", \"v\", \"t0\", \"sz\", \"st0\", \"sv\") \n\n\nrts <- rdiffusion(500, a=genparms[\"a\"],\n                       v=genparms[\"v\"], \n                       t0=genparms[\"t0\"], \n                       z=0.5*genparms[\"a\"],\n                       d=0, \n                       sz=genparms[\"sz\"], \n                       sv=genparms[\"sv\"],  \n                       st0=genparms[\"st0\"],\n                       s=.1)   \n\n\n#generate starting values for parameters     \nsparms <- c(runif(1, 0.01, 0.4), \n           runif(1, 0.01, 0.5),\n           0.3, \n           runif(1, 0.02, 0.08),\n           runif(1, .1, .3),\n           runif(1, 0, 0.1))\nnames(sparms) <- c(\"a\", \"v\", \"t0\", \"sz\", \"st0\", \"sv\") \n\n\n#now estimate parameters\nfit2 <- optim(sparms, diffusionloglik, gr = NULL, \n               rt=rts$rt, response=rts$response)\n\n\nround(fit2$par, 3)\n\n    a     v    t0    sz   st0    sv \n0.100 0.196 0.508 0.070 0.196 0.066 \n\n\n\ngenparms\n\n   a    v   t0   sz  st0   sv \n0.10 0.20 0.50 0.05 0.20 0.05"
   },
   {
     "objectID": "pages/chapters/05_signal_detection_i.html",
@@ -1020,12 +1188,5 @@
     "title": "Übung 4",
     "section": "Variablen auswählen",
     "text": "Variablen auswählen\n\nsdt_final <- sdt_summary |>\n    select(ID, cue, dprime, k, c)\n\nIm finalen Datensatz haben wir nun d', k und c für jede Person in jeder Bedingung.\n\nsdt_final\n\n# A tibble: 45 × 5\n# Groups:   ID, cue [45]\n   ID     cue   dprime     k     c\n   <fct>  <fct>  <dbl> <dbl> <dbl>\n 1 chch04 left    2.47  1.32  0.08\n 2 chch04 none    2.68  1.64  0.3 \n 3 chch04 right   1.1   0.32 -0.23\n 4 chmi14 left    0.78  0.46  0.07\n 5 chmi14 none    0.83 -0.03 -0.45\n 6 chmi14 right   0.93 -0.18 -0.65\n 7 J      left    0.61  0.29 -0.02\n 8 J      none    1.25  0.23 -0.4 \n 9 J      right   0.99  0.67  0.18\n10 jh     left    3.41  3.09  1.39\n# … with 35 more rows\n\n\n\n\n\n\n\n\nNote\n\n\n\nWir erwarten, dass sich d' zwischen den Bedingungen nicht unterscheidet. k und c (bias) sollte sich hingegen zwischen den cue Bedingungen unterscheiden. Uns interessiert hier vor allem c: in der neutralen Bedingung sollte c etwa 0 sein, in der ‘left’ Bedingung sollte \\(c > 0\\) sein, und in der ‘right’ Bedingung sollte \\(c < 0\\) sein.\nVersuchen Sie die untenstehende Grafiken für d' und c zu reproduzieren.\n\n\n\n\n\n\n\nSie brauchen zuerst eine (separate) Zusammenfassung der d' und c Werte, welche die Messwiederholung respektiert. Sie können dazu die Funktion summarySEwithin aus dem Rmisc Package verwenden.\nDie Funktion braucht die Argumente measurevar, withinvars und idvar.\n\n\n\n\n\n\nArgument\nBeschreibung\n\n\n\nmeasurevar\nVariable, für welche eine Messwiederholung vorliegt\n\n\nwithinvars\nMesswiederholung\n\n\nidvar\nIdentität der messwiederholten Einheit\n\n\n\n\ncs <- sdt_final |>\n    select(ID, cue, c) |>\n    ___\n\n\ndprimes <- sdt_final |>\n    select(ID, cue, ___) |>\n    ___\n\nWenn Sie, wie ich, die Datensätze mit den Mittelwerten, Standardfehlern und \\(95%\\) Konfidenzintervallen primes und cs genannt haben, können Sie die Plots beispielsweise so erstellen.\n\ncs |>\n    ggplot(aes(x = cue, y = c, group = 1)) + \n    geom_hline(yintercept = 0, \n               linetype = \"dashed\",\n               color = \"grey60\") +\n    geom_line() +\n    geom_errorbar(width = 0.1, aes(ymin = c - ci,\n                                   ymax = c + ci)) +\n    geom_point(shape = 21, size = 3, fill = \"white\") +\n    ggtitle(\"c (bias)\")\n\nFalls Sie wollen, können Sie die individuellen c Schätzungen dem Plot hinzufügen, mit folgendem Code:\ngeom_jitter(aes(cue, c), data = sdt_final, width = 0.05)"
-  },
-  {
-    "objectID": "pages/chapters/14-Bayesian-models-of-perception.html",
-    "href": "pages/chapters/14-Bayesian-models-of-perception.html",
-    "title": "Bayesian Models of Perception",
-    "section": "",
-    "text": "References\n\nVincent, Benjamin T. 2015. “A Tutorial on Bayesian Models of Perception.” Journal of Mathematical Psychology 66 (June): 103–14. https://doi.org/10.1016/j.jmp.2015.02.001.\n\nReusehttps://creativecommons.org/licenses/by/4.0/CitationBibTeX citation:@online{ellis2022,\n  author = {Andrew Ellis},\n  title = {Bayesian {Models} of {Perception}},\n  date = {2022-05-31},\n  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/14-Bayesian-models-of-perception.html},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nAndrew Ellis. 2022. “Bayesian Models of Perception.” May\n31, 2022. https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/14-Bayesian-models-of-perception.html."
   }
 ]

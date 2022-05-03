@@ -32,5 +32,13 @@ In the perceptual domain, the core assertions are that: (a) an observer has an i
 
 ## Bayesian observer models
 
+If we accept that we do not have direct access to the true state of the world, and the data are insufficient to provide this knowledge unambiguously, then Bayesian inference becomes appealing as the only principled solution to the inverse problem.
+
+### Optimal vs. suboptimal Bayesian observers
+
+The Bayesian optimal observer approach would claim that observer’s mental models of the world are veridical, and that their prior beliefs are matched to the statistics of the environment. In hypothetical ideal observer models, observers are given precise knowledge of certain aspects of the world in order to calculate the theoretical maximum performance.
+
+The first reason for this suboptimality could be that an observer’s internal mental model of the world is mismatched with the actual generative process (the real world) which gave rise to their sensory observations.
+
 
 ## References

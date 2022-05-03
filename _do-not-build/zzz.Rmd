@@ -1,0 +1,181 @@
+---
+title: "zzz"
+author: "Andrew"
+date: "2022-05-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+------------------------------------------------------------------------
+::: columns
+::: {.column width="35%"}
+::: topic-number
+2
+:::
+:::
+
+::: {.column width="65%"}
+::: topic-text
+Maximum likelihood estimation
+:::
+:::
+:::
+
+## Maximum likelihood estimation {.smaller}
+
+The likelihood — more precisely, the likelihood function — is a function that represents how likely it is to obtain a certain set of observations from a given model. We’re considering the set of observations as fixed — they’ve happened, they’re in the past — and now we’re considering under which set of model parameters we would be most likely to observe them.
+
+
+##
+
+When we have a number of data points (as we usually will in psychology experiments), we can obtain a joint probability or probability density for the data in a data vector y by multiplying together the individual probabilities or probability densities, under the assumption that the observations in y are independent:
+
+$$
+f(\bf{y}|\bf{\theta} = \prod^k{f(\y_k | \bf{\theta})})
+$$
+where $k$ indexes the individual observations $y_k$ in the data vector $\bf{y}$.
+
+##
+
+The likelihood function tells us about possible states of the world; the difference is that these states here refer to different possible parameter values, and the likelihood function tells us about how likely each of those parameter values is given the data we have observed.
+
+$$
+L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
+$$
+
+## Example: Binomial likelihood
+
+Let's flip a coin
+
+- two possible outcomes (heads and tails),
+- fixed number of “trials” (100 coin flips)
+- fixed probability of “success” (i.e.  heads)
+
+```{r}
+set.seed(91)
+
+heads <- rbinom(1, 100, 0.5)
+```
+
+
+
+```{r}
+# To illustrate, let's find the likelihood of obtaining these results if p was 0.6—that is, if our coin was biased in such a way to show heads 60% of the time.
+biased_prob <- 0.6
+# Explicit calculation
+choose(100,52)*(biased_prob**52)*(1-biased_prob)**48
+# 0.0214877567069514
+# Using R's dbinom function (density function for a given binomial distribution)
+dbinom(heads,100, biased_prob)
+# 0.0214877567069514
+```
+
+
+
+## MLE
+
+- Define a function that will calculate the likelihood function for a given value of p; then
+- Search for the value of p that results in the highest likelihood.
+
+```{r}
+likelihood <- function(p){
+  dbinom(heads, 100, p)
+}
+
+likelihood(biased_prob)
+```
+
+
+##
+
+$$
+f(k | p_{heads}, N) = \binom{N}{k} p_{heads}^k (1-p_{heads}^{N-k})
+$$
+where $f(k)$ is the probability of observing exactly $k$ out of $N$ coin tosses come up as heads, and $\binom{N}{k}$ is the combinatorial function from $N$ choose $k$, giving the total number
+$k$ of ways in which $k$ out of $N$ tosses could come up heads.
+
+## Optim
+
+You may be concerned that I’ve introduced a tool to minimise a function’s value when we really are looking to maximise — this is maximum likelihood estimation, after all! Fortunately, maximising a function is equivalent to minimising the function multiplied by minus one. If we create a new function that simply produces the likelihood multiplied by minus one, then the parameter that minimises the value of this new function will be exactly the same as the parameter that maximises our original likelihood.
+
+
+## Finding the Maximum Likelihood
+
+$$
+lnL(\bf{\theta} | \bf{y}) = \sum^k_{k=1}{ln L(\bf{\theta} | y_k})
+$$
+
+##
+
+```{r}
+loglik <- function(p){
+  likelihoods <- dbinom(heads, 100, p)*-1
+   return(-sum(log(likelihoods)))
+}
+
+```
+
+
+```{r}
+nlm(negative_likelihood, 0.5, stepmax=0.5)
+```
+
+
+## 
+
+```{r}
+wins <- 6
+games <- 9
+```
+
+```{r}
+n_points <- 100
+p_grid <- seq( from=0 , to=1 , length.out = n_points )
+```
+
+```{r}
+likelihood <- dbinom(wins , size = games , prob = p_grid)
+```
+```{r}
+plot(p_grid , likelihood, type="l", main="Likelihood", col = "firebrick3", lwd = 2)
+```
+```{r}
+which.max(likelihood)
+```
+
+
+```{r}
+p_grid[which.max(likelihood)]
+```
+
+
+
+## Normal distribution
+
+```{r}
+set.seed(1729)
+x <- rnorm(100, mean = 10, sd = 2)
+```
+
+```{r}
+normalloglik <- function(pars) {
+  loglikelihoods <- dnorm(x, mean = pars[1], sd = pars[2], log = TRUE)
+  return(-sum(loglikelihoods))
+}
+```
+
+```{r}
+
+MLE <- optim(c(0.1,0.1), # initial values for mu and sigma
+        fn = normalloglik, # function to maximize
+        method = "L-BFGS-B", # this method lets set lower bounds
+        lower = 0.00001, # lower limit for parameters
+        control = list(fnscale = -1), # maximize the function
+        )
+MLE
+```
+

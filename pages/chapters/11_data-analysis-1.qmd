@@ -1,8 +1,8 @@
 ---
-title: "Evidence Accumulation Models: II"
+title: "Data analysis: I"
 description: | 
-    Fitting models to data
-date: "2022-05-03"
+    Combining informatin from multiple participants | Intro to Bayesian data anlysis.
+date: "2022-05-10"
 author:
   - name: Andrew Ellis
     url: https://github.com/awellis

@@ -1,8 +1,8 @@
 ---
-title: "Übung 5"
+title: "Übung 6"
 description: |
-  Reaktionszeitverteilungen in einem Simon Task.
-date: "2022-04-13" 
+  DDM Parameter schätzen.
+date: "2022-05-10" 
 author:
   - name: Andrew Ellis
     url: https://github.com/awellis
@@ -21,11 +21,11 @@ format:
 #| include: false
 
 # Set working directory of R
-knitr::opts_knit$set(root.dir = '../../data/exercise-05')
+knitr::opts_knit$set(root.dir = '../../data/exercise-06')
 ```
 
 :::{.callout-note}
-Die Daten für diese Übung finden Sie hier: 👉 [Download Data](../../data/exercise-05/data/stroop-data.csv)
+Die Daten für diese Übung finden Sie hier: 👉 [Download Data](../../data/exercise-06/data/ddm-data.csv)
 
 Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen.
 

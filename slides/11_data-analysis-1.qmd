@@ -1,6 +1,6 @@
 ---
-title: "10. Sitzung"
-subtitle: "Evidence accumulation models: II"
+title: "11. Sitzung"
+subtitle: "Data analysis: I"
 author: "Andrew Ellis"
 institute: "Neurowissenschaft Computerlab FS 22"
 format:
@@ -18,7 +18,7 @@ format:
 execute:
   echo: true
   include: true
-date: "2022-05-03"
+date: "2022-05-10"
 ---
 
 ```{r}

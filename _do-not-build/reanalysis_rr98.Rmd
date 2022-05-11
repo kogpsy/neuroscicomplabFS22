@@ -253,7 +253,6 @@ ensure_fit <-
     best_fit <- list(objective = 1e+06)
   for (i in seq_len(n_fits)) {
     start_ll <- 1e+06
-    #browser()
     while(start_ll == 1e+06) {
       start <- start_function(base_pars, n_drift=n_drift)
       start_ll <- objective_function(start, 

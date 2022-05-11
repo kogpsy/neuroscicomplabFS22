@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.301">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Andrew Ellis">
+<meta name="dcterms.date" content="2022-05-10">
+<meta name="description" content="Combining informatin from multiple participants | Intro to Bayesian data anlysis.">
+<title>Neurowissenschaft Computerlab - Data analysis: I</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script><script src="../../site_libs/quarto-nav/headroom.min.js"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script><meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../../site_libs/quarto-search/fuse.min.js"></script><script src="../../site_libs/quarto-search/quarto-search.js"></script><link href="../..//assets/logo_landing.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script><script src="../../site_libs/quarto-html/popper.min.js"></script><script src="../../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../../site_libs/quarto-html/anchor.min.js"></script><link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script><link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link class="quarto-color-scheme" href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="../../site_libs/bootstrap/bootstrap-dark.min.css">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="../../styles/global.css">
+</head>
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../assets/logo.png" alt=""><span class="navbar-title">Neurowissenschaft Computerlab</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-admin">
+<li>
+    <a class="dropdown-item" href="../../pages/admin/01_overview.html">
+ <span class="dropdown-text">Übersicht</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/admin/02_assessments.html">
+ <span class="dropdown-text">Leistungskontrollen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/admin/03_zulip_forum.html">
+ <span class="dropdown-text">Zulip Forum</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-kapitel" role="button" data-bs-toggle="dropdown" aria-expanded="false">Kapitel</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-kapitel">
+<li>
+    <a class="dropdown-item" href="../../pages/chapters/01_psychopy_experiments.html">
+ <span class="dropdown-text">Verhaltensexperiment mit PsychoPy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/02_importing_data.html">
+ <span class="dropdown-text">Daten importieren</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/03_data_cleaning.html">
+ <span class="dropdown-text">Data cleaning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/04_summarizing_data.html">
+ <span class="dropdown-text">Daten bearbeiten und zusammenfassen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/05_signal_detection_i.html">
+ <span class="dropdown-text">Signal Detection Theory: I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/06_signal_detection_ii.html">
+ <span class="dropdown-text">Signal Detection Theory: II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/07_response_times_i.html">
+ <span class="dropdown-text">Reaktionszeiten: I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/08_response_times_ii.html">
+ <span class="dropdown-text">Reaktionszeiten: II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/09_evidence_accumulation_1.html">
+ <span class="dropdown-text">Evidence Accumulation Models: I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/10_evidence_accumulation_2.html">
+ <span class="dropdown-text">Evidence Accumulation Models: II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/11_data-analysis-1.html">
+ <span class="dropdown-text">Data analysis: I</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-slides" role="button" data-bs-toggle="dropdown" aria-expanded="false">Slides</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-slides">
+<li>
+    <a class="dropdown-item" href="../../slides/01_introduction.html">
+ <span class="dropdown-text">1. Sitzung (22.02.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/02_psychopy.html">
+ <span class="dropdown-text">2. Sitzung (01.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/03_import_and_process_data.html">
+ <span class="dropdown-text">3. Sitzung (08.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/04_process_data.html">
+ <span class="dropdown-text">4. Sitzung (15.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/05_signal_detection.html">
+ <span class="dropdown-text">5. Sitzung (22.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/06_signal_detection_examples.html">
+ <span class="dropdown-text">6. Sitzung (29.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/07_response_times.html">
+ <span class="dropdown-text">7. Sitzung (05.04.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/08_response_times_ii.html">
+ <span class="dropdown-text">8. Sitzung (12.04.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/09_evidence_accumulation.html">
+ <span class="dropdown-text">9. Sitzung (26.04.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/10_fitting_ddm.html">
+ <span class="dropdown-text">10. Sitzung (03.05.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/11_data-analysis-1.html">
+ <span class="dropdown-text">11. Sitzung (10.05.2022)</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bungen" role="button" data-bs-toggle="dropdown" aria-expanded="false">Übungen</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bungen">
+<li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_01.html">
+ <span class="dropdown-text">Übung 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_02.html">
+ <span class="dropdown-text">Übung 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_03.html">
+ <span class="dropdown-text">Übung 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_04.html">
+ <span class="dropdown-text">Übung 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_05.html">
+ <span class="dropdown-text">Übung 5</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lösungen" role="button" data-bs-toggle="dropdown" aria-expanded="false">Lösungen</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-lösungen">
+<li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_03.html">
+ <span class="dropdown-text">Übung 3: Lösung</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#data-analysis" id="toc-data-analysis" class="nav-link active" data-scroll-target="#data-analysis">Data analysis</a></li>
+  <li>
+<a href="#modelling-and-summarizing-data-from-multiple-participants" id="toc-modelling-and-summarizing-data-from-multiple-participants" class="nav-link" data-scroll-target="#modelling-and-summarizing-data-from-multiple-participants">Modelling and summarizing data from multiple participants</a>
+  <ul class="collapse">
+<li><a href="#complete-pooling" id="toc-complete-pooling" class="nav-link" data-scroll-target="#complete-pooling">Complete pooling</a></li>
+  </ul>
+</li>
+  <li><a href="#no-pooling" id="toc-no-pooling" class="nav-link" data-scroll-target="#no-pooling">No pooling</a></li>
+  <li><a href="#partial-pooling" id="toc-partial-pooling" class="nav-link" data-scroll-target="#partial-pooling">Partial pooling</a></li>
+  <li>
+<a href="#frequentist-statistics" id="toc-frequentist-statistics" class="nav-link" data-scroll-target="#frequentist-statistics">Frequentist statistics</a>
+  <ul class="collapse">
+<li><a href="#what-can-we-discover-with-nhst" id="toc-what-can-we-discover-with-nhst" class="nav-link" data-scroll-target="#what-can-we-discover-with-nhst">What can we discover with NHST?</a></li>
+  </ul>
+</li>
+  <li><a href="#problems-with-nhst" id="toc-problems-with-nhst" class="nav-link" data-scroll-target="#problems-with-nhst">Problems with NHST</a></li>
+  <li>
+<a href="#case-studies" id="toc-case-studies" class="nav-link" data-scroll-target="#case-studies">Case studies</a>
+  <ul class="collapse">
+<li><a href="#t-test" id="toc-t-test" class="nav-link" data-scroll-target="#t-test">T-test</a></li>
+  <li><a href="#card-game" id="toc-card-game" class="nav-link" data-scroll-target="#card-game">Card game</a></li>
+  </ul>
+</li>
+  <li><a href="#an-introduction-to-bayesian-inference" id="toc-an-introduction-to-bayesian-inference" class="nav-link" data-scroll-target="#an-introduction-to-bayesian-inference">An introduction to Bayesian inference</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Data analysis: I</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+<div>
+  <div class="description">
+    <p>Combining informatin from multiple participants | Intro to Bayesian data anlysis.</p>
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">Andrew Ellis <a href="https://orcid.org/0000-0002-2788-936X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://www.kog.psy.unibe.ch">
+            Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern
+            </a>
+          </p>
+      </div>
+    </div>
+
+
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022-05-10</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header><!-- :::{.callout-note} --><!-- 👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/evidence-accumulation-1.R) --><!-- ::: --><!-- t-test --><!--     - Lee --><!-- Signal detection --><!--     - Lee --><!--     - Farrell --><div class="cell">
+
+</div>
+<section id="data-analysis" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="data-analysis">Data analysis</h2>
+<p>In this chapter, we will tackle two important topics:</p>
+<ol type="1">
+<li><p>What methods should we use when modelling and summarizing data from multiple participants, and</p></li>
+<li><p>Which alternative approaches are available when methods for null hypothesis significance testing (NHST) are not suitable.</p></li>
+</ol>
+<p>The latter is often the case in neuroscience, where low power due to small sample sizes is a well-known problem <span class="citation" data-cites="buttonPowerFailureWhy2013">(<a href="#ref-buttonPowerFailureWhy2013" role="doc-biblioref">Button et al. 2013</a>)</span>. The alternative approach we will discuss here is Bayesian data analysis, which also has the benefit is allowing us to provide evidence <em>for</em> or <em>against</em> hypotheses, something which is not possible using NHST.</p>
+<div class="no-row-height column-margin column-container"><div id="ref-buttonPowerFailureWhy2013" class="csl-entry" role="doc-biblioentry">
+Button, Katherine S., John P. A. Ioannidis, Claire Mokrysz, Brian A. Nosek, Jonathan Flint, Emma S. J. Robinson, and Marcus R. Munafò. 2013. <span>“Power Failure: Why Small Sample Size Undermines the Reliability of Neuroscience.”</span> <em>Nature Reviews Neuroscience</em> 14 (5): 365–76. <a href="https://doi.org/10.1038/nrn3475">https://doi.org/10.1038/nrn3475</a>.
+</div></div></section><section id="modelling-and-summarizing-data-from-multiple-participants" class="level2"><h2 class="anchored" data-anchor-id="modelling-and-summarizing-data-from-multiple-participants">Modelling and summarizing data from multiple participants</h2>
+<p>In most neuroscience experiments, we are interested in effects of manipulations at the individual level, but we also need to be sure that theses effects hold at the group level, and are not particular to certain individuals. However, reporting effects at the group level is not straightforward.In short, there are three possiblities when combining informatin from multiple participants:</p>
+<section id="complete-pooling" class="level3"><h3 class="anchored" data-anchor-id="complete-pooling">Complete pooling</h3>
+<p>We can pretend that all our data come from 1 participant, by averaging over participants. In statistics, this is know as <em>complete pooling</em>, meaning that all data are pooled and we are no longer interested in individual participants. The pooled data are then used to estimate parameters, and to perfom hypothesis testing. While there are cases in which it is possible to analyze averaged data, in general this approach can lead to errors, and needs to be treated with care. A classic example is shown in <a href="#fig-power-law">Figure&nbsp;1</a>. The thin solid lines represent individual learning curves. Each indivdial appears to learn very rapidly (and linearly), but there is a huge variation in the onset of learning. The filled circles represent a naive attempt at averaging over all individuals. The result suggests that learning is gradual and starts from the outset; however the average learning curve looks nothing like the individual learning curves. This type of analysis can lead to erroneous conclusions.</p>
+<div id="fig-power-law" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><p><img src="../../assets/images/aggregating-power-law.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1: Learning curves</figcaption><p></p>
+</figure>
+</div>
+</section></section><section id="no-pooling" class="level2"><h2 class="anchored" data-anchor-id="no-pooling">No pooling</h2>
+<p>This means that data we estimate parameters of our models for each participant separately. While this appears to be a more sensible approach, there is the danger of over-fitting. This means that we give up the ability to generalize because our models are too sensitive to noise inherent in our data. Estimating parameters at the individual level is usually followed by a group-level statistical analysis. We might estimate the parameters of a signal detection or diffusion decision model for each participant individually, and then perform hypothesis tests on those parameters at the group level. For example, in a within-person design, we estimate individual bias parameters for each person in two conditions, and then perform a t-test at the group level to discover whether there is a difference between conditions. A problem that is associated with this approach is that we have to treat the estimated parameters as “data” at the group level, thus ignoring any uncertainty associated with those parameters; this can lead to over-confidence in our results. Nevertheless, this two-stage analysis is by far the most common approach in neuroscience.</p>
+</section><section id="partial-pooling" class="level2"><h2 class="anchored" data-anchor-id="partial-pooling">Partial pooling</h2>
+<p>A principled solution to the problems associated with individual and group level analyses is to use multilevel modelling. This allows us to simultaneously estimate group level parameters (fixed effects) and individual parameters (random effects) as deviations from the group average. This leads to the phenomenon known as <em>shrinkage</em>, which means that individual estimates are “pulled” towards the group average, and are less susceptible to noise in the data. An intuitive way of thinking about this is that we are assuming that participants are all individuals, but they do share some common characteristics, and we can use information obtained from other participants to inform our estimates. This is what <em>partial pooling</em> refers to.</p>
+<p>While multilevel models are outside the scope of this course, we will look some basic models in our final session on Baysian data analysis. THe basic idea is that each individual participant’s parameters are treated as random draws from a group-level distribution, and the average effect is then simply the mean of that distribution.</p>
+<div class="aside">
+<p>Multilevel models do not have to be Bayesian - the can just as well be estimated using maximum likelihood estimation.</p>
+</div>
+</section><section id="frequentist-statistics" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="frequentist-statistics">Frequentist statistics</h2>
+<p>The traditional approach to statisteics is know as frequentist statistics. We will first go through the basic principles, then discuss some of the limitations associated with this approach, and then contrast this with the Bayesian approach.</p>
+<p>In a traditional approach to statistics, students are usually taught a variety of different approaches (far too many to discss here - there are enough enough different models to fill entire text books). In a nutshell, most of these approachs perform the following steps (I will use an equal-variance independent samples t-test as a runnign example, as well as the problem of estimating the probability of sucess parameter in a model of Bernoulli trials):</p>
+<ol type="1">
+<li>A statistical model is assumed. In the case of the t-test all observations within both groups are assumed to be normally distributed, with the groups differing in the means of the distributions (assuming that the standard deviations of both groups are equal to <span class="math inline">\(\sigma\)</span>).</li>
+</ol>
+<div class="page-columns page-full"><p><span class="math display">\[
+y_{ij} \sim \mathcal{N}(\mu_j, \sigma^2)
+\]</span> <span class="math inline">\(y_{ij}\)</span> refers to the <span class="math inline">\(i_{th}\)</span> observation in group <span class="math inline">\(j \in \{1, 2\}\)</span>. This observations are assumed to be independent random variates from a normal distribution (i.i.d)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, with the distribution’s mean <span class="math inline">\(\mu_j\)</span> depending on the group. In a t-test, we are interested in the difference between the group means, <span class="math inline">\(\mu_2 - \mu_1\)</span>.</p><div class="no-row-height column-margin column-container"><li id="fn1" role="doc-endnote"><p><sup>1</sup>&nbsp;independent and identically distributed</p></li></div></div>
+<ol start="2" type="1">
+<li><p>The group means are estimated. This can be done, e.g.&nbsp;using maximum likelihood estimation. You will be more familiar with the technique of “simply” using the sample means to estimate the <span class="math inline">\(\mu_j\)</span>s, which actually corresponds to the maximum likelihood estimate. The third parameter that has to be estimated is <span class="math inline">\(\sigma\)</span>. This is the <strong>parameter estimation</strong> step. <span class="math inline">\(\sigma\)</span> can be estimated using maximum likelihood, or simply “calculated” as the pooled standard deviation <span class="math inline">\(s_p\)</span>. In either case, the parameter is estimated.</p></li>
+<li><p>A test statistic is calculated. In this case, the difference <span class="math inline">\(\mu_1 - \mu_2\)</span> is of interest, and using this difference, a test statistic is computed. The test statistic can be computed as <span class="math inline">\(t =(\bar{x_1} - \bar{x_2})/(s_p \sqrt{2/n})\)</span>, where <span class="math inline">\((s_p \sqrt{2/n}\)</span> is the standard error of the difference. <span class="math inline">\(t\)</span> is assumed to follow a Student-t distribution (under the null hypothesis), and we can compute the probability of observing a test statistic (estimated from the data) that is at least as extreme (depending on the hypothesis) as the observed one (or rather the t value estimated from the actually observed data), under the assumption that the null hypothesis is true. This tail probability is known as a <em>p-value</em>.</p></li>
+</ol>
+<section id="what-can-we-discover-with-nhst" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="what-can-we-discover-with-nhst">What can we discover with NHST?</h3>
+<p>It is important to think about what exactly this approach can tell us. For instance, can we discover how probable the null hypothesis is? Can we ask how probable it is that the null hypothesis is false, and that therefore the alternative is true?</p>
+<p>Unfortunately, the answer to both of these questions is <strong>no</strong>, we cannot. This approach cannot tell us anything about probabilities of hypotheses - all that we can discover is how likely the data (as summarized ny the parameters) are to have occured under the assumption that the null is true. In this case, how likely is the t value, given that there is no difference between the groups, or mathematically, <span class="math inline">\(\mu_1 - \mu_2 = 0\)</span>. A small p-value can tell us that the data are unlikely, but that is not really the question we are asking. What we would like to know (intuitively) is how likely are our hypotheses <span class="citation" data-cites="wagenmakersPracticalSolutionPervasive2007">(<a href="#ref-wagenmakersPracticalSolutionPervasive2007" role="doc-biblioref">Wagenmakers 2007</a>)</span>. But this is something that frequentist statistics cannot tell us, by design. In the frequentist interpretation, a probability is the relative frequency of occurence of an event. Under this interpretation, a parameter does not have an associated probability distribution, and the question of how probable certain parameter values are is meaningless. In contrast, in Bayesian statistics, a probability is assumed to represent the degree of belief (either subjective or objective) that a certain parameter value is true. As an example, for a frequentist, talking about the probability that it will rain tomorrow is meaningless, because this is not an experiment that can be repeated infinitely many times. For a Bayesian, on the other hand, the probability of rain is merely an expression of belief, and incorporates all knowledge that is available to us.</p>
+<div class="no-row-height column-margin column-container"><div id="ref-wagenmakersPracticalSolutionPervasive2007" class="csl-entry" role="doc-biblioentry">
+Wagenmakers, Eric-Jan. 2007. <span>“A Practical Solution to the Pervasive Problems of p Values.”</span> <em>Psychonomic Bulletin &amp; Review</em> 14 (5): 779–804. <a href="https://doi.org/10.3758/BF03194105">https://doi.org/10.3758/BF03194105</a>.
+</div></div></section></section><section id="problems-with-nhst" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="problems-with-nhst">Problems with NHST</h2>
+<p>This is actually one of the most common misconceptions: even scientists routinely mistake p-values for probabilities of hypotheses. This lead <span class="citation" data-cites="wassersteinASAStatementPValues2016">Wasserstein and Lazar (<a href="#ref-wassersteinASAStatementPValues2016" role="doc-biblioref">2016</a>)</span> to write a <em>Statement on Statistical Significance and P-Values</em> in the American Statistical Association, in which they clarify:</p>
+<div class="no-row-height column-margin column-container"><div id="ref-wassersteinASAStatementPValues2016" class="csl-entry" role="doc-biblioentry">
+Wasserstein, Ronald L., and Nicole A. Lazar. 2016. <span>“The <span>ASA Statement</span> on p-<span>Values</span>: <span>Context</span>, <span>Process</span>, and <span>Purpose</span>.”</span> <em>The American Statistician</em> 70 (2): 129–33. <a href="https://doi.org/10.1080/00031305.2016.1154108">https://doi.org/10.1080/00031305.2016.1154108</a>.
+</div></div><ul>
+<li>P-values can indicate how incompatible the data are with a specified statistical model.</li>
+<li>P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone.</li>
+<li>Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold.</li>
+</ul>
+<p>A further complication is that the commonly used threshold <span class="math inline">\(p = 0.05\)</span> is completely arbitrary, and based on a combination of ideas by Fisher and Pearson/Neyman. The modern usage actually reflects neither approaches, and is often considered to be a bit of a mess <span class="citation" data-cites="amrheinScientistsRiseStatistical2019">(<a href="#ref-amrheinScientistsRiseStatistical2019" role="doc-biblioref">Amrhein, Greenland, and McShane 2019</a>)</span>. <span class="citation" data-cites="gigerenzerMindlessStatistics2004">Gigerenzer (<a href="#ref-gigerenzerMindlessStatistics2004" role="doc-biblioref">2004</a>)</span>;<span class="citation" data-cites="gigerenzerStatisticalRitualsReplication2018a">Gigerenzer (<a href="#ref-gigerenzerStatisticalRitualsReplication2018a" role="doc-biblioref">2018</a>)</span> provides an interesting comment on modern usage of hypothesis testing.</p>
+<div class="no-row-height column-margin column-container"><div id="ref-amrheinScientistsRiseStatistical2019" class="csl-entry" role="doc-biblioentry">
+Amrhein, Valentin, Sander Greenland, and Blake McShane. 2019. <span>“Scientists Rise up Against Statistical Significance.”</span> <em>Nature</em> 567 (7748, 7748): 305–7. <a href="https://doi.org/10.1038/d41586-019-00857-9">https://doi.org/10.1038/d41586-019-00857-9</a>.
+</div><div id="ref-gigerenzerMindlessStatistics2004" class="csl-entry" role="doc-biblioentry">
+Gigerenzer, Gerd. 2004. <span>“Mindless Statistics.”</span> <em>The Journal of Socio-Economics</em> 33 (5): 587–606. <a href="https://doi.org/10.1016/j.socec.2004.09.033">https://doi.org/10.1016/j.socec.2004.09.033</a>.
+</div><div id="ref-gigerenzerStatisticalRitualsReplication2018a" class="csl-entry" role="doc-biblioentry">
+———. 2018. <span>“Statistical <span>Rituals</span>: <span>The Replication Delusion</span> and <span>How We Got There</span>.”</span> <em>Advances in Methods and Practices in Psychological Science</em> 1 (2): 198–218. <a href="https://doi.org/10.1177/2515245918771329">https://doi.org/10.1177/2515245918771329</a>.
+</div></div><p>Apart from not being particularly intuitive and not allowing us to adress the questions we like to answer, NHST also has the problem that incentive structures in scientific publishing can often lead to misapplications of NHST procedures. Various questionable research practices are associated with this, including <em>p-hacking</em>. This refers to the practice of performing multiple significance tests, and selecting only those that yield significant results for reporting. In other words - NHST, if used correclty, can be a very useful tool. A big problem is that it os often not used correctly, and this can lead to misleading results.</p>
+</section><section id="case-studies" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="case-studies">Case studies</h2>
+<p>We will briefly explore the frequentist approach to data analysis using two examples:</p>
+<ol type="1">
+<li>an independent samples t-test, and</li>
+<li>the card game from the previous chapter, and</li>
+</ol>
+<section id="t-test" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="t-test">T-test</h3>
+<blockquote class="blockquote">
+<p>tbd</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span>
+
+<span class="co"># Number of people wearing fancy hats</span>
+<span class="va">N_fancyhats</span> <span class="op">&lt;-</span> <span class="fl">50</span> 
+
+<span class="co"># Number of people not wearing fancy hats</span>
+<span class="va">N_nofancyhats</span> <span class="op">&lt;-</span> <span class="fl">50</span>
+
+<span class="co"># Population mean of creativity for people wearing fancy hats</span>
+<span class="va">mu_fancyhats</span> <span class="op">&lt;-</span> <span class="fl">103</span> 
+
+<span class="co"># Population mean of creativity for people wearing no fancy hats</span>
+<span class="va">mu_nofancyhats</span> <span class="op">&lt;-</span> <span class="fl">98</span> 
+
+<span class="co"># Average population standard deviation of both groups</span>
+<span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">15</span> 
+
+<span class="co"># Generate data</span>
+<span class="va">fancyhats</span> <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>Creativity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N_fancyhats</span>, <span class="va">mu_fancyhats</span>, <span class="va">sigma</span><span class="op">)</span>,
+               Group <span class="op">=</span> <span class="st">"Fancy Hat"</span><span class="op">)</span>
+
+<span class="va">nofancyhats</span> <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>Creativity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N_nofancyhats</span>, <span class="va">mu_nofancyhats</span>, <span class="va">sigma</span><span class="op">)</span>,
+                 Group <span class="op">=</span> <span class="st">"No Fancy Hat"</span><span class="op">)</span>
+
+
+<span class="va">FancyHat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">fancyhats</span>, <span class="va">nofancyhats</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span>, <span class="st">"No Fancy Hat"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">FancyHat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 100 × 2
+   Creativity Group    
+        &lt;dbl&gt; &lt;fct&gt;    
+ 1       80.8 Fancy Hat
+ 2      127.  Fancy Hat
+ 3       88.6 Fancy Hat
+ 4       89.2 Fancy Hat
+ 5       73.0 Fancy Hat
+ 6       98.9 Fancy Hat
+ 7       98.3 Fancy Hat
+ 8       93.6 Fancy Hat
+ 9      101.  Fancy Hat
+10      109.  Fancy Hat
+# … with 90 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># plot both groups</span>
+<span class="va">FancyHat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span> <span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">Creativity</span>, x <span class="op">=</span> <span class="va">Group</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title<span class="op">=</span> <span class="st">"Box Plot of Creativity Values"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Assuming that both groups are normally distributed with the same variance, we can use the t-test to determine whether the mean of the two groups is different.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">fancyhat_ttest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">Creativity</span> <span class="op">~</span> <span class="va">Group</span>,
+       var.equal <span class="op">=</span> <span class="cn">TRUE</span>,
+       data <span class="op">=</span> <span class="va">FancyHat</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">fancyhat_ttest_tab</span> <span class="op">&lt;-</span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">fancyhat_ttest</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">fancyhat_ttest_tab</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">estimate</span>, <span class="va">estimate1</span>, <span class="va">estimate2</span>, <span class="va">statistic</span>, <span class="va">p.value</span>, <span class="va">conf.low</span>, <span class="va">conf.high</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 7
+  estimate estimate1 estimate2 statistic p.value conf.low conf.high
+     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1    -1.65      99.2      101.    -0.637   0.526    -6.78      3.49</code></pre>
+</div>
+</div>
+<p>It might not be obvious at first glance what we have done here:</p>
+<ol type="1">
+<li>We have assumed that the data are conditinally normally distributed, given the means, with the same variance.</li>
+</ol>
+<p><span class="math display">\[
+y_{ij} \sim \mathcal{N}(\mu_i, \sigma^2)
+\]</span></p>
+<ol start="2" type="1">
+<li><p>we estimated three parameters: <span class="math inline">\(\mu_1\)</span>, <span class="math inline">\(\mu_2\)</span> <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, and <span class="math inline">\(\sigma\)</span>.</p></li>
+<li><p>We computed the difference between groups as <span class="math inline">\(\mu_1 - \mu_2\)</span>. This gives us an estimate of the difference between the means <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p></li>
+<li><p>We compute a test statistic (empirical t value)<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p></li>
+<li><p>We computed the probability of observing the observed difference divided by the standard error, under the null hypothesis that the means are the same (<span class="math inline">\(\mu_1 = \mu_2\)</span>)[<code>p.value</code>]. This is a two-sided test, i.e.&nbsp;we have no hypothesis as to which group has the larger mean.</p></li>
+</ol>
+<div class="no-row-height column-margin column-container"><li id="fn2" role="doc-endnote"><p><sup>2</sup>&nbsp;<code>estimate1</code> und <code>estimate2</code></p></li><li id="fn3" role="doc-endnote"><p><sup>3</sup>&nbsp;<code>estimate</code></p></li><li id="fn4" role="doc-endnote"><p><sup>4</sup>&nbsp;<code>statistic</code></p></li></div><div class="callout-tip callout callout-style-default callout-captioned page-columns page-full">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body page-columns page-full">
+<div class="page-columns page-full"><p>What does the p-value tell us? Does it tell you what you want to know? Do you know what the confidence interval tells you <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>?</p><div class="no-row-height column-margin column-container"><li id="fn5" role="doc-endnote"><p><sup>5</sup>&nbsp;<code>conf.low</code> and <code>conf.high</code></p></li></div></div>
+<p>The p-value is 0.53 This is larger that the conventional threshold <span class="math inline">\(\alpha=0.05\)</span>. What does this mean?</p>
+</div>
+</div>
+</section><section id="card-game" class="level3"><h3 class="anchored" data-anchor-id="card-game">Card game</h3>
+<p>Two players a are playing a game of cards. You watch 9 games, and observe that player A wins 6 of those. Now you would like to estimate the probability that player A will win the next game. Another way of putting it that you would to estimate the ability of player A to beat player B at this particular game.</p>
+<p>You know that the probability of success must lie in the range <span class="math inline">\([0, 1]\)</span>. What you might not be aware of is that you are assuming a certain probability model, and the proabability of success is a a parameter of that model. Let’s take a closer look:</p>
+<p>We know that the number of <span class="math inline">\(k\)</span> successes in <span class="math inline">\(n\)</span> games follows a binomial distribution with parameters <span class="math inline">\(n\)</span> and <span class="math inline">\(\theta\)</span>. To make things simpler, we also know that each indivdual game is independent of the others, and the probability of success <span class="math inline">\(\theta\)</span> is the same for each game. Each success therefore follows a Bernoulli distribution with parameter <span class="math inline">\(\theta\)</span>.</p>
+<p><span class="math display">\[
+y_i \sim \mathcal{Bernoulli}(\theta)
+\]</span></p>
+<div class="aside">
+<p>I will generally use the notation <span class="math inline">\(y\)</span> for a variable that observed, i.e.&nbsp;the data.</p>
+</div>
+<p><span class="math inline">\(y_i\)</span> is the <span class="math inline">\(i\)</span> th observation in the data, meaning that it tells us whether player A won the game or not on trial <span class="math inline">\(i\)</span>. <span class="math inline">\(\theta\)</span> is the probability of success for each individual game; this is a parameter of our model (<span class="math inline">\(\mathcal{M}\)</span>).</p>
+<p>Previously, we used maximum likelihood to estimate <span class="math inline">\(\theta\)</span> - we will repeat this briefly here.</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">wins</span> <span class="op">&lt;-</span> <span class="fl">6</span>
+<span class="va">games</span> <span class="op">&lt;-</span> <span class="fl">9</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The goal is to figure out the “best” value of <span class="math inline">\(\theta\)</span>, i.e.&nbsp;the value that maximizes the likelihood of observing the data. To do this, we need to consider a range of possible values of <span class="math inline">\(\theta\)</span> (we already know that this range is <span class="math inline">\([0, 1]\)</span>, so that part is easy). We will consider 100 values of <span class="math inline">\(\theta\)</span> between 0 and 1, and compute the likelihood of observing the data for each value of <span class="math inline">\(\theta\)</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">n_points</span> <span class="op">&lt;-</span> <span class="fl">100</span>
+<span class="va">p_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span> from<span class="op">=</span><span class="fl">0</span> , to<span class="op">=</span><span class="fl">1</span> , length.out <span class="op">=</span> <span class="va">n_points</span> <span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Assuming that both players have an equal chance of winning, the parameter should be <span class="math inline">\(\theta = 0.5\)</span>. The probability of the data given <span class="math inline">\(\theta = 0.5\)</span> is:</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wins</span>, size <span class="op">=</span> <span class="va">games</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1640625</code></pre>
+</div>
+</div>
+<p>The probability of winning 6 out of 9 games, given that both players are equally likely to win, is 0.1640625.</p>
+<p>We can also compute the probability of A winning 6, 7, 8 or 9 games, using the cumulative distribution function of the binomial distribution.</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">5</span>, size <span class="op">=</span> <span class="va">games</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2539063</code></pre>
+</div>
+</div>
+<p>or</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">5</span>, size <span class="op">=</span> <span class="va">games</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2539063</code></pre>
+</div>
+</div>
+<p>or</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">5</span>, size <span class="op">=</span> <span class="va">games</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2539063</code></pre>
+</div>
+</div>
+<div class="aside">
+<p><code>pbinom</code> gives us the lower tail probability, which is the probability that the number of successes is less than or equal to the given value, by default.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+p-value
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Does this seem familiar?</p>
+<p>If we want to quantify our <em>null</em> hypothsis that both players are equally likely to win, we would assume that <span class="math inline">\(\theta=0.5\)</span>. Computing the proability of the data under the null is exactly what we have just done. We then plug in the actual data, i.e.&nbsp;6 out of 9, and the upper tail probability is the p-value. In this case, the p-value is approximately <span class="math inline">\(0.25\)</span>. Using cut-off of 0.05, we would not reject the null hypothesis, and conclude that there is not enough evidence that player A is better than player B (this is a one-sided test).</p>
+</div>
+</div>
+<p>NOw we compute the probability of the data under all parameter values under consideration. In R, this is very simple, since all functions are vecortized.</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">likelihood</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">wins</span> , size <span class="op">=</span> <span class="va">games</span> , prob <span class="op">=</span> <span class="va">p_grid</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">likelihood</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see in the above figure that the probability of observing the data is smnall for a lot of values of <span class="math inline">\(\theta\)</span>. The probability of observing the data, or the likelihood, is maximal for the value 0.6666667:</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">p_grid</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.max</a></span><span class="op">(</span><span class="va">likelihood</span><span class="op">)</span><span class="op">]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6666667</code></pre>
+</div>
+</div>
+<p>What we have done so far highlights the distinction between parameter estimation and hypothesis testing. Computing the tail probability under the null (<span class="math inline">\(\theta=0.5\)</span>) is a hypothesis test, and estimating <span class="math inline">\(\theta\)</span> is parameter estimation.</p>
+</section></section><section id="an-introduction-to-bayesian-inference" class="level2"><h2 class="anchored" data-anchor-id="an-introduction-to-bayesian-inference">An introduction to Bayesian inference</h2>
+
+
+<!-- -->
+
+
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{ellis2022,
+  author = {Andrew Ellis},
+  title = {Data Analysis: {I}},
+  date = {2022-05-10},
+  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/11_data-analysis-1.html},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-ellis2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Andrew Ellis. 2022. <span>“Data Analysis: I.”</span> May 10, 2022. <a href="https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/11_data-analysis-1.html">https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/11_data-analysis-1.html</a>.
+</div></div></section></div></main><!-- /main --><script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb23" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Data analysis: I"</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> | </span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Combining informatin from multiple participants | Intro to Bayesian data anlysis.</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2022-05-10"</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Andrew Ellis</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: https://github.com/awellis</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern </span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation-url: https://www.kog.psy.unibe.ch</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-2788-936X</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="an">license:</span><span class="co"> CC BY</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="an">citation:</span><span class="co"> true</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> ../../bibliography.bib</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="an">citation-location:</span><span class="co"> margin</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="co">    html:</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co">        toc: true</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="co">        code-link: true</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="co">        code-fold: false</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co">        code-tools: true</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- :::{.callout-note} --&gt;</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/evidence-accumulation-1.R) --&gt;</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: --&gt;</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- t-test --&gt;</span></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     - Lee --&gt;</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Signal detection --&gt;</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     - Lee --&gt;</span></span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     - Farrell --&gt;</span></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load-packages</span></span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data analysis</span></span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a>In this chapter, we will tackle two important topics: </span>
+<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a>1) What methods should we use when modelling and summarizing data from multiple participants, and </span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>2) Which alternative approaches are available when methods for null hypothesis significance testing (NHST) are not suitable. </span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>The latter is often the case in neuroscience, where low power due to small sample sizes is a well-known problem <span class="co">[</span><span class="ot">@buttonPowerFailureWhy2013</span><span class="co">]</span>. The alternative approach we will discuss here is Bayesian data analysis, which also has the benefit is allowing us to provide evidence _for_ or _against_ hypotheses, something which is not possible using NHST. </span>
+<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Modelling and summarizing data from multiple participants</span></span>
+<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a>In most neuroscience experiments, we are interested in effects of manipulations at the individual level, but we also need to be sure that theses effects hold at the group level, and are not particular to certain individuals. However, reporting effects at the group level is not straightforward.In short, there are three possiblities </span>
+<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a>when combining informatin from multiple participants:</span>
+<span id="cb23-64"><a href="#cb23-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### Complete pooling</span></span>
+<span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-67"><a href="#cb23-67" aria-hidden="true" tabindex="-1"></a>We can pretend that all our data come from 1 participant, by averaging over participants. In statistics, this is know as  _complete pooling_, meaning that all data are pooled and we are no longer interested in individual participants. The pooled data are then used to estimate parameters, and to perfom hypothesis testing. While there are cases in which it is possible to analyze averaged data, in general this approach can lead to errors, and needs to be treated with care. A classic example is shown in @fig-power-law. The thin solid lines represent individual learning curves. Each indivdial appears to learn very rapidly (and linearly), but there is a huge variation in the onset of learning. The filled circles represent a naive attempt at averaging over all individuals. The result suggests that learning is gradual and starts from the outset; however the average learning curve looks nothing like the individual learning curves. This type of analysis can lead to erroneous conclusions.</span>
+<span id="cb23-68"><a href="#cb23-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-69"><a href="#cb23-69" aria-hidden="true" tabindex="-1"></a><span class="al">![Learning curves](../../assets/images/aggregating-power-law.png)</span>{#fig-power-law}</span>
+<span id="cb23-70"><a href="#cb23-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-71"><a href="#cb23-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## No pooling</span></span>
+<span id="cb23-72"><a href="#cb23-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-73"><a href="#cb23-73" aria-hidden="true" tabindex="-1"></a>This means that data we estimate parameters of our models for each participant separately. While this appears to be a more sensible approach, there is the danger of over-fitting. This means that we give up the ability to generalize because our models are too sensitive to noise inherent in our data. Estimating parameters at the individual level is usually followed by a group-level statistical analysis. We might estimate the parameters of a signal detection or diffusion decision model for each participant individually, and then perform hypothesis tests on those parameters at the group level. For example, in a within-person design, we estimate individual bias parameters for each person in two conditions, and then perform a t-test at the group level to discover whether there is a difference between conditions. A problem that is associated with this approach is that we have to treat the estimated parameters as "data" at the group level, thus ignoring any uncertainty associated with those parameters; this can lead to over-confidence in our results. Nevertheless, this two-stage analysis is by far the most common approach in neuroscience.</span>
+<span id="cb23-74"><a href="#cb23-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-75"><a href="#cb23-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## Partial pooling</span></span>
+<span id="cb23-76"><a href="#cb23-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-77"><a href="#cb23-77" aria-hidden="true" tabindex="-1"></a>A principled solution to the problems associated with individual and group level analyses is to use multilevel modelling. This allows us to simultaneously estimate group level parameters (fixed effects) and individual parameters (random effects) as deviations from the group average. This leads to the phenomenon known as _shrinkage_, which means that individual estimates are "pulled" towards the group average, and are less susceptible to noise in the data. An intuitive way of thinking about this is that we are assuming that participants are all individuals, but they do share some common characteristics, and we can use information obtained from other participants to inform our estimates. This is what _partial pooling_ refers to.</span>
+<span id="cb23-78"><a href="#cb23-78" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb23-79"><a href="#cb23-79" aria-hidden="true" tabindex="-1"></a>While multilevel models are outside the scope of this course, we will look some basic models in our final session on Baysian data analysis. THe basic idea is that each individual participant's parameters are treated as random draws from a group-level distribution, and the average effect is then simply the mean of that distribution.</span>
+<span id="cb23-80"><a href="#cb23-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-81"><a href="#cb23-81" aria-hidden="true" tabindex="-1"></a>:::aside</span>
+<span id="cb23-82"><a href="#cb23-82" aria-hidden="true" tabindex="-1"></a>Multilevel models do not have to be Bayesian - the can just as well be estimated using maximum likelihood estimation.</span>
+<span id="cb23-83"><a href="#cb23-83" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb23-84"><a href="#cb23-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-85"><a href="#cb23-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-86"><a href="#cb23-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-87"><a href="#cb23-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## Frequentist statistics</span></span>
+<span id="cb23-88"><a href="#cb23-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-89"><a href="#cb23-89" aria-hidden="true" tabindex="-1"></a>The traditional approach to statisteics is know as frequentist statistics. We will first go through the basic principles, then discuss some of the limitations associated with this approach, and then contrast this with the Bayesian approach. </span>
+<span id="cb23-90"><a href="#cb23-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-91"><a href="#cb23-91" aria-hidden="true" tabindex="-1"></a>In a traditional approach to statistics, students are usually taught a variety of different approaches (far too many to discss here - there are enough enough different models to fill entire text books). In a nutshell, most of these approachs perform the following steps (I will use an equal-variance independent samples t-test as a runnign example, as well as the problem of estimating the probability of sucess parameter in a model of Bernoulli trials):</span>
+<span id="cb23-92"><a href="#cb23-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-93"><a href="#cb23-93" aria-hidden="true" tabindex="-1"></a>1) A statistical model is assumed. In the case of the t-test all observations within both groups are assumed to be normally distributed, with the groups differing in the means of the distributions (assuming that the standard deviations of both groups are equal to $\sigma$).</span>
+<span id="cb23-94"><a href="#cb23-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-95"><a href="#cb23-95" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb23-96"><a href="#cb23-96" aria-hidden="true" tabindex="-1"></a>y_{ij} \sim \mathcal{N}(\mu_j, \sigma^2)</span>
+<span id="cb23-97"><a href="#cb23-97" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb23-98"><a href="#cb23-98" aria-hidden="true" tabindex="-1"></a>$y_{ij}$ refers to the $i_{th}$ observation in group $j \in <span class="sc">\{</span>1, 2<span class="sc">\}</span>$. This observations are assumed to be independent random variates from a normal distribution (i.i.d)^<span class="co">[</span><span class="ot">independent and identically distributed</span><span class="co">]</span>, with the distribution's mean $\mu_j$ depending on the group. In a t-test, we are interested in the difference between the group means, $\mu_2 - \mu_1$.</span>
+<span id="cb23-99"><a href="#cb23-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-100"><a href="#cb23-100" aria-hidden="true" tabindex="-1"></a>2) The group means are estimated. This can be done, e.g. using maximum likelihood estimation. You will be more familiar with the technique of "simply" using the sample means to estimate the $\mu_j$s, which actually corresponds to the maximum likelihood estimate. The third parameter that has to be estimated is $\sigma$. This is the __parameter estimation__ step. $\sigma$ can be estimated using maximum likelihood, or simply "calculated" as the pooled standard deviation $s_p$. In either case, the parameter is estimated.</span>
+<span id="cb23-101"><a href="#cb23-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-102"><a href="#cb23-102" aria-hidden="true" tabindex="-1"></a>3) A test statistic is calculated. In this case, the difference $\mu_1 - \mu_2$ is of interest, and using this difference, a test statistic is computed. The test statistic can be computed as $t =(\bar{x_1} - \bar{x_2})/(s_p \sqrt{2/n})$, where $(s_p \sqrt{2/n}$ is the standard error of the difference. $t$ is assumed to follow a Student-t distribution (under the null hypothesis), and we can compute the probability of observing a test statistic (estimated from the data) that is at least as extreme (depending on the hypothesis) as the observed one (or rather the t value estimated from the actually observed data), under the assumption that the null hypothesis is true. This tail probability is known as a *p-value*.</span>
+<span id="cb23-103"><a href="#cb23-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-104"><a href="#cb23-104" aria-hidden="true" tabindex="-1"></a><span class="fu">### What can we discover with NHST?</span></span>
+<span id="cb23-105"><a href="#cb23-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-106"><a href="#cb23-106" aria-hidden="true" tabindex="-1"></a>It is important to think about what exactly this approach can tell us. For instance, can we discover how probable the null hypothesis is? Can we ask how probable it is that the null hypothesis is false, and that therefore the alternative is true? </span>
+<span id="cb23-107"><a href="#cb23-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-108"><a href="#cb23-108" aria-hidden="true" tabindex="-1"></a>Unfortunately, the answer to both of these questions is **no**, we cannot. This approach cannot tell us anything about probabilities of hypotheses - all that we can discover is how likely the data (as summarized ny the parameters) are to have occured under the assumption that the null is true. In this case, how likely is the t value, given that there is no difference between the groups, or mathematically, $\mu_1 - \mu_2 = 0$. A small p-value can tell us that the data are unlikely, but that is not really the question we are asking. What we would like to know (intuitively) is how likely are our hypotheses <span class="co">[</span><span class="ot">@wagenmakersPracticalSolutionPervasive2007</span><span class="co">]</span>. But this is something that frequentist statistics cannot tell us, by design. In the frequentist interpretation, a probability is the relative frequency of occurence of an event. Under this interpretation, a parameter does not have an associated probability distribution, and the question of how probable certain parameter values are is meaningless. In contrast, in Bayesian statistics, a probability is assumed to represent the degree of belief (either subjective or objective) that a certain parameter value is true. As an example, for a frequentist, talking about the probability that it will rain tomorrow is meaningless, because this is not an experiment that can be repeated infinitely many times. For a Bayesian, on the other hand, the probability of rain is merely an expression of belief, and incorporates all knowledge that is available to us.</span>
+<span id="cb23-109"><a href="#cb23-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-110"><a href="#cb23-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-111"><a href="#cb23-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problems with NHST</span></span>
+<span id="cb23-112"><a href="#cb23-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-113"><a href="#cb23-113" aria-hidden="true" tabindex="-1"></a>This is actually one of the most common misconceptions: even scientists routinely mistake p-values for probabilities of hypotheses. This lead @wassersteinASAStatementPValues2016 to write a *Statement on Statistical</span>
+<span id="cb23-114"><a href="#cb23-114" aria-hidden="true" tabindex="-1"></a>Significance and P-Values* in the American Statistical Association, in which they clarify:</span>
+<span id="cb23-115"><a href="#cb23-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-116"><a href="#cb23-116" aria-hidden="true" tabindex="-1"></a><span class="ss">  * </span>P-values can indicate how incompatible the data are with a specified</span>
+<span id="cb23-117"><a href="#cb23-117" aria-hidden="true" tabindex="-1"></a>  statistical model.</span>
+<span id="cb23-118"><a href="#cb23-118" aria-hidden="true" tabindex="-1"></a><span class="ss">  * </span>P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone.</span>
+<span id="cb23-119"><a href="#cb23-119" aria-hidden="true" tabindex="-1"></a><span class="ss">  * </span>Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold.</span>
+<span id="cb23-120"><a href="#cb23-120" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-121"><a href="#cb23-121" aria-hidden="true" tabindex="-1"></a>A further complication is that the commonly used threshold $p = 0.05$ is completely arbitrary, and based on a combination of ideas by Fisher and Pearson/Neyman. The modern usage actually reflects neither approaches, and  is often considered to be a bit of a mess <span class="co">[</span><span class="ot">@amrheinScientistsRiseStatistical2019</span><span class="co">]</span>. @gigerenzerMindlessStatistics2004;@gigerenzerStatisticalRitualsReplication2018a provides an interesting comment on modern usage of hypothesis testing.</span>
+<span id="cb23-122"><a href="#cb23-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-123"><a href="#cb23-123" aria-hidden="true" tabindex="-1"></a>Apart from not being particularly intuitive and not allowing us to adress the questions we like to  answer, NHST also has the problem that incentive structures in scientific publishing can often lead to misapplications of NHST procedures. Various questionable research practices are associated with this, including _p-hacking_. This refers to the practice of performing multiple significance tests, and selecting only those that yield significant results for reporting. In other words - NHST, if used correclty, can be a very useful tool. A big problem is that it os often not used correctly, and this can lead to misleading results.</span>
+<span id="cb23-124"><a href="#cb23-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-125"><a href="#cb23-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-126"><a href="#cb23-126" aria-hidden="true" tabindex="-1"></a><span class="fu">## Case studies</span></span>
+<span id="cb23-127"><a href="#cb23-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-128"><a href="#cb23-128" aria-hidden="true" tabindex="-1"></a>We will briefly explore the frequentist approach to data analysis using two examples:</span>
+<span id="cb23-129"><a href="#cb23-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-130"><a href="#cb23-130" aria-hidden="true" tabindex="-1"></a>1) an independent samples t-test, and</span>
+<span id="cb23-131"><a href="#cb23-131" aria-hidden="true" tabindex="-1"></a>2) the card game from the previous chapter, and</span>
+<span id="cb23-132"><a href="#cb23-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-133"><a href="#cb23-133" aria-hidden="true" tabindex="-1"></a><span class="fu">### T-test</span></span>
+<span id="cb23-134"><a href="#cb23-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-135"><a href="#cb23-135" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; tbd</span></span>
+<span id="cb23-136"><a href="#cb23-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-139"><a href="#cb23-139" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-140"><a href="#cb23-140" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb23-141"><a href="#cb23-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-142"><a href="#cb23-142" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb23-143"><a href="#cb23-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-144"><a href="#cb23-144" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of people wearing fancy hats</span></span>
+<span id="cb23-145"><a href="#cb23-145" aria-hidden="true" tabindex="-1"></a>N_fancyhats <span class="ot">&lt;-</span> <span class="dv">50</span> </span>
+<span id="cb23-146"><a href="#cb23-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-147"><a href="#cb23-147" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of people not wearing fancy hats</span></span>
+<span id="cb23-148"><a href="#cb23-148" aria-hidden="true" tabindex="-1"></a>N_nofancyhats <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb23-149"><a href="#cb23-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-150"><a href="#cb23-150" aria-hidden="true" tabindex="-1"></a><span class="co"># Population mean of creativity for people wearing fancy hats</span></span>
+<span id="cb23-151"><a href="#cb23-151" aria-hidden="true" tabindex="-1"></a>mu_fancyhats <span class="ot">&lt;-</span> <span class="dv">103</span> </span>
+<span id="cb23-152"><a href="#cb23-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-153"><a href="#cb23-153" aria-hidden="true" tabindex="-1"></a><span class="co"># Population mean of creativity for people wearing no fancy hats</span></span>
+<span id="cb23-154"><a href="#cb23-154" aria-hidden="true" tabindex="-1"></a>mu_nofancyhats <span class="ot">&lt;-</span> <span class="dv">98</span> </span>
+<span id="cb23-155"><a href="#cb23-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-156"><a href="#cb23-156" aria-hidden="true" tabindex="-1"></a><span class="co"># Average population standard deviation of both groups</span></span>
+<span id="cb23-157"><a href="#cb23-157" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">15</span> </span>
+<span id="cb23-158"><a href="#cb23-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-159"><a href="#cb23-159" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data</span></span>
+<span id="cb23-160"><a href="#cb23-160" aria-hidden="true" tabindex="-1"></a>fancyhats <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">Creativity =</span> <span class="fu">rnorm</span>(N_fancyhats, mu_fancyhats, sigma),</span>
+<span id="cb23-161"><a href="#cb23-161" aria-hidden="true" tabindex="-1"></a>               <span class="at">Group =</span> <span class="st">"Fancy Hat"</span>)</span>
+<span id="cb23-162"><a href="#cb23-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-163"><a href="#cb23-163" aria-hidden="true" tabindex="-1"></a>nofancyhats <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">Creativity =</span> <span class="fu">rnorm</span>(N_nofancyhats, mu_nofancyhats, sigma),</span>
+<span id="cb23-164"><a href="#cb23-164" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Group =</span> <span class="st">"No Fancy Hat"</span>)</span>
+<span id="cb23-165"><a href="#cb23-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-166"><a href="#cb23-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-167"><a href="#cb23-167" aria-hidden="true" tabindex="-1"></a>FancyHat <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(fancyhats, nofancyhats)  <span class="sc">%&gt;%</span></span>
+<span id="cb23-168"><a href="#cb23-168" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Group =</span> <span class="fu">fct_relevel</span>(<span class="fu">as.factor</span>(Group), <span class="st">"No Fancy Hat"</span>))</span>
+<span id="cb23-169"><a href="#cb23-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-170"><a href="#cb23-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-173"><a href="#cb23-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-174"><a href="#cb23-174" aria-hidden="true" tabindex="-1"></a>FancyHat</span>
+<span id="cb23-175"><a href="#cb23-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-176"><a href="#cb23-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-177"><a href="#cb23-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-180"><a href="#cb23-180" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-181"><a href="#cb23-181" aria-hidden="true" tabindex="-1"></a><span class="co"># plot both groups</span></span>
+<span id="cb23-182"><a href="#cb23-182" aria-hidden="true" tabindex="-1"></a>FancyHat <span class="sc">%&gt;%</span> </span>
+<span id="cb23-183"><a href="#cb23-183" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb23-184"><a href="#cb23-184" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span> ((<span class="fu">aes</span>(<span class="at">y =</span> Creativity, <span class="at">x =</span> Group))) <span class="sc">+</span></span>
+<span id="cb23-185"><a href="#cb23-185" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">"Box Plot of Creativity Values"</span>) <span class="sc">+</span></span>
+<span id="cb23-186"><a href="#cb23-186" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb23-187"><a href="#cb23-187" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-188"><a href="#cb23-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-189"><a href="#cb23-189" aria-hidden="true" tabindex="-1"></a>Assuming that both groups are normally distributed with the same variance, we can use the t-test to determine whether the mean of the two groups is different.</span>
+<span id="cb23-190"><a href="#cb23-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-193"><a href="#cb23-193" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-194"><a href="#cb23-194" aria-hidden="true" tabindex="-1"></a>fancyhat_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(Creativity <span class="sc">~</span> Group,</span>
+<span id="cb23-195"><a href="#cb23-195" aria-hidden="true" tabindex="-1"></a>       <span class="at">var.equal =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb23-196"><a href="#cb23-196" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> FancyHat)</span>
+<span id="cb23-197"><a href="#cb23-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-198"><a href="#cb23-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-201"><a href="#cb23-201" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-202"><a href="#cb23-202" aria-hidden="true" tabindex="-1"></a>fancyhat_ttest_tab <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(fancyhat_ttest)</span>
+<span id="cb23-203"><a href="#cb23-203" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-204"><a href="#cb23-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-207"><a href="#cb23-207" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-208"><a href="#cb23-208" aria-hidden="true" tabindex="-1"></a>fancyhat_ttest_tab <span class="sc">%&gt;%</span></span>
+<span id="cb23-209"><a href="#cb23-209" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(estimate, estimate1, estimate2, statistic, p.value, conf.low, conf.high) <span class="sc">%&gt;%</span></span>
+<span id="cb23-210"><a href="#cb23-210" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb23-211"><a href="#cb23-211" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-212"><a href="#cb23-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-213"><a href="#cb23-213" aria-hidden="true" tabindex="-1"></a>It might not be obvious at first glance what we have done here:</span>
+<span id="cb23-214"><a href="#cb23-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-215"><a href="#cb23-215" aria-hidden="true" tabindex="-1"></a>1) We have assumed that the data are conditinally normally distributed, given the means, with the same variance.</span>
+<span id="cb23-216"><a href="#cb23-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-217"><a href="#cb23-217" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb23-218"><a href="#cb23-218" aria-hidden="true" tabindex="-1"></a>y_{ij} \sim \mathcal{N}(\mu_i, \sigma^2)</span>
+<span id="cb23-219"><a href="#cb23-219" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb23-220"><a href="#cb23-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-221"><a href="#cb23-221" aria-hidden="true" tabindex="-1"></a>2) we estimated three parameters: $\mu_1$, $\mu_2$ ^<span class="co">[</span><span class="ot">`estimate1` und `estimate2`</span><span class="co">]</span>, and $\sigma$.</span>
+<span id="cb23-222"><a href="#cb23-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-223"><a href="#cb23-223" aria-hidden="true" tabindex="-1"></a>3) We computed the difference between groups as $\mu_1 - \mu_2$. This gives us an estimate of the difference between the means ^<span class="co">[</span><span class="ot">`estimate`</span><span class="co">]</span>.</span>
+<span id="cb23-224"><a href="#cb23-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-225"><a href="#cb23-225" aria-hidden="true" tabindex="-1"></a>4) We compute a test statistic (empirical t value)^<span class="co">[</span><span class="ot">`statistic`</span><span class="co">]</span>.</span>
+<span id="cb23-226"><a href="#cb23-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-227"><a href="#cb23-227" aria-hidden="true" tabindex="-1"></a>5) We computed the probability of observing the observed difference divided by the standard error, under the null hypothesis that the means are the same ($\mu_1 = \mu_2$)<span class="co">[</span><span class="ot">`p.value`</span><span class="co">]</span>. This is a two-sided test, i.e. we have no hypothesis as to which group has the larger mean.</span>
+<span id="cb23-228"><a href="#cb23-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-229"><a href="#cb23-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-230"><a href="#cb23-230" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
+<span id="cb23-231"><a href="#cb23-231" aria-hidden="true" tabindex="-1"></a>What does the p-value tell us? Does it tell you what you want to know? Do you know what the confidence interval tells you ^<span class="co">[</span><span class="ot">`conf.low` and `conf.high`</span><span class="co">]</span>? </span>
+<span id="cb23-232"><a href="#cb23-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-233"><a href="#cb23-233" aria-hidden="true" tabindex="-1"></a>The p-value is <span class="in">`r fancyhat_ttest$p.value %&gt;% round(2)`</span> This is larger that the conventional threshold $\alpha=0.05$. What does this mean?</span>
+<span id="cb23-234"><a href="#cb23-234" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb23-235"><a href="#cb23-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-236"><a href="#cb23-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-237"><a href="#cb23-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-238"><a href="#cb23-238" aria-hidden="true" tabindex="-1"></a><span class="fu">### Card game</span></span>
+<span id="cb23-239"><a href="#cb23-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-240"><a href="#cb23-240" aria-hidden="true" tabindex="-1"></a>Two players a are playing a game of cards. You watch 9 games, and observe that player A wins 6 of those. Now you would like to estimate the probability that player A will win the next game. Another way of putting it that you would to estimate the ability of player A to beat player B at this particular game.</span>
+<span id="cb23-241"><a href="#cb23-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-242"><a href="#cb23-242" aria-hidden="true" tabindex="-1"></a>You know that the probability of success must lie in the range $<span class="co">[</span><span class="ot">0, 1</span><span class="co">]</span>$. What you might not be aware of is that you are assuming a certain probability model, and the proabability of success is a a parameter of that model. Let's take a closer look:</span>
+<span id="cb23-243"><a href="#cb23-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-244"><a href="#cb23-244" aria-hidden="true" tabindex="-1"></a>We know that the number of $k$ successes in $n$ games follows a binomial distribution with parameters $n$ and $\theta$. To make things simpler, we also know that each indivdual game is independent of the others, and the probability of success $\theta$ is the same for each game. Each success therefore follows a Bernoulli distribution with parameter $\theta$.</span>
+<span id="cb23-245"><a href="#cb23-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-246"><a href="#cb23-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-247"><a href="#cb23-247" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb23-248"><a href="#cb23-248" aria-hidden="true" tabindex="-1"></a>y_i \sim \mathcal{Bernoulli}(\theta)</span>
+<span id="cb23-249"><a href="#cb23-249" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb23-250"><a href="#cb23-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-251"><a href="#cb23-251" aria-hidden="true" tabindex="-1"></a>:::aside</span>
+<span id="cb23-252"><a href="#cb23-252" aria-hidden="true" tabindex="-1"></a>I will generally use the notation $y$ for a variable that observed, i.e. the data.</span>
+<span id="cb23-253"><a href="#cb23-253" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb23-254"><a href="#cb23-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-255"><a href="#cb23-255" aria-hidden="true" tabindex="-1"></a>$y_i$ is the $i$ th observation in the data, meaning that it tells us whether player A won the game or not on trial $i$. $\theta$ is the probability of success for each individual game; this is a parameter of our model ($\mathcal{M}$).</span>
+<span id="cb23-256"><a href="#cb23-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-257"><a href="#cb23-257" aria-hidden="true" tabindex="-1"></a>Previously, we used maximum likelihood to estimate $\theta$ - we will repeat this briefly here.</span>
+<span id="cb23-258"><a href="#cb23-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-261"><a href="#cb23-261" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-262"><a href="#cb23-262" aria-hidden="true" tabindex="-1"></a>wins <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb23-263"><a href="#cb23-263" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb23-264"><a href="#cb23-264" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-265"><a href="#cb23-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-266"><a href="#cb23-266" aria-hidden="true" tabindex="-1"></a>The goal is to figure out the "best" value of $\theta$, i.e. the value that maximizes the likelihood of observing the data. To do this, we need to consider a range of possible values of $\theta$ (we already know that this range is $<span class="co">[</span><span class="ot">0, 1</span><span class="co">]</span>$, so that part is easy). We will consider 100 values of $\theta$ between 0 and 1, and compute the likelihood of observing the data for each value of $\theta$.</span>
+<span id="cb23-267"><a href="#cb23-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-270"><a href="#cb23-270" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-271"><a href="#cb23-271" aria-hidden="true" tabindex="-1"></a>n_points <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb23-272"><a href="#cb23-272" aria-hidden="true" tabindex="-1"></a>p_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>( <span class="at">from=</span><span class="dv">0</span> , <span class="at">to=</span><span class="dv">1</span> , <span class="at">length.out =</span> n_points )</span>
+<span id="cb23-273"><a href="#cb23-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-274"><a href="#cb23-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-275"><a href="#cb23-275" aria-hidden="true" tabindex="-1"></a>Assuming that both players have an equal chance of winning, the parameter should be $\theta = 0.5$. The probability of the data given $\theta = 0.5$ is:</span>
+<span id="cb23-276"><a href="#cb23-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-279"><a href="#cb23-279" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-280"><a href="#cb23-280" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="at">x =</span> wins, <span class="at">size =</span> games, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb23-281"><a href="#cb23-281" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-282"><a href="#cb23-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-283"><a href="#cb23-283" aria-hidden="true" tabindex="-1"></a>The probability of winning 6 out of 9 games, given that both players are equally likely to win, is <span class="in">`r dbinom(x = wins, size = games, prob = 0.5)`</span>.</span>
+<span id="cb23-284"><a href="#cb23-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-285"><a href="#cb23-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-286"><a href="#cb23-286" aria-hidden="true" tabindex="-1"></a>We can also compute the probability of A winning 6, 7, 8 or 9 games, using the cumulative distribution function of the binomial distribution.</span>
+<span id="cb23-287"><a href="#cb23-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-290"><a href="#cb23-290" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-291"><a href="#cb23-291" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="at">q =</span> <span class="dv">5</span>, <span class="at">size =</span> games, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb23-292"><a href="#cb23-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-293"><a href="#cb23-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-294"><a href="#cb23-294" aria-hidden="true" tabindex="-1"></a>or</span>
+<span id="cb23-295"><a href="#cb23-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-298"><a href="#cb23-298" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-299"><a href="#cb23-299" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="at">q =</span> <span class="dv">5</span>, <span class="at">size =</span> games, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb23-300"><a href="#cb23-300" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-301"><a href="#cb23-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-302"><a href="#cb23-302" aria-hidden="true" tabindex="-1"></a>or</span>
+<span id="cb23-303"><a href="#cb23-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-306"><a href="#cb23-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-307"><a href="#cb23-307" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="at">q =</span> <span class="dv">5</span>, <span class="at">size =</span> games, <span class="at">prob =</span> <span class="fl">0.5</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-308"><a href="#cb23-308" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-309"><a href="#cb23-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-310"><a href="#cb23-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-311"><a href="#cb23-311" aria-hidden="true" tabindex="-1"></a>:::aside</span>
+<span id="cb23-312"><a href="#cb23-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-313"><a href="#cb23-313" aria-hidden="true" tabindex="-1"></a><span class="in">`pbinom`</span> gives us the lower tail probability, which is the probability that the number of successes is less than or equal to the given value, by default.</span>
+<span id="cb23-314"><a href="#cb23-314" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb23-315"><a href="#cb23-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-316"><a href="#cb23-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-317"><a href="#cb23-317" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
+<span id="cb23-318"><a href="#cb23-318" aria-hidden="true" tabindex="-1"></a><span class="fu">## p-value</span></span>
+<span id="cb23-319"><a href="#cb23-319" aria-hidden="true" tabindex="-1"></a>Does this seem familiar?</span>
+<span id="cb23-320"><a href="#cb23-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-321"><a href="#cb23-321" aria-hidden="true" tabindex="-1"></a>If we want to quantify our _null_ hypothsis that both players are equally likely to win, we would assume that $\theta=0.5$. Computing the proability of the data under the null is exactly what we have just done. We then plug in the actual data, i.e. 6 out of 9, and the upper tail probability is the p-value. In this case, the p-value is approximately $0.25$. Using cut-off of 0.05, we would not reject the null hypothesis, and conclude that there is not enough evidence that player A is better than player B (this is a one-sided test).</span>
+<span id="cb23-322"><a href="#cb23-322" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb23-323"><a href="#cb23-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-324"><a href="#cb23-324" aria-hidden="true" tabindex="-1"></a>NOw we compute the probability of the data under all parameter values under consideration. In R, this is very simple, since all functions are vecortized.</span>
+<span id="cb23-325"><a href="#cb23-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-328"><a href="#cb23-328" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-329"><a href="#cb23-329" aria-hidden="true" tabindex="-1"></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(wins , <span class="at">size =</span> games , <span class="at">prob =</span> p_grid)</span>
+<span id="cb23-330"><a href="#cb23-330" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-331"><a href="#cb23-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-334"><a href="#cb23-334" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-335"><a href="#cb23-335" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(likelihood)</span>
+<span id="cb23-336"><a href="#cb23-336" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-337"><a href="#cb23-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-338"><a href="#cb23-338" aria-hidden="true" tabindex="-1"></a>We can see in the above figure that the probability of observing the data is smnall for a lot of values of $\theta$. The probability of observing the data, or the likelihood, is maximal for the value <span class="in">`r 6/9`</span>:</span>
+<span id="cb23-339"><a href="#cb23-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-340"><a href="#cb23-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-343"><a href="#cb23-343" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-344"><a href="#cb23-344" aria-hidden="true" tabindex="-1"></a>p_grid[<span class="fu">which.max</span>(likelihood)]</span>
+<span id="cb23-345"><a href="#cb23-345" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-346"><a href="#cb23-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-347"><a href="#cb23-347" aria-hidden="true" tabindex="-1"></a>What we have done so far highlights the distinction between parameter estimation and hypothesis testing. Computing the tail probability under the null ($\theta=0.5$) is a hypothesis test, and estimating $\theta$ is parameter estimation.</span>
+<span id="cb23-348"><a href="#cb23-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-349"><a href="#cb23-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-350"><a href="#cb23-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-351"><a href="#cb23-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-352"><a href="#cb23-352" aria-hidden="true" tabindex="-1"></a><span class="fu">## An introduction to Bayesian inference</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">© Copyright 2022, Andrew Ellis</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kogpsy/neuroscicomplabFS22">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+</div>
+  </div>
+</footer>
+
+
+</body></html>

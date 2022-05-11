@@ -88,7 +88,7 @@
     "href": "slides/11_data-analysis-1.html#simulate",
     "title": "11. Sitzung",
     "section": "Simulate",
-    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.7594922, 0.6897160, 1.1852876, 0.5821124, 0.6593419, 0.5238…\n$ response <fct> upper, upper, upper, upper, upper, lower, lower, lower, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.7594922    upper\n2 0.6897160    upper\n3 1.1852876    upper\n4 0.5821124    upper\n5 0.6593419    upper\n6 0.5238316    lower"
+    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.5182545, 0.7172417, 0.8118320, 0.5224781, 0.6607813, 0.6756…\n$ response <fct> lower, upper, upper, lower, upper, upper, lower, lower, lower…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.5182545    lower\n2 0.7172417    upper\n3 0.8118320    upper\n4 0.5224781    lower\n5 0.6607813    upper\n6 0.6756769    upper"
   },
   {
     "objectID": "slides/11_data-analysis-1.html#grafisch-darstellen",
@@ -109,7 +109,7 @@
     "href": "slides/11_data-analysis-1.html#zusammenfassen",
     "title": "11. Sitzung",
     "section": "Zusammenfassen",
-    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median     sd\n  <fct>    <dbl>  <dbl>  <dbl>\n1 lower    0.570  0.544 0.0838\n2 upper    0.750  0.717 0.150"
+    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median     sd\n  <fct>    <dbl>  <dbl>  <dbl>\n1 lower    0.581  0.543 0.0924\n2 upper    0.769  0.723 0.162"
   },
   {
     "objectID": "slides/11_data-analysis-1.html#maximum-likelihood-schätzung",
@@ -403,7 +403,7 @@
     "href": "slides/10_fitting_ddm.html#simulate",
     "title": "10. Sitzung",
     "section": "Simulate",
-    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.5185792, 0.6554772, 0.5527439, 0.7580855, 0.6255045, 0.6924…\n$ response <fct> lower, upper, lower, upper, lower, lower, upper, lower, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.5185792    lower\n2 0.6554772    upper\n3 0.5527439    lower\n4 0.7580855    upper\n5 0.6255045    lower\n6 0.6924706    lower"
+    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.9842725, 0.5692642, 0.5113904, 0.8372131, 0.9798941, 0.5608…\n$ response <fct> upper, upper, lower, upper, upper, lower, lower, lower, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.9842725    upper\n2 0.5692642    upper\n3 0.5113904    lower\n4 0.8372131    upper\n5 0.9798941    upper\n6 0.5608053    lower"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#grafisch-darstellen",
@@ -424,7 +424,7 @@
     "href": "slides/10_fitting_ddm.html#zusammenfassen",
     "title": "10. Sitzung",
     "section": "Zusammenfassen",
-    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.596  0.549 0.125\n2 upper    0.760  0.725 0.155"
+    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.582  0.548 0.102\n2 upper    0.764  0.727 0.152"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#maximum-likelihood-schätzung",

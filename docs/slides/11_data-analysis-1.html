@@ -4,8 +4,8 @@
   <meta name="generator" content="quarto-0.9.301">
 
   <meta name="author" content="Andrew Ellis">
-  <meta name="dcterms.date" content="2022-05-03">
-  <title>Neurowissenschaft Computerlab - 10. Sitzung</title>
+  <meta name="dcterms.date" content="2022-05-10">
+  <title>Neurowissenschaft Computerlab - 11. Sitzung</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -389,11 +389,11 @@
     <div class="slides">
 
 <section id="title-slide" class="center">
-  <h1 class="title">10. Sitzung</h1>
-  <p class="subtitle">Evidence accumulation models: II</p>
+  <h1 class="title">11. Sitzung</h1>
+  <p class="subtitle">Data analysis: I</p>
   <p class="author">Andrew Ellis</p>
   <p class="institute">Neurowissenschaft Computerlab FS 22</p>
-  <p class="date">2022-05-03</p>
+  <p class="date">2022-05-10</p>
 </section>
 
 <section class="slide level2">
@@ -442,8 +442,8 @@ z: bias</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 500
 Columns: 2
-$ rt       &lt;dbl&gt; 0.5185792, 0.6554772, 0.5527439, 0.7580855, 0.6255045, 0.6924…
-$ response &lt;fct&gt; lower, upper, lower, upper, lower, lower, upper, lower, upper…</code></pre>
+$ rt       &lt;dbl&gt; 0.7594922, 0.6897160, 1.1852876, 0.5821124, 0.6593419, 0.5238…
+$ response &lt;fct&gt; upper, upper, upper, upper, upper, lower, lower, lower, upper…</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -453,12 +453,12 @@ $ response &lt;fct&gt; lower, upper, lower, upper, lower, lower, upper, lower, u
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>         rt response
-1 0.5185792    lower
-2 0.6554772    upper
-3 0.5527439    lower
-4 0.7580855    upper
-5 0.6255045    lower
-6 0.6924706    lower</code></pre>
+1 0.7594922    upper
+2 0.6897160    upper
+3 1.1852876    upper
+4 0.5821124    upper
+5 0.6593419    upper
+6 0.5238316    lower</code></pre>
 </div>
 </div>
 </section>
@@ -477,7 +477,7 @@ $ response &lt;fct&gt; lower, upper, lower, upper, lower, lower, upper, lower, u
 </details>
 
 </div>
-<img data-src="10_fitting_ddm_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
+<img data-src="11_data-analysis-1_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
 <section id="effect-of-bias" class="slide level2">
 <h2>Effect of Bias</h2>
 <div class="cell">
@@ -504,7 +504,7 @@ $ response &lt;fct&gt; lower, upper, lower, upper, lower, lower, upper, lower, u
 </details>
 
 </div>
-<img data-src="10_fitting_ddm_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
+<img data-src="11_data-analysis-1_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
 <section id="zusammenfassen" class="slide level2">
 <h2>Zusammenfassen</h2>
 <div class="cell">
@@ -518,10 +518,10 @@ $ response &lt;fct&gt; lower, upper, lower, upper, lower, lower, upper, lower, u
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 4
-  response  mean median    sd
-  &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-1 lower    0.596  0.549 0.125
-2 upper    0.760  0.725 0.155</code></pre>
+  response  mean median     sd
+  &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 lower    0.570  0.544 0.0838
+2 upper    0.750  0.717 0.150 </code></pre>
 </div>
 </div>
 </section>
@@ -639,7 +639,7 @@ L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
 </details>
 
 </div>
-<img data-src="10_fitting_ddm_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"><ul>
+<img data-src="11_data-analysis-1_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"><ul>
 <li>Index des Parameterwertes, welcher die Likelihood maximiert:</li>
 </ul>
 <div class="cell">

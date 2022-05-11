@@ -5,177 +5,663 @@ date: "2022-05-03"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+<!-- FIXME -->
+
+Schlussendlich ist auch so, dass frequentistische Statistik nicht den von den
+Axiomen der Wahrscheinlichkeitstheorie Gebrauch macht, um Parameter zu schätzen,
+und die Unsicherheit bei der Schätzung nicht anhand einer
+Wahrscheinlichkeitsverteilung quantifiziert.
+
+
+
+- Interpretation
+- inability to provide evidence for a hypothesis
+
+<!-- FIXME -->
+> the, the probability that
+a research finding reflects a true effect (PPV) decreases
+as statistical power decreases for any given pre-study
+odds (R) and a fixed type I error level. It is easy to show
+the impact that this is likely to have on the reliability of
+findings. [@buttonPowerFailureWhy2013]
+
+
+https://tomfaulkenberry.github.io/JASPbook/chapters/chapter8.pdf
+
+
+## Case studies
+
+## t-Test
+
+
+## Beispiel: t-Test
+Schauen wir uns das Beispiel der letzten Sitzung nochmals an. Wir haben einen
+Datensatz generiert, um zwei geschätzte Mittelwerte zu vergleichen, mit dem Ziel
+herauszufinden, ob eine Gruppe einen grösseren Mittelwert als die andere hat.
+
+```{r echo=TRUE}
+library(tidyverse)
+library(kableExtra)
+
+set.seed(12)
+
+# Number of people wearing fancy hats
+N_fancyhats <- 50 
+
+# Number of people not wearing fancy hats
+N_nofancyhats <- 50
+
+# Population mean of creativity for people wearing fancy hats
+mu_fancyhats <- 103 
+
+# Population mean of creativity for people wearing no fancy hats
+mu_nofancyhats <- 98 
+
+# Average population standard deviation of both groups
+sigma <- 15 
+
+# Generate data
+fancyhats = tibble(Creativity = rnorm(N_fancyhats, mu_fancyhats, sigma),
+               Group = "Fancy Hat")
+
+nofancyhats = tibble(Creativity = rnorm(N_nofancyhats, mu_nofancyhats, sigma),
+                 Group = "No Fancy Hat")
+
+
+FancyHat <- bind_rows(fancyhats, nofancyhats)  %>%
+    mutate(Group = fct_relevel(as.factor(Group), "No Fancy Hat"))
 ```
 
+Die Daten sehen so aus:
 
-------------------------------------------------------------------------
-::: columns
-::: {.column width="35%"}
-::: topic-number
-2
+
+```{r}
+FancyHat
+```
+
+Und grafisch dargestellt (als Boxplot):
+
+
+```{r}
+# plot both groups
+FancyHat %>% 
+    ggplot() +
+    geom_boxplot ((aes(y = Creativity, x = Group))) +
+    labs(title= "Box Plot of Creativity Values") +
+    theme_bw()
+```
+
+Unter der Annahme, dass die beiden Gruppen dieselbe Standardabweichung haben,
+machen wir einen t-Test:
+
+```{r}
+fancyhat_ttest <- t.test(Creativity ~ Group,
+       var.equal = TRUE,
+       data = FancyHat)
+```
+
+```{r}
+fancyhat_ttest_tab <- broom::tidy(fancyhat_ttest)
+```
+
+```{r}
+fancyhat_ttest_tab %>%
+    select(estimate, estimate1, estimate2, statistic, p.value, conf.low, conf.high) %>%
+    round(3) %>% 
+    kbl() %>%
+    kable_classic(full_width = FALSE, html_font = "Cambria")
+```
+
+Es ist vielleicht nicht ganz offensichtlich, dass wir hier mehrere Dinge gemacht
+haben:
+
+1) Wir haben angenommen, dass die beiden Gruppen Zufallszahlen aus zwei Normalverteilungen bestehen.
+
+1) Wir haben zwei Mittelwerte geschätzt. Genauer gesagt haben wir zwei
+Punktschätzungen der Gruppenmittelwerte^[`estimate1` und `estimate2`].
+
+2) Wir schätzen die resultierende Differenz der Gruppenmittelwerte^[`estimate`].
+
+3) Wir berechnen eine Teststatistik (empirischer t-Wert)^[`statistic`].
+
+4) Wir berechnen die Wahrscheinlichkeit, unter der Nullhypothese einen t-Wert zu
+erhalten, der einen mindestens so grossen Betrag hat wie der empirische t-Wert^[`p.value`].
+
+
+:::exercise
+Diskutieren Sie die Bedeutung des erhalten p-Wertes und  des
+Konfidenzintervalles. Finden Sie diese Konzepte intuitiv verständlich? Können
+Sie erklären, was ein Konfidenzintervall ist?
+
+Der p-Wert beträgt `r fancyhat_ttest$p.value %>% round(2)`. Was können wir damit
+anfangen?
 :::
+
+Intelligence
+
+## Numerical cognition
+
+@faulkenberryBayesianInferenceNumerical2020
+
+### Signal detection example
+
+@heitAreThereTwo2005
+
+In their study, Heit and Rotello (2005) tested the inductive and deductive judg- ments of 80 participants on eight arguments. They used a between-subjects design, so that 40 subjects were asked induction questions about the arguments (i.e., whether the conclusion was “plausible”), while the other 40 participants were asked deduction questions (i.e., whether the conclusion was “necessarily true”). These decisions made by participants have a natural characterization in term of the hit and false alarm counts.
+
+## Bayesian statistics
+
+https://learnstatswithjasp.com/
+
+
+@keysersUsingBayesFactor2020a
+
+
+<!-- ## References -->
+
+
+
+## Philosophie der Wahrscheinlichkeit
+In der klassischen Statistik wird Wahrscheinlichkeit als relative Häufigkeits
+eines Ereignisses verstanden. Dies bedeutet, dass nur Ereignisse, welche
+(unendlich) oft wiederholt werden können, eine Wahrscheinlichkeit haben können.
+
+Somit ist es unmöglich, dass Parameter oder Hypothesen eine Wahrscheinlichkeitsverteilung
+haben können. Zum Vergleich von frequentistischer und Bayesianischer Auffassung
+von Wahrscheinlichkeiten gibt es
+[hier](https://de.wikipedia.org/wiki/Frequentistischer_Wahrscheinlichkeitsbegriff)
+und
+[hier](https://de.wikipedia.org/wiki/Bayessche_Statistik#Der_bayessche_Wahrscheinlichkeitsbegriff)
+mehr Information.
+
+# Bayesianische Statistik
+
+## Degrees of belief
+
+Wir werden nun mit einem anderen Ansatz arbeiten. Dieser beruht auf den Axiomen
+der Wahrscheinlichkeitstheorie und der Auffassung von Wahrscheinlichkeit
+als **degree of belief**, also vom der Grad persönlichen Überzeugung. Daher wird
+dieser Ansatz of *subjektiv* genannt.
+
+<aside> Meiner Meinung nach ist diese philosophische Diskussion über
+Interpretationen der Wahrscheinlichkeitstheorie nicht besonders zielführend. Wir
+können die unterschiedlichen Meinungen einfach zur Kenntnis nehmen. </aside>
+
+:::fyi
+Die wichtigste Erkenntnis ist jedenfalls: Wahrscheinlichkeitsverteilungen
+quantifizieren unseren Wissensstand, oder genauer gesagt, unsere Unsicherheit
+(uncertainty) über etwas. Dies kann eine Aussage sein, wie z.B. "es wird morgen
+regnen", oder ein Parameter in einem statistischen Modell, oder eine Hypothese.
 :::
 
-::: {.column width="65%"}
-::: topic-text
-Maximum likelihood estimation
+
+Die in \@ref(fig:gamma-dist) abgebildeten Verteilungen zeigen unsere
+Unsicherheit über eine Variable $x$. Wir wissen, dass $x>0$, und wir vermuten,
+dass $x<50$. In einem Fall (violette Verteilung) glauben wir sogar mit einiger
+Sicherheit, dass $x<10$.
+
+
+```{r gamma-dist, fig.cap = "Wahrscheinlichkeitsverteilungen", layout="l-body-outset", fig.width=6, fig.height=1.5}
+library(tidyverse)
+
+tibble(x = seq(from = 0, to = 60, by = .1)) %>% 
+  tidyr::expand(x, nesting(alpha = c(2, 4), 
+                    beta  = c(0.1, 1))) %>% 
+  mutate(density = dgamma(x, alpha, beta),
+         group   = rep(letters[1:2], times = n() / 2)) %>% 
+  
+  ggplot(aes(x = x, ymin = 0, ymax = density, 
+             group = group, fill = group)) +
+  geom_ribbon(size = 0, alpha = 3/4) +
+  scale_fill_viridis_d(option = "B", direction = -1, 
+                       begin = 1/3, end = 2/3) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.05))) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  coord_cartesian(xlim = c(0, 50)) +
+  theme(panel.grid = element_blank(),
+        legend.position = "none")
+```
+
+
+In der Bayesianischen Statistik erhalten wir anstatt Punktschätzungen von
+Parametern ganze Verteilungen, mit denen wir unsere Unsicherheit quantifizieren.
+Ganz stark vereinfacht brauchen wir in der Bayesianischen Statistik eine
+Prior-Verteilung Englisch: *prior*), und wir erhalten eine
+Posteriori-Verteilung (Englisch: *posterior*), nachdem wir
+unseren prior anhand der Daten (*likelihood*) angepasst haben.
+
+:::note
+Unser **prior** gibt an, was wir glauben, bevor wir die Daten berücksichtigen,
+und unser **posterior** gibt an, was wir glauben, nachdem wir die Daten gesehen haben.
 :::
+
+
+Bayesianische Statistik erfordert also ein paar neue Konzepte, aber
+längerfristig ist dieser Ansatz einfacher, denn es beruht alles auf ein paar
+wenigen Grundsätzen.
+
+Die Vorteile des Bayesianischen Ansatzes sind:
+
+- intuitiveres Verständnis von Unsicherheit.
+
+- erlaubt es uns Evidenz für oder gegen Hypothesen zu quantifizieren.
+
+- dieser Ansatz ist viel flexibler.
+
+- Wir können unser Wissen in Form von a priori-Verteilungen miteinbeziehen.
+
+- besser geeignet für Multilevel Modelle.
+
+<br>
+Bayesianische Statistik hat aber auch Nachteile:
+
+- wir brauchen leistungsstarke Computer.
+
+- setzt Familiarität mit Wahrscheinlichkeitsverteilungen voraus.
+
+- es ist nicht einfach, Hypothesentests durchzuführen. Siehe z.B. 
+[hier](https://statmodeling.stat.columbia.edu/2017/05/04/hypothesis-testing-hint-not-think/)
+und [hier](https://statmodeling.stat.columbia.edu/2011/04/02/so-called_bayes/).
+
+
+:::fyi
+Warum brauchen wir viel Rechenpower, um Bayesianische Statistik zu machen?
+
+Dies hat damit zu tun, dass es nur in ganz wenigen Fällen einfach ist, posterior
+Verteilungen zu erhalten. In wenigen Fällen ist es möglich, diese analytisch zu
+bestimmen, in den den meisten Fällen brauchen wir simulationsbasierte
+Sampling-Verfahren (Markov Chain Monte Carlo Sampling), um die komplexen
+Wahrscheinlichkeitsverteilungen zu schätzen. Dies erfordert sehr schnelle
+Prozessoren, und war deshalb in der Vergangenheit nur auf Supercomputern
+möglich.
 :::
+
+<aside> Das ist einer der wichtigsten Gründe, weshalb die frequentistische
+Statistik so lange die einzige anwendbare Lösung war. </aside>
+
+ngen](https://de.wikipedia.org/wiki/Beta-Verteilung). Diese haben zwei Parameter, $\alpha$ und $\beta$, welche als Vorwissen über Erfolge und Misserfolge interpretiert werden können. Die Anzahl Versuche ist somit $\alpha + \beta$. Diese Familie von Verteilungen kann je Nach Wahl der beiden Parameter unterschiedliche Formen annehmen. In Grafik \@ref(fig:betadists) sind einige dargestellt.
+
+```{r}
+length <- 1e4
+d <- crossing(shape1 = c(.1, 1:4),
+           shape2 = c(.1, 1:4)) %>%
+  tidyr::expand(nesting(shape1, shape2),
+         x = seq(from = 0, to = 1, length.out = length)) %>% 
+  mutate(a = str_c("a = ", shape1),
+         b = str_c("b = ", shape2),
+         group = rep(1:length, each = 25))
+```
+
+```{r betadists, fig.cap = "Beta Verteilungen", layout="l-body-outset", fig.width=6, fig.height=5.5}
+d %>% 
+  ggplot(aes(x = x, group = group)) +
+  
+  geom_line(aes(y = dbeta(x, shape1 = shape1, shape2 = shape2)),
+            color = "steelblue4", size = 1.1) +
+  scale_x_continuous(expression(theta), breaks = c(0, .5, 1)) +
+  coord_cartesian(ylim = c(0, 3)) +
+  labs(title = "Beispiele von Beta Verteilungen",
+       y = expression(p(theta*"|"*a*", "*b))) +
+  theme(panel.grid = element_blank()) +
+  facet_grid(b~a)
+```
+Die uniforme Verteilung erhalten wir, wenn wir $\alpha = \beta = 1$ setzen. Wenn wir $\alpha = \beta = 4$ setzen, erhalten wir eine Verteilung mit Erwartungswert $0.5$---dies ist der Fall für alle Verteilungen in denen die beiden Parameter denselben Wert annehmen. Wenn wir ausdrücken wollen, dass wir A für die bessere Spielerin als B halten, dann wählen wir $\alpha > \beta$.
+
+:::fyi
+Die Verteilungsfunktionen heissen in R `dbeta()`, `pbeta()`, `qbeta()` und `rbeta()`. Die Parameter $\alpha$ und $\beta$ heissen ganz einfach `shape1` und `shape2`. 
 :::
 
-## Maximum likelihood estimation {.smaller}
+```{r}
+prior4 <- dbeta(x = p_grid, shape1 = 20, shape2 = 4)
+compute_posterior(likelihood, prior4)
+```
 
-The likelihood — more precisely, the likelihood function — is a function that represents how likely it is to obtain a certain set of observations from a given model. We’re considering the set of observations as fixed — they’ve happened, they’re in the past — and now we’re considering under which set of model parameters we would be most likely to observe them.
+Wenn wir überzeugt wären, dass B besser ist, dann hätten wir vielleicht diesen Prior:
 
-
-##
-
-When we have a number of data points (as we usually will in psychology experiments), we can obtain a joint probability or probability density for the data in a data vector y by multiplying together the individual probabilities or probability densities, under the assumption that the observations in y are independent:
-
-$$
-f(\bf{y}|\bf{\theta} = \prod^k{f(\y_k | \bf{\theta})})
-$$
-where $k$ indexes the individual observations $y_k$ in the data vector $\bf{y}$.
-
-##
-
-The likelihood function tells us about possible states of the world; the difference is that these states here refer to different possible parameter values, and the likelihood function tells us about how likely each of those parameter values is given the data we have observed.
-
-$$
-L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
-$$
-
-## Example: Binomial likelihood
-
-Let's flip a coin
-
-- two possible outcomes (heads and tails),
-- fixed number of “trials” (100 coin flips)
-- fixed probability of “success” (i.e.  heads)
 
 ```{r}
-set.seed(91)
+prior5 <- dbeta(x = p_grid, shape1 = 4, shape2 = 20)
+compute_posterior(likelihood, prior5)
+```
 
-heads <- rbinom(1, 100, 0.5)
+## Einfluss des Priors auf den Posterior
+
+Die obigen Beispiele illustrieren, dass die Prior-Verteilung einen grossen Einfluss auf die Schätzung haben kann. Deshalb ist bei der Wahl der Prior Vorsichtig geboten; vor allem wenn es darum geht, Parameter in statistischen Modellen zu schätzen, wollen wir oft sogenannte **non-informative** Priors, welche keine nennenswerten Einfluss auf die Schätzung haben.
+
+
+
+<aside>Probieren Sie ein ähnliches Beispiel als interaktive Webapp: 
+[A First Lesson in Bayesian Inference](https://tellmi.psy.lmu.de/felix/BayesLessons/BayesianLesson1.Rmd)
+</aside>
+
+
+## Schätzmethoden
+
+Die Methode, welche wir oben angewandt haben, nennt sich "grid approximation". Dies bezieht sich auf den Prior---wir haben einen Vektor von Priorwerten definiert, und jeden Punkt mit der Likelihood multipliziert, in direkter Anwendung von Bayes' Theorem. Dies ist für dieses kleine Problem sehr gut möglich. Daneben gibt es für dieses Beispiel auch die analytische Lösung. Die Beta-Prior-Verteilung kann mit den beobachteten Erfolgen und Versuchen updated werden, um eine neue Beta-Verteilung mit den Parametern $k + \alpha$ und $n - k + \beta$.
+
+<aside> Mehr dazu einem Blog Post. </aside>
+
+
+Nun kommen diese beiden Ansatz für die meisten Datenanalyseprobleme nicht in Frage. Die analytische Lösung ist nicht möglich, und die grid-search Methode ist nicht in endlicher Zeit durchführbar. In diesem Fall sind wir auf approximative Methoden angewiesen. Eine Variante, welche die Posterior-Verteilung durch Ziehen von Zufallszahlen exploriert, heisst Markov CHain Monte Carlo. Davon gibt es wiederum verschiedene Varianten.  
+
+```{r}
+bayesplot::mcmc_areas(fit, "theta")
 ```
 
 
 
+## brms
+
+```{r message=FALSE, warning=FALSE}
+library(brms)
+```
 ```{r}
-# To illustrate, let's find the likelihood of obtaining these results if p was 0.6—that is, if our coin was biased in such a way to show heads 60% of the time.
-biased_prob <- 0.6
-# Explicit calculation
-choose(100,52)*(biased_prob**52)*(1-biased_prob)**48
-# 0.0214877567069514
-# Using R's dbinom function (density function for a given binomial distribution)
-dbinom(heads,100, biased_prob)
-# 0.0214877567069514
+data <- tibble(k = 6, n = 9)
 ```
 
 
+```{r include=TRUE, echo=TRUE}
+priors <- prior(beta(4, 4), class = b, lb = 0, ub = 1)
 
-## MLE
+m1 <- brm(k | trials(n) ~ 0 + Intercept, family = binomial(link = "identity"),
+          prior = priors,
+          data = data,
+          control = list(adapt_delta = 0.9),
+          file = "models/binomial-2")
+```
 
-- Define a function that will calculate the likelihood function for a given value of p; then
-- Search for the value of p that results in the highest likelihood.
-
-```{r}
-likelihood <- function(p){
-  dbinom(heads, 100, p)
-}
-
-likelihood(biased_prob)
+```{r, layout="l-body-outset", fig.width=6, fig.height=1.5}
+plot(m1)
 ```
 
 
-##
+## Posterior-Verteilungen zusammenfassen
+Wir erhalten mit Bayesianischer Inferenz zwar Posterior-Verteilungen, aber 
+oftmals wollen wir diese zusammen, damit wir eine Entscheidung fällen können.
 
-$$
-f(k | p_{heads}, N) = \binom{N}{k} p_{heads}^k (1-p_{heads}^{N-k})
-$$
-where $f(k)$ is the probability of observing exactly $k$ out of $N$ coin tosses come up as heads, and $\binom{N}{k}$ is the combinatorial function from $N$ choose $k$, giving the total number
-$k$ of ways in which $k$ out of $N$ tosses could come up heads.
-
-## Optim
-
-You may be concerned that I’ve introduced a tool to minimise a function’s value when we really are looking to maximise — this is maximum likelihood estimation, after all! Fortunately, maximising a function is equivalent to minimising the function multiplied by minus one. If we create a new function that simply produces the likelihood multiplied by minus one, then the parameter that minimises the value of this new function will be exactly the same as the parameter that maximises our original likelihood.
-
-
-## Finding the Maximum Likelihood
-
-$$
-lnL(\bf{\theta} | \bf{y}) = \sum^k_{k=1}{ln L(\bf{\theta} | y_k})
-$$
-
-##
+Dies wird häufig anhand bestimmter Kennzahlen gemacht. Z.B. können wir den Mittelwert oder Median und eine Ober- und Untergrenze wählen. Ein solches Interval wird *credible interval* genannt. Häufig wird ein $95\%$ credible interval angegeben, aber es hindert uns nichts daran, ein $50\%$  oder $80\%$ credible interval zu benutzen.  Mit der `median_qi()` vom Package `tidybayes` können wir das `.width` Argument benutzen:
 
 ```{r}
-loglik <- function(p){
-  likelihoods <- dbinom(heads, 100, p)*-1
-   return(-sum(log(likelihoods)))
-}
-
-```
-
-
-```{r}
-nlm(negative_likelihood, 0.5, stepmax=0.5)
-```
-
-
-## 
-
-```{r}
-wins <- 6
-games <- 9
+library(tidybayes)
 ```
 
 ```{r}
+m1 %>%
+  spread_draws(b_Intercept) %>% 
+  median_qi(.width = c(.50, .80, .95)) %>% 
+  kableExtra::kbl()
+```
+
+Mit `mean_qi()` erhalten wir Mittelwert und credible intervals.
+
+
+Um die Posterior-Verteilung zu visualisieren, können wir die Verteilung mit einem credible interval kombinieren.
+
+```{r}
+m1 %>%
+  spread_draws(b_Intercept) %>%
+  ggplot(aes(x = b_Intercept)) +
+  stat_halfeye(.width = c(.50, .80, .95))
+```
+
+:::puzzle
+Was ist der Unterschied zwischen einem **Konfidenzintervall** und einem **credible interval**? Welches Intervall würden Sie verwenden, um eine Wahrscheinlichkeitsaussage über einen Parameter zu machen?
+:::
+
+
+## Weiterführende Literatur
+@etzIntroductionBayesianInference2018 bieten eine sehr gründliche Einführung, mit vielen (Harry Potter-themed) Beispielen. @schootGentleIntroductionBayesian2014 ist ebenfalls eine sehr gründliche Einführung. Eine empfehlenswerte Übersicht über Literatur, vor allem in Bezug auf Psychologie, geben @etzHowBecomeBayesian2016.
+
+Das Buch von [@kruschkeDoingBayesianData2015] ist ein gutes Lehrbuch, obwohl der R Code nicht unbedingt sehr benutzerfreundlich ist. 
+
+Mein Favorit ist @mcelreathStatisticalRethinkingBayesian2020.
+
+
+## Bayes factor
+
+Bayes' Theorem, mit expliziter Abhängigkeit der Parameter $\mathbf{\theta}$  vom Modells $\mathcal{M}$:
+
+
+$$ p(\theta | y, \mathcal{M}) = \frac{p(y|\theta, \mathcal{M}) p(\theta | \mathcal{M})}{p(y | \mathcal{M})}$$
+
+$\mathcal{M}$ bezieht sich auf ein bestimmtes Modell. 
+
+
+$p(y | \mathcal{M})$ ist die Wahrscheinlichkeit der Daten (marginal likelihood), über alle möglichen Parameterwerte des Modells $\mathcal{M}$ integriert. Wir haben sie anfangs als Normierungskonstante bezeichnet.
+
+
+
+$$ P(\theta|Data) = \frac{ P(Data|\theta) * P(\theta) } {P(Data)} $$
+
+$$ P(\theta|Data) \propto P(Data|\theta) * P(\theta) $$
+
+
+$$ p(y | \mathcal{M}) = \int_{\theta}{p(y | \theta, \mathcal{M}) p(\theta|\mathcal{M})d\theta} $$
+Bei der Berechnung der Marginal Likelihood muss über alle unter dem Modell möglichen Werte von $\theta$ gemittelt werden.
+
+
+## Komplexität
+
+- Marginal Likelihood wird auch __Model Evidence__ genannt. Sie hängt davon ab, welche Vorhersagen ein Model machen kann (warum?).
+
+- Ein Modell, welches viele Vorhersagen machen kann, ist ein __komplexes__ Modell. Die meisten Vorhersagen werden aber falsch sein (warum?).
+
+
+Komplexität hängt unter anderem ab von:
+
+
+- Anzahl Parameter im Modell
+
+- Prior Verteilungen der Parameter
+
+
+Bei frequentistischen Modellen spielt nur die Anzahl Parameter eine Rolle.
+
+
+
+## Prior Verteilungen
+
+Uninformative Priors machen viele Vorhersagen, vor allem in Gegenden des Parameterraums, in denen die Likelihood niedrig ist.
+
+
+```{r include=FALSE}
 n_points <- 100
 p_grid <- seq( from=0 , to=1 , length.out = n_points )
-```
-
-```{r}
-likelihood <- dbinom(wins , size = games , prob = p_grid)
-```
-```{r}
-plot(p_grid , likelihood, type="l", main="Likelihood", col = "firebrick3", lwd = 2)
-```
-```{r}
-which.max(likelihood)
-```
+likelihood <- dbinom(6 , size = 9 , prob = p_grid)
 
 
-```{r}
-p_grid[which.max(likelihood)]
-```
-
-
-
-## Normal distribution
-
-```{r}
-set.seed(1729)
-x <- rnorm(100, mean = 10, sd = 2)
-```
-
-```{r}
-normalloglik <- function(pars) {
-  loglikelihoods <- dnorm(x, mean = pars[1], sd = pars[2], log = TRUE)
-  return(-sum(loglikelihoods))
+compute_posterior = function(likelihood, prior){
+  # compute product of likelihood and prior
+  unstandardized_posterior <- likelihood * prior
+  
+  # standardize the posterior, so it sums to 1
+  posterior <- unstandardized_posterior / sum(unstandardized_posterior)
+  
+  par(mfrow=c(1, 3))
+  plot(p_grid , prior, type="l", main="Prior", col = "dodgerblue3", lwd = 2)
+  plot(p_grid , likelihood, type="l", main="Likelihood", col = "firebrick3", lwd = 2)
+  plot(p_grid , posterior , type="l", main="Posterior", col = "darkorchid3", lwd = 2)
 }
 ```
 
-```{r}
 
-MLE <- optim(c(0.1,0.1), # initial values for mu and sigma
-        fn = normalloglik, # function to maximize
-        method = "L-BFGS-B", # this method lets set lower bounds
-        lower = 0.00001, # lower limit for parameters
-        control = list(fnscale = -1), # maximize the function
-        )
-MLE
+
+```{r}
+prior <- dbeta(x = p_grid, shape1 = 1, shape2 = 1)
+compute_posterior(likelihood, prior)
 ```
+
+
+```{r}
+prior <- dbeta(x = p_grid, shape1 = 20, shape2 = 20)
+compute_posterior(likelihood, prior)
+```
+
+
+
+```{r}
+prior <- dbeta(x = p_grid, shape1 = 2, shape2 = 40)
+compute_posterior(likelihood, prior)
+```
+
+
+```{r}
+prior <- dbeta(x = p_grid, shape1 = 48, shape2 = 30)
+compute_posterior(likelihood, prior)
+```
+
+
+
+## Ockham's Razor
+
+- Komplexe Modelle haben eine niedrigere Marginal Likelihood.
+
+- Wenn wir bei einem Vergleich mehrerer Modelle diejenigen Modelle mit höherer Marginal Likelihood bevorzugen, wenden wir das __Prinzip der Sparsamkeit__ an.
+
+
+
+
+
+Wir schreiben Bayes Theorem mit expliziten Modellen M1 und M2
+
+
+$$ p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)} $$
+
+und
+
+$$ p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)} $$
+
+
+
+
+Für Model $\mathcal{M_m}$ ist die Posterior Wahrscheinlichkeit des Modells proportional zum Produkt der Marginal Likelihood und der A Priori Wahrscheinlichkeit.
+
+
+
+## Modellvergleich
+
+
+Verhältnis der Modellwahrscheinlichkeiten:
+
+$$ \frac{p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}} {p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}} $$
+
+
+$p(y)$ kann rausgekürzt werden.
+
+
+
+
+$$\underbrace{\frac{p(\mathcal{M}_1 | y)} {p(\mathcal{M}_2 | y)}}_\text{Posterior odds} = \frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)} \cdot \underbrace{ \frac{p(\mathcal{M}_1)}{p(\mathcal{M}_2)}}_\text{Prior odds}$$
+
+
+
+$\frac{p(\mathcal{M}_1)}{p(\mathcal{M}_2)}$ sind die  **prior odds**, und $\frac{p(\mathcal{M}_1 | y)}{p(\mathcal{M}_2 | y)}$ sind die **posterior odds**.
+
+
+
+
+Nehmen wir an, die Prior Odds seine $1$, dann interessiert uns nur das Verhältnis der Marginal Likelihoods:
+
+$$ \frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)} $$
+
+
+Dieser Term ist der **Bayes factor**: der Term, mit dem die Prior Odds multipliziert werden. Er gibt an, unter welchem Modell die Daten wahrscheinlicher sind.
+
+
+Wir schreiben $BF_{12}$ - dies ist der Bayes factor für Modell 1 vs Modell 2.
+
+$$ BF_{12} = \frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}$$
+
+
+
+$BF_{12}$ gibt an, in welchem Ausmass die Daten $\mathcal{M}_1$ bevorzugen, relativ zu $\mathcal{M}_2$.
+
+
+Beispiel: $BF_{12} = 5$ heisst: die Daten sind unter Modell 1 5 Mal wahrscheinlicher als unter Modell 2 
+
+
+
+
+
+## Klassifizierung
+
+```{r echo = FALSE, out.width="80%"}
+knitr::include_graphics("images/bf-classification.png")
+```
+
+
+
+## Bayes Factor
+
+- Sehr stark abhängig von den Prior Verteilungen der Parameter.
+
+- Ist nur für sehr simple Modelle einfach zu berechnen/schätzen.
+
+- Schätzmethoden
+    + Savage-Dickey Density Ratio mit `Stan`/`brms`
+    
+    + Package [BayesFactor](https://cran.r-project.org/web/packages/BayesFactor/vignettes/manual.html) (nur für allgemeine lineare Modelle)
+    
+    + [JASP](https://jasp-stats.org/): IM Prinzip ein GUI für `BayesFactor`
+    
+    + Bridge sampling mit `brms`: schwieriger zu implementieren, aber für viele Modelle möglich.
+
+
+
+
+
+
+## Savage-Dickey Density Ratio
+
+
+Wenn wir zwei genestete Modell vergleichen, wie z.B. ein Modell 1 mit einem frei geschätzten Parameter, und ein Nullmodell 
+vergleichen, gibt es eine einfache Methode.
+
+
+Unter dem Nullmodell (Nullhypothese): $H_0: \theta = \theta_0$
+
+Unter Modell 1: $H_0: \theta \neq \theta_0$
+
+
+Nun braucht der Parameter $\theta$ unter Modell 1 eine Verteilung, z.B. $\theta \sim \text{Beta}(1, 1)$
+
+
+Der Savage-Dickey Density Ratio Trick: wir betrachten nur Modell 1, und dividieren die Posterior Verteilung durch die Prior Verteilung an der Stelle $\theta_0$.
+
+<aside>
+Beim Nullmodell ist der Parameter auf den Wert 0 fixiert.part from not being particularly intuitive and not allowing us to adress the questions we like to  answer, NHST also has the problem that incentive structures in scientific publishing can often lead to misapplications of NHST procedures. Various questionable research practices are associated with this, including _p-hacking_. This refers to the practice of performing multiple significance tests, and selecting only those that yield significant results for reporting. In other words - NHST, if used correclty, can be a very useful tool. A big problem is that it os often not used correctly, and this can lead to misleading results.NHST, if used correclty, can be a very useful tool. A big problem is that it os often not used correctly, and 
+</aside>
+
+
+
+## Savage-Dickey Density Ratio
+
+Wir schauen uns ein Beispiel aus @wagenmakersBayesianHypothesisTesting2010a an:
+
+
+Sie beobachten, dass jemand 9 Fragen von 10 richtig beantwortet. 
+
+```{r}
+d <- tibble(s = 9, k = 10)
+```
+
+
+Unsere Frage: was ist die Wahrscheinlichkeit, dass das mit Glück ( $\theta = 0.5$ ) passiert ist?
+
+
+
+
+
+```{r echo=FALSE}
+pd <- tibble(
+  x = seq(0, 1, by = .01),
+  Prior = dbeta(x, 1, 1)
+)
+ggplot(pd, aes(x, Prior)) +
+  geom_line(size = 1.5) +
+  coord_cartesian(xlim = 0:1, ylim = c(0, 6), expand = 0.01) +
+  labs(y = "Density", x = bquote(theta))
+```
+
 

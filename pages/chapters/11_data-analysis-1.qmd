@@ -44,20 +44,278 @@ library(viridis)
 
 
 
-## Questions
+## Data analysis
+In this chapter, we will tackle two important topics: 
 
-- Methods for modelling and summarizing data from multiple participants
-    - Complete pooling: Fitting aggregate (averaged) data
-    - No pooling: Fitting individual data (independently)
-    - Partial pooling: Fitting individual data using multilevel models
+1) What methods should we use when modelling and summarizing data from multiple participants, and 
+
+2) Which alternative approaches are available when methods for null hypothesis significance testing (NHST) are not suitable. 
+
+The latter is often the case in neuroscience, where low power due to small sample sizes is a well-known problem [@buttonPowerFailureWhy2013]. The alternative approach we will discuss here is Bayesian data analysis, which also has the benefit is allowing us to provide evidence _for_ or _against_ hypotheses, something which is not possible using NHST. 
 
 
-- Implications (dangers) of averaging
 
-![](../../assets/images/aggregating-power-law.png)
+## Modelling and summarizing data from multiple participants
+
+In most neuroscience experiments, we are interested in effects of manipulations at the individual level, but we also need to be sure that theses effects hold at the group level, and are not particular to certain individuals. However, reporting effects at the group level is not straightforward.In short, there are three possiblities 
+when combining informatin from multiple participants:
+
+### Complete pooling
+
+We can pretend that all our data come from 1 participant, by averaging over participants. In statistics, this is know as  _complete pooling_, meaning that all data are pooled and we are no longer interested in individual participants. The pooled data are then used to estimate parameters, and to perfom hypothesis testing. While there are cases in which it is possible to analyze averaged data, in general this approach can lead to errors, and needs to be treated with care. A classic example is shown in @fig-power-law. The thin solid lines represent individual learning curves. Each indivdial appears to learn very rapidly (and linearly), but there is a huge variation in the onset of learning. The filled circles represent a naive attempt at averaging over all individuals. The result suggests that learning is gradual and starts from the outset; however the average learning curve looks nothing like the individual learning curves. This type of analysis can lead to erroneous conclusions.
+
+![Learning curves](../../assets/images/aggregating-power-law.png){#fig-power-law}
 
 ## No pooling
 
-Two-stage analysis: Fitting parameters to each individual participant, and then performing statistical tests at group level.
+This means that data we estimate parameters of our models for each participant separately. While this appears to be a more sensible approach, there is the danger of over-fitting. This means that we give up the ability to generalize because our models are too sensitive to noise inherent in our data. Estimating parameters at the individual level is usually followed by a group-level statistical analysis. We might estimate the parameters of a signal detection or diffusion decision model for each participant individually, and then perform hypothesis tests on those parameters at the group level. For example, in a within-person design, we estimate individual bias parameters for each person in two conditions, and then perform a t-test at the group level to discover whether there is a difference between conditions. A problem that is associated with this approach is that we have to treat the estimated parameters as "data" at the group level, thus ignoring any uncertainty associated with those parameters; this can lead to over-confidence in our results. Nevertheless, this two-stage analysis is by far the most common approach in neuroscience.
 
-Dangers: over-fitting
+## Partial pooling
+
+A principled solution to the problems associated with individual and group level analyses is to use multilevel modelling. This allows us to simultaneously estimate group level parameters (fixed effects) and individual parameters (random effects) as deviations from the group average. This leads to the phenomenon known as _shrinkage_, which means that individual estimates are "pulled" towards the group average, and are less susceptible to noise in the data. An intuitive way of thinking about this is that we are assuming that participants are all individuals, but they do share some common characteristics, and we can use information obtained from other participants to inform our estimates. This is what _partial pooling_ refers to.
+ 
+While multilevel models are outside the scope of this course, we will look some basic models in our final session on Baysian data analysis. THe basic idea is that each individual participant's parameters are treated as random draws from a group-level distribution, and the average effect is then simply the mean of that distribution.
+
+:::aside
+Multilevel models do not have to be Bayesian - the can just as well be estimated using maximum likelihood estimation.
+:::
+
+
+
+## Frequentist statistics
+
+The traditional approach to statisteics is know as frequentist statistics. We will first go through the basic principles, then discuss some of the limitations associated with this approach, and then contrast this with the Bayesian approach. 
+
+In a traditional approach to statistics, students are usually taught a variety of different approaches (far too many to discss here - there are enough enough different models to fill entire text books). In a nutshell, most of these approachs perform the following steps (I will use an equal-variance independent samples t-test as a runnign example, as well as the problem of estimating the probability of sucess parameter in a model of Bernoulli trials):
+
+1) A statistical model is assumed. In the case of the t-test all observations within both groups are assumed to be normally distributed, with the groups differing in the means of the distributions (assuming that the standard deviations of both groups are equal to $\sigma$).
+
+$$ 
+y_{ij} \sim \mathcal{N}(\mu_j, \sigma^2)
+$$
+$y_{ij}$ refers to the $i_{th}$ observation in group $j \in \{1, 2\}$. This observations are assumed to be independent random variates from a normal distribution (i.i.d)^[independent and identically distributed], with the distribution's mean $\mu_j$ depending on the group. In a t-test, we are interested in the difference between the group means, $\mu_2 - \mu_1$.
+
+2) The group means are estimated. This can be done, e.g. using maximum likelihood estimation. You will be more familiar with the technique of "simply" using the sample means to estimate the $\mu_j$s, which actually corresponds to the maximum likelihood estimate. The third parameter that has to be estimated is $\sigma$. This is the __parameter estimation__ step. $\sigma$ can be estimated using maximum likelihood, or simply "calculated" as the pooled standard deviation $s_p$. In either case, the parameter is estimated.
+
+3) A test statistic is calculated. In this case, the difference $\mu_1 - \mu_2$ is of interest, and using this difference, a test statistic is computed. The test statistic can be computed as $t =(\bar{x_1} - \bar{x_2})/(s_p \sqrt{2/n})$, where $(s_p \sqrt{2/n}$ is the standard error of the difference. $t$ is assumed to follow a Student-t distribution (under the null hypothesis), and we can compute the probability of observing a test statistic (estimated from the data) that is at least as extreme (depending on the hypothesis) as the observed one (or rather the t value estimated from the actually observed data), under the assumption that the null hypothesis is true. This tail probability is known as a *p-value*.
+
+### What can we discover with NHST?
+
+It is important to think about what exactly this approach can tell us. For instance, can we discover how probable the null hypothesis is? Can we ask how probable it is that the null hypothesis is false, and that therefore the alternative is true? 
+
+Unfortunately, the answer to both of these questions is **no**, we cannot. This approach cannot tell us anything about probabilities of hypotheses - all that we can discover is how likely the data (as summarized ny the parameters) are to have occured under the assumption that the null is true. In this case, how likely is the t value, given that there is no difference between the groups, or mathematically, $\mu_1 - \mu_2 = 0$. A small p-value can tell us that the data are unlikely, but that is not really the question we are asking. What we would like to know (intuitively) is how likely are our hypotheses [@wagenmakersPracticalSolutionPervasive2007]. But this is something that frequentist statistics cannot tell us, by design. In the frequentist interpretation, a probability is the relative frequency of occurence of an event. Under this interpretation, a parameter does not have an associated probability distribution, and the question of how probable certain parameter values are is meaningless. In contrast, in Bayesian statistics, a probability is assumed to represent the degree of belief (either subjective or objective) that a certain parameter value is true. As an example, for a frequentist, talking about the probability that it will rain tomorrow is meaningless, because this is not an experiment that can be repeated infinitely many times. For a Bayesian, on the other hand, the probability of rain is merely an expression of belief, and incorporates all knowledge that is available to us.
+
+
+## Problems with NHST
+
+This is actually one of the most common misconceptions: even scientists routinely mistake p-values for probabilities of hypotheses. This lead @wassersteinASAStatementPValues2016 to write a *Statement on Statistical
+Significance and P-Values* in the American Statistical Association, in which they clarify:
+
+  * P-values can indicate how incompatible the data are with a specified
+  statistical model.
+  * P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone.
+  * Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold.
+  
+A further complication is that the commonly used threshold $p = 0.05$ is completely arbitrary, and based on a combination of ideas by Fisher and Pearson/Neyman. The modern usage actually reflects neither approaches, and  is often considered to be a bit of a mess [@amrheinScientistsRiseStatistical2019]. @gigerenzerMindlessStatistics2004;@gigerenzerStatisticalRitualsReplication2018a provides an interesting comment on modern usage of hypothesis testing.
+
+Apart from not being particularly intuitive and not allowing us to adress the questions we like to  answer, NHST also has the problem that incentive structures in scientific publishing can often lead to misapplications of NHST procedures. Various questionable research practices are associated with this, including _p-hacking_. This refers to the practice of performing multiple significance tests, and selecting only those that yield significant results for reporting. In other words - NHST, if used correclty, can be a very useful tool. A big problem is that it os often not used correctly, and this can lead to misleading results.
+
+
+## Case studies
+
+We will briefly explore the frequentist approach to data analysis using two examples:
+
+1) an independent samples t-test, and
+2) the card game from the previous chapter, and
+
+### T-test
+
+> tbd
+
+```{r}
+library(tidyverse)
+
+set.seed(12)
+
+# Number of people wearing fancy hats
+N_fancyhats <- 50 
+
+# Number of people not wearing fancy hats
+N_nofancyhats <- 50
+
+# Population mean of creativity for people wearing fancy hats
+mu_fancyhats <- 103 
+
+# Population mean of creativity for people wearing no fancy hats
+mu_nofancyhats <- 98 
+
+# Average population standard deviation of both groups
+sigma <- 15 
+
+# Generate data
+fancyhats = tibble(Creativity = rnorm(N_fancyhats, mu_fancyhats, sigma),
+               Group = "Fancy Hat")
+
+nofancyhats = tibble(Creativity = rnorm(N_nofancyhats, mu_nofancyhats, sigma),
+                 Group = "No Fancy Hat")
+
+
+FancyHat <- bind_rows(fancyhats, nofancyhats)  %>%
+    mutate(Group = fct_relevel(as.factor(Group), "No Fancy Hat"))
+```
+
+```{r}
+FancyHat
+```
+
+
+```{r}
+# plot both groups
+FancyHat %>% 
+    ggplot() +
+    geom_boxplot ((aes(y = Creativity, x = Group))) +
+    labs(title= "Box Plot of Creativity Values") +
+    theme_bw()
+```
+
+Assuming that both groups are normally distributed with the same variance, we can use the t-test to determine whether the mean of the two groups is different.
+
+```{r}
+fancyhat_ttest <- t.test(Creativity ~ Group,
+       var.equal = TRUE,
+       data = FancyHat)
+```
+
+```{r}
+fancyhat_ttest_tab <- broom::tidy(fancyhat_ttest)
+```
+
+```{r}
+fancyhat_ttest_tab %>%
+    select(estimate, estimate1, estimate2, statistic, p.value, conf.low, conf.high) %>%
+    round(3)
+```
+
+It might not be obvious at first glance what we have done here:
+
+1) We have assumed that the data are conditinally normally distributed, given the means, with the same variance.
+
+$$
+y_{ij} \sim \mathcal{N}(\mu_i, \sigma^2)
+$$
+
+2) we estimated three parameters: $\mu_1$, $\mu_2$ ^[`estimate1` und `estimate2`], and $\sigma$.
+
+3) We computed the difference between groups as $\mu_1 - \mu_2$. This gives us an estimate of the difference between the means ^[`estimate`].
+
+4) We compute a test statistic (empirical t value)^[`statistic`].
+
+5) We computed the probability of observing the observed difference divided by the standard error, under the null hypothesis that the means are the same ($\mu_1 = \mu_2$)[`p.value`]. This is a two-sided test, i.e. we have no hypothesis as to which group has the larger mean.
+
+
+:::{.callout-tip}
+What does the p-value tell us? Does it tell you what you want to know? Do you know what the confidence interval tells you ^[`conf.low` and `conf.high`]? 
+
+The p-value is `r fancyhat_ttest$p.value %>% round(2)` This is larger that the conventional threshold $\alpha=0.05$. What does this mean?
+:::
+
+
+
+### Card game
+
+Two players a are playing a game of cards. You watch 9 games, and observe that player A wins 6 of those. Now you would like to estimate the probability that player A will win the next game. Another way of putting it that you would to estimate the ability of player A to beat player B at this particular game.
+
+You know that the probability of success must lie in the range $[0, 1]$. What you might not be aware of is that you are assuming a certain probability model, and the proabability of success is a a parameter of that model. Let's take a closer look:
+
+We know that the number of $k$ successes in $n$ games follows a binomial distribution with parameters $n$ and $\theta$. To make things simpler, we also know that each indivdual game is independent of the others, and the probability of success $\theta$ is the same for each game. Each success therefore follows a Bernoulli distribution with parameter $\theta$.
+
+
+$$ 
+y_i \sim \mathcal{Bernoulli}(\theta)
+$$
+
+:::aside
+I will generally use the notation $y$ for a variable that observed, i.e. the data.
+:::
+
+$y_i$ is the $i$ th observation in the data, meaning that it tells us whether player A won the game or not on trial $i$. $\theta$ is the probability of success for each individual game; this is a parameter of our model ($\mathcal{M}$).
+
+Previously, we used maximum likelihood to estimate $\theta$ - we will repeat this briefly here.
+
+```{r}
+wins <- 6
+games <- 9
+```
+
+The goal is to figure out the "best" value of $\theta$, i.e. the value that maximizes the likelihood of observing the data. To do this, we need to consider a range of possible values of $\theta$ (we already know that this range is $[0, 1]$, so that part is easy). We will consider 100 values of $\theta$ between 0 and 1, and compute the likelihood of observing the data for each value of $\theta$.
+
+```{r}
+n_points <- 100
+p_grid <- seq( from=0 , to=1 , length.out = n_points )
+```
+
+Assuming that both players have an equal chance of winning, the parameter should be $\theta = 0.5$. The probability of the data given $\theta = 0.5$ is:
+
+```{r}
+dbinom(x = wins, size = games, prob = 0.5)
+```
+
+The probability of winning 6 out of 9 games, given that both players are equally likely to win, is `r dbinom(x = wins, size = games, prob = 0.5)`.
+
+
+We can also compute the probability of A winning 6, 7, 8 or 9 games, using the cumulative distribution function of the binomial distribution.
+
+```{r}
+1 - pbinom(q = 5, size = games, prob = 0.5)
+```
+
+or
+
+```{r}
+1 - pbinom(q = 5, size = games, prob = 0.5)
+```
+
+or
+
+```{r}
+pbinom(q = 5, size = games, prob = 0.5, lower.tail = FALSE)
+```
+
+
+:::aside
+
+`pbinom` gives us the lower tail probability, which is the probability that the number of successes is less than or equal to the given value, by default.
+:::
+
+
+:::{.callout-tip}
+## p-value
+Does this seem familiar?
+
+If we want to quantify our _null_ hypothsis that both players are equally likely to win, we would assume that $\theta=0.5$. Computing the proability of the data under the null is exactly what we have just done. We then plug in the actual data, i.e. 6 out of 9, and the upper tail probability is the p-value. In this case, the p-value is approximately $0.25$. Using cut-off of 0.05, we would not reject the null hypothesis, and conclude that there is not enough evidence that player A is better than player B (this is a one-sided test).
+:::
+
+NOw we compute the probability of the data under all parameter values under consideration. In R, this is very simple, since all functions are vecortized.
+
+```{r}
+likelihood <- dbinom(wins , size = games , prob = p_grid)
+```
+
+```{r}
+plot(likelihood)
+```
+
+We can see in the above figure that the probability of observing the data is smnall for a lot of values of $\theta$. The probability of observing the data, or the likelihood, is maximal for the value `r 6/9`:
+
+
+```{r}
+p_grid[which.max(likelihood)]
+```
+
+What we have done so far highlights the distinction between parameter estimation and hypothesis testing. Computing the tail probability under the null ($\theta=0.5$) is a hypothesis test, and estimating $\theta$ is parameter estimation.
+
+
+
+
+## An introduction to Bayesian inference
+

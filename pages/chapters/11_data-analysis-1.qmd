@@ -621,4 +621,4 @@ quantile(samples, c(alpha/2, 1-alpha/2))
 This should not be confused with the 95% confidence interval. Can you remember how a confidence interval is defined? What is the difference between a confidence interval and a credible interval?
 :::
 
-What we have
+What we have done so far is to look at Bayesian inference for parameter estimation (in a very simple model). Let's call this model $\mathcal{M}$. We have only considered one model at a time, but in the next session we will consider two or models $\mathcal{M_j}, which differ in the prior distributions they use. We will then look at methods for comparing models, in order to perform hypothesis testing in a Bayesian framework.

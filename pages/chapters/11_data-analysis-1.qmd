@@ -118,7 +118,7 @@ Significance and P-Values* in the American Statistical Association, in which the
   
 A further complication is that the commonly used threshold $p = 0.05$ is completely arbitrary, and based on a combination of ideas by Fisher and Pearson/Neyman. The modern usage actually reflects neither approaches, and  is often considered to be a bit of a mess [@amrheinScientistsRiseStatistical2019]. @gigerenzerMindlessStatistics2004;@gigerenzerStatisticalRitualsReplication2018a provides an interesting comment on modern usage of hypothesis testing.
 
-Apart from not being particularly intuitive and not allowing us to adress the questions we like to  answer, NHST also has the problem that incentive structures in scientific publishing can often lead to misapplications of NHST procedures. Various questionable research practices are associated with this, including _p-hacking_. This refers to the practice of performing multiple significance tests, and selecting only those that yield significant results for reporting. In other words - NHST, if used correclty, can be a very useful tool. A big problem is that it os often not used correctly, and this can lead to misleading results.
+Apart from not being particularly intuitive and not allowing us to adress the questions we would like to  answer, NHST also has the problem that incentive structures in scientific publishing can often lead to misapplications of NHST procedures. Various questionable research practices are associated with this, including _p-hacking_. This refers to the practice of performing multiple significance tests, and selecting only those that yield significant results for reporting. In other words - NHST, if used correclty, can be a very useful tool. A big problem is that it os often not used correctly, and this can lead to misleading results.
 
 
 ## Case studies
@@ -128,9 +128,10 @@ We will briefly explore the frequentist approach to data analysis using two exam
 1) an independent samples t-test, and
 2) the card game from the previous chapter, and
 
-### T-test
+### T-test {#sec-fancyhat}
+This example uses simulated data, but is based on an actual study. 
+In the code below, we simulate creativity scores from two groups. One group was instructed to wear a fancy hat, the other, woth no head gear, serves as a control group. We would like to know whether the fancy hat group and the control group differ in their mean creativity.
 
-> tbd
 
 ```{r}
 library(tidyverse)
@@ -160,18 +161,21 @@ nofancyhats = tibble(Creativity = rnorm(N_nofancyhats, mu_nofancyhats, sigma),
                  Group = "No Fancy Hat")
 
 
-FancyHat <- bind_rows(fancyhats, nofancyhats)  %>%
+FancyHat <- bind_rows(fancyhats, nofancyhats)  |>
     mutate(Group = fct_relevel(as.factor(Group), "No Fancy Hat"))
 ```
+
+We have created a dataframe called `FancyHat`. 
 
 ```{r}
 FancyHat
 ```
+We can now pretend that we don't know how the data were generated, and treat them as data from an experiment.
+
 
 
 ```{r}
-# plot both groups
-FancyHat %>% 
+FancyHat |> 
     ggplot() +
     geom_boxplot ((aes(y = Creativity, x = Group))) +
     labs(title= "Box Plot of Creativity Values") +
@@ -191,17 +195,17 @@ fancyhat_ttest_tab <- broom::tidy(fancyhat_ttest)
 ```
 
 ```{r}
-fancyhat_ttest_tab %>%
-    select(estimate, estimate1, estimate2, statistic, p.value, conf.low, conf.high) %>%
+fancyhat_ttest_tab |>
+    select(estimate, estimate1, estimate2, statistic, p.value, conf.low, conf.high) |>
     round(3)
 ```
 
 It might not be obvious at first glance what we have done here:
 
-1) We have assumed that the data are conditinally normally distributed, given the means, with the same variance.
+1) We have assumed that the data are conditionally normally distributed, given the means, with the same variance.
 
 $$
-y_{ij} \sim \mathcal{N}(\mu_i, \sigma^2)
+y_{ij} \sim \mathcal{N}(\mu_j, \sigma^2)
 $$
 
 2) we estimated three parameters: $\mu_1$, $\mu_2$ ^[`estimate1` und `estimate2`], and $\sigma$.
@@ -216,7 +220,7 @@ $$
 :::{.callout-tip}
 What does the p-value tell us? Does it tell you what you want to know? Do you know what the confidence interval tells you ^[`conf.low` and `conf.high`]? 
 
-The p-value is `r fancyhat_ttest$p.value %>% round(2)` This is larger that the conventional threshold $\alpha=0.05$. What does this mean?
+The p-value is `r fancyhat_ttest$p.value |> round(2)` This is larger that the conventional threshold $\alpha=0.05$. What does this mean?
 :::
 
 
@@ -305,7 +309,7 @@ likelihood <- dbinom(wins , size = games , prob = theta_grid)
 plot(likelihood)
 ```
 
-We can see in the above figure that the probability of observing the data is smnall for a lot of values of $\theta$. The probability of observing the data, or the likelihood, is maximal for the value `r 6/9`:
+We can see in the above figure that the probability of observing the data is small for a lot of values of $\theta$. The probability of observing the data, or the likelihood, is maximal for the value `r 6/9`:
 
 
 ```{r}
@@ -390,15 +394,15 @@ library(tidyverse)
 
 length <- 1e4
 d <- crossing(shape1 = c(.1, 1:4),
-           shape2 = c(.1, 1:4)) %>%
+           shape2 = c(.1, 1:4)) |>
   tidyr::expand(nesting(shape1, shape2),
-         x = seq(from = 0, to = 1, length.out = length)) %>% 
+         x = seq(from = 0, to = 1, length.out = length)) |> 
   mutate(a = str_c("a = ", shape1),
          b = str_c("b = ", shape2),
          group = rep(1:length, each = 25))
 ```
 ```{r}
-d %>% 
+d |> 
   ggplot(aes(x = x, group = group)) +
   
   geom_line(aes(y = dbeta(x, shape1 = shape1, shape2 = shape2)),
@@ -622,3 +626,5 @@ This should not be confused with the 95% confidence interval. Can you remember h
 :::
 
 What we have done so far is to look at Bayesian inference for parameter estimation (in a very simple model). Let's call this model $\mathcal{M}$. We have only considered one model at a time, but in the next session we will consider two or models $\mathcal{M_j}, which differ in the prior distributions they use. We will then look at methods for comparing models, in order to perform hypothesis testing in a Bayesian framework.
+
+In particular, we will look at how Bayesian model comparison can help, in the case that we have no significant results (see @sec-fancyhat).

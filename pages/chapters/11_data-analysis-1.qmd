@@ -251,7 +251,7 @@ The goal is to figure out the "best" value of $\theta$, i.e. the value that maxi
 
 ```{r}
 n_points <- 100
-p_grid <- seq( from=0 , to=1 , length.out = n_points )
+theta_grid <- seq( from=0 , to=1 , length.out = n_points )
 ```
 
 Assuming that both players have an equal chance of winning, the parameter should be $\theta = 0.5$. The probability of the data given $\theta = 0.5$ is:
@@ -298,7 +298,7 @@ If we want to quantify our _null_ hypothsis that both players are equally likely
 NOw we compute the probability of the data under all parameter values under consideration. In R, this is very simple, since all functions are vecortized.
 
 ```{r}
-likelihood <- dbinom(wins , size = games , prob = p_grid)
+likelihood <- dbinom(wins , size = games , prob = theta_grid)
 ```
 
 ```{r}
@@ -309,7 +309,7 @@ We can see in the above figure that the probability of observing the data is smn
 
 
 ```{r}
-p_grid[which.max(likelihood)]
+theta_grid[which.max(likelihood)]
 ```
 
 What we have done so far highlights the distinction between parameter estimation and hypothesis testing. Computing the tail probability under the null ($\theta=0.5$) is a hypothesis test, and estimating $\theta$ is parameter estimation.
@@ -319,3 +319,306 @@ What we have done so far highlights the distinction between parameter estimation
 
 ## An introduction to Bayesian inference
 
+So far, we haven't considered any prior knowledge we might have had about which parameters are the most likely a priori. In fact, as we will see a bit further down, we have implicitly assumed that all parameters are equally likely. We will now introduce a new concept: a prior distribution for the parameter(s) we are trying to estimate^[In frequentist statistics, the concept is meaningless - parameters cannot have distribution. In Bayesian statistics, a prior distribution should reflect everything we know about the parameter, before we consider the data. The prior reflects our belief, which can be subjective, or objective.].
+
+We will then use that __prior__ belief in order to obtain a __posterior__ belief
+over the possible parameter values. To do this, we need to mupltiply the prior probability of each parameter value by the likelihood of the data, i.e. by the probability of observing the data given that parameter value. This is an application of Bayes theorem:
+
+$$ 
+p(\theta|y) = \frac{ p(y|\theta) * p(\theta) } {p(y)}
+$$
+
+This states that the posterior probability of $\theta$ given the observed data $y$ is equal to the probability of the data, multiplied by how probable each value of $\theta$ is a priori. You can think of it like this: each parameter value is weighted according to how well it predicts the data. The product $p(y|\theta) * p(\theta)$ is then divided by the probability of the data, which in this case is summed over all possible parameter values. This step serves to normalize the posterior, so that it sums to $1$. This essentially turns the unnormalized posterior into a proper probability distribution.
+
+$$
+p(y) = \sum_{\theta}p(y|\theta) * p(\theta) 
+$$
+
+Bayesian inference, in a nutshell, consists of:
+
+1) Represent your prior belief by a probability distribution over the possible parameter values. This is a principled way of daling with uncertainty.
+
+2) Use the likelihood to weight the prior belief.
+
+3) Obtain a posterior belief over the possible parameter values.
+
+:::aside
+The term _belief_ is used synonymously with _probability distribution_.
+:::
+ 
+
+Recall that we defined a sequence of 100 points between 0 and 1, which represented the possible $\theta$ values.
+
+```{r}
+n_points <- 100
+theta_grid <- seq( from=0 , to=1 , length.out = n_points )
+```
+
+For each of these, we computed the likelihood, that is the probability of observing the (fixed) data, given the parameter. Now, we can make our knowledge about the probability of each parameter value explicit. At first, we will assume that all parameters are equally likely. We will assign the probability of 1 to each parameter value. This is our prior distribution. 
+
+
+```{r}
+prior_1 <- rep(1, length(theta_grid))
+```
+
+```{r}
+plot(theta_grid, prior_1, "type" = "l")
+```
+
+We could also express the belief that player is at least as good as player B, i.e. they are equally good or A is better than B. One way of doing this is to assign a probability of $1$ to parameter values greater than or equal to $0.5$, and the value $0$ to parameter values less than $0.5$.
+
+```{r}
+prior_2 <- ifelse(theta_grid < 0.5, 0, 1)
+```
+
+```{r}
+plot(theta_grid, prior_2, type = "l")
+```
+
+
+A more systematic way of doing this is to use a parameterized probability distribution that expresses our beliefs about the parameter. 
+
+:::{.callout-note}
+A family of probability distributions that are suitable for parameters that lie oîn the interval $[0,1]$ is the [Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution). This distribution has $2$ parameters  $\alpha$ und $\beta$, 
+which can be interpreted as the prior number of successes and the number of failures, respectively. The number of trials is therefore $\alpha + \beta$. \@ref(fig:betadists) shows a number of possible Beta distributions for various setting s of $\alpha$ and $\beta$.
+
+
+```{r}
+#| label: betadist
+#| fig-cap: "Beta distributions"
+library(tidyverse)
+
+length <- 1e4
+d <- crossing(shape1 = c(.1, 1:4),
+           shape2 = c(.1, 1:4)) %>%
+  tidyr::expand(nesting(shape1, shape2),
+         x = seq(from = 0, to = 1, length.out = length)) %>% 
+  mutate(a = str_c("a = ", shape1),
+         b = str_c("b = ", shape2),
+         group = rep(1:length, each = 25))
+```
+```{r}
+d %>% 
+  ggplot(aes(x = x, group = group)) +
+  
+  geom_line(aes(y = dbeta(x, shape1 = shape1, shape2 = shape2)),
+            color = "steelblue4", size = 1.1) +
+  scale_x_continuous(expression(theta), breaks = c(0, .5, 1)) +
+  coord_cartesian(ylim = c(0, 3)) +
+  labs(title = "Beispiele von Beta Verteilungen",
+       y = expression(p(theta*"|"*a*", "*b))) +
+  theme(panel.grid = element_blank()) +
+  facet_grid(b~a)
+```
+
+:::
+
+If we want to use a Beta distribution to express the belief that all values of $\theta$ are equally likely (uniform prior), we can a Beta distribution with $\alpha = 1$ and $\beta = 1$.
+
+```{r}
+prior_3 <- dbeta(x = theta_grid, shape1 = 1, shape2 = 1)
+```
+
+```{r}
+plot(theta_grid, prior_3, type = "l")
+```
+
+
+
+Finally, we could express the following prior information as a Beta distribution: imagine you had previously observed $100$ games between A and B, and each won half of the games. You can set $\alpha$ and $\beta$ to the number of games won by A, and the number of games won by B, respectively.  A won $50$, and B won $50$:
+
+```{r}
+prior <- dbeta(x = theta_grid, shape1 = 50, shape2 = 50)
+```
+
+```{r}
+plot(theta_grid, prior, type = "l")
+```
+
+
+Now, we can combine the prior and the likelihood by multiplying them element-wise, i.e. we need to multiply each parameter value with the probability of the data given that parameter. 
+
+:::{.callout-note}
+Recall Bayes theorem:
+
+$$
+p(\theta|y) = \frac{ p(y|\theta) * p(\theta) } {p(y)}
+$$
+:::
+
+
+In R, this is simply:
+
+
+```{r}
+wins <- 6
+games <- 9
+```
+
+```{r}
+prior <- dbeta(x = theta_grid, shape1 = 4, shape2 = 4)
+likelihood <- dbinom(wins , size = games , prob = theta_grid)
+```
+
+
+```{r}
+unstandardized_posterior <- likelihood * prior
+```
+
+We can then normalize the posterior distribution by dividing it by $p(y) = \sum_{\theta}p(y|\theta) * p(\theta)$. In R we can use the `sum()` function: `sum(unstandardized_posterior)`.
+
+
+```{r}
+posterior <- unstandardized_posterior / sum(unstandardized_posterior)
+```
+
+We can now plot the resulting normalised posterior distribution. 
+```{r}
+plot(theta_grid, posterior, type = "l", yaxt = 'n', ylab = 'Probability', 
+        main = "Posterior", cex.lab = 1.5, cex.main = 3)
+```
+
+You can verify that it is normalized by checking that the sum of the probabilities is 1.
+
+```{r}
+sum(posterior)
+```
+
+
+To make this repeatable, we will write two functions. The first (`compute_posterior()`) will compute the posterior, given the prior and likelihood, and return a dataframe containg prior, likelihood and posterior. The second (`plot_posterior()`) will plot all three side-by-side. You can also pass in the maximum likelihood estimate, e.g. `6/9`, and this will be plotted as well.
+
+```{r}
+compute_posterior = function(likelihood, prior){
+  # compute product of likelihood and prior
+  unstandardized_posterior <- likelihood * prior
+  
+  # standardize the posterior, so it sums to 1
+  posterior <- unstandardized_posterior / sum(unstandardized_posterior)
+  
+  out <- tibble(prior, likelihood, posterior)
+  out
+}
+```
+
+```{r}
+plot_posterior <- function(df, mle = 6/9){
+with(df, {
+    par(mfrow=c(1, 3))
+    plot(theta_grid , prior, type="l", main="Prior", col = "dodgerblue3", 
+            lwd = 4, yaxt = 'n', ylab = 'Probability', cex.lab = 1.5, cex.main = 3)
+    plot(theta_grid , likelihood, type = "l", main = "Likelihood", col = "firebrick3", 
+            lwd = 4, yaxt = 'n', ylab = '', cex.lab = 1.5, cex.main = 3)
+    plot(theta_grid , posterior , type = "l", main = "Posterior", col = "darkorchid3", 
+            lwd = 4, yaxt = 'n', ylab = '', cex.lab = 1.5, cex.main = 3)
+    abline(v = mle, col = 4, lty = 2, lwd = 2)
+  } )
+}
+```
+
+
+You can now try out various prior distributions, and observe the effect on the posterior.
+
+
+Let's try out a uniform prior first:
+
+```{r}
+prior <- dbeta(x = theta_grid, shape1 = 1, shape2 = 1)
+likelihood <- dbinom(wins , size = games , prob = theta_grid)
+```
+
+You can 
+```{r}
+df <- compute_posterior(likelihood, prior)
+```
+
+```{r}
+plot_posterior(df)
+```
+
+:::{.callout-note}
+In this case, the maximum likelihood estimate coincides with the value that maximizes the posterior probability. This is the case because maximum likelihood estimate uses only the likelihood and does not consider prior knowledge. If we are are using a uniform prior, that amounts to saying that all values of $\theta$ are equally likely. In other words, we have no information as which values are more probable.z
+:::
+
+Now let's try out our prior expressing the belief that player A cannot be worse than player B:
+
+```{r}
+prior <- ifelse(theta_grid < 0.5, 0, 1)
+likelihood <- dbinom(wins , size = games , prob = theta_grid)
+```
+
+
+
+```{r}
+df <- compute_posterior(likelihood, prior)
+```
+
+```{r}
+plot_posterior(df)
+```
+
+The resulting posterior distribution is zero for all values of $\theta$ that are less than 0.5. This is because our prior allocates zero probability those values.
+
+:::{.callout-tip}
+Try out various priors. How do they affect the posterior?
+:::
+
+
+
+
+THe posterior represents our belief about the the possible parameter values, after having observed the data. You can therefore think of Bayesian inference as a method for updating your beliefs, conditional on observed data. You are re-allocating probabilities over parameter values, depending on how well those parameter values predicted the data.
+
+### Summarizing the posterior
+
+We now need one last step: we need to summarize the posterior distribution. We can do this, for example by computing the mean and standard deviation of the posterior distribution. However, the method we have looked at so far is very simple, and only works for single parameters with a well-defined range. For real-world inference problems, we will numerical methods to approximate the posterior distribution. These methods are know collectively as *Monte Carlo sampling*, or *Markov Chain Monte Carlo* (MCMC). Using MCMC, we will not obtain an analytical description of posterior distributions, but instead a collection of random numbers (samples), that are drawn from the posterior distribution. We will use these samples to represent the posterior distribution.
+
+
+TO show how this works, we can draw a thousand samples from the posterior distribution.
+
+```{r}
+prior <- dbeta(x = theta_grid, shape1 = 1, shape2 = 1)
+likelihood <- dbinom(wins , size = games , prob = theta_grid)
+```
+
+You can 
+```{r}
+df <- compute_posterior(likelihood, prior)
+```
+
+```{r}
+plot_posterior(df)
+```
+
+
+```{r}
+n_samples <- 1e3
+
+samples <- theta_grid |> sample(size = n_samples, replace = TRUE, prob = df$posterior)
+```
+
+Now we can summarize the samples, e.g. by computing the mean or quantiles.
+
+```{r}
+mean(samples)
+```
+
+The following will give us the median, and a 50% **credible interval**, i.e. an interval that contains 50% of the mass of the distribution.
+
+
+```{r}
+quantile(samples, c(0.25, 0.5, 0.75))
+```
+
+We can also use this approach to compute a 95% credible interval.
+
+```{r}
+alpha <- 0.05
+
+quantile(samples, c(alpha/2, 1-alpha/2))
+```
+
+
+:::{.callout-warning}
+This should not be confused with the 95% confidence interval. Can you remember how a confidence interval is defined? What is the difference between a confidence interval and a credible interval?
+:::
+
+What we have

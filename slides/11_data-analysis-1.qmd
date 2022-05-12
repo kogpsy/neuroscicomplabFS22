@@ -1,6 +1,6 @@
 ---
 title: "11. Sitzung"
-subtitle: "Data analysis: I"
+subtitle: "Data analysis I: Combining information from multiple participants and introduction to Bayesian data analysis."
 author: "Andrew Ellis"
 institute: "Neurowissenschaft Computerlab FS 22"
 format:
@@ -39,98 +39,10 @@ library(tidyverse)
 
 ::: {.column width="65%"}
 ::: topic-text
-Simulating RT and choice data
+Combining information from multiple participants
 :::
 :::
 :::
-
-
-## Simulating RT and choice data
-
-
-### Load library
-
-```{r}
-#| include: true
-library(rtdists)
-```
-
-
-## Parameters
-
-
-Mit `rdiffusion()` können wir ein Experiment simulieren, bei dem die Fehler im Schnitt schneller als die korrekten Antworten sind, indem wir eine A Priori Präferenz für die Untergrenze definieren (`z = 0.2`).
-
-Die 5 wichtigsten Argumente der Funktion sind:
-
-```
-n: Anzahl Zufallszahlen
-a: boundary separation
-v: drift rate
-t0: non-decision time
-z: bias
-```
-
-
-## Simulate
-
-```{r}
-rts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)
-
-glimpse(rts)
-```
-
-```{r}
-head(rts)
-```
-
-
-## Grafisch darstellen
-
-```{r}
-#| include: true
-rts |> 
-  ggplot(aes(rt, response, fill = response)) +
-  geom_violin() +
-  geom_jitter(height = 0.1, alpha = 0.5) +
-  scale_fill_viridis_d(option = "B", direction = -1, 
-                       begin = 1/3, end = 3/3) +
-  xlim(c(0, 2))
-```
-
-## Effect of Bias
-
-```{r}
-d <- bind_rows(
-  rdiffusion(500, a = 2, v = 1.5, t0 = 0.2, z = 0.5) |> 
-  mutate(type = "unbiased"),
-  rdiffusion(500, a = 2, v = 1.5, t0 = 0.2, z = 0.2) |> 
-  mutate(type = "biased"))
-```
-
-```{r}
-d |> 
-  ggplot(aes(rt, response, fill = response)) +
-  geom_violin() +
-  geom_jitter(height = 0.1, alpha = 0.5) +
-  scale_fill_viridis_d(option = "B", direction = -1, 
-                       begin = 1/3, end = 3/3) +
-  xlim(c(0, 2)) +
-  facet_wrap(~type, ncol = 1)
-```
-
-
-
-
-## Zusammenfassen
-
-```{r}
-rts |> 
-    group_by(response) |> 
-    summarise(mean = mean(rt),
-              median = median(rt),
-              sd = sd(rt))
-```
 
 
 
@@ -146,144 +58,8 @@ rts |>
 
 ::: {.column width="65%"}
 ::: topic-text
-Maximum likelihood estimation
+Bayesian data analysis
 :::
 :::
 :::
-
-
-
-
-## Maximum Likelihood Schätzung {.smaller}
-
-- Die Likelihood - genauer gesagt die Likelihood-Funktion - ist eine Funktion, die angibt, wie wahrscheinlich es ist, einen bestimmten Satz von Beobachtungen mit einem bestimmten Modell zu erhalten. 
-
-- Wir betrachten die Menge der Beobachtungen (Daten) als gegeben.
-
-- Nun überlegen wir, bei welchem Satz von Modellparametern wir die Daten am wahrscheinlichsten beobachten würden.
-
-
-## Wahrscheinlichkeit der Daten
-
-Wenn wir eine Reihe von Datenpunkten haben (wie es in der Regel bei psychologischen Experimenten der Fall ist), können wir eine gemeinsame Wahrscheinlichkeit oder Wahrscheinlichkeitsdichte für die Daten in einem Datenvektor y erhalten, indem wir die einzelnen Wahrscheinlichkeiten oder Wahrscheinlichkeitsdichten miteinander multiplizieren, wobei wir davon ausgehen, dass die Beobachtungen in y unabhängig sind:
-
-$$
-f(\bf{y}|\bf{\theta} = \prod^k{f(y_k | \bf{\theta})})
-$$
-
-- $k$ indiziert die Datenpunkte $y_k$ im Vektor $\bf{y}$.
-
-## Likelihood Funktion
-
-Der Unterschied zwischen Wahrscheinlichkeit und Likelihood besteht darin, dass wir uns hier für die verschiedenen mögliche Parameterwerte beziehen, und die Likelihood-Funktion sagt uns, wie wahrscheinlich jeder dieser Parameterwerte angesichts der von uns beobachteten Daten ist.
-
-$$
-L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
-$$
-
-## Beisiel: Binomial likelihood
-
-Wir werfen eine Münze:
-
-- zwei mögliche Ergebnisse (Kopf und Zahl),
-- feste Anzahl von "Versuchen" (100 Münzwürfe)
-- feste Wahrscheinlichkeit für "Erfolg" (d. h. Kopf)
-
-```{r}
-set.seed(91)
-
-heads <- rbinom(1, 100, 0.5)
-heads
-```
-
-
-
-Wahrschienlichkeit der Daten gegeben $p = 0.6$
-
-```{r}
-biased_prob <- 0.6
-
-# Using R's dbinom function (density function for a given binomial distribution)
-dbinom(heads, 100, biased_prob)
-```
-
-
-## Beispiel Kartenspiel zwischen 2 Spielern
-
-- Spieler _A_ gewinnt 6 Mal in 9 Spielen:
-
-```{r}
-wins <- 6
-games <- 9
-```
-
-- Wir definieren einen Vektor mit 100 möglichen Parameterwerten:
-
-```{r}
-n_points <- 100
-p_grid <- seq( from=0.001 , to=0.999 , length.out = n_points )
-```
-
-- Nun berechnen wir die Wahrscheinlichkeit der Daten, gegeben die Parameterwerte:
-
-```{r}
-likelihood <- dbinom(wins, size = games , prob = p_grid)
-```
-
-## Beispiel Kartenspiel zwischen 2 Spielern
-
-```{r}
-plot(p_grid , likelihood, type="l", main="Likelihood", col = "firebrick3", lwd = 2)
-```
-
-- Index des Parameterwertes, welcher die Likelihood maximiert:
-
-```{r}
-which.max(likelihood)
-```
-
-- Parameterwert andiesem Index:
-
-
-```{r}
-p_grid[which.max(likelihood)]
-```
-
-
-
-
-
-## MLE: Negative Log Likelihood minimieren
-
-- Definiere eine Funktion, welche die __negative log__ Wahrscheinlichkeitsfunktion für einen bestimmten Wert von p berechnet.
-- Suche nach dem Wert von p, für den diese Funktion minimiert wird.
-
-
-## Binomial Likelihood
-
-$$
-f(k | p_{heads}, N) = \binom{N}{k} p_{heads}^k (1-p_{heads}^{N-k})
-$$
-
-$$
-lnL(\bf{\theta} | \bf{y}) = \sum^k_{k=1}{ln L(\bf{\theta} | y_k})
-$$
-
-
-
-## Funktion definieren
-
-```{r}
-loglik <- function(p){
-  likelihoods <- dbinom(heads, 100, p)
-   return(-sum(log(likelihoods)))
-}
-```
-
-
-## Minimieren
-
-```{r}
-nlm(loglik, 0.1, stepmax=0.1)
-```
 

@@ -202,7 +202,7 @@ fancyhat_ttest_tab |>
 
 It might not be obvious at first glance what we have done here:
 
-1) We have assumed that the data are conditionally normally distributed, given the means, with the same variance.
+1) We assumed that the data are conditionally normally distributed, given the means, with the same variance.
 
 $$
 y_{ij} \sim \mathcal{N}(\mu_j, \sigma^2)
@@ -227,7 +227,7 @@ The p-value is `r fancyhat_ttest$p.value |> round(2)` This is larger that the co
 
 ### Card game
 
-Two players a are playing a game of cards. You watch 9 games, and observe that player A wins 6 of those. Now you would like to estimate the probability that player A will win the next game. Another way of putting it that you would to estimate the ability of player A to beat player B at this particular game.
+Two players are playing a game of cards. You observe that they play 9 games, and that player A wins 6 of those. Now you would like to estimate the probability that player A will win the next game. Another way of putting it that you would to estimate the ability of player A to beat player B at this particular game.
 
 You know that the probability of success must lie in the range $[0, 1]$. What you might not be aware of is that you are assuming a certain probability model, and the proabability of success is a a parameter of that model. Let's take a closer look:
 
@@ -238,8 +238,8 @@ $$
 y_i \sim \mathcal{Bernoulli}(\theta)
 $$
 
-:::aside
-I will generally use the notation $y$ for a variable that observed, i.e. the data.
+:::{callout-tip}
+I will generally use the notation $y$ for a variable that is observed, i.e. the data.
 :::
 
 $y_i$ is the $i$ th observation in the data, meaning that it tells us whether player A won the game or not on trial $i$. $\theta$ is the probability of success for each individual game; this is a parameter of our model ($\mathcal{M}$).
@@ -383,7 +383,7 @@ plot(theta_grid, prior_2, type = "l")
 A more systematic way of doing this is to use a parameterized probability distribution that expresses our beliefs about the parameter. 
 
 :::{.callout-note}
-A family of probability distributions that are suitable for parameters that lie oîn the interval $[0,1]$ is the [Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution). This distribution has $2$ parameters  $\alpha$ und $\beta$, 
+A family of probability distributions that are suitable for parameters that lie in the interval $[0,1]$ is the [Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution). This distribution has $2$ parameters  $\alpha$ und $\beta$, 
 which can be interpreted as the prior number of successes and the number of failures, respectively. The number of trials is therefore $\alpha + \beta$. \@ref(fig:betadists) shows a number of possible Beta distributions for various setting s of $\alpha$ and $\beta$.
 
 
@@ -409,7 +409,7 @@ d |>
             color = "steelblue4", size = 1.1) +
   scale_x_continuous(expression(theta), breaks = c(0, .5, 1)) +
   coord_cartesian(ylim = c(0, 3)) +
-  labs(title = "Beispiele von Beta Verteilungen",
+  labs(title = "Beta distributions",
        y = expression(p(theta*"|"*a*", "*b))) +
   theme(panel.grid = element_blank()) +
   facet_grid(b~a)
@@ -477,6 +477,7 @@ posterior <- unstandardized_posterior / sum(unstandardized_posterior)
 ```
 
 We can now plot the resulting normalised posterior distribution. 
+
 ```{r}
 plot(theta_grid, posterior, type = "l", yaxt = 'n', ylab = 'Probability', 
         main = "Posterior", cex.lab = 1.5, cex.main = 3)
@@ -485,11 +486,11 @@ plot(theta_grid, posterior, type = "l", yaxt = 'n', ylab = 'Probability',
 You can verify that it is normalized by checking that the sum of the probabilities is 1.
 
 ```{r}
-sum(posterior)
+sum(posterior) == 1
 ```
 
 
-To make this repeatable, we will write two functions. The first (`compute_posterior()`) will compute the posterior, given the prior and likelihood, and return a dataframe containg prior, likelihood and posterior. The second (`plot_posterior()`) will plot all three side-by-side. You can also pass in the maximum likelihood estimate, e.g. `6/9`, and this will be plotted as well.
+To make this repeatable, we will write two functions. The first, `compute_posterior()`, will compute the posterior, given the prior and likelihood, and return a dataframe containg prior, likelihood and posterior. The second, `plot_posterior()`, will plot all three side-by-side. You can also pass in the maximum likelihood estimate, e.g. `6/9`, and this will be plotted as well.
 
 ```{r}
 compute_posterior = function(likelihood, prior){
@@ -569,21 +570,21 @@ Try out various priors. How do they affect the posterior?
 
 
 
-THe posterior represents our belief about the the possible parameter values, after having observed the data. You can therefore think of Bayesian inference as a method for updating your beliefs, conditional on observed data. You are re-allocating probabilities over parameter values, depending on how well those parameter values predicted the data.
+The posterior represents our belief about the the possible parameter values, after having observed the data. You can therefore think of Bayesian inference as a method for updating your beliefs, conditional on observed data. You are re-allocating probabilities over parameter values, depending on how well those parameter values predicted the data.
 
 ### Summarizing the posterior
 
 We now need one last step: we need to summarize the posterior distribution. We can do this, for example by computing the mean and standard deviation of the posterior distribution. However, the method we have looked at so far is very simple, and only works for single parameters with a well-defined range. For real-world inference problems, we will numerical methods to approximate the posterior distribution. These methods are know collectively as *Monte Carlo sampling*, or *Markov Chain Monte Carlo* (MCMC). Using MCMC, we will not obtain an analytical description of posterior distributions, but instead a collection of random numbers (samples), that are drawn from the posterior distribution. We will use these samples to represent the posterior distribution.
 
 
-TO show how this works, we can draw a thousand samples from the posterior distribution.
+To show how this works, we can draw a thousand samples from the posterior distribution. First, we'll create a posterior.
 
 ```{r}
 prior <- dbeta(x = theta_grid, shape1 = 1, shape2 = 1)
 likelihood <- dbinom(wins , size = games , prob = theta_grid)
 ```
 
-You can 
+
 ```{r}
 df <- compute_posterior(likelihood, prior)
 ```
@@ -593,10 +594,16 @@ plot_posterior(df)
 ```
 
 
+Now we'll draw 1000 random numbers from the posterior.
+
 ```{r}
 n_samples <- 1e3
 
 samples <- theta_grid |> sample(size = n_samples, replace = TRUE, prob = df$posterior)
+```
+
+```{r}
+head(samples, 10)
 ```
 
 Now we can summarize the samples, e.g. by computing the mean or quantiles.

@@ -76,7 +76,7 @@ make_subject <- function(ntrials = 1e3, pars, subject_no = 1) {
 }
 
 nsubjects <- 6
-set.seed(831)
+set.seed(81)
 
 d <- 1:nsubjects |> map_df(\(x) make_subject(ntrials = ntrials,
                                             pars = true_params,

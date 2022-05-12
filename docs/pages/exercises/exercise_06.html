@@ -396,7 +396,7 @@ Note
 <span class="op">}</span>
 
 <span class="va">nsubjects</span> <span class="op">&lt;-</span> <span class="fl">6</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">831</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">81</span><span class="op">)</span>
 
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="va">nsubjects</span> |&gt; <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_df</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">make_subject</span><span class="op">(</span>ntrials <span class="op">=</span> <span class="va">ntrials</span>,
                                             pars <span class="op">=</span> <span class="va">true_params</span>,
@@ -500,12 +500,12 @@ Note
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">estimates</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         a     v    z1    z2    t0
-ID_1 0.471 0.585 0.610 0.339 0.255
-ID_2 0.421 0.590 0.475 0.258 0.261
-ID_3 0.407 0.455 0.563 0.181 0.099
-ID_4 0.512 0.399 0.735 0.702 0.191
-ID_5 0.455 0.494 0.755 1.000 0.190
-ID_6 0.532 0.496 0.376 0.519 0.261</code></pre>
+ID_1 0.507 0.427 0.699 0.626 0.247
+ID_2 0.430 0.529 0.499 0.598 0.209
+ID_3 0.597 0.506 0.579 0.464 0.124
+ID_4 0.366 0.453 0.751 0.485 0.284
+ID_5 0.523 0.511 0.428 0.452 0.163
+ID_6 0.368 0.499 0.446 0.349 0.175</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -514,12 +514,12 @@ ID_6 0.532 0.496 0.376 0.519 0.261</code></pre>
 <pre><code># A tibble: 6 × 6
   ID        a     v    z1    z2    t0
   &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 1     0.822 0.240 0.748 0.512 0.206
-2 2     0.741 0.302 0.711 0.479 0.241
-3 3     0.902 0.307 0.660 0.539 0.197
-4 4     0.792 0.281 0.687 0.507 0.247
-5 5     0.841 0.248 0.679 0.483 0.231
-6 6     0.580 0.271 0.686 0.457 0.252</code></pre>
+1 1     0.721 0.315 0.718 0.514 0.206
+2 2     0.879 0.280 0.681 0.436 0.210
+3 3     0.837 0.294 0.713 0.509 0.186
+4 4     0.892 0.301 0.753 0.532 0.203
+5 5     0.762 0.332 0.719 0.516 0.198
+6 6     1.02  0.316 0.676 0.502 0.209</code></pre>
 </div>
 </div>
 

@@ -519,7 +519,7 @@ argument.</code></pre>
 <span class="va">conditions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">condition</span><span class="op">)</span>
 <span class="va">n_conditions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">conditions</span><span class="op">)</span>
 
-<span class="co"># no. parameters (a, v1, v2, z, t0)</span>
+<span class="co"># no. parameters (a, v, z, t0)</span>
 <span class="va">n_pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu">init_params</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Und nun schreiben wir eine zweifache <code>for</code>-Loop, über die Versuchspersonen, und über die Bedingungen innerhalb der Personen.</p>
@@ -555,13 +555,13 @@ argument.</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
       a     v     z    t0
-A 1.439 0.261 0.523 0.206
-B 0.857 0.965 0.522 0.237
+A 0.684 0.000 0.537 0.280
+B 0.208 0.069 0.453 0.246
 
 [[2]]
       a     v     z    t0
 A 1.462 0.293 0.505 0.200
-B 1.427 1.180 0.499 0.202
+B 1.078 0.389 0.473 0.293
 
 [[3]]
       a     v     z    t0
@@ -570,7 +570,7 @@ B 1.583 1.268 0.469 0.192
 
 [[4]]
       a     v     z    t0
-A 0.811 0.847 0.522 0.258
+A 1.436 0.237 0.517 0.203
 B 1.439 1.207 0.497 0.196</code></pre>
 </div>
 </div>

@@ -242,7 +242,7 @@ n_participants <- length(participants)
 conditions <- levels(d$condition)
 n_conditions <- length(conditions)
 
-# no. parameters (a, v1, v2, z, t0)
+# no. parameters (a, v, z, t0)
 n_pars <- length(init_params())
 ```
 

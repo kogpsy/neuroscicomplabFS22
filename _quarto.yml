@@ -2,6 +2,7 @@ project:
   type: website
   output-dir: docs
   render:
+    - index.qmd
     - pages/admin/*.qmd
     - pages/chapters/*.qmd
     - slides/*.qmd

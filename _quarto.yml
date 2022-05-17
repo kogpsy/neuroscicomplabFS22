@@ -61,7 +61,7 @@ website:
             file: slides/09_evidence_accumulation.qmd
           - text: "10. Sitzung (03.05.2022)"
             file: slides/10_fitting_ddm.qmd
-          - text: "11. Sitzung (10.05.2022)"
+          - text: "11. Sitzung (17.05.2022)"
             file: slides/11_data-analysis-1.qmd
           # - text: "12. Sitzung (17.05.2022)"
           #   file: slides/12_data-analysis-2.qmd

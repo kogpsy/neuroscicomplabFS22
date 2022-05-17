@@ -232,7 +232,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>  
         <li>
     <a class="dropdown-item" href="../../slides/11_data-analysis-1.html">
- <span class="dropdown-text">11. Sitzung (10.05.2022)</span></a>
+ <span class="dropdown-text">11. Sitzung (17.05.2022)</span></a>
   </li>  
     </ul>
 </li>
@@ -251,7 +251,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../pages/exercises/exercise_03.html">
  <span class="dropdown-text">Übung 3</span></a>
   </li>  
-        <li class="dropdown-header">pages/exercises/exercise_04.qmd</li>
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_04.html">
+ <span class="dropdown-text">Übung 4</span></a>
+  </li>  
         <li>
     <a class="dropdown-item" href="../../pages/exercises/exercise_05.html">
  <span class="dropdown-text">Übung 5</span></a>
@@ -440,16 +443,16 @@ $ condition &lt;fct&gt; valid, valid, neutral, neutral, valid, neutral, neutral,
 # Groups:   ID [9]
    ID    condition     N ncorrect accuracy
    &lt;fct&gt; &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1 JH    invalid      16       13   0.812 
- 2 JH    neutral      80       66   0.825 
- 3 JH    valid        64       60   0.938 
- 4 NS    invalid      16       11   0.688 
- 5 NS    neutral      80       56   0.7   
- 6 NS    valid        64       58   0.906 
- 7 rh    invalid      16        2   0.125 
- 8 rh    neutral      80       64   0.8   
- 9 rh    valid        64       61   0.953 
-10 sb    invalid      16        1   0.0625
+ 1 JH    invalid      16       13    0.812
+ 2 JH    neutral      80       66    0.825
+ 3 JH    valid        64       60    0.938
+ 4 NS    invalid      16       11    0.688
+ 5 NS    neutral      80       56    0.7  
+ 6 NS    valid        64       58    0.906
+ 7 SS91  invalid      16        0    0    
+ 8 SS91  neutral      80       39    0.488
+ 9 SS91  valid        64       54    0.844
+10 VP1   invalid      16       11    0.688
 # … with 17 more rows</code></pre>
 </div>
 </div>
@@ -663,18 +666,18 @@ $ condition &lt;fct&gt; valid, valid, neutral, neutral, valid, neutral, neutral,
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 27 × 5
 # Groups:   ID [9]
-   ID    condition  mean median     sd
-   &lt;fct&gt; &lt;fct&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1 JH    invalid   0.775  0.739 0.163 
- 2 JH    neutral   0.799  0.733 0.202 
- 3 JH    valid     0.696  0.658 0.190 
- 4 NS    invalid   0.894  0.913 0.207 
- 5 NS    neutral   0.885  0.844 0.201 
- 6 NS    valid     0.738  0.715 0.191 
- 7 rh    invalid   0.423  0.389 0.151 
- 8 rh    neutral   0.525  0.503 0.0841
- 9 rh    valid     0.443  0.390 0.185 
-10 sb    invalid   0.376  0.341 0.0924
+   ID    condition  mean median    sd
+   &lt;fct&gt; &lt;fct&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+ 1 JH    invalid   0.775  0.739 0.163
+ 2 JH    neutral   0.799  0.733 0.202
+ 3 JH    valid     0.696  0.658 0.190
+ 4 NS    invalid   0.894  0.913 0.207
+ 5 NS    neutral   0.885  0.844 0.201
+ 6 NS    valid     0.738  0.715 0.191
+ 7 SS91  invalid   0.489  0.459 0.144
+ 8 SS91  neutral   0.542  0.467 0.242
+ 9 SS91  valid     0.475  0.418 0.170
+10 VP1   invalid   1.09   1.13  0.209
 # … with 17 more rows</code></pre>
 </div>
 </div>

@@ -5,9 +5,9 @@
 <meta name="generator" content="quarto-0.9.301">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Andrew Ellis">
-<meta name="dcterms.date" content="2022-03-29">
-<meta name="description" content="Beispiel: PsychoPy Experiment.">
-<title>Neurowissenschaft Computerlab - Signal Detection Theory: II</title>
+<meta name="dcterms.date" content="2022-04-05">
+<meta name="description" content="Signal Detection Kennzahlen zusammenfassen.">
+<title>Neurowissenschaft Computerlab - Übung 4</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -105,7 +105,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script><link rel="stylesheet" href="../../styles/global.css">
+}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="../../styles/global.css">
 </head>
 <body class="nav-fixed">
 
@@ -289,12 +289,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
 <li>
-<a href="#sdt-kennzahlen-f%C3%BCr-alle-vpn-berechnen" id="toc-sdt-kennzahlen-für-alle-vpn-berechnen" class="nav-link active" data-scroll-target="#sdt-kennzahlen-f%C3%BCr-alle-vpn-berechnen">SDT Kennzahlen für alle VPn berechnen</a>
+<a href="#vorbereitung" id="toc-vorbereitung" class="nav-link active" data-scroll-target="#vorbereitung">Vorbereitung</a>
   <ul class="collapse">
-<li><a href="#daten-importieren" id="toc-daten-importieren" class="nav-link" data-scroll-target="#daten-importieren">Daten importieren</a></li>
-  <li><a href="#variablen-bearbeiten" id="toc-variablen-bearbeiten" class="nav-link" data-scroll-target="#variablen-bearbeiten">Variablen bearbeiten</a></li>
-  <li><a href="#trials-klassifizieren" id="toc-trials-klassifizieren" class="nav-link" data-scroll-target="#trials-klassifizieren">Trials klassifizieren</a></li>
-  <li><a href="#sdt-kennzahlen-zusammenz%C3%A4hlen" id="toc-sdt-kennzahlen-zusammenzählen" class="nav-link" data-scroll-target="#sdt-kennzahlen-zusammenz%C3%A4hlen">SDT Kennzahlen zusammenzählen</a></li>
+<li><a href="#variablen-bearbeiten" id="toc-variablen-bearbeiten" class="nav-link" data-scroll-target="#variablen-bearbeiten">Variablen bearbeiten</a></li>
   <li><a href="#von-wide-zu-long-konvertieren" id="toc-von-wide-zu-long-konvertieren" class="nav-link" data-scroll-target="#von-wide-zu-long-konvertieren">Von <code>wide</code> zu <code>long</code> konvertieren</a></li>
   <li><a href="#funktionen-definieren" id="toc-funktionen-definieren" class="nav-link" data-scroll-target="#funktionen-definieren">Funktionen definieren</a></li>
   <li><a href="#nas-ersetzen" id="toc-nas-ersetzen" class="nav-link" data-scroll-target="#nas-ersetzen">NAs ersetzen</a></li>
@@ -305,24 +302,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#variablen-ausw%C3%A4hlen" id="toc-variablen-auswählen" class="nav-link" data-scroll-target="#variablen-ausw%C3%A4hlen">Variablen auswählen</a></li>
   </ul>
 </li>
-  <li>
-<a href="#sdt-als-glm" id="toc-sdt-als-glm" class="nav-link" data-scroll-target="#sdt-als-glm">SDT als GLM</a>
-  <ul class="collapse">
-<li><a href="#eine-person-ausw%C3%A4hlen." id="toc-eine-person-auswählen." class="nav-link" data-scroll-target="#eine-person-ausw%C3%A4hlen.">Eine Person auswählen.</a></li>
-  <li><a href="#visualisieren" id="toc-visualisieren" class="nav-link" data-scroll-target="#visualisieren">Visualisieren</a></li>
-  <li><a href="#generalized-linear-model" id="toc-generalized-linear-model" class="nav-link" data-scroll-target="#generalized-linear-model">Generalized Linear Model</a></li>
-  </ul>
-</li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Signal Detection Theory: II</h1>
+<h1 class="title">Übung 4</h1>
 </div>
 
 <div>
   <div class="description">
-    <p>Beispiel: PsychoPy Experiment.</p>
+    <p>Signal Detection Kennzahlen zusammenfassen.</p>
   </div>
 </div>
 
@@ -350,29 +339,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2022-03-29</p>
+      <p class="date">2022-04-05</p>
     </div>
   </div>
     
   </div>
   
 
-</header><div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>👉 <a href="../../downloadable_files/signal-detection-2.R">R Code für dieses Kapitel downloaden</a></p>
-<p>👉 <a href="../../data/session_6/data/session-6.csv">Daten downloaden</a></p>
-</div>
-</div>
-<section id="sdt-kennzahlen-für-alle-vpn-berechnen" class="level1"><h1>SDT Kennzahlen für alle VPn berechnen</h1>
-<p>Wir werden nun <code>d'</code>, <code>k</code> und <code>c</code> (bias) für alle Versuchspersonen in diesem Datensatz berechnen.</p>
+</header><p>In dieser Übung berechnen aus den Daten von 15 Versuchspersonen aus dem PsychoPy Experiment die Signal Detection Kennzahlen <span class="math inline">\(d'\)</span>, <span class="math inline">\(k\)</span> und <span class="math inline">\(c\)</span>. Anschliessen berechnen Sie Mittelwerte der drei Bedingungen für <span class="math inline">\(d'\)</span> und <span class="math inline">\(c\)</span> unter Berücksichtigung der Messwiederholung.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -383,16 +357,18 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Wichtig: Was erwarten wir für die Parameter <code>d'</code> und <code>c</code>? Hinweis: Der <strong>Cue</strong> war entweder rechts oder links (oder neutral). Wie sollte das die Parameter beeinflussen?</p>
+<p>Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen.</p>
+<p>In diesem File finden Sie Beispielscode. Manche Zeilen enthalten <code>___</code>. Hier müssen Sie den Code vervollständigen.</p>
+<p>Laden Sie bitte Ihre Lösung als R Skript bis <strong>Dienstag, 12.4.2022, um 00:30 Uhr</strong>, in den Order für Übung 4 auf ILIAS.</p>
+<p>Nennen Sie Ihr File <em>Matrikelnummer_Nachname_uebung-4.R</em>.</p>
 </div>
 </div>
-<section id="daten-importieren" class="level2"><h2 class="anchored" data-anchor-id="daten-importieren">Daten importieren</h2>
-<p>Zuerst die Daten downloaden, und speichern.</p>
+<section id="vorbereitung" class="level1"><h1>Vorbereitung</h1>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/session-6.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="variablen-bearbeiten" class="level2"><h2 class="anchored" data-anchor-id="variablen-bearbeiten">Variablen bearbeiten</h2>
+<section id="variablen-bearbeiten" class="level2"><h2 class="anchored" data-anchor-id="variablen-bearbeiten">Variablen bearbeiten</h2>
 <p>Zu <code>factor</code> konvertieren, etc.</p>
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt;
@@ -401,43 +377,22 @@ Note
            cue <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel</a></span><span class="op">(</span><span class="va">cue</span>, <span class="st">"left"</span>, <span class="st">"none"</span>, <span class="st">"right"</span><span class="op">)</span><span class="op">)</span> |&gt;
     <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="trials-klassifizieren" class="level2"><h2 class="anchored" data-anchor-id="trials-klassifizieren">Trials klassifizieren</h2>
-<p>Als <code>Hit</code>, <code>Miss</code>, <code>CR</code> und <code>FA</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sdt <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">type =</span> <span class="fu">case_when</span>(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        direction <span class="sc">==</span> <span class="st">"___"</span> <span class="sc">&amp;</span> choice <span class="sc">==</span> <span class="st">"___"</span> <span class="sc">~</span> <span class="st">"___"</span>),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        ___,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        ___,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        ___)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span>
+        <span class="va">direction</span> <span class="op">==</span> <span class="st">"right"</span> <span class="op">&amp;</span> <span class="va">choice</span> <span class="op">==</span> <span class="st">"right"</span> <span class="op">~</span> <span class="st">"Hit"</span>,
+        <span class="va">direction</span> <span class="op">==</span> <span class="st">"right"</span> <span class="op">&amp;</span> <span class="va">choice</span> <span class="op">==</span> <span class="st">"left"</span> <span class="op">~</span> <span class="st">"Miss"</span>,
+        <span class="va">direction</span> <span class="op">==</span> <span class="st">"left"</span> <span class="op">&amp;</span> <span class="va">choice</span> <span class="op">==</span> <span class="st">"left"</span> <span class="op">~</span> <span class="st">"CR"</span>,
+        <span class="va">direction</span> <span class="op">==</span> <span class="st">"left"</span> <span class="op">&amp;</span> <span class="va">choice</span> <span class="op">==</span> <span class="st">"right"</span> <span class="op">~</span> <span class="st">"FA"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Für jede Vpn in jeder der drei <code>cue</code> Bedingungen die verschiedenen Antworttypen zählen.</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2,362 × 6
-   ID     condition cue   direction choice type 
-   &lt;fct&gt;  &lt;fct&gt;     &lt;fct&gt; &lt;fct&gt;     &lt;fct&gt;  &lt;chr&gt;
- 1 chch04 valid     left  left      left   CR   
- 2 chch04 valid     left  left      left   CR   
- 3 chch04 valid     left  left      right  FA   
- 4 chch04 invalid   right left      left   CR   
- 5 chch04 neutral   none  left      left   CR   
- 6 chch04 valid     left  left      left   CR   
- 7 chch04 invalid   right left      left   CR   
- 8 chch04 valid     left  left      left   CR   
- 9 chch04 neutral   none  left      left   CR   
-10 chch04 neutral   none  right     left   Miss 
-# … with 2,352 more rows</code></pre>
-</div>
-</div>
-</section><section id="sdt-kennzahlen-zusammenzählen" class="level2"><h2 class="anchored" data-anchor-id="sdt-kennzahlen-zusammenzählen">SDT Kennzahlen zusammenzählen</h2>
-<div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt</span> |&gt;
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">cue</span><span class="op">)</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">type</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 170 × 4
 # Groups:   ID, cue [45]
@@ -458,11 +413,11 @@ Note
 </div>
 </section><section id="von-wide-zu-long-konvertieren" class="level2"><h2 class="anchored" data-anchor-id="von-wide-zu-long-konvertieren">Von <code>wide</code> zu <code>long</code> konvertieren</h2>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">type</span>, values_from <span class="op">=</span> <span class="va">n</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 45 × 6
 # Groups:   ID, cue [45]
@@ -483,7 +438,7 @@ Note
 </div>
 </section><section id="funktionen-definieren" class="level2"><h2 class="anchored" data-anchor-id="funktionen-definieren">Funktionen definieren</h2>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">replace_NA</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">replace_NA</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
     <span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0</span>, <span class="va">x</span><span class="op">)</span>
     <span class="va">x</span>
 <span class="op">}</span>
@@ -499,25 +454,45 @@ Note
 </div>
 </section><section id="nas-ersetzen" class="level2"><h2 class="anchored" data-anchor-id="nas-ersetzen">NAs ersetzen</h2>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Hit</span>, <span class="va">Miss</span>, <span class="va">FA</span>, <span class="va">CR</span><span class="op">)</span>, <span class="va">replace_NA</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="hit-rate-und-false-alarm-rate-berechnen" class="level2"><h2 class="anchored" data-anchor-id="hit-rate-und-false-alarm-rate-berechnen">Hit Rate und False Alarm Rate berechnen</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sdt_summary <span class="ot">&lt;-</span> sdt_summary <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">hit_rate =</span> ___,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">fa_rate =</span> ___)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sdt_summary <span class="ot">&lt;-</span> sdt_summary <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">hit_rate =</span> ___,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">fa_rate =</span> ___)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="werte-0-und-1-korrigieren" class="level2"><h2 class="anchored" data-anchor-id="werte-0-und-1-korrigieren">Werte 0 und 1 korrigieren</h2>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">hit_rate</span>, <span class="va">fa_rate</span><span class="op">)</span>, <span class="va">correct_zero_one</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="z-transformation" class="level2"><h2 class="anchored" data-anchor-id="z-transformation">Z-Transformation</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sdt_summary <span class="ot">&lt;-</span> sdt_summary <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">zhr =</span> ___,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">zfa =</span> ___)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>zhr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">hit_rate</span><span class="op">)</span>,
+           zfa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">fa_rate</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 45 × 10
+# Groups:   ID, cue [45]
+   ID     cue      CR    FA   Hit  Miss hit_rate fa_rate   zhr     zfa
+   &lt;fct&gt;  &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+ 1 chch04 left     29     3     7     1    0.875  0.0938 1.15  -1.32  
+ 2 chch04 none     38     2    34     6    0.85   0.05   1.04  -1.64  
+ 3 chch04 right     5     3    25     7    0.781  0.375  0.776 -0.319 
+ 4 chmi14 left     21    10     5     3    0.625  0.323  0.319 -0.460 
+ 5 chmi14 none     18    19    29     7    0.806  0.514  0.862  0.0339
+ 6 chmi14 right     3     4    26     4    0.867  0.571  1.11   0.180 
+ 7 J      left     19    12     5     3    0.625  0.387  0.319 -0.287 
+ 8 J      none     23    16    33     6    0.846  0.410  1.02  -0.227 
+ 9 J      right     6     2    20    12    0.625  0.25   0.319 -0.674 
+10 jh     left     32     0     5     3    0.625  0.001  0.319 -3.09  
+# … with 35 more rows</code></pre>
+</div>
 </div>
 </section><section id="sdt-kennzahlen-berechnen" class="level2"><h2 class="anchored" data-anchor-id="sdt-kennzahlen-berechnen">SDT Kennzahlen berechnen</h2>
 <div class="cell">
@@ -532,204 +507,113 @@ Note
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_final</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">cue</span>, <span class="va">dprime</span>, <span class="va">k</span>, <span class="va">c</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section><section id="sdt-als-glm" class="level1"><h1>SDT als GLM</h1>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<p>Im finalen Datensatz haben wir nun <code>d'</code>, <code>k</code> und <code>c</code> für jede Person in jeder Bedingung.</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_final</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 45 × 5
+# Groups:   ID, cue [45]
+   ID     cue   dprime     k     c
+   &lt;fct&gt;  &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 chch04 left    2.47  1.32  0.08
+ 2 chch04 none    2.68  1.64  0.3 
+ 3 chch04 right   1.1   0.32 -0.23
+ 4 chmi14 left    0.78  0.46  0.07
+ 5 chmi14 none    0.83 -0.03 -0.45
+ 6 chmi14 right   0.93 -0.18 -0.65
+ 7 J      left    0.61  0.29 -0.02
+ 8 J      none    1.25  0.23 -0.4 
+ 9 J      right   0.99  0.67  0.18
+10 jh     left    3.41  3.09  1.39
+# … with 35 more rows</code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Tip
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Vertiefung: Wir können <code>d'</code>, <code>k</code> und <code>c</code> auch als Regressionskoeffizienten einer <em>Probit</em> Regression schätzen.</p>
-</div>
-</div>
-<section id="eine-person-auswählen." class="level2"><h2 class="anchored" data-anchor-id="eine-person-auswählen.">Eine Person auswählen.</h2>
-<div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">SU6460</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt;
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">ID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="st">"SU6460"</span><span class="op">)</span>
-
-<span class="va">SU6460_sdt</span> <span class="op">&lt;-</span> <span class="va">sdt_final</span> |&gt;
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">ID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="st">"SU6460"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section><section id="visualisieren" class="level2"><h2 class="anchored" data-anchor-id="visualisieren">Visualisieren</h2>
-<div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">SU6460_sdt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 5
-# Groups:   ID, cue [3]
-  ID     cue   dprime     k     c
-  &lt;fct&gt;  &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 SU6460 left    0.32  0    -0.16
-2 SU6460 none    0.3  -0.23 -0.38
-3 SU6460 right  -0.27 -0.67 -0.54</code></pre>
+<p>Wir erwarten, dass sich <code>d'</code> zwischen den Bedingungen nicht unterscheidet. <code>k</code> und <code>c</code> (bias) sollte sich hingegen zwischen den <code>cue</code> Bedingungen unterscheiden. Uns interessiert hier vor allem <code>c</code>: in der neutralen Bedingung sollte <code>c</code> etwa 0 sein, in der ‘left’ Bedingung sollte <span class="math inline">\(c &gt; 0\)</span> sein, und in der ‘right’ Bedingung sollte <span class="math inline">\(c &lt; 0\)</span> sein.</p>
+<p>Versuchen Sie die untenstehende Grafiken für <code>d'</code> und <code>c</code> zu reproduzieren.</p>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">SU6460_sdt</span> |&gt;
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">cue</span>, y <span class="op">=</span> <span class="va">dprime</span>, group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">21</span>, size <span class="op">=</span> <span class="fl">3</span>, fill <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="06_signal_detection_ii_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+<p><img src="exercise_04_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
+</div>
+<p>Sie brauchen zuerst eine (separate) Zusammenfassung der <code>d'</code> und <code>c</code> Werte, welche die Messwiederholung respektiert. Sie können dazu die Funktion <code>summarySEwithin</code> aus dem <code>Rmisc</code> Package verwenden.</p>
+<p>Die Funktion braucht die Argumente <code>measurevar</code>, <code>withinvars</code> und <code>idvar</code>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 85%">
+</colgroup>
+<thead><tr class="header">
+<th>Argument</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>measurevar</code></td>
+<td>Variable, für welche eine Messwiederholung vorliegt</td>
+</tr>
+<tr class="even">
+<td><code>withinvars</code></td>
+<td>Messwiederholung</td>
+</tr>
+<tr class="odd">
+<td><code>idvar</code></td>
+<td>Identität der messwiederholten Einheit</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>cs <span class="ot">&lt;-</span> sdt_final <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(ID, cue, c) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    ___</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">SU6460_sdt</span> |&gt;
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">cue</span>, y <span class="op">=</span> <span class="va">c</span>, group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dprimes <span class="ot">&lt;-</span> sdt_final <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(ID, cue, ___) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    ___</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Wenn Sie, wie ich, die Datensätze mit den Mittelwerten, Standardfehlern und <span class="math inline">\(95%\)</span> Konfidenzintervallen <code>primes</code> und <code>cs</code> genannt haben, können Sie die Plots beispielsweise so erstellen.</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">cs</span> |&gt;
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">cue</span>, y <span class="op">=</span> <span class="va">c</span>, group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, 
+               linetype <span class="op">=</span> <span class="st">"dashed"</span>,
+               color <span class="op">=</span> <span class="st">"grey60"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">21</span>, size <span class="op">=</span> <span class="fl">3</span>, fill <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.1</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">c</span> <span class="op">-</span> <span class="va">ci</span>,
+                                   ymax <span class="op">=</span> <span class="va">c</span> <span class="op">+</span> <span class="va">ci</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">21</span>, size <span class="op">=</span> <span class="fl">3</span>, fill <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"c (bias)"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Falls Sie wollen, können Sie die individuellen <code>c</code> Schätzungen dem Plot hinzufügen, mit folgendem Code:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">cue</span>, <span class="va">c</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sdt_final</span>, width <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
 <div class="cell-output-display">
-<p><img src="06_signal_detection_ii_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section><section id="generalized-linear-model" class="level2"><h2 class="anchored" data-anchor-id="generalized-linear-model">Generalized Linear Model</h2>
-<p>Check <code>levels</code>: <code>right</code> muss die zweite Faktorstufe sein!</p>
-<div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">SU6460</span><span class="op">$</span><span class="va">choice</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "left"  "right"</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">SU6460_glm_k_left</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">choice</span> <span class="op">~</span> <span class="va">direction</span>,
-                      family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"probit"</span><span class="op">)</span>,
-                      data <span class="op">=</span> <span class="va">SU6460</span> |&gt; <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">cue</span> <span class="op">==</span> <span class="st">"left"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">SU6460_glm_k_left</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-glm(formula = choice ~ direction, family = binomial(link = "probit"), 
-    data = filter(SU6460, cue == "left"))
-
-Deviance Residuals: 
-    Min       1Q   Median       3Q      Max  
--1.4006  -1.1774   0.9695   1.1774   1.1774  
-
-Coefficients:
-                 Estimate Std. Error z value Pr(&gt;|z|)
-(Intercept)    -1.250e-16  2.216e-01   0.000    1.000
-directionright  3.186e-01  5.028e-01   0.634    0.526
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 55.352  on 39  degrees of freedom
-Residual deviance: 54.946  on 38  degrees of freedom
-AIC: 58.946
-
-Number of Fisher Scoring iterations: 4</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">SU6460_glm_k_right</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">choice</span> <span class="op">~</span> <span class="va">direction</span>,
-                       family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"probit"</span><span class="op">)</span>,
-                       data <span class="op">=</span> <span class="va">SU6460</span> |&gt; <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">cue</span> <span class="op">==</span> <span class="st">"right"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">SU6460_glm_k_right</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-glm(formula = choice ~ direction, family = binomial(link = "probit"), 
-    data = filter(SU6460, cue == "right"))
-
-Deviance Residuals: 
-    Min       1Q   Median       3Q      Max  
--1.6651  -1.4614   0.9178   0.9178   0.9178  
-
-Coefficients:
-               Estimate Std. Error z value Pr(&gt;|z|)
-(Intercept)      0.6745     0.4818   1.400    0.162
-directionright  -0.2722     0.5331  -0.511    0.610
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 50.446  on 39  degrees of freedom
-Residual deviance: 50.181  on 38  degrees of freedom
-AIC: 54.181
-
-Number of Fisher Scoring iterations: 4</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">SU6460</span> <span class="op">&lt;-</span> <span class="va">SU6460</span> |&gt;
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>dir <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">direction</span> <span class="op">==</span> <span class="st">"left"</span>, <span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">SU6460_glm_c_left</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">choice</span> <span class="op">~</span> <span class="va">dir</span>,
-                       family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"probit"</span><span class="op">)</span>,
-                       data <span class="op">=</span> <span class="va">SU6460</span> |&gt; <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">cue</span> <span class="op">==</span> <span class="st">"left"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">SU6460_glm_c_left</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-glm(formula = choice ~ dir, family = binomial(link = "probit"), 
-    data = filter(SU6460, cue == "left"))
-
-Deviance Residuals: 
-    Min       1Q   Median       3Q      Max  
--1.4006  -1.1774   0.9695   1.1774   1.1774  
-
-Coefficients:
-            Estimate Std. Error z value Pr(&gt;|z|)
-(Intercept)   0.1593     0.2514   0.634    0.526
-dir           0.3186     0.5028   0.634    0.526
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 55.352  on 39  degrees of freedom
-Residual deviance: 54.946  on 38  degrees of freedom
-AIC: 58.946
-
-Number of Fisher Scoring iterations: 4</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">SU6460_glm_c_right</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">choice</span> <span class="op">~</span> <span class="va">dir</span>,
-                        family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"probit"</span><span class="op">)</span>,
-                        data <span class="op">=</span> <span class="va">SU6460</span> |&gt; <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">cue</span> <span class="op">==</span> <span class="st">"right"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">SU6460_glm_c_right</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-glm(formula = choice ~ dir, family = binomial(link = "probit"), 
-    data = filter(SU6460, cue == "right"))
-
-Deviance Residuals: 
-    Min       1Q   Median       3Q      Max  
--1.6651  -1.4614   0.9178   0.9178   0.9178  
-
-Coefficients:
-            Estimate Std. Error z value Pr(&gt;|z|)  
-(Intercept)   0.5384     0.2665   2.020   0.0434 *
-dir          -0.2722     0.5331  -0.511   0.6096  
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 50.446  on 39  degrees of freedom
-Residual deviance: 50.181  on 38  degrees of freedom
-AIC: 54.181
-
-Number of Fisher Scoring iterations: 4</code></pre>
+<p><img src="exercise_04_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
 
 </section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{ellis2022,
   author = {Andrew Ellis},
-  title = {Signal {Detection} {Theory:} {II}},
-  date = {2022-03-29},
-  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/06_signal_detection_ii.html},
+  title = {Übung 4},
+  date = {2022-04-05},
+  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/exercises/exercise_04.html},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-ellis2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Andrew Ellis. 2022. <span>“Signal Detection Theory: II.”</span> March
-29, 2022. <a href="https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/06_signal_detection_ii.html">https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/06_signal_detection_ii.html</a>.
+Andrew Ellis. 2022. <span>“Übung 4.”</span> April 5, 2022. <a href="https://kogpsy.github.io/neuroscicomplabFS22//pages/exercises/exercise_04.html">https://kogpsy.github.io/neuroscicomplabFS22//pages/exercises/exercise_04.html</a>.
 </div></div></section></div></main><!-- /main --><script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const disableStylesheet = (stylesheets) => {

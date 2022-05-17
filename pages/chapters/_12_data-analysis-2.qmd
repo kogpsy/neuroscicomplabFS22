@@ -33,9 +33,46 @@ library(viridis)
 ```
 
 #FIXME: move to later
+
+
 ```{r}
-cardgame <- c(rep(1, 6), rep(0, 3)) |> 
-  sample(9, replace = FALSE)
+compute_posterior = function(likelihood, prior){
+  likelihood <- likelihood * (length(likelihood) - 1)
+  # compute product of likelihood and prior
+  unstandardized_posterior <- likelihood * prior
+  
+  # standardize the posterior, so it sums to 1
+  posterior <- unstandardized_posterior / sum(unstandardized_posterior)
+  
+  out <- tibble(prior, likelihood, posterior)
+  out
+}
+```
+
+```{r}
+plot_posterior <- function(df, mle = 6/9){
+with(df, {
+    par(mfrow=c(1, 3))
+    plot(theta_grid , prior, type="l", main="Prior", col = "dodgerblue3", 
+            lwd = 4, yaxt = 'n', ylab = 'Probability', cex.lab = 1.5, cex.main = 3)
+    plot(theta_grid , likelihood, type = "l", main = "Likelihood", col = "firebrick3", 
+            lwd = 4, yaxt = 'n', ylab = '', cex.lab = 1.5, cex.main = 3)
+    plot(theta_grid , posterior , type = "l", main = "Posterior", col = "darkorchid3", 
+            lwd = 4, yaxt = 'n', ylab = '', cex.lab = 1.5, cex.main = 3)
+    abline(v = mle, col = 4, lty = 2, lwd = 2)
+  } )
+}
+```
+
+
+```{r}
+
+wins <- 6
+games <- 9
+
+cardgame <- c(rep(1, wins), rep(0, games-wins)) |> 
+  sample(games, replace = FALSE)
+
 cardgame <- tibble(game = 1:9,
                    winner = if_else(cardgame == 1, "A", "B"),
                    indicator = cardgame)
@@ -44,9 +81,12 @@ cardgame |> write_csv("cardgame.csv")
 ```
 
 ```{r}
-theta_grid <- seq(0, 1, length =  1001)
+n_points <- 101
+theta_grid <- seq(0, 1, length =  n_points)
+
 prior <- dbeta(theta_grid, shape1 = 1, shape2 = 1)
 likelihood <- dbinom(wins, size = games , prob = theta_grid)
+
 d <- compute_posterior(likelihood = likelihood, prior = prior)
 ```
 
@@ -54,10 +94,37 @@ d <- compute_posterior(likelihood = likelihood, prior = prior)
 plot_posterior(d)
 ```
 
+
 ```{r}
-d$prior[501]/d$posterior[501]
+prior <- dbeta(theta_grid, shape1 = 1, shape2 = 1)
+posterior <- dbeta(theta_grid, shape1 = 1 + wins, shape2 = 1 + (games - wins))
 ```
 
+```{r}
+bf01 <- dbeta(0.5, shape1 = 1, shape2 = 1)/dbeta(0.5, shape1 = 1 + wins, shape2 = 1 + (games - wins))
+```
+
+```{r}
+bf01
+```
+
+```{r}
+(bf10 <- 1/bf01)
+```
+```{r}
+(bf <- d$prior[51]/d$posterior[51])
+```
+
+
+```{r}
+plot(theta_grid, posterior, "l", col = "purple")
+lines(theta_grid, prior, col = "blue")
+```
+
+
+
+
+    
 ## What have we done so far?
 
 We have briefly looked at how to estimate parameters in a very simple model, and we touched upon how to quantify uncertainty in our parameter estimates.

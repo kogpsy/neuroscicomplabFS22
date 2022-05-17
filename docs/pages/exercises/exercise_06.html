@@ -251,13 +251,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../pages/exercises/exercise_03.html">
  <span class="dropdown-text">Übung 3</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="../../pages/exercises/exercise_04.html">
- <span class="dropdown-text">Übung 4</span></a>
-  </li>  
+        <li class="dropdown-header">pages/exercises/exercise_04.qmd</li>
         <li>
     <a class="dropdown-item" href="../../pages/exercises/exercise_05.html">
  <span class="dropdown-text">Übung 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_06.html">
+ <span class="dropdown-text">Übung 6</span></a>
   </li>  
     </ul>
 </li>
@@ -284,7 +285,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#aufgabenstellung" id="toc-aufgabenstellung" class="nav-link active" data-scroll-target="#aufgabenstellung">Aufgabenstellung</a></li>
+<li>
+<a href="#aufgabenstellung" id="toc-aufgabenstellung" class="nav-link active" data-scroll-target="#aufgabenstellung">Aufgabenstellung</a>
+  <ul class="collapse">
+<li><a href="#daten-einlesen" id="toc-daten-einlesen" class="nav-link" data-scroll-target="#daten-einlesen">Daten einlesen</a></li>
+  <li><a href="#aufgaben" id="toc-aufgaben" class="nav-link" data-scroll-target="#aufgaben">Aufgaben</a></li>
+  <li><a href="#daten-vorbereiten" id="toc-daten-vorbereiten" class="nav-link" data-scroll-target="#daten-vorbereiten">Daten vorbereiten</a></li>
+  <li><a href="#daten-zusammenfassen" id="toc-daten-zusammenfassen" class="nav-link" data-scroll-target="#daten-zusammenfassen">Daten zusammenfassen</a></li>
+  <li><a href="#negative-loglikelihood-funktion-definieren" id="toc-negative-loglikelihood-funktion-definieren" class="nav-link" data-scroll-target="#negative-loglikelihood-funktion-definieren">Negative loglikelihood Funktion definieren</a></li>
+  <li><a href="#startwerte-f%C3%BCr-maxmimum-likelihood-sch%C3%A4tzung" id="toc-startwerte-für-maxmimum-likelihood-schätzung" class="nav-link" data-scroll-target="#startwerte-f%C3%BCr-maxmimum-likelihood-sch%C3%A4tzung">Startwerte für Maxmimum Likelihood Schätzung</a></li>
+  <li><a href="#maxmimum-likelihood-sch%C3%A4tzung" id="toc-maxmimum-likelihood-schätzung" class="nav-link" data-scroll-target="#maxmimum-likelihood-sch%C3%A4tzung">Maxmimum Likelihood Schätzung</a></li>
+  <li><a href="#gesch%C3%A4tzte-parameterwerte" id="toc-geschätzte-parameterwerte" class="nav-link" data-scroll-target="#gesch%C3%A4tzte-parameterwerte">Geschätzte Parameterwerte</a></li>
+  <li><a href="#vergleich-mit-wahren-werten" id="toc-vergleich-mit-wahren-werten" class="nav-link" data-scroll-target="#vergleich-mit-wahren-werten">Vergleich mit wahren Werten</a></li>
+  </ul>
+</li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -339,192 +353,241 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Die Daten für diese Übung finden Sie hier: 👉 <a href="../../data/exercise-06/data/ddm-data.csv">Download Data</a></p>
-<p>Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen.</p>
-<p>In diesem File finden Sie Beispielscode. Manche Zeilen enthalten <code>___</code>. Hier müssen Sie den Code vervollständigen.</p>
-<p>Laden Sie bitte Ihre Lösung als R Skript bis <strong>Mittwoch, 17.5.2022, um 00:30 Uhr</strong>, in den Order für Übung 6 auf ILIAS.</p>
-<p>Nennen Sie Ihr File <em>Matrikelnummer_Nachname_uebung-6.R</em>.</p>
+<p>Die Daten für diese Übung finden Sie hier:</p>
+<p>👉 <a href="../../data/exercise-06/data/ddm-data.csv">Download Data</a></p>
+<p>👉 <a href="../../data/exercise-06/dparticipant-params.csv">Download True Parameters</a></p>
+<p>Laden Sie bitte Ihre Lösung als Word Dokument oder R Skript bis <strong>Dienstag, 24.5.2022, um 00:30 Uhr</strong>, in den Order für Übung 6 auf ILIAS.</p>
+<p>Nennen Sie Ihr File <em>Matrikelnummer_Nachname_uebung-6.R</em> oder <em>Matrikelnummer_Nachname_uebung-6.docx</em>.</p>
 </div>
 </div>
 <section id="aufgabenstellung" class="level1"><h1>Aufgabenstellung</h1>
-<div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<p>In dieser Aufgabe geht es darum, dass Sie einmal selber die Parameter eines DDM an Daten fitten können. Es geht nicht darum, jede Zeile Code zu verstehen; es geht vor allem darum, zu erleben, wie schwierig es sein kann, solche Modelle an Daten zu fitten.</p>
+<p>Bitte führen Sie den Code, in dem die Parameter geschätzt werden, mehrmals aus, und kopieren Sie die geschätzten Parameter in ein File. Dies muss abgegeben werden.</p>
+<section id="daten-einlesen" class="level2"><h2 class="anchored" data-anchor-id="daten-einlesen">Daten einlesen</h2>
+<p>Downloaden Sie die Daten, und die wahren Parameter (zum Vergleich).</p>
+<p>Wir laden die Daten in ein DataFrame, <code>d</code>. Ich habe ein RT Experiment simuliert, in dem 4 Versuchspersonen in 2 Bedingungen (“A” und “B”) getestet wurden. Die experimentelle Manipulation sollte sich vor allem auf einen Parameter unterschieden. In dieser Übung geht es darum, herauszufinden, auf welchen Parameter die Manipulation einen Einfluss hat.</p>
+</section><section id="aufgaben" class="level2"><h2 class="anchored" data-anchor-id="aufgaben">Aufgaben</h2>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-✔ tibble  3.1.7     ✔ dplyr   1.0.9
-✔ tidyr   1.2.0     ✔ stringr 1.4.0
-✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
+<div class="callout-caption-container flex-fill">
+Important
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()</code></pre>
 </div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rtdists/rtdists/">rtdists</a></span><span class="op">)</span>
-
-<span class="va">true_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">0.8</span>,
-                 v <span class="op">=</span> <span class="fl">0.3</span>,
-                 z1 <span class="op">=</span> <span class="fl">0.7</span>,
-                 z2 <span class="op">=</span> <span class="fl">0.5</span>,
-                 t0 <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>
-
-<span class="va">ntrials</span> <span class="op">&lt;-</span> <span class="fl">1e3</span>
-
-<span class="va">make_subject</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">ntrials</span> <span class="op">=</span> <span class="fl">1e3</span>, <span class="va">pars</span>, <span class="va">subject_no</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span>
-
-  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">pars</span><span class="op">[</span><span class="st">"a"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>
-  <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">pars</span><span class="op">[</span><span class="st">"v"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>
-  <span class="va">z1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">plogis</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">qlogis</a></span><span class="op">(</span><span class="va">pars</span><span class="op">[</span><span class="st">"z1"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>
-  <span class="va">z2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">plogis</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">qlogis</a></span><span class="op">(</span><span class="va">pars</span><span class="op">[</span><span class="st">"z2"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>
-  <span class="va">t0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">pars</span><span class="op">[</span><span class="st">"t0"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>
-
-  <span class="va">s</span> <span class="op">&lt;-</span> <span class="fl">1.0</span>
-  
-  <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/rtdists/man/Diffusion.html">rdiffusion</a></span><span class="op">(</span><span class="va">ntrials</span>, a <span class="op">=</span> <span class="va">a</span>, v <span class="op">=</span> <span class="va">v</span>, t0 <span class="op">=</span> <span class="va">t0</span>, z <span class="op">=</span> <span class="va">z1</span><span class="op">*</span><span class="va">a</span>, s <span class="op">=</span> <span class="va">s</span><span class="op">)</span> |&gt;
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>condition <span class="op">=</span> <span class="st">"A"</span>,
-         ID <span class="op">=</span> <span class="va">subject_no</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/pkg/rtdists/man/Diffusion.html">rdiffusion</a></span><span class="op">(</span><span class="va">ntrials</span>, a <span class="op">=</span> <span class="va">a</span>, v <span class="op">=</span> <span class="va">v</span>, t0 <span class="op">=</span> <span class="va">t0</span>, z <span class="op">=</span> <span class="va">z2</span><span class="op">*</span><span class="va">a</span>, s <span class="op">=</span> <span class="va">s</span><span class="op">)</span> |&gt;
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>condition <span class="op">=</span> <span class="st">"B"</span>,
-         ID <span class="op">=</span> <span class="va">subject_no</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> |&gt;
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>response <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">response</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lower"</span>, <span class="st">"upper"</span><span class="op">)</span><span class="op">)</span>,
-         condition <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">condition</span><span class="op">)</span><span class="op">)</span>
-  <span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt; <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>a <span class="op">=</span> <span class="va">a</span>, v <span class="op">=</span> <span class="va">v</span>, z1 <span class="op">=</span> <span class="va">z1</span>, z2 <span class="op">=</span> <span class="va">z2</span>, t0 <span class="op">=</span> <span class="va">t0</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">nsubjects</span> <span class="op">&lt;-</span> <span class="fl">6</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">81</span><span class="op">)</span>
-
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="va">nsubjects</span> |&gt; <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_df</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">make_subject</span><span class="op">(</span>ntrials <span class="op">=</span> <span class="va">ntrials</span>,
-                                            pars <span class="op">=</span> <span class="va">true_params</span>,
-                                            subject_no <span class="op">=</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span> |&gt;
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>response <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">response</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lower"</span>, <span class="st">"upper"</span><span class="op">)</span><span class="op">)</span>,
-         condition <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">condition</span><span class="op">)</span>,
-         ID <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">participant_params</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt;
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span> |&gt;
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">first</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span>,
-            v <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">first</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span>,
-            z1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">first</a></span><span class="op">(</span><span class="va">z1</span><span class="op">)</span>,
-            z2 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">first</a></span><span class="op">(</span><span class="va">z2</span><span class="op">)</span>,
-            t0 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">first</a></span><span class="op">(</span><span class="va">t0</span><span class="op">)</span><span class="op">)</span>
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt; <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">condition</span>, <span class="va">rt</span>, <span class="va">response</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Führen Sie die Parameterschätzung mehrmals aus, und berichten Sie die resultierenden Parameter. Es kann sein, dass nicht immer dasselbe rauskommt (deshlab machen wir es mehrmals). Welcher Parameter wurde beeinflusst?</p></li>
+<li><p>Überlegen Sie sich, wie Sie weiterführen würden. Wie können Sie zeigen, dass es in einem Parameter einen Unterschied zwischen den Bedingungen gibt? Wie können Sie zeigen, dass es in den anderen Parameter keine Unterschied gibt? Beschreiben Sie in einem Paragraphen, was Sie sich überlegt haben.</p></li>
+</ol>
+</div>
 </div>
 <div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rtdists/rtdists/">rtdists</a></span><span class="op">)</span>
+
+<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"ddm-data.csv"</span><span class="op">)</span>
+<span class="va">participant_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"participant-params.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="daten-vorbereiten" class="level2"><h2 class="anchored" data-anchor-id="daten-vorbereiten">Daten vorbereiten</h2>
+<p>Wir schauen uns die Daten an:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> |&gt; <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 9,600
+Columns: 4
+$ ID        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+$ condition &lt;chr&gt; "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", …
+$ rt        &lt;dbl&gt; 0.6888584, 0.3411717, 1.6588621, 0.8845731, 0.7925147, 0.440…
+$ response  &lt;chr&gt; "lower", "upper", "upper", "upper", "upper", "upper", "lower…</code></pre>
+</div>
+</div>
+<p>Die Variablen <code>ID</code>, <code>condition</code> und <code>response</code> sollten Faktoren sein.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">condition</span>, <span class="va">response</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">d</span> |&gt; <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 9,600
+Columns: 4
+$ ID        &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+$ condition &lt;fct&gt; A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, …
+$ rt        &lt;dbl&gt; 0.6888584, 0.3411717, 1.6588621, 0.8845731, 0.7925147, 0.440…
+$ response  &lt;fct&gt; lower, upper, upper, upper, upper, upper, lower, upper, uppe…</code></pre>
+</div>
+</div>
+<p>Weil es nur 4 VP sind, können wir die RTs von allen in einem Plot anschauen. Die <code>upper</code> Responses können wir hier als korrekte Antworten auffassen, die <code>lower</code> Responses als inkorrekte.</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> |&gt;
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">rt</span>, <span class="va">response</span>, fill <span class="op">=</span> <span class="va">response</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fl">0.1</span>, alpha <span class="op">=</span> <span class="fl">0.2</span>, size <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"B"</span>, direction <span class="op">=</span> <span class="fl">1</span>,
+                       begin <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, end <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span><span class="op">(</span><span class="va">condition</span> <span class="op">~</span> <span class="va">ID</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 488 rows containing non-finite values (stat_ydensity).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 488 rows containing missing values (geom_point).</code></pre>
+</div>
 <div class="cell-output-display">
-<p><img src="exercise_06_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="exercise_06_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section><section id="daten-zusammenfassen" class="level2"><h2 class="anchored" data-anchor-id="daten-zusammenfassen">Daten zusammenfassen</h2>
+<p>UM uns einen Überblick zu verschaffen, fassen wir die Daten durch mittlere RT und “Accuracy” zusammen.</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">summary</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt; <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">condition</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_rt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span>,
+            median_rt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span>,
+            accuracy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">response</span> <span class="op">==</span> <span class="st">"upper"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'ID'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 5
+# Groups:   ID [4]
+  ID    condition mean_rt median_rt accuracy
+  &lt;fct&gt; &lt;fct&gt;       &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 1     A           0.716     0.589    0.615
+2 1     B           0.643     0.536    0.863
+3 2     A           0.725     0.591    0.61 
+4 2     B           0.617     0.519    0.842
+5 3     A           0.843     0.696    0.598
+6 3     B           0.685     0.578    0.864
+7 4     A           0.715     0.591    0.602
+8 4     B           0.617     0.518    0.85 </code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">diffusionloglik</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">pars</span>, <span class="va">condition</span>, <span class="va">rt</span>, <span class="va">response</span><span class="op">)</span>
-<span class="op">{</span>
-  <span class="co"># Return a large number of any of the parameters are negative</span>
-  <span class="co"># if (any(pars &lt; 0)) return(1e6 + 1e3 * rnorm(1))</span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">summary</span> |&gt; 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">mean_rt</span>, <span class="va">accuracy</span>, color <span class="op">=</span> <span class="va">condition</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">ID</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"black"</span>, linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span>end <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="exercise_06_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In der Grafik sehen wir, dass die Accuracy in Bedingung “A” höher ist. Gleichzeitig ist die mittlere RT niedriger. Das ist ein Hinweis, dass hier kein Speed-Accuracy Tradeoff vorliegt.</p>
+</section><section id="negative-loglikelihood-funktion-definieren" class="level2"><h2 class="anchored" data-anchor-id="negative-loglikelihood-funktion-definieren">Negative loglikelihood Funktion definieren</h2>
+<p>Nun wollen wir für jede Person in den beiden Bedingungen die Parameter des DDM fitten. Wir definieren dafür eine Funktion, welche die <em>negative log likelihood</em> als Output hat.</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">diffusionloglik</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">pars</span>, <span class="va">condition</span>, <span class="va">rt</span>, <span class="va">response</span><span class="op">)</span> <span class="op">{</span>
 
   <span class="va">conditions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">condition</span><span class="op">)</span>
   <span class="va">likelihoods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span><span class="st">"numeric"</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span><span class="op">)</span>
 
-  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">conditions</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">likelihoods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">likelihoods</span>,
-                    <span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/rtdists/man/Diffusion.html">ddiffusion</a></span><span class="op">(</span><span class="va">rt</span><span class="op">[</span><span class="va">condition</span> <span class="op">==</span> <span class="va">conditions</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>,
-                                         response <span class="op">=</span> <span class="va">response</span><span class="op">[</span><span class="va">condition</span> <span class="op">==</span> <span class="va">conditions</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>,
-                                         a <span class="op">=</span> <span class="va">pars</span><span class="op">[</span><span class="st">"a"</span><span class="op">]</span>,
-                                         v <span class="op">=</span> <span class="va">pars</span><span class="op">[</span><span class="st">"v"</span><span class="op">]</span>,
-                                         t0 <span class="op">=</span> <span class="va">pars</span><span class="op">[</span><span class="st">"t0"</span><span class="op">]</span>,
-                                         z <span class="op">=</span> <span class="va">pars</span><span class="op">[</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="st">"z"</span>, <span class="va">i</span><span class="op">)</span><span class="op">]</span> <span class="op">*</span> <span class="va">pars</span><span class="op">[</span><span class="st">"a"</span><span class="op">]</span>,
-                                         sz <span class="op">=</span> <span class="va">pars</span><span class="op">[</span><span class="st">"sz"</span><span class="op">]</span>,
-                                         sv <span class="op">=</span> <span class="va">pars</span><span class="op">[</span><span class="st">"sv"</span><span class="op">]</span>,
-                                         st0 <span class="op">=</span> <span class="va">pars</span><span class="op">[</span><span class="st">"st0"</span><span class="op">]</span>,
-                                         s <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,
-                              error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
-  <span class="op">}</span>
-  <span class="co"># if any likelihoods are 0, then stop and return an impossibly large number,</span>
-  <span class="co"># since the log likelihood should be minimized.</span>
-  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="va">likelihoods</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fl">1e6</span> <span class="op">+</span> <span class="fl">1e3</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+
+  <span class="va">likelihoods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rtdists/man/Diffusion.html">ddiffusion</a></span><span class="op">(</span>rt <span class="op">=</span> <span class="va">rt</span>,
+                             response <span class="op">=</span> <span class="va">response</span>,
+                             a <span class="op">=</span> <span class="va">pars</span><span class="op">[</span><span class="st">"a"</span><span class="op">]</span>,
+                             v <span class="op">=</span>  <span class="va">pars</span><span class="op">[</span><span class="st">"v"</span><span class="op">]</span>,
+                             t0 <span class="op">=</span> <span class="va">pars</span><span class="op">[</span><span class="st">"t0"</span><span class="op">]</span>,
+                             z <span class="op">=</span> <span class="va">pars</span><span class="op">[</span><span class="st">"z"</span><span class="op">]</span> <span class="op">*</span> <span class="va">pars</span><span class="op">[</span><span class="st">"a"</span><span class="op">]</span>,
+                             s <span class="op">=</span> <span class="fl">1.0</span><span class="op">)</span>
+  
+  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="va">likelihoods</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fl">1e6</span><span class="op">)</span>
   <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">likelihoods</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section><section id="startwerte-für-maxmimum-likelihood-schätzung" class="level2"><h2 class="anchored" data-anchor-id="startwerte-für-maxmimum-likelihood-schätzung">Startwerte für Maxmimum Likelihood Schätzung</h2>
+<p>Für die Minimierung brauchen wir Anfangswerte. Diese werden für jeden zu schätzenden Parameter zufällig gewählt.</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># init_params &lt;- function() {</span>
-<span class="co">#  params &lt;- c(a = abs(runif(1, 0.1, 0.2)),</span>
-<span class="co">#    v = abs(rnorm(1, 0.2, .05)),</span>
-<span class="co">#    z1 = abs(rnorm(1, 0.5, 0.2)),</span>
-<span class="co">#    z2 = abs(rnorm(1, 0.5, 0.2)),</span>
-<span class="co">#    t0 = runif(1, 0.1, 0.3),</span>
-<span class="co">#    sz = runif(1, 0, 0.5),</span>
-<span class="co">#    sv = runif(1, 0, 0.5),</span>
-<span class="co">#    st0 = runif(1, 0, 0.5),</span>
-<span class="co">#    d = rnorm(1, 0, 0.05))</span>
-<span class="co">#  params</span>
-<span class="co"># }</span>
-<span class="va">init_params</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
- <span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>,
-   v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">.05</span><span class="op">)</span><span class="op">)</span>,
-   z1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span>,
-   z2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span>,
-   t0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span><span class="op">)</span>,
-   sz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span>,
-   sv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span>,
-   st0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span>,
-   d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span>
- <span class="va">params</span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">init_params</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.2</span>, <span class="fl">1.2</span><span class="op">)</span>,
+              v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span>,
+              z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.45</span>, <span class="fl">0.55</span><span class="op">)</span>,
+              t0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.01</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span>
+  <span class="va">params</span>
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section><section id="maxmimum-likelihood-schätzung" class="level2"><h2 class="anchored" data-anchor-id="maxmimum-likelihood-schätzung">Maxmimum Likelihood Schätzung</h2>
+<p>Nun definieren wir zuerst ein paar Variablen.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">participants</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">participants</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span>
 <span class="va">n_participants</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">participants</span><span class="op">)</span>
-<span class="co"># no. parameters (a, v, z1, z2, t0, sz, sv, st0, d)</span>
-<span class="va">n_pars</span> <span class="op">&lt;-</span> <span class="fl">9</span>
-<span class="va">estimates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">n_participants</span>, <span class="va">n_pars</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">estimates</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"v"</span>, <span class="st">"z1"</span>, <span class="st">"z2"</span>, <span class="st">"t0"</span>, <span class="st">"sz"</span>, <span class="st">"sv"</span>, <span class="st">"st0"</span>, <span class="st">"d"</span><span class="op">)</span>
-<span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames</a></span><span class="op">(</span><span class="va">estimates</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="fl">1</span><span class="op">:</span><span class="va">n_participants</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span>
+<span class="va">conditions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">condition</span><span class="op">)</span>
+<span class="va">n_conditions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">conditions</span><span class="op">)</span>
+
+<span class="co"># no. parameters (a, v1, v2, z, t0)</span>
+<span class="va">n_pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu">init_params</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Und nun schreiben wir eine zweifache <code>for</code>-Loop, über die Versuchspersonen, und über die Bedingungen innerhalb der Personen.</p>
+<p>Führen Sie diesen Teil mehrmals aus.</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span><span class="st">"list"</span>, <span class="va">n_participants</span><span class="op">)</span>
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">participants</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">participant</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">ID</span> <span class="op">==</span> <span class="va">i</span><span class="op">)</span>
-  <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/optim.html">optim</a></span><span class="op">(</span><span class="fu">init_params</span><span class="op">(</span><span class="op">)</span>,
-             <span class="va">diffusionloglik</span>,
-             method <span class="op">=</span> <span class="st">"L-BFGS-B"</span>,
-             condition <span class="op">=</span> <span class="va">participant</span><span class="op">$</span><span class="va">condition</span>,
-             rt <span class="op">=</span> <span class="va">participant</span><span class="op">$</span><span class="va">rt</span>,
-             response <span class="op">=</span> <span class="va">participant</span><span class="op">$</span><span class="va">response</span>,
-            lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>, 
-            upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0.5</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span>
-  <span class="va">estimates</span><span class="op">[</span><span class="va">i</span>, <span class="op">]</span> <span class="op">&lt;-</span> <span class="va">fit</span><span class="op">$</span><span class="va">par</span> |&gt; <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
+  
+  <span class="va">estimates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">n_conditions</span>, <span class="va">n_pars</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">estimates</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"v"</span>, <span class="st">"z"</span>, <span class="st">"t0"</span><span class="op">)</span>
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames</a></span><span class="op">(</span><span class="va">estimates</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>
+  
+  <span class="kw">for</span> <span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">conditions</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">ID</span> <span class="op">==</span> <span class="va">i</span>, <span class="va">condition</span> <span class="op">==</span> <span class="va">conditions</span><span class="op">[</span><span class="va">j</span><span class="op">]</span><span class="op">)</span>
+  
+    <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/nlminb.html">nlminb</a></span><span class="op">(</span><span class="fu">init_params</span><span class="op">(</span><span class="op">)</span>,
+                <span class="va">diffusionloglik</span>,
+                lower <span class="op">=</span> <span class="fl">0</span>,
+                condition <span class="op">=</span> <span class="va">data</span><span class="op">$</span><span class="va">condition</span>,
+                rt <span class="op">=</span> <span class="va">data</span><span class="op">$</span><span class="va">rt</span>,
+                response <span class="op">=</span> <span class="va">data</span><span class="op">$</span><span class="va">response</span><span class="op">)</span>
+    
+    <span class="va">estimates</span><span class="op">[</span><span class="va">j</span>, <span class="op">]</span> <span class="op">&lt;-</span> <span class="va">fit</span><span class="op">$</span><span class="va">par</span> |&gt; <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
+  <span class="op">}</span>
+  <span class="va">p</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">estimates</span>
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section><section id="geschätzte-parameterwerte" class="level2"><h2 class="anchored" data-anchor-id="geschätzte-parameterwerte">Geschätzte Parameterwerte</h2>
+<p>Die geschätzten Parameter sind in einer List gespeichert.</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">estimates</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         a     v    z1    z2    t0
-ID_1 0.507 0.427 0.699 0.626 0.247
-ID_2 0.430 0.529 0.499 0.598 0.209
-ID_3 0.597 0.506 0.579 0.464 0.124
-ID_4 0.366 0.453 0.751 0.485 0.284
-ID_5 0.523 0.511 0.428 0.452 0.163
-ID_6 0.368 0.499 0.446 0.349 0.175</code></pre>
+<pre><code>[[1]]
+      a     v     z    t0
+A 1.439 0.261 0.523 0.206
+B 1.513 1.231 0.495 0.190
+
+[[2]]
+      a     v     z    t0
+A 1.462 0.293 0.505 0.200
+B 1.427 1.180 0.499 0.202
+
+[[3]]
+      a     v     z    t0
+A 1.631 0.284 0.484 0.188
+B 0.956 0.532 0.519 0.269
+
+[[4]]
+      a     v     z    t0
+A 1.436 0.237 0.517 0.203
+B 1.439 1.207 0.497 0.196</code></pre>
 </div>
 </div>
+</section><section id="vergleich-mit-wahren-werten" class="level2"><h2 class="anchored" data-anchor-id="vergleich-mit-wahren-werten">Vergleich mit wahren Werten</h2>
+<p>Die geschätzten Parameter können nun mit den “wahren” Werten verglichen werden.</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">participant_params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">participant_params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 6
-  ID        a     v    z1    z2    t0
-  &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 1     0.721 0.315 0.718 0.514 0.206
-2 2     0.879 0.280 0.681 0.436 0.210
-3 3     0.837 0.294 0.713 0.509 0.186
-4 4     0.892 0.301 0.753 0.532 0.203
-5 5     0.762 0.332 0.719 0.516 0.198
-6 6     1.02  0.316 0.676 0.502 0.209</code></pre>
+<pre><code># A tibble: 4 × 6
+     ID     a    v1    v2     z    t0
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     1  1.48 0.301  1.19 0.515 0.199
+2     2  1.48 0.299  1.23 0.495 0.199
+3     3  1.57 0.277  1.21 0.484 0.197
+4     4  1.47 0.296  1.23 0.498 0.195</code></pre>
 </div>
 </div>
 
 
-</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{ellis2022,
+</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{ellis2022,
   author = {Andrew Ellis},
   title = {Übung 6},
   date = {2022-05-10},

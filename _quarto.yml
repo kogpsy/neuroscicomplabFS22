@@ -1,6 +1,13 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - pages/admin/*.qmd
+    - pages/chapters/*.qmd
+    - slides/*.qmd
+    - pages/exercises/exercise_*.qmd
+    - pages/solutions/solution_*.qmd
+
 
 website:
   title: "Neurowissenschaft Computerlab"
@@ -69,7 +76,8 @@ website:
           - pages/exercises/exercise_03.qmd
           - pages/exercises/exercise_04.qmd
           - pages/exercises/exercise_05.qmd
-          # - pages/exercises/exercise_06.qmd
+          - pages/exercises/exercise_06.qmd
+
       - text: Lösungen
         menu:
           - pages/solutions/solution_03.qmd

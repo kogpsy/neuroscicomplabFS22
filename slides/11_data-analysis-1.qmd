@@ -46,7 +46,6 @@ Combining information from multiple participants
 
 
 
-
 ------------------------------------------------------------------------
 
 ::: columns

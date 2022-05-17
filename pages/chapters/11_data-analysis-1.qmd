@@ -84,9 +84,9 @@ Multilevel models do not have to be Bayesian - the can just as well be estimated
 
 ## Frequentist statistics
 
-The traditional approach to statisteics is know as frequentist statistics. We will first go through the basic principles, then discuss some of the limitations associated with this approach, and then contrast this with the Bayesian approach. 
+The traditional approach to statistics is know as frequentist statistics. We will first go through the basic principles, then discuss some of the limitations associated with this approach, and then contrast this with the Bayesian approach. 
 
-In a traditional approach to statistics, students are usually taught a variety of different approaches (far too many to discss here - there are enough enough different models to fill entire text books). In a nutshell, most of these approachs perform the following steps (I will use an equal-variance independent samples t-test as a runnign example, as well as the problem of estimating the probability of sucess parameter in a model of Bernoulli trials):
+In a traditional approach to statistics, students are usually taught a variety of different approaches (far too many to discuss here - there are enough enough different models to fill entire text books). In a nutshell, most of these approachs perform the following steps (I will use an equal-variance independent samples t-test as a running example, as well as the problem of estimating the probability of sucess parameter in a model of Bernoulli trials):
 
 1) A statistical model is assumed. In the case of the t-test all observations within both groups are assumed to be normally distributed, with the groups differing in the means of the distributions (assuming that the standard deviations of both groups are equal to $\sigma$).
 
@@ -95,21 +95,32 @@ y_{ij} \sim \mathcal{N}(\mu_j, \sigma^2)
 $$
 $y_{ij}$ refers to the $i_{th}$ observation in group $j \in \{1, 2\}$. This observations are assumed to be independent random variates from a normal distribution (i.i.d)^[independent and identically distributed], with the distribution's mean $\mu_j$ depending on the group. In a t-test, we are interested in the difference between the group means, $\mu_2 - \mu_1$.
 
-2) The group means are estimated. This can be done, e.g. using maximum likelihood estimation. You will be more familiar with the technique of "simply" using the sample means to estimate the $\mu_j$s, which actually corresponds to the maximum likelihood estimate. The third parameter that has to be estimated is $\sigma$. This is the __parameter estimation__ step. $\sigma$ can be estimated using maximum likelihood, or simply "calculated" as the pooled standard deviation $s_p$. In either case, the parameter is estimated.
+2) The group means are estimated. This can be done, e.g. using maximum likelihood estimation. You will be more familiar with the technique of "simply" using the sample means to estimate $\mu_j$, which actually corresponds to the maximum likelihood estimate. The third parameter that has to be estimated is $\sigma$. This is the __parameter estimation__ step. $\sigma$ can be estimated using maximum likelihood, or simply "calculated" as the pooled standard deviation $s_p$. In either case, the parameter is estimated.
 
-3) A test statistic is calculated. In this case, the difference $\mu_1 - \mu_2$ is of interest, and using this difference, a test statistic is computed. The test statistic can be computed as $t =(\bar{x_1} - \bar{x_2})/(s_p \sqrt{2/n})$, where $(s_p \sqrt{2/n}$ is the standard error of the difference. $t$ is assumed to follow a Student-t distribution (under the null hypothesis), and we can compute the probability of observing a test statistic (estimated from the data) that is at least as extreme (depending on the hypothesis) as the observed one (or rather the t value estimated from the actually observed data), under the assumption that the null hypothesis is true. This tail probability is known as a *p-value*.
+3) A test statistic is calculated. In this case, the difference $\mu_1 - \mu_2$ is of interest, and using this difference, a test statistic is computed. The test statistic can be computed as 
+
+$$
+t = \frac{\bar{x_1} - \bar{x_2}}{s_p \sqrt{2/n}}
+$$
+
+
+where $s_p \sqrt{2/n}$ is the standard error of the difference. $t$ is assumed to follow a Student-t distribution (under the null hypothesis), and we can compute the probability of observing a test statistic (estimated from the data) that is at least as extreme (depending on the hypothesis) as the observed one (or rather the t value estimated from the actually observed data), under the assumption that the null hypothesis is true. This tail probability is known as a *p-value*.
 
 ### What can we discover with NHST?
 
 It is important to think about what exactly this approach can tell us. For instance, can we discover how probable the null hypothesis is? Can we ask how probable it is that the null hypothesis is false, and that therefore the alternative is true? 
 
-Unfortunately, the answer to both of these questions is **no**, we cannot. This approach cannot tell us anything about probabilities of hypotheses - all that we can discover is how likely the data (as summarized ny the parameters) are to have occured under the assumption that the null is true. In this case, how likely is the t value, given that there is no difference between the groups, or mathematically, $\mu_1 - \mu_2 = 0$. A small p-value can tell us that the data are unlikely, but that is not really the question we are asking. What we would like to know (intuitively) is how likely are our hypotheses [@wagenmakersPracticalSolutionPervasive2007]. But this is something that frequentist statistics cannot tell us, by design. In the frequentist interpretation, a probability is the relative frequency of occurence of an event. Under this interpretation, a parameter does not have an associated probability distribution, and the question of how probable certain parameter values are is meaningless. In contrast, in Bayesian statistics, a probability is assumed to represent the degree of belief (either subjective or objective) that a certain parameter value is true. As an example, for a frequentist, talking about the probability that it will rain tomorrow is meaningless, because this is not an experiment that can be repeated infinitely many times. For a Bayesian, on the other hand, the probability of rain is merely an expression of belief, and incorporates all knowledge that is available to us.
+Unfortunately, the answer to both of these questions is **no**, we cannot. 
+
+This approach cannot tell us anything about probabilities of hypotheses - all that we can discover is how likely the data (as summarized by the parameters) are to have occured under the assumption that the null is true. In this case, how likely is the t value, given that there is no difference between the groups, or mathematically, $\mu_1 - \mu_2 = 0$. A small p-value can tell us that the data are unlikely, but that is not really the question we are asking. 
+
+What we would like to know (intuitively) is how likely are our hypotheses [@wagenmakersPracticalSolutionPervasive2007]. But this is something that frequentist statistics cannot tell us, by design. In the frequentist interpretation, a probability is the relative frequency of occurence of an event. Under this interpretation, a parameter does not have an associated probability distribution, and the question of how probable certain parameter values are is meaningless. In contrast, in Bayesian statistics, a probability is assumed to represent the degree of belief (either subjective or objective) that a certain parameter value is true. As an example, for a frequentist, talking about the probability that it will rain tomorrow is meaningless, because this is not an experiment that can be repeated infinitely many times. For a Bayesian, on the other hand, the probability of rain is merely an expression of belief, a summary of our state of knowledge.
 
 
 ## Problems with NHST
 
-This is actually one of the most common misconceptions: even scientists routinely mistake p-values for probabilities of hypotheses. This lead @wassersteinASAStatementPValues2016 to write a *Statement on Statistical
-Significance and P-Values* in the American Statistical Association, in which they clarify:
+Even scientists routinely mistake p-values for probabilities of hypotheses. This is actually one of the most common misconceptions, and lead @wassersteinASAStatementPValues2016 to write a *Statement on Statistical
+Significance and P-Values* in the American Statistical Association. They clarify:
 
   * P-values can indicate how incompatible the data are with a specified
   statistical model.
@@ -177,7 +188,7 @@ We can now pretend that we don't know how the data were generated, and treat the
 ```{r}
 FancyHat |> 
     ggplot() +
-    geom_boxplot ((aes(y = Creativity, x = Group))) +
+    geom_boxplot(aes(y = Creativity, x = Group)) +
     labs(title= "Box Plot of Creativity Values") +
     theme_bw()
 ```
@@ -214,7 +225,7 @@ $$
 
 4) We compute a test statistic (empirical t value)^[`statistic`].
 
-5) We computed the probability of observing the observed difference divided by the standard error, under the null hypothesis that the means are the same ($\mu_1 = \mu_2$)[`p.value`]. This is a two-sided test, i.e. we have no hypothesis as to which group has the larger mean.
+5) We computed the probability of observing the observed difference divided by the standard error, under the null hypothesis that the means are the same ($\mu_1 = \mu_2$)^[`p.value`]. This is a two-sided test, i.e. we have no hypothesis as to which group has the larger mean.
 
 
 :::{.callout-tip}
@@ -229,9 +240,9 @@ The p-value is `r fancyhat_ttest$p.value |> round(2)` This is larger that the co
 
 Two players are playing a game of cards. You observe that they play 9 games, and that player A wins 6 of those. Now you would like to estimate the probability that player A will win the next game. Another way of putting it that you would to estimate the ability of player A to beat player B at this particular game.
 
-You know that the probability of success must lie in the range $[0, 1]$. What you might not be aware of is that you are assuming a certain probability model, and the proabability of success is a a parameter of that model. Let's take a closer look:
+You know that the probability of success must lie in the range $[0, 1]$. What you might not be aware of is that you are assuming a certain probability model, and the probability of success is a parameter of that model. Let's take a closer look:
 
-We know that the number of $k$ successes in $n$ games follows a binomial distribution with parameters $n$ and $\theta$. To make things simpler, we also know that each indivdual game is independent of the others, and the probability of success $\theta$ is the same for each game. Each success therefore follows a Bernoulli distribution with parameter $\theta$.
+We know that the number of $k$ successes in $n$ games follows a binomial distribution with parameters $n$ and $\theta$. To make things simpler, we also know that each individual game is independent of the others, and the probability of success $\theta$ is the same for each game. Each success therefore follows a Bernoulli distribution with parameter $\theta$.
 
 
 $$ 
@@ -276,19 +287,12 @@ We can also compute the probability of A winning 6, 7, 8 or 9 games, using the c
 or
 
 ```{r}
-1 - pbinom(q = 5, size = games, prob = 0.5)
-```
-
-or
-
-```{r}
 pbinom(q = 5, size = games, prob = 0.5, lower.tail = FALSE)
 ```
 
 
 :::aside
-
-`pbinom` gives us the lower tail probability, which is the probability that the number of successes is less than or equal to the given value, by default.
+`pbinom()` gives us the lower tail probability, which is the probability that the number of successes is less than or equal to the given value, by default.
 :::
 
 
@@ -296,10 +300,10 @@ pbinom(q = 5, size = games, prob = 0.5, lower.tail = FALSE)
 ## p-value
 Does this seem familiar?
 
-If we want to quantify our _null_ hypothsis that both players are equally likely to win, we would assume that $\theta=0.5$. Computing the proability of the data under the null is exactly what we have just done. We then plug in the actual data, i.e. 6 out of 9, and the upper tail probability is the p-value. In this case, the p-value is approximately $0.25$. Using cut-off of 0.05, we would not reject the null hypothesis, and conclude that there is not enough evidence that player A is better than player B (this is a one-sided test).
+If we want to quantify our _null_ hypothsis that both players are equally likely to win, we would assume that $\theta=0.5$. Computing the probability of the data under the null is exactly what we have just done. We then plug in the actual data, i.e. 6 out of 9, and the upper tail probability is the p-value. In this case, the p-value is approximately $0.25$. Using cut-off of 0.05, we would not reject the null hypothesis, and conclude that there is not enough evidence that player A is better than player B (this is a one-sided test).
 :::
 
-NOw we compute the probability of the data under all parameter values under consideration. In R, this is very simple, since all functions are vecortized.
+Now we compute the probability of the data under all parameter values under consideration. In R, this is very simple, since all functions are vectorized.
 
 ```{r}
 likelihood <- dbinom(wins , size = games , prob = theta_grid)
@@ -326,7 +330,7 @@ What we have done so far highlights the distinction between parameter estimation
 So far, we haven't considered any prior knowledge we might have had about which parameters are the most likely a priori. In fact, as we will see a bit further down, we have implicitly assumed that all parameters are equally likely. We will now introduce a new concept: a prior distribution for the parameter(s) we are trying to estimate^[In frequentist statistics, the concept is meaningless - parameters cannot have distribution. In Bayesian statistics, a prior distribution should reflect everything we know about the parameter, before we consider the data. The prior reflects our belief, which can be subjective, or objective.].
 
 We will then use that __prior__ belief in order to obtain a __posterior__ belief
-over the possible parameter values. To do this, we need to mupltiply the prior probability of each parameter value by the likelihood of the data, i.e. by the probability of observing the data given that parameter value. This is an application of Bayes theorem:
+over the possible parameter values. To do this, we need to multiply the prior probability of each parameter value by the likelihood of the data, i.e. by the probability of observing the data given that parameter value. This is an application of Bayes theorem:
 
 $$ 
 p(\theta|y) = \frac{ p(y|\theta) * p(\theta) } {p(y)}
@@ -338,9 +342,17 @@ $$
 p(y) = \sum_{\theta}p(y|\theta) * p(\theta) 
 $$
 
+When we are interested in estimating the parameters of a given model, we can often neglect the (constant for a model) normalizing term $p(y)$. This term, often called the evidence, reflects the prbability of the data, averaged over all parameter values. Written without the normalizing constant, Bayes rule is often written as:
+
+$$ 
+p(\theta|y) \propto  p(y|\theta) * p(\theta) 
+$$
+
+## Recap 
+
 Bayesian inference, in a nutshell, consists of:
 
-1) Represent your prior belief by a probability distribution over the possible parameter values. This is a principled way of daling with uncertainty.
+1) Represent your prior belief by a probability distribution over the possible parameter values. This is a principled way of dealing with uncertainty.
 
 2) Use the likelihood to weight the prior belief.
 
@@ -350,6 +362,7 @@ Bayesian inference, in a nutshell, consists of:
 The term _belief_ is used synonymously with _probability distribution_.
 :::
  
+## Bayesian inference in the card game: a numerical example
 
 Recall that we defined a sequence of 100 points between 0 and 1, which represented the possible $\theta$ values.
 
@@ -383,8 +396,8 @@ plot(theta_grid, prior_2, type = "l")
 A more systematic way of doing this is to use a parameterized probability distribution that expresses our beliefs about the parameter. 
 
 :::{.callout-note}
-A family of probability distributions that are suitable for parameters that lie in the interval $[0,1]$ is the [Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution). This distribution has $2$ parameters  $\alpha$ und $\beta$, 
-which can be interpreted as the prior number of successes and the number of failures, respectively. The number of trials is therefore $\alpha + \beta$. \@ref(fig:betadists) shows a number of possible Beta distributions for various setting s of $\alpha$ and $\beta$.
+A family of probability distributions that are suitable for parameters that lie in the interval $[0,1]$ is the [Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution). This distribution has $2$ parameters $\alpha$ und $\beta$, 
+which can be interpreted as the prior number of successes and the number of failures, respectively. The number of trials is therefore $\alpha + \beta$. @ref(fig:betadists) shows a number of possible Beta distributions for various settings of $\alpha$ and $\beta$.
 
 
 ```{r}
@@ -469,6 +482,14 @@ likelihood <- dbinom(wins , size = games , prob = theta_grid)
 unstandardized_posterior <- likelihood * prior
 ```
 
+This gives us the unnormalized posterior:
+
+
+$$ 
+p(\theta|y) \propto  p(y|\theta) * p(\theta)
+$$
+
+
 We can then normalize the posterior distribution by dividing it by $p(y) = \sum_{\theta}p(y|\theta) * p(\theta)$. In R we can use the `sum()` function: `sum(unstandardized_posterior)`.
 
 
@@ -476,18 +497,14 @@ We can then normalize the posterior distribution by dividing it by $p(y) = \sum_
 posterior <- unstandardized_posterior / sum(unstandardized_posterior)
 ```
 
-We can now plot the resulting normalised posterior distribution. 
+We can now plot the resulting normalized posterior distribution. 
 
 ```{r}
 plot(theta_grid, posterior, type = "l", yaxt = 'n', ylab = 'Probability', 
         main = "Posterior", cex.lab = 1.5, cex.main = 3)
 ```
 
-You can verify that it is normalized by checking that the sum of the probabilities is 1.
 
-```{r}
-sum(posterior) == 1
-```
 
 
 To make this repeatable, we will write two functions. The first, `compute_posterior()`, will compute the posterior, given the prior and likelihood, and return a dataframe containg prior, likelihood and posterior. The second, `plot_posterior()`, will plot all three side-by-side. You can also pass in the maximum likelihood estimate, e.g. `6/9`, and this will be plotted as well.
@@ -531,10 +548,12 @@ prior <- dbeta(x = theta_grid, shape1 = 1, shape2 = 1)
 likelihood <- dbinom(wins , size = games , prob = theta_grid)
 ```
 
-You can 
+
+
 ```{r}
 df <- compute_posterior(likelihood, prior)
 ```
+
 
 ```{r}
 plot_posterior(df)
@@ -565,6 +584,10 @@ The resulting posterior distribution is zero for all values of $\theta$ that are
 
 :::{.callout-tip}
 Try out various priors. How do they affect the posterior?
+
+- A prior exspressing the belief that B is better than A.
+- A prior expressing that belief that either A is a lot better, or B is a lot better.
+- A prior expressing the belief that the players are probably as good as each other, and that it is unlikely that either is much better than the other.
 :::
 
 
@@ -572,7 +595,8 @@ Try out various priors. How do they affect the posterior?
 
 The posterior represents our belief about the the possible parameter values, after having observed the data. You can therefore think of Bayesian inference as a method for updating your beliefs, conditional on observed data. You are re-allocating probabilities over parameter values, depending on how well those parameter values predicted the data.
 
-### Summarizing the posterior
+
+## Summarizing the posterior
 
 We now need one last step: we need to summarize the posterior distribution. We can do this, for example by computing the mean and standard deviation of the posterior distribution. However, the method we have looked at so far is very simple, and only works for single parameters with a well-defined range. For real-world inference problems, we will numerical methods to approximate the posterior distribution. These methods are know collectively as *Monte Carlo sampling*, or *Markov Chain Monte Carlo* (MCMC). Using MCMC, we will not obtain an analytical description of posterior distributions, but instead a collection of random numbers (samples), that are drawn from the posterior distribution. We will use these samples to represent the posterior distribution.
 
@@ -581,7 +605,7 @@ To show how this works, we can draw a thousand samples from the posterior distri
 
 ```{r}
 prior <- dbeta(x = theta_grid, shape1 = 1, shape2 = 1)
-likelihood <- dbinom(wins , size = games , prob = theta_grid)
+likelihood <- dbinom(wins, size = games , prob = theta_grid)
 ```
 
 

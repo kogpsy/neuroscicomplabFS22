@@ -1,0 +1,494 @@
+---
+title: "Data analysis: II"
+description: | 
+    Bayesian hypothesis testing/model comparison.
+date: "2022-05-17"
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+reference-location: margin
+citation-location: margin
+format:
+    html:
+        toc: true
+        code-link: true
+        code-fold: false
+        code-tools: true
+---
+
+```{r}
+#| label: load-packages
+#| echo: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(viridis)
+
+```
+
+#FIXME: move to later
+```{r}
+cardgame <- c(rep(1, 6), rep(0, 3)) |> 
+  sample(9, replace = FALSE)
+cardgame <- tibble(game = 1:9,
+                   winner = if_else(cardgame == 1, "A", "B"),
+                   indicator = cardgame)
+
+cardgame |> write_csv("cardgame.csv")
+```
+
+```{r}
+theta_grid <- seq(0, 1, length =  1001)
+prior <- dbeta(theta_grid, shape1 = 1, shape2 = 1)
+likelihood <- dbinom(wins, size = games , prob = theta_grid)
+d <- compute_posterior(likelihood = likelihood, prior = prior)
+```
+
+```{r}
+plot_posterior(d)
+```
+
+```{r}
+d$prior[501]/d$posterior[501]
+```
+
+## What have we done so far?
+
+We have briefly looked at how to estimate parameters in a very simple model, and we touched upon how to quantify uncertainty in our parameter estimates.
+
+
+
+
+## What is Bayesian statistics?
+
+
+- Again: It is important to distinguish between parameter estimation and hypothesis
+testing.
+- Hypothesis testing means comparing models - thus it is more complicated than estimation
+
+
+### Bayesian parameter estimation
+
+In Bayesian parameter estimation, we focus on one model.
+
+- The inferential goal is the posterior distribution.
+
+$$ p(\theta | y) =  p(\theta) \cdot \frac{p(y | \theta)}{p(y)}$$
+
+
+> Bayesians cannot test precise hypotheses using confidence intervals. In classical statistics one frequently sees testing done by forming a confidence region for the parameter, and then rejecting a null value of the parameter if it does not lie in the confidence region. This is simply wrong if done in a Bayesian formulation (and if the null value of the parameter is believable as a hypothesis).
+
+
+## Bayesian hypothesis testing
+
+Bayesian hypothesis testing is model comparison, in which we compare the ability of two or more competing models to predict data.
+
+$$ \frac{p(\mathcal{M}_1 | y) = P(y | \mathcal{M}_1) p(\mathcal{M}_1)} {p(\mathcal{M}_2 | y) = P(y | \mathcal{M}_2) p(\mathcal{M}_2)}$$
+
+> When the goal is hypothesis testing, Bayesians need to go beyond the posterior distribution. To answer the question "To what extent do the data support the presence of a correlation?" one needs to compare two models
+
+
+
+- The Bayesian approach unifies both problems within a coherent predictive framework.
+- Parameters and models that predict the data successfully receive a boost in plausibility, whereas parameters and models that predict poorly suffer a decline.
+- Bayesian analyses can be more informative, more elegant, and more flexible than the orthodox methodology that remains dominant within the field of psychology.
+
+
+## The Bayes factor
+
+Let's have another look at Bayes rule (including the dependency of the parameters $\mathbf{\theta}$ on the model $\mathcal{M}$):
+
+$$ p(\theta | y, \mathcal{M}) = \frac{p(y|\theta, \mathcal{M}) p(\theta | \mathcal{M})}{p(y | \mathcal{M})}$$
+
+where $\mathcal{M}$ refers to a specific model. The marginal likelihood $p(y | \mathcal{M})$ now gives the probability of the data, averaged over all possible parameter value under model $\mathcal{M}$.
+
+
+> The marginal likelihood $p(y | \mathcal{M})$ is usually neglected when looking at a single model, but becomes important when comparing models.
+
+
+Writing out the marginal likelihood $p(y | \mathcal{M})$:
+$$ p(y | \mathcal{M}) = \int{p(y | \theta, \mathcal{M}) p(\theta|\mathcal{M})d\theta}$$
+
+we see that this is averaged over all possible values of $\theta$ that the model will allow.
+
+
+> The priors on $\theta$ are important.
+
+
+- The model evidence will depend on what kind of predictions a model can make. This gives us a measure of complexity – **a complex model is a model that can make many predictions**.
+
+The problem with making many predictions is that most of these predictions will turn out to be false.
+
+The complexity of a model depends on (among other things):
+
+- the number of parameters (as in frequentist model comparison)
+- the prior distributions of the model's parameters
+
+> When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are assigned low probability. Intuitively, if one  hedges one's bets, one has to assign low probability to parameter values that make good predictions, because one has more possible parameter values.
+
+> All this leads to the fact that more complex model have comparatively lower marginal likelihood.
+
+- Therefore, when we compare models, and we prefer models with higher marginal likelihood, we are using Ockham's razor in a principled manner.
+
+
+We can also write Bayes rule applied to a comparison between models (marginalized over all parameters within the model):
+
+$$ p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}$$
+
+and
+
+$$ p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}$$
+
+This tells us that for model $\mathcal{M_m}$, the posterior probability of the model is proportional to the marginal likelihood times the prior probability of the model.
+
+Now, one is usually less interested in absolute evidence than in relative evidence; we want to compare the predictive performance of one model over another.
+
+To do this, we simply form the ratio of the model probabilities:
+
+$$ \frac{p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}} {p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}}$$
+
+
+The term $p(y)$ cancels out, giving us:
+$$ \frac{p(\mathcal{M}_1 | y) = P(y | \mathcal{M}_1) p(\mathcal{M}_1)} {p(\mathcal{M}_2 | y) = P(y | \mathcal{M}_2) p(\mathcal{M}_2)}$$
+
+
+- The ratio $\frac{p(\mathcal{M}_1)}{p(\mathcal{M}_2)}$ is called the **prior odds**.
+- The ratio $\frac{p(\mathcal{M}_1 | y)}{p(\mathcal{M}_2 | y)}$ is therefore the **posterior odds**.
+
+
+- We are particularly interested in the ratio of the marginal likelihoods:
+
+$$\frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}$$
+
+This is the **Bayes factor**, and it can be interpreted as the change from prior odds to posterior odds that is indicated by the data.
+
+
+If we consider the prior odds to be $1$, i.e. we do not favour one model over another a priori, then we are only interested in the Bayes factor. We write this as:
+
+$$ BF_{12} = \frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}$$
+
+
+Here, $BF_{12}$ indicates the extent to which the data support model $\mathcal{M}_1$ over model $\mathcal{M}_2$.
+
+
+As an example, if we obtain a $BF_{12} = 5$, this mean that the data are 5 times more likely to have occured under model 1 than under model 2. Conversely, if $BF_{12} = 0.2$, then the data are 5 times more likely to have occured under model 2.
+
+
+
+We usually perform model comparisons between a null hypothesis $\mathcal{H}_0$ and an alternative hypothesis $\mathcal{H}_1$. The terms "model" and "hypothesis" are used synonymously.
+
+
+
+In JASP, we will see Bayes factors reported as either
+
+$$ BF_{10} = \frac{P(y | \mathcal{H}_1)}{P(y | \mathcal{H}_0)}$$
+
+which indicates a BF for an undirected alternative $\mathcal{H}_1$ versus the null, or
+
+
+$$ BF_{+0} = \frac{P(y | \mathcal{H}_+)}{P(y | \mathcal{H}_0)}$$
+
+which indicates a BF for a directed alternative $\mathcal{H}_+$ versus $\mathcal{H}_0$.
+
+If we want a BF for the null $\mathcal{H}_0$, we can simply take the inverse of $BF_{10}$:
+
+$$ BF_{01} = \frac{1}{BF_{10}}$$
+
+
+
+
+The following [classification scheme](http://en.wikipedia.org/wiki/Bayes_factor#Interpretation) is sometimes used, although it is rather unnesscessary.
+
+
+
+
+
+
+
+$$ 
+p(\theta|y) = \frac{ p(y|\theta) * p(\theta) } {p(y)}
+$$
+
+I mentioned that the term $p(y)$ serves as a proportionality constant, i.e. is used to normalize the posterior distribution $p(\theta|y)$. 
+
+
+$$ 
+P(\theta|Data) \propto P(Data|\theta) * P(\theta) 
+$$
+
+
+$$
+p(y) = \sum_{\theta}p(y|\theta) * p(\theta) 
+$$
+
+
+$$ 
+p(\theta | y, \mathcal{M}) = \frac{p(y|\theta, \mathcal{M}) p(\theta | \mathcal{M})}{p(y | \mathcal{M})}
+$$
+
+$\mathcal{M}$ bezieht sich auf ein bestimmtes Modell. 
+
+$p(y | \mathcal{M})$ ist die Wahrscheinlichkeit der Daten (marginal likelihood), über alle möglichen Parameterwerte des Modells $\mathcal{M}$ integriert. Wir haben sie anfangs als Normierungskonstante bezeichnet.
+
+
+
+$$ P(\theta|Data) = \frac{ P(Data|\theta) * P(\theta) } {P(Data)} $$
+
+
+
+
+$$ p(y | \mathcal{M}) = \int_{\theta}{p(y | \theta, \mathcal{M}) p(\theta|\mathcal{M})d\theta} $$
+Bei der Berechnung der Marginal Likelihood muss über alle unter dem Modell möglichen Werte von $\theta$ gemittelt werden.
+
+
+
+
+## Ockham's Razor
+
+- Komplexe Modelle haben eine niedrigere Marginal Likelihood.
+
+- Wenn wir bei einem Vergleich mehrerer Modelle diejenigen Modelle mit höherer Marginal Likelihood bevorzugen, wenden wir das __Prinzip der Sparsamkeit__ an.
+
+
+
+
+
+Wir schreiben Bayes Theorem mit expliziten Modellen M1 und M2
+
+
+$$ p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)} $$
+
+und
+
+$$ p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)} $$
+
+
+
+
+Für Model $\mathcal{M_m}$ ist die Posterior Wahrscheinlichkeit des Modells proportional zum Produkt der Marginal Likelihood und der A Priori Wahrscheinlichkeit.
+
+
+
+## Modellvergleich
+
+
+Verhältnis der Modellwahrscheinlichkeiten:
+
+$$ \frac{p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}} {p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}} $$
+
+$p(y)$ kann rausgekürzt werden.
+
+
+
+
+$$
+\underbrace{\frac{p(\mathcal{M}_1 | y)} {p(\mathcal{M}_2 | y)}}_\text{Posterior odds} = \frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)} \cdot \underbrace{ \frac{p(\mathcal{M}_1)}{p(\mathcal{M}_2)}}_\text{Prior odds}
+$$
+
+
+
+$\frac{p(\mathcal{M}_1)}{p(\mathcal{M}_2)}$ sind die  **prior odds**, und $\frac{p(\mathcal{M}_1 | y)}{p(\mathcal{M}_2 | y)}$ sind die **posterior odds**.
+
+
+
+Nehmen wir an, die Prior Odds seine $1$, dann interessiert uns nur das Verhältnis der Marginal Likelihoods:
+
+$$ \frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)} $$
+
+
+Dieser Term ist der **Bayes factor**: der Term, mit dem die Prior Odds multipliziert werden. Er gibt an, unter welchem Modell die Daten wahrscheinlicher sind.
+
+
+Wir schreiben $BF_{12}$ - dies ist der Bayes factor für Modell 1 vs Modell 2.
+
+$$ 
+BF_{12} = \frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}
+$$
+
+
+
+$BF_{12}$ gibt an, in welchem Ausmass die Daten $\mathcal{M}_1$ bevorzugen, relativ zu $\mathcal{M}_2$.
+
+
+Beispiel: $BF_{12} = 5$ heisst: die Daten sind unter Modell 1 5 Mal wahrscheinlicher als unter Modell 2 
+
+
+
+
+
+## Bayes Factor
+
+- Sehr stark abhängig von den Prior Verteilungen der Parameter.
+
+- Ist nur für sehr simple Modelle einfach zu berechnen/schätzen.
+
+- Schätzmethoden
+    + Savage-Dickey Density Ratio mit `Stan`/`brms`
+    
+    + Package [BayesFactor](https://cran.r-project.org/web/packages/BayesFactor/vignettes/manual.html) (nur für allgemeine lineare Modelle)
+    
+    + [JASP](https://jasp-stats.org/): IM Prinzip ein GUI für `BayesFactor`
+    
+    + Bridge sampling mit `brms`: schwieriger zu implementieren, aber für viele Modelle möglich.
+
+
+
+
+
+
+## Savage-Dickey Density Ratio
+
+
+Wenn wir zwei genestete Modell vergleichen, wie z.B. ein Modell 1 mit einem frei geschätzten Parameter, und ein Nullmodell 
+vergleichen, gibt es eine einfache Methode.
+
+
+Unter dem Nullmodell (Nullhypothese): $H_0: \theta = \theta_0$
+
+Unter Modell 1: $H_0: \theta \neq \theta_0$
+
+
+Nun braucht der Parameter $\theta$ unter Modell 1 eine Verteilung, z.B. $\theta \sim \text{Beta}(1, 1)$
+
+
+Der Savage-Dickey Density Ratio Trick: wir betrachten nur Modell 1, und dividieren die Posterior Verteilung durch die Prior Verteilung an der Stelle $\theta_0$.
+
+<aside>
+Beim Nullmodell ist der Parameter auf einen bestimmten Wert fixiert.
+</aside>
+
+
+
+## Savage-Dickey Density Ratio
+
+Wir schauen uns ein Beispiel aus @wagenmakersBayesianHypothesisTesting2010a an:
+
+
+Sie beobachten, dass jemand 9 Fragen von 10 richtig beantwortet. 
+
+```{r}
+d <- tibble(s = 9, k = 10)
+```
+
+
+Unsere Frage: was ist die Wahrscheinlichkeit, dass das mit Glück ( $\theta = 0.5$ ) passiert ist?
+
+
+```{r echo=FALSE}
+pd <- tibble(
+  x = seq(0, 1, by = .01),
+  Prior = dbeta(x, 1, 1)
+)
+ggplot(pd, aes(x, Prior)) +
+  geom_line(size = 1.5) +
+  coord_cartesian(xlim = 0:1, ylim = c(0, 6), expand = 0.01) +
+  labs(y = "Density", x = bquote(theta))
+```
+
+
+
+```{r echo=FALSE, preview=TRUE}
+pd <- pd |> 
+  mutate(Posterior = dbeta(x, 9+1, 1+1))
+
+pdw <- pd |> 
+  pivot_longer(names_to = "Type", 
+               values_to = "density", 
+               Prior:Posterior)
+pdw |> 
+  ggplot(aes(x, density, col = Type)) +
+  geom_line(size = 1.5) +
+  scale_x_continuous(expand = expansion(0.01)) +
+  scale_color_viridis_d(end = 0.8) +
+  labs(y = "Density", x = bquote(theta)) +
+  annotate("point", x = c(.5, .5), 
+           y = c(pdw$density[pdw$x == .5]),
+           size = 4) +
+  annotate("label",
+    x = c(.5, .5),
+    y = pdw$density[pdw$x == .5],
+    label = round(pdw$density[pdw$x == .5], 3),
+    vjust = -.5
+  )
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+filter(pd, x == .5) |>
+  mutate(
+    BF01 = Posterior / Prior,
+    BF10 = 1 / BF01
+  ) |>
+  kable(caption = "Bayes Factors.", digits = 3) |> 
+  kable_styling(full_width = FALSE)
+```
+
+
+
+## Case studies
+
+
+## Bernoulli trials
+
+
+```{r}
+compute_posterior = function(likelihood, prior){
+  # compute product of likelihood and prior
+  unstandardized_posterior <- likelihood * prior
+  
+  # standardize the posterior, so it sums to 1
+  posterior <- unstandardized_posterior / sum(unstandardized_posterior)
+  
+  out <- tibble(prior, likelihood, posterior)
+  out
+}
+```
+
+```{r}
+plot_posterior <- function(df, mle = 6/9){
+with(df, {
+    par(mfrow=c(1, 3))
+    plot(theta_grid , prior, type="l", main="Prior", col = "dodgerblue3", 
+            lwd = 4, yaxt = 'n', ylab = 'Probability', cex.lab = 1.5, cex.main = 3)
+    plot(theta_grid , likelihood, type = "l", main = "Likelihood", col = "firebrick3", 
+            lwd = 4, yaxt = 'n', ylab = '', cex.lab = 1.5, cex.main = 3)
+    plot(theta_grid , posterior , type = "l", main = "Posterior", col = "darkorchid3", 
+            lwd = 4, yaxt = 'n', ylab = '', cex.lab = 1.5, cex.main = 3)
+    abline(v = mle, col = 4, lty = 2, lwd = 2)
+  } )
+}
+```
+
+
+### Smart drug t-test
+
+```{r}
+smart = tibble(IQ = c(101,100,102,104,102,97,105,105,98,101,100,123,105,103,
+                      100,95,102,106,109,102,82,102,100,102,102,101,102,102,
+                      103,103,97,97,103,101,97,104,96,103,124,101,101,100,
+                      101,101,104,100,101),
+               Group = "SmartDrug")
+
+placebo = tibble(IQ = c(99,101,100,101,102,100,97,101,104,101,102,102,100,105,
+                        88,101,100,104,100,100,100,101,102,103,97,101,101,100,101,
+                        99,101,100,100,101,100,99,101,100,102,99,100,99),
+                 Group = "Placebo")
+
+TwoGroupIQ <- bind_rows(smart, placebo)  |>
+    mutate(Group = fct_relevel(as.factor(Group), "Placebo"))
+```
+
+
+```{r eval=FALSE, include=TRUE}
+write_csv(TwoGroupIQ, file = "SmartDrug.csv")
+```
+
+### Signal detection
+

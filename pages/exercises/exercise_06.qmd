@@ -29,7 +29,7 @@ Die Daten für diese Übung finden Sie hier:
 
 👉 [Download Data](../../data/exercise-06/data/ddm-data.csv)
 
-👉 [Download True Parameters](../../data/exercise-06/dparticipant-params.csv)
+👉 [Download True Parameters](../../data/exercise-06/data/dparticipant-params.csv)
 
 Laden Sie bitte Ihre Lösung als Word Dokument oder R Skript bis **Dienstag, 24.5.2022, um 00:30 Uhr**, in den Order für Übung 6 auf ILIAS.
 

@@ -171,16 +171,20 @@ $$ \frac{p(\mathcal{M}_1 | y) = P(y | \mathcal{M}_1) p(\mathcal{M}_1)} {p(\mathc
 
 Let's have another look at Bayes rule (including the dependency of the parameters $\mathbf{\theta}$ on the model $\mathcal{M}$):
 
-$$ p(\theta | y, \mathcal{M}) = \frac{p(y|\theta, \mathcal{M}) p(\theta | \mathcal{M})}{p(y | \mathcal{M})}$$
+$$ 
+p(\theta | y, \mathcal{M}) = \frac{p(y|\theta, \mathcal{M}) p(\theta | \mathcal{M})}{p(y | \mathcal{M})}
+$$
 
-where $\mathcal{M}$ refers to a specific model. The marginal likelihood $p(y | \mathcal{M})$ now gives the probability of the data, averaged over all possible parameter value under model $\mathcal{M}$.
+where $\mathcal{M}$ refers to a specific model. The marginal likelihood $p(y | \mathcal{M})$ now gives the probability of the data, averaged over all possible parameter values under model $\mathcal{M}$.
 
 
 > The marginal likelihood $p(y | \mathcal{M})$ is usually neglected when looking at a single model, but becomes important when comparing models.
 
 
 Writing out the marginal likelihood $p(y | \mathcal{M})$:
-$$ p(y | \mathcal{M}) = \int{p(y | \theta, \mathcal{M}) p(\theta|\mathcal{M})d\theta}$$
+$$ 
+p(y | \mathcal{M}) = \int{p(y | \theta, \mathcal{M}) p(\theta|\mathcal{M})d\theta}
+$$
 
 we see that this is averaged over all possible values of $\theta$ that the model will allow.
 
@@ -206,11 +210,15 @@ The complexity of a model depends on (among other things):
 
 We can also write Bayes rule applied to a comparison between models (marginalized over all parameters within the model):
 
-$$ p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}$$
+$$ 
+p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}
+$$
 
 and
 
-$$ p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}$$
+$$ 
+p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}
+$$
 
 This tells us that for model $\mathcal{M_m}$, the posterior probability of the model is proportional to the marginal likelihood times the prior probability of the model.
 
@@ -218,11 +226,16 @@ Now, one is usually less interested in absolute evidence than in relative eviden
 
 To do this, we simply form the ratio of the model probabilities:
 
-$$ \frac{p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}} {p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}}$$
+$$ 
+\frac{p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}} {p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}}
+$$
 
 
 The term $p(y)$ cancels out, giving us:
-$$ \frac{p(\mathcal{M}_1 | y) = P(y | \mathcal{M}_1) p(\mathcal{M}_1)} {p(\mathcal{M}_2 | y) = P(y | \mathcal{M}_2) p(\mathcal{M}_2)}$$
+
+$$ 
+\frac{p(\mathcal{M}_1 | y) = P(y | \mathcal{M}_1) p(\mathcal{M}_1)} {p(\mathcal{M}_2 | y) = P(y | \mathcal{M}_2) p(\mathcal{M}_2)}
+$$
 
 
 - The ratio $\frac{p(\mathcal{M}_1)}{p(\mathcal{M}_2)}$ is called the **prior odds**.
@@ -231,7 +244,9 @@ $$ \frac{p(\mathcal{M}_1 | y) = P(y | \mathcal{M}_1) p(\mathcal{M}_1)} {p(\mathc
 
 - We are particularly interested in the ratio of the marginal likelihoods:
 
-$$\frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}$$
+$$
+\frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}
+$$
 
 This is the **Bayes factor**, and it can be interpreted as the change from prior odds to posterior odds that is indicated by the data.
 

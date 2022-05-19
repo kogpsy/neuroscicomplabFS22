@@ -1019,7 +1019,7 @@
     "href": "slides/10_fitting_ddm.html#simulate",
     "title": "10. Sitzung",
     "section": "Simulate",
-    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.6165702, 0.9808385, 0.5448886, 0.6280952, 0.6889693, 0.5156…\n$ response <fct> upper, upper, lower, upper, upper, lower, upper, lower, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.6165702    upper\n2 0.9808385    upper\n3 0.5448886    lower\n4 0.6280952    upper\n5 0.6889693    upper\n6 0.5156509    lower"
+    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.5731011, 0.5253344, 0.5664564, 1.2451762, 0.7154300, 0.7345…\n$ response <fct> lower, lower, lower, upper, upper, upper, upper, lower, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.5731011    lower\n2 0.5253344    lower\n3 0.5664564    lower\n4 1.2451762    upper\n5 0.7154300    upper\n6 0.7345750    upper"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#grafisch-darstellen",
@@ -1040,7 +1040,7 @@
     "href": "slides/10_fitting_ddm.html#zusammenfassen",
     "title": "10. Sitzung",
     "section": "Zusammenfassen",
-    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.589  0.542 0.114\n2 upper    0.760  0.718 0.157"
+    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.582  0.543 0.111\n2 upper    0.749  0.721 0.143"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#maximum-likelihood-schätzung",
@@ -1320,7 +1320,7 @@
     "href": "pages/exercises/exercise_06.html#geschätzte-parameterwerte",
     "title": "Übung 6",
     "section": "Geschätzte Parameterwerte",
-    "text": "Geschätzte Parameterwerte\nDie geschätzten Parameter sind in einer List gespeichert.\n\np\n\n[[1]]\n      a     v     z    t0\nA 1.439 0.261 0.523 0.206\nB 1.513 1.231 0.495 0.190\n\n[[2]]\n      a     v     z    t0\nA 1.462 0.293 0.505 0.200\nB 0.264 0.611 0.456 0.252\n\n[[3]]\n      a     v     z    t0\nA 1.631 0.284 0.484 0.188\nB 1.583 1.268 0.469 0.192\n\n[[4]]\n      a     v     z    t0\nA 1.436 0.237 0.517 0.203\nB 1.091 0.177 0.544 0.249"
+    "text": "Geschätzte Parameterwerte\nDie geschätzten Parameter sind in einer List gespeichert.\n\np\n\n[[1]]\n      a     v     z    t0\nA 1.439 0.261 0.523 0.206\nB 1.513 1.231 0.495 0.190\n\n[[2]]\n      a     v     z    t0\nA 1.462 0.293 0.505 0.200\nB 1.427 1.180 0.499 0.202\n\n[[3]]\n      a     v     z    t0\nA 1.631 0.284 0.484 0.188\nB 1.583 1.268 0.469 0.192\n\n[[4]]\n      a     v     z    t0\nA 1.436 0.237 0.517 0.203\nB 1.439 1.207 0.497 0.196"
   },
   {
     "objectID": "pages/exercises/exercise_06.html#vergleich-mit-wahren-werten",

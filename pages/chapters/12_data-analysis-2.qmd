@@ -47,7 +47,7 @@ We have briefly looked at how to estimate parameters in a very simple model, and
 testing.
 - Hypothesis testing means comparing models - thus it is more complicated than estimation.
 
-A model can be is a set of parameters that we are using to predict the observeed data. For example, in the card game, we had several different prior assumptions about the abilities of players A and B. One prior expressed our belief that both players were equally good, whereas another prior expressed the belief that either player A or player was better. These priors, together with our assumptions about the distrisbution of the data, form a model.
+A model can be is a set of parameters that we are using to predict the observeed data. For example, in the card game, we had several different prior assumptions about the abilities of players A and B. One prior expressed our belief that both players were equally good, whereas another prior expressed the belief that either player A or player was better. These priors, together with our assumptions about the distribution of the data, form a model.
 
 
 ### Bayesian parameter estimation
@@ -66,7 +66,7 @@ $$
 p(\theta | y, \mathcal{M}) = \frac{p(y|\theta, \mathcal{M}) p(\theta | \mathcal{M})}{p(y | \mathcal{M})}
 $$
 
-where $\mathcal{M}$ refers to a specific model. This model is determined by the prior distribution of the parameters $p(\theta | \mathcal{M}$ and the distribution of the data $\mathbf{y|\theta, \mathcal{M}$. 
+where $\mathcal{M}$ refers to a specific model. This model is determined by the prior distribution of the parameters $p(\theta | \mathcal{M}$ and the distribution of the data $p(y|\theta, \mathcal{M})$. 
 
 The marginal likelihood $p(y | \mathcal{M})$ now gives the probability of the data, averaged over all possible parameter values under prior in model $\mathcal{M}$.
 

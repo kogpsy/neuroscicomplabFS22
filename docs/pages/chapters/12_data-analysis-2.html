@@ -387,7 +387,7 @@ div.csl-indent {
 <li>It is important to distinguish between parameter estimation and hypothesis testing.</li>
 <li>Hypothesis testing means comparing models - thus it is more complicated than estimation.</li>
 </ul>
-<p>A model can be is a set of parameters that we are using to predict the observeed data. For example, in the card game, we had several different prior assumptions about the abilities of players A and B. One prior expressed our belief that both players were equally good, whereas another prior expressed the belief that either player A or player was better. These priors, together with our assumptions about the distrisbution of the data, form a model.</p>
+<p>A model can be is a set of parameters that we are using to predict the observeed data. For example, in the card game, we had several different prior assumptions about the abilities of players A and B. One prior expressed our belief that both players were equally good, whereas another prior expressed the belief that either player A or player was better. These priors, together with our assumptions about the distribution of the data, form a model.</p>
 <section id="bayesian-parameter-estimation" class="level3"><h3 class="anchored" data-anchor-id="bayesian-parameter-estimation">Bayesian parameter estimation</h3>
 <p>In Bayesian parameter estimation, we focus on one model <span class="math inline">\(\mathcal{M}\)</span>. The inferential goal is the posterior distribution, and we can obtain this by applying Bayes’ rule (using MCMC or other methods).</p>
 <p><span class="math display">\[
@@ -397,7 +397,7 @@ p(\theta | y) =  p(\theta) \cdot \frac{p(y | \theta)}{p(y)}
 <p><span class="math display">\[
 p(\theta | y, \mathcal{M}) = \frac{p(y|\theta, \mathcal{M}) p(\theta | \mathcal{M})}{p(y | \mathcal{M})}
 \]</span></p>
-<p>where <span class="math inline">\(\mathcal{M}\)</span> refers to a specific model. This model is determined by the prior distribution of the parameters <span class="math inline">\(p(\theta | \mathcal{M}\)</span> and the distribution of the data <span class="math inline">\(\mathbf{y|\theta, \mathcal{M}\)</span>.</p>
+<p>where <span class="math inline">\(\mathcal{M}\)</span> refers to a specific model. This model is determined by the prior distribution of the parameters <span class="math inline">\(p(\theta | \mathcal{M}\)</span> and the distribution of the data <span class="math inline">\(p(y|\theta, \mathcal{M})\)</span>.</p>
 <p>The marginal likelihood <span class="math inline">\(p(y | \mathcal{M})\)</span> now gives the probability of the data, averaged over all possible parameter values under prior in model <span class="math inline">\(\mathcal{M}\)</span>.</p>
 <div class="callout-important callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -965,7 +965,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>testing.</span>
 <span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hypothesis testing means comparing models - thus it is more complicated than estimation.</span>
 <span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>A model can be is a set of parameters that we are using to predict the observeed data. For example, in the card game, we had several different prior assumptions about the abilities of players A and B. One prior expressed our belief that both players were equally good, whereas another prior expressed the belief that either player A or player was better. These priors, together with our assumptions about the distrisbution of the data, form a model.</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>A model can be is a set of parameters that we are using to predict the observeed data. For example, in the card game, we had several different prior assumptions about the abilities of players A and B. One prior expressed our belief that both players were equally good, whereas another prior expressed the belief that either player A or player was better. These priors, together with our assumptions about the distribution of the data, form a model.</span>
 <span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bayesian parameter estimation</span></span>
@@ -984,7 +984,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a>p(\theta | y, \mathcal{M}) = \frac{p(y|\theta, \mathcal{M}) p(\theta | \mathcal{M})}{p(y | \mathcal{M})}</span>
 <span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a>where $\mathcal{M}$ refers to a specific model. This model is determined by the prior distribution of the parameters $p(\theta | \mathcal{M}$ and the distribution of the data $\mathbf{y|\theta, \mathcal{M}$. </span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a>where $\mathcal{M}$ refers to a specific model. This model is determined by the prior distribution of the parameters $p(\theta | \mathcal{M}$ and the distribution of the data $p(y|\theta, \mathcal{M})$. </span>
 <span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-73"><a href="#cb22-73" aria-hidden="true" tabindex="-1"></a>The marginal likelihood $p(y | \mathcal{M})$ now gives the probability of the data, averaged over all possible parameter values under prior in model $\mathcal{M}$.</span>
 <span id="cb22-74"><a href="#cb22-74" aria-hidden="true" tabindex="-1"></a></span>

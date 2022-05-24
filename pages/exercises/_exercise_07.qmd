@@ -1,0 +1,324 @@
+---
+title: "Übung 6"
+description: |
+  DDM Parameter schätzen.
+date: "2022-05-10"
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+format:
+    html:
+        toc: true
+        code-link: true
+---
+```{r}
+#| include: false
+
+# Set working directory of R
+knitr::opts_knit$set(root.dir = '../../data/exercise-06/data')
+```
+
+:::{.callout-note}
+Die Daten für diese Übung finden Sie hier: 
+
+👉 [Download Data](../../data/exercise-06/data/ddm-data.csv)
+
+👉 [Download True Parameters](../../data/exercise-06/data/participant-params.csv)
+
+Laden Sie bitte Ihre Lösung als Word Dokument oder R Skript bis **Dienstag, 24.5.2022, um 00:30 Uhr**, in den Order für Übung 6 auf ILIAS.
+
+
+Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-6.R* oder *Matrikelnummer_Nachname_uebung-6.docx*.
+:::
+
+# Aufgabenstellung
+
+1) Signal detection
+
+2) DDM
+
+
+```{r}
+#| include: false
+#| eval: false
+library(tidyverse)
+library(rtdists)
+
+true_params <- c(a = 1.5,
+                 v1 = 0.3,
+                 v2 = 1.2,
+                 z = 0.5,
+                 t0 = 0.2)
+
+ntrials <- 1.2e3
+
+make_subject <- function(ntrials = 1e3, pars, subject_no = 1) {
+
+  a <- exp(log(pars["a"]) + rnorm(1, 0, 0.05))
+  v1 <- exp(log(pars["v1"]) + rnorm(1, 0, 0.05))
+  v2 <- exp(log(pars["v2"]) + rnorm(1, 0, 0.05))
+  z <- plogis(qlogis(pars["z"]) + rnorm(1, 0, 0.1))
+  t0 <- exp(log(pars["t0"]) + rnorm(1, 0, 0.05))
+
+  s <- 1.0
+  
+  d <- as_tibble(bind_rows(
+  rdiffusion(ntrials, a = a, v = v1, t0 = t0, z = z*a, s = s,
+             sz = 0, sv = 0, d = 0) |>
+  mutate(condition = "A",
+         ID = subject_no),
+  rdiffusion(ntrials, a = a, v = v2, t0 = t0, z = z*a, s = s,
+             sz = 0, sv = 0, d = 0) |>
+  mutate(condition = "B",
+         ID = subject_no))) |>
+  mutate(response = factor(response, levels = c("lower", "upper")),
+         condition = as_factor(condition))
+  d <- d |> mutate(a = a, v1 = v1, v2 = v2, z = z, t0 = t0)
+}
+
+nsubjects <- 24
+set.seed(8452)
+
+d <- 1:nsubjects |> map_df(\(x) make_subject(ntrials = ntrials,
+                                            pars = true_params,
+                                            subject_no = x)) |>
+  mutate(response = factor(response, levels = c("lower", "upper")),
+         condition = as_factor(condition),
+         ID = as_factor(ID))
+
+participant_params <- d |>
+  group_by(ID) |>
+  summarize(across(c(a, v1, v2, z, t0), \(x) round(first(x), 3)))
+
+d <- d |> select(ID, condition, rt, response)
+
+write_csv(d, file = "ddm-data-full.csv")
+write_csv(participant_params, file = "participant-params-full.csv")
+```
+
+
+## Daten einlesen
+
+Downloaden Sie die Daten, und die wahren Parameter (zum Vergleich).
+
+Wir laden die Daten in ein DataFrame, `d`. Ich habe ein RT Experiment simuliert, in dem 4 Versuchspersonen in 2 Bedingungen ("A" und "B") getestet wurden. Die experimentelle Manipulation sollte sich vor allem auf einen Parameter unterschieden. In dieser Übung geht es darum, herauszufinden, auf welchen Parameter die Manipulation einen Einfluss hat.
+
+## Aufgaben
+
+:::{.callout-important}
+
+1) Führen Sie die Parameterschätzung mehrmals aus, und berichten Sie die resultierenden Parameter.  Es kann sein, dass nicht immer dasselbe rauskommt (deshlab machen wir es mehrmals). Welcher Parameter wurde beeinflusst?
+
+2) Überlegen Sie sich, wie Sie weiterführen würden. Wie können Sie zeigen, dass es in einem Parameter einen Unterschied zwischen den Bedingungen gibt? Wie können Sie zeigen, dass es in den anderen Parameter keine Unterschied gibt? Beschreiben Sie in einem Paragraphen, was Sie sich überlegt haben.
+:::
+
+
+```{r}
+#| eval: true
+#| echo: true
+#| warning: false
+
+library(tidyverse)
+library(rtdists)
+
+d <- read_csv("ddm-data.csv")
+participant_params <- read_csv("participant-params.csv")
+```
+
+
+## Daten vorbereiten
+
+Wir schauen uns die Daten an:
+
+```{r}
+d |> glimpse()
+```
+
+Die Variablen `ID`, `condition` und `response` sollten Faktoren sein.
+
+
+
+```{r}
+d <- d |> 
+  mutate(across(c(ID, condition, response), ~as_factor(.)))
+
+d |> glimpse()
+```
+
+Weil es nur 4 VP sind, können wir die RTs von allen in einem Plot anschauen. Die `upper` Responses können wir hier als korrekte Antworten auffassen, die `lower` Responses als inkorrekte.
+
+
+```{r}
+d |>
+  ggplot(aes(rt, response, fill = response)) +
+  geom_violin() +
+  geom_jitter(height = 0.1, alpha = 0.2, size = 0.25) +
+  scale_fill_viridis_d(option = "B", direction = 1,
+                       begin = 1/2, end = 2/2) +
+  xlim(c(0, 1.5)) +
+  facet_grid(condition ~ ID)
+```
+
+## Daten zusammenfassen
+
+UM uns einen Überblick zu verschaffen, fassen wir die Daten durch mittlere RT und "Accuracy" zusammen.
+
+```{r}
+summary <- d |> group_by(ID, condition) |> 
+  summarise(mean_rt = mean(rt),
+            median_rt = median(rt),
+            accuracy = mean(response == "upper"))
+summary
+```
+
+```{r}
+summary |> 
+  ggplot(aes(mean_rt, accuracy, color = condition)) +
+  geom_line(aes(group = ID), color = "black", linetype = "dotted") +
+  geom_point(size = 4) +
+  scale_color_viridis_d(end = 0.8)
+```
+
+In der Grafik sehen wir, dass die Accuracy in Bedingung "A" höher ist. Gleichzeitig ist die mittlere RT niedriger. Das ist ein Hinweis, dass hier kein Speed-Accuracy Tradeoff vorliegt.
+
+
+
+
+
+## Negative loglikelihood Funktion definieren
+
+Nun wollen wir für jede Person in den beiden Bedingungen die Parameter des DDM fitten. Wir definieren dafür eine Funktion, welche die _negative log likelihood_ als Output hat.
+
+
+```{r}
+diffusionloglik <- function(pars, condition, rt, response) {
+
+  conditions <- levels(condition)
+  likelihoods <- vector("numeric", length(rt))
+
+
+  likelihoods <- ddiffusion(rt = rt,
+                             response = response,
+                             a = pars["a"],
+                             v =  pars["v"],
+                             t0 = pars["t0"],
+                             z = pars["z"] * pars["a"],
+                             s = 1.0)
+  
+  if (any(likelihoods == 0)) return(1e6)
+  return(-sum(log(likelihoods)))
+}
+```
+
+
+## Startwerte für Maxmimum Likelihood Schätzung
+
+Für die Minimierung brauchen wir Anfangswerte. Diese werden für jeden zu schätzenden Parameter zufällig gewählt.
+
+
+```{r}
+init_params <- function() {
+  params <- c(a = runif(1, 0.2, 1.2),
+              v = rnorm(1, 0.5, 0.5),
+              z = runif(1, 0.45, 0.55),
+              t0 = runif(1, 0.01, 0.3))
+  params
+}
+```
+
+
+## Maxmimum Likelihood Schätzung 
+Nun definieren wir zuerst ein paar Variablen.
+
+```{r}
+participants <- levels(d$ID)
+n_participants <- length(participants)
+conditions <- levels(d$condition)
+n_conditions <- length(conditions)
+
+# no. parameters (a, v, z, t0)
+n_pars <- length(init_params())
+```
+
+
+Und nun schreiben wir eine zweifache `for`-Loop, über die Versuchspersonen, und über die Bedingungen innerhalb der Personen.
+
+
+Führen Sie diesen Teil mehrmals aus.
+
+```{r}
+p <- vector("list", n_participants)
+
+for (i in seq_along(participants)) {
+  
+  estimates <- array(NA, c(n_conditions, n_pars))
+  colnames(estimates) <- c("a", "v", "z", "t0")
+  rownames(estimates) <- c("A", "B")
+  
+  for (j in seq_along(conditions)) {
+    data <- filter(d, ID == i, condition == conditions[j])
+  
+    fit <- nlminb(init_params(),
+                diffusionloglik,
+                lower = 0,
+                condition = data$condition,
+                rt = data$rt,
+                response = data$response)
+    
+    estimates[j, ] <- fit$par |> round(3)
+  }
+  p[[i]] <- estimates
+}
+```
+
+
+## Geschätzte Parameterwerte
+
+Die geschätzten Parameter sind in einer List gespeichert. 
+
+```{r}
+p
+```
+
+
+## Vergleich mit wahren Werten
+
+Die geschätzten Parameter können nun mit den "wahren" Werten verglichen werden.
+
+```{r}
+participant_params
+```
+
+
+
+
+
+```{r}
+out <- p |> 
+  map_df(\(x) as_tibble(x) |> 
+           mutate(condition = c("A", "B"))) 
+```
+
+```{r}
+out <- out |>
+  mutate(ID = rep(1:24, each = 2)) |> 
+  select(ID, condition, a, v, z, t0)
+```
+
+
+```{r}
+out
+```
+
+```{r}
+out |> 
+  ggplot(aes(condition, t0)) +
+  geom_boxplot()
+```
+

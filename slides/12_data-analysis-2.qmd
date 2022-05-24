@@ -1,0 +1,78 @@
+---
+title: "12. Sitzung"
+subtitle: "Bayesian hypothesis testing/model comparison."
+author: "Andrew Ellis"
+institute: "Neurowissenschaft Computerlab FS 22"
+format:
+  revealjs:
+    theme: [simple, ../styles/reveal.scss]
+    logo: ../assets/logo.png
+    footer: <a href="/">🏠 Neurowissenschaft Computerlab FS22</a>
+    # smaller: true
+    slide-number: c/t
+    chalkboard: true
+    scrollable: true 
+    code-fold: true
+    code-summary: "Show code"
+    code-tools: true
+execute:
+  echo: true
+  include: true
+date: "2022-05-24"
+---
+
+```{r}
+#| echo: true
+#| include: false
+
+library(tidyverse)
+```
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="35%"}
+::: topic-number
+1
+:::
+:::
+
+::: {.column width="65%"}
+::: topic-text
+Bayesian hypothesis testing: Bayes factors
+:::
+:::
+:::
+
+## Theory
+
+See [chapter 12](../pages/chapters/12_data-analysis-2.html)
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="35%"}
+::: topic-number
+2
+:::
+:::
+
+::: {.column width="65%"}
+::: topic-text
+Bayesian data analysis using JASP
+:::
+:::
+:::
+
+## JASP
+
+- [Learning Statistics with JASP](https://learnstatswithjasp.com/)
+
+- [Free resources](https://jasp-stats.org/teaching-with-jasp/)
+
+- [JASP data library](https://jasp-stats.org/wp-content/uploads/2020/05/The_JASP_Data_Library_1st_Edition.pdf)
+
+    1) Frequencies: Hungry zombies (Bayesian Binomial test)
+
+    2) T-test: Horizontal eye movements
+

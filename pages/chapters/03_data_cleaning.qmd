@@ -88,7 +88,7 @@ tibble(norm = rnorm(1e4, 1, 0.4),
   coord_cartesian(xlim = c(-2, 8))
 ```
 
-Obwohl die Normalverteilung so aussieht, als könne sie Reaktionszeiten repräsentieren, ist der Wertebereich von $[-\Inf, \Inf]$ nicht dafür geeignet. Ausserdem erlaubt die Normalverteilung keine extremen Werte, und ist nicht asymmetrisch.
+Obwohl die Normalverteilung so aussieht, als könne sie Reaktionszeiten repräsentieren, ist der Wertebereich von $[-\infty, \infty]$ nicht dafür geeignet. Ausserdem erlaubt die Normalverteilung keine extremen Werte, und ist nicht asymmetrisch.
 
 # Daten aus einem Reaktionszeitexperiment
   

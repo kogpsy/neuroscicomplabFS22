@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.301">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Neurowissenschaft Computerlab – data-analysis-2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<link href="../..//assets/logo_landing.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link class="quarto-color-scheme" href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="../../site_libs/bootstrap/bootstrap-dark.min.css">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles/global.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../assets/logo.png" alt="">
+    <span class="navbar-title">Neurowissenschaft Computerlab</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-admin">    
+        <li>
+    <a class="dropdown-item" href="../../pages/admin/01_overview.html">
+ <span class="dropdown-text">Übersicht</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/admin/02_assessments.html">
+ <span class="dropdown-text">Leistungskontrollen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/admin/03_zulip_forum.html">
+ <span class="dropdown-text">Zulip Forum</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-kapitel" role="button" data-bs-toggle="dropdown" aria-expanded="false">Kapitel</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-kapitel">    
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/01_psychopy_experiments.html">
+ <span class="dropdown-text">Verhaltensexperiment mit PsychoPy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/02_importing_data.html">
+ <span class="dropdown-text">Daten importieren</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/03_data_cleaning.html">
+ <span class="dropdown-text">Data cleaning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/04_summarizing_data.html">
+ <span class="dropdown-text">Daten bearbeiten und zusammenfassen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/05_signal_detection_i.html">
+ <span class="dropdown-text">Signal Detection Theory: I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/06_signal_detection_ii.html">
+ <span class="dropdown-text">Signal Detection Theory: II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/07_response_times_i.html">
+ <span class="dropdown-text">Reaktionszeiten: I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/08_response_times_ii.html">
+ <span class="dropdown-text">Reaktionszeiten: II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/09_evidence_accumulation_1.html">
+ <span class="dropdown-text">Evidence Accumulation Models: I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/10_evidence_accumulation_2.html">
+ <span class="dropdown-text">Evidence Accumulation Models: II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/11_data-analysis-1.html">
+ <span class="dropdown-text">Data analysis: I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/chapters/12_data-analysis-2.html">
+ <span class="dropdown-text">Bayesian hypothesis testing</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-slides" role="button" data-bs-toggle="dropdown" aria-expanded="false">Slides</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-slides">    
+        <li>
+    <a class="dropdown-item" href="../../slides/01_introduction.html">
+ <span class="dropdown-text">1. Sitzung (22.02.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/02_psychopy.html">
+ <span class="dropdown-text">2. Sitzung (01.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/03_import_and_process_data.html">
+ <span class="dropdown-text">3. Sitzung (08.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/04_process_data.html">
+ <span class="dropdown-text">4. Sitzung (15.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/05_signal_detection.html">
+ <span class="dropdown-text">5. Sitzung (22.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/06_signal_detection_examples.html">
+ <span class="dropdown-text">6. Sitzung (29.03.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/07_response_times.html">
+ <span class="dropdown-text">7. Sitzung (05.04.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/08_response_times_ii.html">
+ <span class="dropdown-text">8. Sitzung (12.04.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/09_evidence_accumulation.html">
+ <span class="dropdown-text">9. Sitzung (26.04.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/10_fitting_ddm.html">
+ <span class="dropdown-text">10. Sitzung (03.05.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/11_data-analysis-1.html">
+ <span class="dropdown-text">11. Sitzung (17.05.2022)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/12_data-analysis-2.html">
+ <span class="dropdown-text">12. Sitzung (24.05.2022)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bungen" role="button" data-bs-toggle="dropdown" aria-expanded="false">Übungen</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bungen">    
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_01.html">
+ <span class="dropdown-text">Übung 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_02.html">
+ <span class="dropdown-text">Übung 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_03.html">
+ <span class="dropdown-text">Übung 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_04.html">
+ <span class="dropdown-text">Übung 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_05.html">
+ <span class="dropdown-text">Übung 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/exercises/exercise_06.html">
+ <span class="dropdown-text">Übung 6</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lösungen" role="button" data-bs-toggle="dropdown" aria-expanded="false">Lösungen</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-lösungen">    
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_03.html">
+ <span class="dropdown-text">Übung 3: Lösung</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<ul>
+<li>the prior distributions of the model’s parameters</li>
+</ul>
+<p>When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are assigned low probability. Intuitively, if one hedges one’s bets, one has to assign low probability to parameter values that make good predictions, because one has more possible parameter values.</p>
+<p>The following prior makes quite a strong prediction about the value of <span class="math inline">\(\theta\)</span> - it is centred on <span class="math inline">\(0.5\)</span>, and the spread is small. Both small and large values are assigned very little probability.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>theta_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length =</span> <span class="dv">101</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>prior1 <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta_grid, <span class="at">shape1 =</span> <span class="dv">200</span>, <span class="at">shape2 =</span> <span class="dv">200</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(theta_grid, prior1, <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>THe next prior makes less strong predictions, in the sense that it assigns higher probability to small and large values of <span class="math inline">\(\theta\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>prior2 <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta_grid, <span class="at">shape1 =</span> <span class="dv">2</span>, <span class="at">shape2 =</span> <span class="dv">2</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(theta_grid, prior2, <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A model that makes more precise predictions, i.e.&nbsp;a model with a stronger prior, is considered less complex that a model that makes many predictions.</p>
+<section id="bayesian-hypothesis-testing" class="level3">
+<h3 class="anchored" data-anchor-id="bayesian-hypothesis-testing">Bayesian hypothesis testing</h3>
+<p>Now consider that we have two models, <span class="math inline">\(\mathcal{M1}\)</span> and <span class="math inline">\(\mathcal{M2}\)</span>. We would like to know which model explains the data better. Now we can use Bayes’ rule to calculate the posterior probability of <span class="math inline">\(\mathcal{M1}\)</span> and <span class="math inline">\(\mathcal{M2}\)</span> (marginalized over all parameters within the model).</p>
+<p><span class="math display">\[
+p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}
+\]</span></p>
+<p>One way of comparing the models is by taking the ratio <span class="math inline">\(p(\mathcal{M}_1 | y) / p(\mathcal{M}_2 | y)\)</span>.</p>
+<p><span class="math display">\[
+\frac{p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}} {p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}}
+\]</span></p>
+<p>The term <span class="math inline">\(p(y)\)</span> cancels out, giving us:</p>
+<p><span class="math display">\[
+\frac{p(\mathcal{M}_1 | y) = P(y | \mathcal{M}_1) p(\mathcal{M}_1)} {p(\mathcal{M}_2 | y) = P(y | \mathcal{M}_2) p(\mathcal{M}_2)}
+\]</span></p>
+<p>On the left-hand side, we have the ratio of the posterior probabilities of the two models. On the right-hand side, we have the ratio of the marginal likelihoods of the two models, multiplied by the prior probabilities of each model. The marginal likelihoods (also know as model evidence) tell how well each model explains the data.</p>
+<p><span class="math display">\[
+\underbrace{\frac{p(\mathcal{M}_1 | y)} {p(\mathcal{M}_2 | y)}}_\text{Posterior odds} = \underbrace{\frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}}_\text{Ratio of marginal likelihoods} \cdot \underbrace{ \frac{p(\mathcal{M}_1)}{p(\mathcal{M}_2)}}_\text{Prior odds}
+\]</span></p>
+<p><span class="math inline">\(\frac{p(\mathcal{M}_1)}{p(\mathcal{M}_2)}\)</span> are the <strong>prior odds</strong>, and <span class="math inline">\(\frac{p(\mathcal{M}_1 | y)}{p(\mathcal{M}_2 | y)}\)</span> are the <strong>posterior odds</strong>. These tell us which model we believe to be mode probable a priori and a posteriori.</p>
+<p>We are particularly interested in the ratio of the marginal likelihoods:</p>
+<p><span class="math display">\[
+\frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}
+\]</span></p>
+<p>This is the <strong>Bayes factor</strong>, and it can be interpreted as the change from prior odds to posterior odds that is indicated by the data.</p>
+<p>If we consider the prior odds to be <span class="math inline">\(1\)</span>, i.e.&nbsp;we do not favour one model over another a priori, then we are only interested in the Bayes factor. We write this as:</p>
+<p><span class="math display">\[ BF_{12} = \frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}\]</span></p>
+<p>Here, <span class="math inline">\(BF_{12}\)</span> indicates the extent to which the data support model <span class="math inline">\(\mathcal{M}_1\)</span> over model <span class="math inline">\(\mathcal{M}_2\)</span>.</p>
+<p>As an example, if we obtain a <span class="math inline">\(BF_{12} = 5\)</span>, this mean that the data are 5 times more likely to have occured under model 1 than under model 2. Conversely, if <span class="math inline">\(BF_{12} = 0.2\)</span>, then the data are 5 times more likely to have occured under model 2.</p>
+<p>The following <a href="http://en.wikipedia.org/wiki/Bayes_factor#Interpretation">classification scheme</a> is sometimes used, although it is not really necessary or helpful to classify Bayes factors.</p>
+</section>
+<section id="hypothesis-testing" class="level2">
+<h2 class="anchored" data-anchor-id="hypothesis-testing">Hypothesis testing</h2>
+<p>We usually perform model comparisons between a null hypothesis <span class="math inline">\(\mathcal{H}_0\)</span> and an alternative hypothesis <span class="math inline">\(\mathcal{H}_1\)</span>. The terms “model” and “hypothesis” are used synonymously. A null hypothesis means that we fix the value of the parameter to a certain value, e.g.&nbsp;<span class="math inline">\(\theta = 0.5\)</span>. The alternative hypothesis means that we do not fix the value of the parameter, e.g.&nbsp;we do not assume that the parameter is <span class="math inline">\(0.5\)</span>.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is important to note that the alternative hypothesis needs to be specified. In other words, the parameter(s) need to given a prior distribution.</p>
+</div>
+</div>
+<p>In JASP, we will see Bayes factors reported as either</p>
+<p><span class="math display">\[ BF_{10} = \frac{P(y | \mathcal{H}_1)}{P(y | \mathcal{H}_0)}\]</span></p>
+<p>which indicates a BF for an undirected alternative <span class="math inline">\(\mathcal{H}_1\)</span> versus the null, or</p>
+<p><span class="math display">\[ BF_{+0} = \frac{P(y | \mathcal{H}_+)}{P(y | \mathcal{H}_0)}\]</span></p>
+<p>which indicates a BF for a directed alternative <span class="math inline">\(\mathcal{H}_+\)</span> versus <span class="math inline">\(\mathcal{H}_0\)</span>.</p>
+<p>If we want a BF for the null <span class="math inline">\(\mathcal{H}_0\)</span>, we can simply take the inverse of <span class="math inline">\(BF_{10}\)</span>:</p>
+<p><span class="math display">\[ BF_{01} = \frac{1}{BF_{10}}\]</span></p>
+</section>
+<section id="savage-dickey-density-ratio" class="level2">
+<h2 class="anchored" data-anchor-id="savage-dickey-density-ratio">Savage-Dickey Density Ratio</h2>
+<p>I f we are comparing two nested models, i.e.&nbsp;a model with 1 free parameter and null model (in which that parameter is fixed to a certain value) we can use the Savage-Dickey density ratio to calculate the Bayes factor.</p>
+<ul>
+<li><p>Under the null model (<span class="math inline">\(\mathcal{H_0}\)</span> or <span class="math inline">\(\mathcal{M_0}\)</span>): <span class="math inline">\(\theta = \theta_0\)</span></p></li>
+<li><p>under the alternative model (<span class="math inline">\(\mathcal{H_1}\)</span> or <span class="math inline">\(\mathcal{M_1}\)</span>): <span class="math inline">\(\theta \neq \theta_0\)</span></p></li>
+</ul>
+<p>We need to specify a prior distribution of <span class="math inline">\(\theta\)</span> under <span class="math inline">\(\mathcal{H_1}\)</span>). If we consider the card game example, e.g.&nbsp;<span class="math inline">\(\theta \sim \text{Beta}(1, 1)\)</span>.</p>
+<p>The Savage-Dickey Density Ratio is a simplified manner of obtaining the Bayes factor - we simply need to consider <span class="math inline">\(\mathcal{M_1}\)</span>, divide the posterior by the prior at the value <span class="math inline">\(\theta_0\)</span>.</p>
+<p>Let’s look at an example from <span class="citation" data-cites="wagenmakersBayesianHypothesisTesting2010a">@wagenmakersBayesianHypothesisTesting2010a</span>:</p>
+<p>You observe that a person correctly answers 9 out of 10 yes-or-no questions.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_correct <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n_questions <span class="ot">&lt;-</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We want to know: How likely is that to occur if the person was randomly guessing (<span class="math inline">\(\theta=0.5\)</span>)?</p>
+<p>We will assume a uniform prior over <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[
+p(\theta) = Beta(1, 1)
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">01</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Prior =</span> <span class="fu">dbeta</span>(x, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pd, <span class="fu">aes</span>(x, Prior)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">6</span>), <span class="at">expand =</span> <span class="fl">0.01</span>) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Density"</span>, <span class="at">x =</span> <span class="fu">bquote</span>(theta))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The next step is to update our prior with the likelihood, in order to obtain the posterior distribution of <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[
+p(\theta|y) = Beta(1 + 9, 1 + 1)
+\]</span></p>
+<p>Now we can evaluate both the prior and posterior at the value <span class="math inline">\(0.5\)</span>.</p>
+<p>Prior:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(dprior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>Posterior:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(dposterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="fl">0.5</span>, <span class="dv">10</span>, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1074219</code></pre>
+</div>
+</div>
+<p>The BAyes factor $BF_{01} is then posterior density divided by the prior density:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>BF01 <span class="ot">&lt;-</span> dposterior <span class="sc">/</span> dprior</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>BF01</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1074219</code></pre>
+</div>
+</div>
+<p>This is not so easy to interpret, so we calculate BF10 instead:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(BF10 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>BF01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9.309091</code></pre>
+</div>
+</div>
+<p>This means that the data are <span class="math inline">\(9.3\)</span> times more likely to have occurred under the alternative than under the null model.</p>
+<p>The following figure is how Bayes factors are usually visualized in JASP. Plotted are the prior and posterior distributions, and the density under both evaulated at <span class="math inline">\(\theta_0 = 0.5\)</span>.</p>
+<p>The density of <span class="math inline">\(\theta_0\)</span> is smaller after having taking into account the data, or in other words: the probability of <span class="math inline">\(\theta_0\)</span> has decreased after observing the data. This allows us to conclude that the data (9 out of 10) are 9 times more likely to have occured under <span class="math inline">\(\mathcal{M1}\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> pd <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Posterior =</span> <span class="fu">dbeta</span>(x, <span class="dv">1</span> <span class="sc">+</span> n_correct, <span class="dv">1</span> <span class="sc">+</span> (n_questions<span class="sc">-</span>n_correct)))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>pdw <span class="ot">&lt;-</span> pd <span class="sc">|&gt;</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"Type"</span>, </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"density"</span>, </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>               Prior<span class="sc">:</span>Posterior)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>pdw <span class="sc">|&gt;</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, density, <span class="at">col =</span> Type)) <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="fl">0.01</span>)) <span class="sc">+</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Density"</span>, <span class="at">x =</span> <span class="fu">bquote</span>(theta)) <span class="sc">+</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> <span class="fu">c</span>(.<span class="dv">5</span>, .<span class="dv">5</span>), </span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">c</span>(pdw<span class="sc">$</span>density[pdw<span class="sc">$</span>x <span class="sc">==</span> .<span class="dv">5</span>]),</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"label"</span>,</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">c</span>(.<span class="dv">5</span>, .<span class="dv">5</span>),</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> pdw<span class="sc">$</span>density[pdw<span class="sc">$</span>x <span class="sc">==</span> .<span class="dv">5</span>],</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">round</span>(pdw<span class="sc">$</span>density[pdw<span class="sc">$</span>x <span class="sc">==</span> .<span class="dv">5</span>], <span class="dv">3</span>),</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">vjust =</span> <span class="sc">-</span>.<span class="dv">5</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(pd, x <span class="sc">==</span> .<span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">BF01 =</span> Posterior <span class="sc">/</span> Prior,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">BF10 =</span> <span class="dv">1</span> <span class="sc">/</span> BF01) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+      x Prior Posterior  BF01  BF10
+  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1   0.5     1     0.107 0.107  9.31</code></pre>
+</div>
+</div>
+</section>
+<section id="case-studies" class="level2">
+<h2 class="anchored" data-anchor-id="case-studies">Case studies</h2>
+<p>You can generate the following datasets, and then import the <code>CSV</code> files into JASP.</p>
+<section id="card-game" class="level3">
+<h3 class="anchored" data-anchor-id="card-game">Card game</h3>
+<p>Player A wins 6 out of 9 games.</p>
+<ul>
+<li>Do the data provide evidence that player A is better than player B?</li>
+<li>What is the evidence that they are both equally good?</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>wins <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>cardgame <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, wins), <span class="fu">rep</span>(<span class="dv">0</span>, games<span class="sc">-</span>wins)) <span class="sc">|&gt;</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(games, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>cardgame <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">game =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">winner =</span> <span class="fu">if_else</span>(cardgame <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"A"</span>, <span class="st">"B"</span>),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">indicator =</span> cardgame)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>cardgame <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"cardgame.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exam-questions" class="level3">
+<h3 class="anchored" data-anchor-id="exam-questions">Exam questions</h3>
+<p>A student correctly answer 9 questions out of 10.</p>
+<ul>
+<li>What is the evidence that the student was guessing (got lucky)?</li>
+<li>What is the evidence that the student’s ability is greater than <span class="math inline">\(0.5\)</span>?</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>n_correct <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>n_questions <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>questions <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, n_correct), <span class="fu">rep</span>(<span class="dv">0</span>, n_questions<span class="sc">-</span>n_correct)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(n_questions, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>questions <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">question =</span> <span class="dv">1</span><span class="sc">:</span>n_questions,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">correct =</span> <span class="fu">if_else</span>(questions <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"correct"</span>, <span class="st">"error"</span>),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">indicator =</span> questions)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>questions <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"questions.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="smart-drug-t-test" class="level3">
+<h3 class="anchored" data-anchor-id="smart-drug-t-test">Smart drug t-test</h3>
+<p>Generate this dataframe, and export it as <code>CSV</code> file. In this example, we want to compare two groups’ IQ scores. One of the groups has been given a drug to make them smart, the other is the control group.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>smart <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">IQ =</span> <span class="fu">c</span>(<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">102</span>,<span class="dv">104</span>,<span class="dv">102</span>,<span class="dv">97</span>,<span class="dv">105</span>,<span class="dv">105</span>,<span class="dv">98</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">123</span>,<span class="dv">105</span>,<span class="dv">103</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                      <span class="dv">100</span>,<span class="dv">95</span>,<span class="dv">102</span>,<span class="dv">106</span>,<span class="dv">109</span>,<span class="dv">102</span>,<span class="dv">82</span>,<span class="dv">102</span>,<span class="dv">100</span>,<span class="dv">102</span>,<span class="dv">102</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">102</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                      <span class="dv">103</span>,<span class="dv">103</span>,<span class="dv">97</span>,<span class="dv">97</span>,<span class="dv">103</span>,<span class="dv">101</span>,<span class="dv">97</span>,<span class="dv">104</span>,<span class="dv">96</span>,<span class="dv">103</span>,<span class="dv">124</span>,<span class="dv">101</span>,<span class="dv">101</span>,<span class="dv">100</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                      <span class="dv">101</span>,<span class="dv">101</span>,<span class="dv">104</span>,<span class="dv">100</span>,<span class="dv">101</span>),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">Group =</span> <span class="st">"SmartDrug"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>placebo <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">IQ =</span> <span class="fu">c</span>(<span class="dv">99</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">100</span>,<span class="dv">97</span>,<span class="dv">101</span>,<span class="dv">104</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">102</span>,<span class="dv">100</span>,<span class="dv">105</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">88</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">104</span>,<span class="dv">100</span>,<span class="dv">100</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">103</span>,<span class="dv">97</span>,<span class="dv">101</span>,<span class="dv">101</span>,<span class="dv">100</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">101</span>, <span class="dv">99</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">99</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">102</span>,<span class="dv">99</span>,<span class="dv">100</span>,<span class="dv">99</span>),</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Group =</span> <span class="st">"Placebo"</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>SmartDrug <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(smart, placebo)  <span class="sc">|&gt;</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Group =</span> <span class="fu">fct_relevel</span>(<span class="fu">as.factor</span>(Group), <span class="st">"Placebo"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(SmartDrug, <span class="at">file =</span> <span class="st">"SmartDrug.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© Copyright 2022, Andrew Ellis</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kogpsy/neuroscicomplabFS22">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

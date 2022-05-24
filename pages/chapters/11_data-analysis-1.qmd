@@ -414,6 +414,7 @@ d <- crossing(shape1 = c(.1, 1:4),
          b = str_c("b = ", shape2),
          group = rep(1:length, each = 25))
 ```
+
 ```{r}
 d |> 
   ggplot(aes(x = x, group = group)) +
@@ -587,21 +588,110 @@ The resulting posterior distribution is zero for all values of $\theta$ that are
 :::{.callout-tip}
 Try out various priors. How do they affect the posterior?
 
-- A prior exspressing the belief that B is better than A.
+- A prior expressing the belief that B is better than A.
 - A prior expressing that belief that either A is a lot better, or B is a lot better.
 - A prior expressing the belief that the players are probably as good as each other, and that it is unlikely that either is much better than the other.
 :::
 
 
-
-
 The posterior represents our belief about the the possible parameter values, after having observed the data. You can therefore think of Bayesian inference as a method for updating your beliefs, conditional on observed data. You are re-allocating probabilities over parameter values, depending on how well those parameter values predicted the data.
+
+
+## Analytic solution for the Bernoulli/Binomial likelihood and Beta prior
+
+In the above example, we used a technique called grid approximation to obtain the posterior distribution for a parameter. This means that we tried out various parameter values by constructing a grid, and then computed the posterior by applying Bayes' rule. This technique was used merely for educational purposes, as it does not scale well to real-world problems. In the simple example of a sequence of binary observations, the parameter of interest (the probability of success $\theta$ in a Bernoulli trial) is bounded between $0$ and $1$ ($\theta \in [0, 1]$). Furthermore, there is only $1$ parameter to estimate. In more complex models, with many parameters, using grid approximation can be very inefficient, or even impossible. In such cases, we usually use numerical methods to approximate the posterior distribution. These methods are know collectively as *Monte Carlo sampling*, or *Markov Chain Monte Carlo* (MCMC). Using MCMC, we will not obtain an analytical description of posterior distributions, but instead a collection of random numbers (samples), that are drawn from the posterior distribution. We will use these samples to represent the posterior distribution.
+
+In this particular case, however, we also obtain the posterior distribution $ p(\theta|y) $ analytically. By this, I mean that if we use a Beta distribution to describe our prior belief over the $\theta$ parameter, and the likelihood is Bernoulli or Binomial, the posterior distribution is also a Beta distribution.
+
+
+This is shown here for the Binomial likelihood:
+
+
+$$
+p(\theta|z, N) = \frac{p(y|\theta) \cdot p(\theta) = \theta^z (1-\theta)^{N-z} \cdot beta(\theta|a, b)}{p(z, N)}
+$$
+
+where $z$ is the number of successes, $N$ is the number of trials, and $a, b$ are the parameters of the Beta distribution.
+
+$$
+p(\theta|a, b) = beta(\theta|a, b) = \frac{\theta^{a-1} (1-\theta)^{b-1}} {B(a, b)}
+$$
+
+
+The function $B(a, b)$ is a normalizing constant and ensures that the area under the curve integrates to $1$.
+
+$$
+p(\theta|z, N) = \frac{\theta^{(a+z)-1} (1-\theta)^{(b+N-z)-1}} { B(a+z, b+N-z) }
+$$
+
+Put more simply: If the prior distribution is $beta(\theta|a, b)$, and the data have $z$ heads in $N$ flips, then the posterior distribution is $beta(\theta|a + z, b + N − z)$.
+
+You can therefore think of the parameters $a$ and $b$ as the prior successes and failures in $N$ trials, and these parameters are updated by observing $z$ heads in $N$ flips.
+
+### Example
+
+This time, we are using `theta_grid` merely so we can plot the prior and posterior. Suppose that we have observed 8 games, and that player A has won 4 of those. Our prior should therefore be $p(\theta|4,4)$
+
+```{r}
+prior <- dbeta(x = theta_grid, shape1 = 4, shape2 = 4)
+```
+
+
+```{r}
+plot(theta_grid, prior, "l")
+```
+
+
+If we now observe that player A wins 3 out of the next 4 games, our posterior should be $p(\theta|4+3,4+1)$
+
+
+
+```{r}
+posterior <- dbeta(x = theta_grid, shape1 = 7, shape2 = 5)
+```
+
+
+```{r}
+tibble(prior = prior, 
+       posterior = posterior, 
+       theta = theta_grid) |> 
+  pivot_longer(c(prior, posterior), names_to = "distribution") |> 
+  ggplot(aes(theta, value, color = distribution)) +
+  geom_line(size = 2) +
+  scale_color_viridis_d(end = 0.8) +
+  ylab("")
+```
+
+We can write a function that updates a Beta prior, given $k$ successes in $N$ trials:
+
+```{r}
+update_beta <- function(a, b, k, N) {
+  theta_grid <- seq(0, 1, length = 101)
+  dbeta(x = theta_grid, shape1 = a + k, shape2 = b + N-k)
+}
+```
+
+
+```{r}
+posterior <- update_beta(a = 4, b = 4, k = 3, N = 4)
+```
+
+
+```{r}
+tibble(prior = prior, 
+       posterior = posterior, 
+       theta = theta_grid) |> 
+  pivot_longer(c(prior, posterior), names_to = "distribution") |> 
+  ggplot(aes(theta, value, color = distribution)) +
+  geom_line(size = 2) +
+  scale_color_viridis_d(end = 0.8) +
+  ylab("")
+```
 
 
 ## Summarizing the posterior
 
-We now need one last step: we need to summarize the posterior distribution. We can do this, for example by computing the mean and standard deviation of the posterior distribution. However, the method we have looked at so far is very simple, and only works for single parameters with a well-defined range. For real-world inference problems, we will numerical methods to approximate the posterior distribution. These methods are know collectively as *Monte Carlo sampling*, or *Markov Chain Monte Carlo* (MCMC). Using MCMC, we will not obtain an analytical description of posterior distributions, but instead a collection of random numbers (samples), that are drawn from the posterior distribution. We will use these samples to represent the posterior distribution.
-
+We now need one last step: we need to summarize the posterior distribution. We can do this, for example by computing the mean and standard deviation of the posterior distribution. 
 
 To show how this works, we can draw a thousand samples from the posterior distribution. First, we'll create a posterior.
 
@@ -661,3 +751,5 @@ This should not be confused with the 95% confidence interval. Can you remember h
 What we have done so far is to look at Bayesian inference for parameter estimation (in a very simple model). Let's call this model $\mathcal{M}$. We have only considered one model at a time, but in the next session we will consider two or models $\mathcal{M_j}, which differ in the prior distributions they use. We will then look at methods for comparing models, in order to perform hypothesis testing in a Bayesian framework.
 
 In particular, we will look at how Bayesian model comparison can help, in the case that we have no significant results (see @sec-fancyhat).
+
+

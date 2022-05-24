@@ -443,7 +443,7 @@ p(y | \mathcal{M}) = \int{p(y | \theta, \mathcal{M}) p(\theta|\mathcal{M})d\thet
 </div>
 <p>A model that makes more precise predictions, i.e.&nbsp;a model with a stronger prior, is considered less complex that a model that makes many predictions.</p>
 </section><section id="bayesian-hypothesis-testing" class="level3"><h3 class="anchored" data-anchor-id="bayesian-hypothesis-testing">Bayesian hypothesis testing</h3>
-<p>Now consider that we have two models, <span class="math inline">\(\mathcal{M1}\)</span> and <span class="math inline">\(\mathcal{M2}\)</span>. We would like to know which model explains the data better. Now we can use Bayes’ rule to calculate the posterior probability of <span class="math inline">\(\mathcal{M1}\)</span> and <span class="math inline">\(\mathcal{M2}\)</span> (marginalized over all parameters within the model).</p>
+<p>Now consider that we have two models, <span class="math inline">\(\mathcal{M1}\)</span> and <span class="math inline">\(\mathcal{M2}\)</span>. We would like to know which model explains the data better. We can use Bayes’ rule to calculate the posterior probability of <span class="math inline">\(\mathcal{M1}\)</span> and <span class="math inline">\(\mathcal{M2}\)</span> (marginalized over all parameters within the model).</p>
 <p><span class="math display">\[
 p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}
 \]</span></p>
@@ -555,7 +555,7 @@ p(\theta|y) = Beta(1 + 9, 1 + 1)
 <pre><code>[1] 0.1074219</code></pre>
 </div>
 </div>
-<p>The BAyes factor $BF_{01} is then posterior density divided by the prior density:</p>
+<p>The Bayes factor <span class="math inline">\(BF_{01}\)</span> is the posterior density divided by the prior density:</p>
 <div class="cell">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">BF01</span> <span class="op">&lt;-</span> <span class="va">dposterior</span> <span class="op">/</span> <span class="va">dprior</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1034,7 +1034,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb22-122"><a href="#cb22-122" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-123"><a href="#cb22-123" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bayesian hypothesis testing</span></span>
 <span id="cb22-124"><a href="#cb22-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-125"><a href="#cb22-125" aria-hidden="true" tabindex="-1"></a>Now consider that we have two models, $\mathcal{M1}$ and $\mathcal{M2}$. We would like to know which model explains the data better. Now we can use Bayes' rule to calculate the posterior probability of $\mathcal{M1}$ and $\mathcal{M2}$  (marginalized over all parameters within the model).</span>
+<span id="cb22-125"><a href="#cb22-125" aria-hidden="true" tabindex="-1"></a>Now consider that we have two models, $\mathcal{M1}$ and $\mathcal{M2}$. We would like to know which model explains the data better. We can use Bayes' rule to calculate the posterior probability of $\mathcal{M1}$ and $\mathcal{M2}$  (marginalized over all parameters within the model).</span>
 <span id="cb22-126"><a href="#cb22-126" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-127"><a href="#cb22-127" aria-hidden="true" tabindex="-1"></a>$$ </span>
 <span id="cb22-128"><a href="#cb22-128" aria-hidden="true" tabindex="-1"></a>p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)} </span>
@@ -1201,7 +1201,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb22-301"><a href="#cb22-301" aria-hidden="true" tabindex="-1"></a>(dposterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="fl">0.5</span>, <span class="dv">10</span>, <span class="dv">2</span>))</span>
 <span id="cb22-302"><a href="#cb22-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb22-303"><a href="#cb22-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-304"><a href="#cb22-304" aria-hidden="true" tabindex="-1"></a>The BAyes factor $BF_{01} is then posterior density divided by the prior density:</span>
+<span id="cb22-304"><a href="#cb22-304" aria-hidden="true" tabindex="-1"></a>The Bayes factor $BF_{01}$ is the posterior density divided by the prior density:</span>
 <span id="cb22-305"><a href="#cb22-305" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-308"><a href="#cb22-308" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb22-309"><a href="#cb22-309" aria-hidden="true" tabindex="-1"></a>BF01 <span class="ot">&lt;-</span> dposterior <span class="sc">/</span> dprior</span>

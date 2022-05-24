@@ -1,7 +1,7 @@
 ---
-title: "Übung 6"
+title: "Übung 7"
 description: |
-  DDM Parameter schätzen.
+  Group-level Analyse von DDM Parametern.
 date: "2022-05-10"
 author:
   - name: Andrew Ellis
@@ -21,17 +21,16 @@ format:
 #| include: false
 
 # Set working directory of R
-knitr::opts_knit$set(root.dir = '../../data/exercise-06/data')
+knitr::opts_knit$set(root.dir = '../../data/exercise-07/data')
 ```
 
 :::{.callout-note}
 Die Daten für diese Übung finden Sie hier: 
 
-👉 [Download Data](../../data/exercise-06/data/ddm-data.csv)
+👉 [Download Data](../../data/exercise-07/data/estimated-ddm-params.csv)
 
-👉 [Download True Parameters](../../data/exercise-06/data/participant-params.csv)
 
-Laden Sie bitte Ihre Lösung als Word Dokument oder R Skript bis **Dienstag, 24.5.2022, um 00:30 Uhr**, in den Order für Übung 6 auf ILIAS.
+Laden Sie bitte Ihre Lösung als Word Dokument oder R Skript bis **Dienstag, 31.5.2022, um 00:30 Uhr**, in den Order für Übung 7 auf ILIAS.
 
 
 Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-6.R* oder *Matrikelnummer_Nachname_uebung-6.docx*.
@@ -313,7 +312,7 @@ out <- out |>
 
 
 ```{r}
-out
+out |> write_csv(file = "../../data/exercise-07/data/estimated-ddm-params.csv")
 ```
 
 ```{r}

@@ -401,7 +401,7 @@ which can be interpreted as the prior number of successes and the number of fail
 
 
 ```{r}
-#| label: betadist
+#| label: fig:betadist
 #| fig-cap: "Beta distributions"
 library(tidyverse)
 

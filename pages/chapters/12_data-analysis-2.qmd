@@ -39,15 +39,14 @@ We have briefly looked at how to estimate parameters in a very simple model, and
 
 
 
+## What is Bayesian data analysis?
 
-## What is Bayesian statistics?
 
-
-- It is important to distinguish between parameter estimation and hypothesis
-testing.
+- It is important to distinguish between _parameter estimation_ and _hypothesis
+testing_.
 - Hypothesis testing means comparing models - thus it is more complicated than estimation.
 
-A model can be is a set of parameters that we are using to predict the observeed data. For example, in the card game, we had several different prior assumptions about the abilities of players A and B. One prior expressed our belief that both players were equally good, whereas another prior expressed the belief that either player A or player was better. These priors, together with our assumptions about the distribution of the data, form a model.
+A model is a set of parameters that we are using to predict the observed data. For example, in the card game, we had several different prior assumptions about the abilities of players A and B. One prior expressed our belief that both players were equally good, whereas another prior expressed the belief that either player A or player was better. These priors, together with our assumptions about the distribution of the data, form a model $\mathcal{M}$.
 
 
 ### Bayesian parameter estimation
@@ -91,7 +90,7 @@ The problem with making many predictions is that most of these predictions will 
 - the number of parameters (as in frequentist model comparison)
 - the prior distributions of the model's parameters
 
-When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are assigned low probability. Intuitively, if one  hedges one's bets, one has to assign low probability to parameter values that make good predictions, because one has more possible parameter values.
+When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are comparatively assigned low probability (because the probability is spread out over the whole parameter space). Intuitively, if one  hedges one's bets, one has to assign low probability to parameter values that make good predictions.
 
 
 The following prior makes quite a strong prediction about the value of $\theta$ - it is centred on $0.5$, and the spread is small. Both small and large values are assigned very little probability.
@@ -99,13 +98,15 @@ The following prior makes quite a strong prediction about the value of $\theta$ 
 ```{r}
 theta_grid <- seq(0, 1, length = 101)
 prior1 <- dbeta(theta_grid, shape1 = 200, shape2 = 200)
-plot(theta_grid, prior1, "l")
+plot(theta_grid, prior1, "l", lwd = 3)
 ```
-The next prior makes less strong predictions, in the sense that it assigns higher probability to small and large values of $\theta$. 
+
+The next prior makes less strong predictions, in the sense that it assigns higher probability to small and large values of $\theta$ (compared to the previous prior, shown as a dashed line). 
 
 ```{r}
 prior2 <- dbeta(theta_grid, shape1 = 2, shape2 = 2)
-plot(theta_grid, prior2, "l")
+plot(theta_grid, prior1, "l", lty="dashed")
+lines(theta_grid, prior2, "l", lwd = 3)
 ```
 
 A model that makes more precise predictions, i.e. a model with a stronger prior, is considered less complex that a model that makes many predictions.
@@ -114,7 +115,7 @@ A model that makes more precise predictions, i.e. a model with a stronger prior,
 
 
 
-### Bayesian hypothesis testing
+### Bayesian model comparison
 
 Now consider that we have two models, $\mathcal{M1}$ and $\mathcal{M2}$. We would like to know which model explains the data better. We can use Bayes' rule to calculate the posterior probability of $\mathcal{M1}$ and $\mathcal{M2}$  (marginalized over all parameters within the model).
 
@@ -173,7 +174,7 @@ Here, $BF_{12}$ indicates the extent to which the data support model $\mathcal{M
 As an example, if we obtain a $BF_{12} = 5$, this mean that the data are 5 times more likely to have occured under model 1 than under model 2. Conversely, if $BF_{12} = 0.2$, then the data are 5 times more likely to have occured under model 2.
 
 
-The following [classification scheme](http://en.wikipedia.org/wiki/Bayes_factor#Interpretation) is sometimes used, although it is not really necessary or helpful to classify Bayes factors.
+The following [interpretations](https://www.statology.org/bayes-factor/) are sometimes used (based on @andraszewiczIntroductionBayesianHypothesis), although it is not really necessary or helpful to classify Bayes factors.
 
 
 
@@ -205,16 +206,16 @@ $$ BF_{01} = \frac{1}{BF_{10}}$$
 
 ## Savage-Dickey Density Ratio
 
-I f we are comparing two nested models, i.e. a model with 1 free parameter and null model (in which that parameter is fixed to a certain value) we can use the Savage-Dickey density ratio to calculate the Bayes factor.
+If we are comparing two nested models, i.e. a model with 1 free parameter and null model (in which that parameter is fixed to a certain value) we can use the Savage-Dickey density ratio to calculate the Bayes factor.
 
 
-- Under the null model ($\mathcal{H_0}$ or $\mathcal{M_0}$): $\theta = \theta_0$
+- Under the null model ($\mathcal{H}_0$ or $\mathcal{M}_0$): $\theta = \theta_0$
 
-- under the alternative model ($\mathcal{H_1}$ or $\mathcal{M_1}$): $\theta \neq \theta_0$
+- under the alternative model ($\mathcal{H}_1$ or $\mathcal{M}_1$): $\theta \neq \theta_0$
 
-We need to specify a prior distribution of $\theta$ under $\mathcal{H_1}$). If we consider the card game example, e.g. $\theta \sim \text{Beta}(1, 1)$.
+We need to specify a prior distribution of $\theta$ under $\mathcal{H}_1$. If we consider the card game example, e.g. $\theta \sim \text{Beta}(1, 1)$.
 
-The Savage-Dickey Density Ratio  is a simplified manner of obtaining the Bayes factor - we simply need to consider $\mathcal{M_1}$, divide the posterior by the prior at the value $\theta_0$.
+The Savage-Dickey Density Ratio  is a simplified manner of obtaining the Bayes factor - we simply need to consider $\mathcal{M}_1$, and divide the posterior by the prior at the value $\theta_0$.
 
 Let's look at an example from  @wagenmakersBayesianHypothesisTesting2010a:
 
@@ -302,9 +303,9 @@ This is not so easy to interpret, so we calculate BF10 instead:
 
 This means that the data are $9.3$ times more likely to have occurred under the alternative than under the null model. 
 
-The following figure is how Bayes factors are usually visualized in JASP. Plotted are the prior and posterior distributions, and the density under both evaulated at $\theta_0 = 0.5$.
+The following figure is how Bayes factors are usually visualized in JASP. We plot both the prior and posterior distributions, and the density under both, evaluated at $\theta_0 = 0.5$.
 
-The density of $\theta_0$ is smaller after having taking into account the data, or in other words: the probability of $\theta_0$ has decreased after observing the data. This allows us to conclude that the data (9 out of 10) are 9 times more likely to have occured under $\mathcal{M1}$.
+The density of $\theta_0$ is smaller after having taking into account the data, or in other words: the probability of $\theta_0$ has decreased after observing the data. This allows us to conclude that the data (9 out of 10) are approximately 9 times more likely to have occured under $\mathcal{M1}$.
 
 ```{r}
 pd <- pd |> 

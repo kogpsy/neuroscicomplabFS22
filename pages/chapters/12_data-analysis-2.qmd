@@ -1,3 +1,116 @@
+---
+title: "Data analysis: II"
+description: | 
+    Bayesian hypothesis testing/model comparison.
+date: "2022-05-17"
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern 
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+reference-location: margin
+citation-location: margin
+format:
+    html:
+        toc: true
+        code-link: true
+        code-fold: false
+        code-tools: true
+---
+
+```{r}
+#| label: load-packages
+#| echo: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(viridis)
+
+```
+
+    
+## What have we done so far?
+
+We have briefly looked at how to estimate parameters in a very simple model, and we touched upon how to quantify uncertainty in our parameter estimates.
+
+
+
+
+## What is Bayesian statistics?
+
+
+- It is important to distinguish between parameter estimation and hypothesis
+testing.
+- Hypothesis testing means comparing models - thus it is more complicated than estimation.
+
+A model can be is a set of parameters that we are using to predict the observeed data. For example, in the card game, we had several different prior assumptions about the abilities of players A and B. One prior expressed our belief that both players were equally good, whereas another prior expressed the belief that either player A or player was better. These priors, together with our assumptions about the distrisbution of the data, form a model.
+
+
+### Bayesian parameter estimation
+
+In Bayesian parameter estimation, we focus on one model $\mathcal{M}$. The inferential goal is the posterior distribution, and we can obtain this by applying Bayes' rule (using MCMC or other methods).
+
+
+$$ 
+p(\theta | y) =  p(\theta) \cdot \frac{p(y | \theta)}{p(y)}
+$$
+
+
+We can rewrite Bayes rule, including the dependency of the parameters $\mathbf{\theta}$ on the model $\mathcal{M}$):
+
+$$ 
+p(\theta | y, \mathcal{M}) = \frac{p(y|\theta, \mathcal{M}) p(\theta | \mathcal{M})}{p(y | \mathcal{M})}
+$$
+
+where $\mathcal{M}$ refers to a specific model. This model is determined by the prior distribution of the parameters $p(\theta | \mathcal{M}$ and the distribution of the data $\mathbf{y|\theta, \mathcal{M}$. 
+
+The marginal likelihood $p(y | \mathcal{M})$ now gives the probability of the data, averaged over all possible parameter values under prior in model $\mathcal{M}$.
+
+
+:::{.callout-important}
+The marginal likelihood $p(y | \mathcal{M})$ is usually neglected when looking at a single model, but becomes important when comparing models.
+:::
+
+Writing out the marginal likelihood $p(y | \mathcal{M})$:
+$$ 
+p(y | \mathcal{M}) = \int{p(y | \theta, \mathcal{M}) p(\theta|\mathcal{M})d\theta}
+$$
+
+we see that this is averaged over all possible values of $\theta$ that the model will allow.
+
+The priors on $\theta$ are important, because they determine the probability of possible values of $\theta$.
+
+The model evidence will depend on what kind of predictions a model can make. This gives us a measure of complexity – **a complex model is a model that can make many predictions**.
+
+The problem with making many predictions is that most of these predictions will turn out to be false. The complexity of a model depends on (among other things):
+
+- the number of parameters (as in frequentist model comparison)
+- the prior distributions of the model's parameters
+
+When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are assigned low probability. Intuitively, if one  hedges one's bets, one has to assign low probability to parameter values that make good predictions, because one has more possible parameter values.
+
+
+The following prior makes quite a strong prediction about the value of $\theta$ - it is centred on $0.5$, and the spread is small. Both small and large values are assigned very little probability.
+
+```{r}
+theta_grid <- seq(0, 1, length = 101)
+prior1 <- dbeta(theta_grid, shape1 = 200, shape2 = 200)
+plot(theta_grid, prior1, "l")
+```
+The next prior makes less strong predictions, in the sense that it assigns higher probability to small and large values of $\theta$. 
+
+```{r}
+prior2 <- dbeta(theta_grid, shape1 = 2, shape2 = 2)
+plot(theta_grid, prior2, "l")
+```
+
+A model that makes more precise predictions, i.e. a model with a stronger prior, is considered less complex that a model that makes many predictions.
+
+
 - the prior distributions of the model's parameters
 
 When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are assigned low probability. Intuitively, if one  hedges one's bets, one has to assign low probability to parameter values that make good predictions, because one has more possible parameter values.

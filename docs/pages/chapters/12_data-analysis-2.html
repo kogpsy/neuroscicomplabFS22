@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-0.9.301">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
-<title>Neurowissenschaft Computerlab – data-analysis-2</title>
+<meta name="author" content="Andrew Ellis">
+<meta name="dcterms.date" content="2022-05-17">
+<meta name="description" content="Bayesian hypothesis testing/model comparison.">
+<title>Neurowissenschaft Computerlab - Data analysis: II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -78,25 +78,32 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
-
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<link href="../..//assets/logo_landing.png" rel="icon" type="image/png">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script><script src="../../site_libs/quarto-nav/headroom.min.js"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script><meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../../site_libs/quarto-search/fuse.min.js"></script><script src="../../site_libs/quarto-search/quarto-search.js"></script><link href="../..//assets/logo_landing.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script><script src="../../site_libs/quarto-html/popper.min.js"></script><script src="../../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../../site_libs/quarto-html/anchor.min.js"></script><link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
 <link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script><link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link class="quarto-color-scheme" href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 <link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="../../site_libs/bootstrap/bootstrap-dark.min.css">
 <script id="quarto-search-options" type="application/json">{
@@ -117,32 +124,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script>
-
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<link rel="stylesheet" href="../../styles/global.css">
+}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="../../styles/global.css">
 </head>
-
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../../index.html">
-    <img src="../../assets/logo.png" alt="">
-    <span class="navbar-title">Neurowissenschaft Computerlab</span>
+    <img src="../../assets/logo.png" alt=""><span class="navbar-title">Neurowissenschaft Computerlab</span>
   </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item dropdown ">
+<li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-admin">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-admin">
+<li>
     <a class="dropdown-item" href="../../pages/admin/01_overview.html">
  <span class="dropdown-text">Übersicht</span></a>
   </li>  
@@ -155,13 +154,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="dropdown-text">Zulip Forum</span></a>
   </li>  
     </ul>
-  </li>
+</li>
 </ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item dropdown ">
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-kapitel" role="button" data-bs-toggle="dropdown" aria-expanded="false">Kapitel</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-kapitel">    
-        <li>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-kapitel">
+<li>
     <a class="dropdown-item" href="../../pages/chapters/01_psychopy_experiments.html">
  <span class="dropdown-text">Verhaltensexperiment mit PsychoPy</span></a>
   </li>  
@@ -207,14 +206,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>  
         <li>
     <a class="dropdown-item" href="../../pages/chapters/12_data-analysis-2.html">
- <span class="dropdown-text">Bayesian hypothesis testing</span></a>
+ <span class="dropdown-text">Data analysis: II</span></a>
   </li>  
     </ul>
-  </li>
+</li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-slides" role="button" data-bs-toggle="dropdown" aria-expanded="false">Slides</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-slides">    
-        <li>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-slides">
+<li>
     <a class="dropdown-item" href="../../slides/01_introduction.html">
  <span class="dropdown-text">1. Sitzung (22.02.2022)</span></a>
   </li>  
@@ -263,11 +262,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="dropdown-text">12. Sitzung (24.05.2022)</span></a>
   </li>  
     </ul>
-  </li>
+</li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bungen" role="button" data-bs-toggle="dropdown" aria-expanded="false">Übungen</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bungen">    
-        <li>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bungen">
+<li>
     <a class="dropdown-item" href="../../pages/exercises/exercise_01.html">
  <span class="dropdown-text">Übung 1</span></a>
   </li>  
@@ -292,59 +291,180 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="dropdown-text">Übung 6</span></a>
   </li>  
     </ul>
-  </li>
+</li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lösungen" role="button" data-bs-toggle="dropdown" aria-expanded="false">Lösungen</a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-lösungen">    
-        <li>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-lösungen">
+<li>
     <a class="dropdown-item" href="../../pages/solutions/solution_03.html">
  <span class="dropdown-text">Übung 3: Lösung</span></a>
   </li>  
     </ul>
-  </li>
+</li>
 </ul>
-              <div class="quarto-toggle-container">
+<div class="quarto-toggle-container">
                   <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
               </div>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
-    </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#what-have-we-done-so-far" id="toc-what-have-we-done-so-far" class="nav-link active" data-scroll-target="#what-have-we-done-so-far">What have we done so far?</a></li>
+  <li>
+<a href="#what-is-bayesian-statistics" id="toc-what-is-bayesian-statistics" class="nav-link" data-scroll-target="#what-is-bayesian-statistics">What is Bayesian statistics?</a>
+  <ul class="collapse">
+<li><a href="#bayesian-parameter-estimation" id="toc-bayesian-parameter-estimation" class="nav-link" data-scroll-target="#bayesian-parameter-estimation">Bayesian parameter estimation</a></li>
+  <li><a href="#bayesian-hypothesis-testing" id="toc-bayesian-hypothesis-testing" class="nav-link" data-scroll-target="#bayesian-hypothesis-testing">Bayesian hypothesis testing</a></li>
+  </ul>
+</li>
+  <li><a href="#hypothesis-testing" id="toc-hypothesis-testing" class="nav-link" data-scroll-target="#hypothesis-testing">Hypothesis testing</a></li>
+  <li><a href="#savage-dickey-density-ratio" id="toc-savage-dickey-density-ratio" class="nav-link" data-scroll-target="#savage-dickey-density-ratio">Savage-Dickey Density Ratio</a></li>
+  <li>
+<a href="#case-studies" id="toc-case-studies" class="nav-link" data-scroll-target="#case-studies">Case studies</a>
+  <ul class="collapse">
+<li><a href="#card-game" id="toc-card-game" class="nav-link" data-scroll-target="#card-game">Card game</a></li>
+  <li><a href="#exam-questions" id="toc-exam-questions" class="nav-link" data-scroll-target="#exam-questions">Exam questions</a></li>
+  <li><a href="#smart-drug-t-test" id="toc-smart-drug-t-test" class="nav-link" data-scroll-target="#smart-drug-t-test">Smart drug t-test</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Data analysis: II</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+<div>
+  <div class="description">
+    <p>Bayesian hypothesis testing/model comparison.</p>
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">Andrew Ellis <a href="https://orcid.org/0000-0002-2788-936X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://www.kog.psy.unibe.ch">
+            Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern
+            </a>
+          </p>
+      </div>
+    </div>
 
 
 
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022-05-17</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header><div class="cell">
+
+</div>
+<section id="what-have-we-done-so-far" class="level2"><h2 class="anchored" data-anchor-id="what-have-we-done-so-far">What have we done so far?</h2>
+<p>We have briefly looked at how to estimate parameters in a very simple model, and we touched upon how to quantify uncertainty in our parameter estimates.</p>
+</section><section id="what-is-bayesian-statistics" class="level2"><h2 class="anchored" data-anchor-id="what-is-bayesian-statistics">What is Bayesian statistics?</h2>
+<ul>
+<li>It is important to distinguish between parameter estimation and hypothesis testing.</li>
+<li>Hypothesis testing means comparing models - thus it is more complicated than estimation.</li>
+</ul>
+<p>A model can be is a set of parameters that we are using to predict the observeed data. For example, in the card game, we had several different prior assumptions about the abilities of players A and B. One prior expressed our belief that both players were equally good, whereas another prior expressed the belief that either player A or player was better. These priors, together with our assumptions about the distrisbution of the data, form a model.</p>
+<section id="bayesian-parameter-estimation" class="level3"><h3 class="anchored" data-anchor-id="bayesian-parameter-estimation">Bayesian parameter estimation</h3>
+<p>In Bayesian parameter estimation, we focus on one model <span class="math inline">\(\mathcal{M}\)</span>. The inferential goal is the posterior distribution, and we can obtain this by applying Bayes’ rule (using MCMC or other methods).</p>
+<p><span class="math display">\[
+p(\theta | y) =  p(\theta) \cdot \frac{p(y | \theta)}{p(y)}
+\]</span></p>
+<p>We can rewrite Bayes rule, including the dependency of the parameters <span class="math inline">\(\mathbf{\theta}\)</span> on the model <span class="math inline">\(\mathcal{M}\)</span>):</p>
+<p><span class="math display">\[
+p(\theta | y, \mathcal{M}) = \frac{p(y|\theta, \mathcal{M}) p(\theta | \mathcal{M})}{p(y | \mathcal{M})}
+\]</span></p>
+<p>where <span class="math inline">\(\mathcal{M}\)</span> refers to a specific model. This model is determined by the prior distribution of the parameters <span class="math inline">\(p(\theta | \mathcal{M}\)</span> and the distribution of the data <span class="math inline">\(\mathbf{y|\theta, \mathcal{M}\)</span>.</p>
+<p>The marginal likelihood <span class="math inline">\(p(y | \mathcal{M})\)</span> now gives the probability of the data, averaged over all possible parameter values under prior in model <span class="math inline">\(\mathcal{M}\)</span>.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The marginal likelihood <span class="math inline">\(p(y | \mathcal{M})\)</span> is usually neglected when looking at a single model, but becomes important when comparing models.</p>
+</div>
+</div>
+<p>Writing out the marginal likelihood <span class="math inline">\(p(y | \mathcal{M})\)</span>: <span class="math display">\[
+p(y | \mathcal{M}) = \int{p(y | \theta, \mathcal{M}) p(\theta|\mathcal{M})d\theta}
+\]</span></p>
+<p>we see that this is averaged over all possible values of <span class="math inline">\(\theta\)</span> that the model will allow.</p>
+<p>The priors on <span class="math inline">\(\theta\)</span> are important, because they determine the probability of possible values of <span class="math inline">\(\theta\)</span>.</p>
+<p>The model evidence will depend on what kind of predictions a model can make. This gives us a measure of complexity – <strong>a complex model is a model that can make many predictions</strong>.</p>
+<p>The problem with making many predictions is that most of these predictions will turn out to be false. The complexity of a model depends on (among other things):</p>
+<ul>
+<li>the number of parameters (as in frequentist model comparison)</li>
+<li>the prior distributions of the model’s parameters</li>
+</ul>
+<p>When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are assigned low probability. Intuitively, if one hedges one’s bets, one has to assign low probability to parameter values that make good predictions, because one has more possible parameter values.</p>
+<p>The following prior makes quite a strong prediction about the value of <span class="math inline">\(\theta\)</span> - it is centred on <span class="math inline">\(0.5\)</span>, and the spread is small. Both small and large values are assigned very little probability.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">theta_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length <span class="op">=</span> <span class="fl">101</span><span class="op">)</span>
+<span class="va">prior1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">200</span>, shape2 <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior1</span>, <span class="st">"l"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The next prior makes less strong predictions, in the sense that it assigns higher probability to small and large values of <span class="math inline">\(\theta\)</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">2</span>, shape2 <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior2</span>, <span class="st">"l"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A model that makes more precise predictions, i.e.&nbsp;a model with a stronger prior, is considered less complex that a model that makes many predictions.</p>
 <ul>
 <li>the prior distributions of the model’s parameters</li>
 </ul>
 <p>When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are assigned low probability. Intuitively, if one hedges one’s bets, one has to assign low probability to parameter values that make good predictions, because one has more possible parameter values.</p>
 <p>The following prior makes quite a strong prediction about the value of <span class="math inline">\(\theta\)</span> - it is centred on <span class="math inline">\(0.5\)</span>, and the spread is small. Both small and large values are assigned very little probability.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>theta_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length =</span> <span class="dv">101</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>prior1 <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta_grid, <span class="at">shape1 =</span> <span class="dv">200</span>, <span class="at">shape2 =</span> <span class="dv">200</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(theta_grid, prior1, <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">theta_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length <span class="op">=</span> <span class="fl">101</span><span class="op">)</span>
+<span class="va">prior1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">200</span>, shape2 <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior1</span>, <span class="st">"l"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>THe next prior makes less strong predictions, in the sense that it assigns higher probability to small and large values of <span class="math inline">\(\theta\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>prior2 <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta_grid, <span class="at">shape1 =</span> <span class="dv">2</span>, <span class="at">shape2 =</span> <span class="dv">2</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(theta_grid, prior2, <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">2</span>, shape2 <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior2</span>, <span class="st">"l"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>A model that makes more precise predictions, i.e.&nbsp;a model with a stronger prior, is considered less complex that a model that makes many predictions.</p>
-<section id="bayesian-hypothesis-testing" class="level3">
-<h3 class="anchored" data-anchor-id="bayesian-hypothesis-testing">Bayesian hypothesis testing</h3>
+</section><section id="bayesian-hypothesis-testing" class="level3"><h3 class="anchored" data-anchor-id="bayesian-hypothesis-testing">Bayesian hypothesis testing</h3>
 <p>Now consider that we have two models, <span class="math inline">\(\mathcal{M1}\)</span> and <span class="math inline">\(\mathcal{M2}\)</span>. We would like to know which model explains the data better. Now we can use Bayes’ rule to calculate the posterior probability of <span class="math inline">\(\mathcal{M1}\)</span> and <span class="math inline">\(\mathcal{M2}\)</span> (marginalized over all parameters within the model).</p>
 <p><span class="math display">\[
 p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}
@@ -376,9 +496,7 @@ p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}
 <p>Here, <span class="math inline">\(BF_{12}\)</span> indicates the extent to which the data support model <span class="math inline">\(\mathcal{M}_1\)</span> over model <span class="math inline">\(\mathcal{M}_2\)</span>.</p>
 <p>As an example, if we obtain a <span class="math inline">\(BF_{12} = 5\)</span>, this mean that the data are 5 times more likely to have occured under model 1 than under model 2. Conversely, if <span class="math inline">\(BF_{12} = 0.2\)</span>, then the data are 5 times more likely to have occured under model 2.</p>
 <p>The following <a href="http://en.wikipedia.org/wiki/Bayes_factor#Interpretation">classification scheme</a> is sometimes used, although it is not really necessary or helpful to classify Bayes factors.</p>
-</section>
-<section id="hypothesis-testing" class="level2">
-<h2 class="anchored" data-anchor-id="hypothesis-testing">Hypothesis testing</h2>
+</section></section><section id="hypothesis-testing" class="level2"><h2 class="anchored" data-anchor-id="hypothesis-testing">Hypothesis testing</h2>
 <p>We usually perform model comparisons between a null hypothesis <span class="math inline">\(\mathcal{H}_0\)</span> and an alternative hypothesis <span class="math inline">\(\mathcal{H}_1\)</span>. The terms “model” and “hypothesis” are used synonymously. A null hypothesis means that we fix the value of the parameter to a certain value, e.g.&nbsp;<span class="math inline">\(\theta = 0.5\)</span>. The alternative hypothesis means that we do not fix the value of the parameter, e.g.&nbsp;we do not assume that the parameter is <span class="math inline">\(0.5\)</span>.</p>
 <div class="callout-important callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -400,9 +518,7 @@ Important
 <p>which indicates a BF for a directed alternative <span class="math inline">\(\mathcal{H}_+\)</span> versus <span class="math inline">\(\mathcal{H}_0\)</span>.</p>
 <p>If we want a BF for the null <span class="math inline">\(\mathcal{H}_0\)</span>, we can simply take the inverse of <span class="math inline">\(BF_{10}\)</span>:</p>
 <p><span class="math display">\[ BF_{01} = \frac{1}{BF_{10}}\]</span></p>
-</section>
-<section id="savage-dickey-density-ratio" class="level2">
-<h2 class="anchored" data-anchor-id="savage-dickey-density-ratio">Savage-Dickey Density Ratio</h2>
+</section><section id="savage-dickey-density-ratio" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="savage-dickey-density-ratio">Savage-Dickey Density Ratio</h2>
 <p>I f we are comparing two nested models, i.e.&nbsp;a model with 1 free parameter and null model (in which that parameter is fixed to a certain value) we can use the Savage-Dickey density ratio to calculate the Bayes factor.</p>
 <ul>
 <li><p>Under the null model (<span class="math inline">\(\mathcal{H_0}\)</span> or <span class="math inline">\(\mathcal{M_0}\)</span>): <span class="math inline">\(\theta = \theta_0\)</span></p></li>
@@ -410,17 +526,19 @@ Important
 </ul>
 <p>We need to specify a prior distribution of <span class="math inline">\(\theta\)</span> under <span class="math inline">\(\mathcal{H_1}\)</span>). If we consider the card game example, e.g.&nbsp;<span class="math inline">\(\theta \sim \text{Beta}(1, 1)\)</span>.</p>
 <p>The Savage-Dickey Density Ratio is a simplified manner of obtaining the Bayes factor - we simply need to consider <span class="math inline">\(\mathcal{M_1}\)</span>, divide the posterior by the prior at the value <span class="math inline">\(\theta_0\)</span>.</p>
-<p>Let’s look at an example from <span class="citation" data-cites="wagenmakersBayesianHypothesisTesting2010a">@wagenmakersBayesianHypothesisTesting2010a</span>:</p>
-<p>You observe that a person correctly answers 9 out of 10 yes-or-no questions.</p>
+<p>Let’s look at an example from <span class="citation" data-cites="wagenmakersBayesianHypothesisTesting2010a">Wagenmakers et al. (<a href="#ref-wagenmakersBayesianHypothesisTesting2010a" role="doc-biblioref">2010</a>)</span>:</p>
+<div class="no-row-height column-margin column-container"><div id="ref-wagenmakersBayesianHypothesisTesting2010a" class="csl-entry" role="doc-biblioentry">
+Wagenmakers, Eric-Jan, Tom Lodewyckx, Himanshu Kuriyal, and Raoul Grasman. 2010. <span>“Bayesian Hypothesis Testing for Psychologists: <span>A</span> Tutorial on the <span>Savage</span>–<span>Dickey</span> Method.”</span> <em>Cognitive Psychology</em> 60 (3): 158–89. <a href="https://doi.org/10.1016/j.cogpsych.2009.12.001">https://doi.org/10.1016/j.cogpsych.2009.12.001</a>.
+</div></div><p>You observe that a person correctly answers 9 out of 10 yes-or-no questions.</p>
 <div class="cell">
 
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_correct <span class="ot">&lt;-</span> <span class="dv">9</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n_questions <span class="ot">&lt;-</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">n_correct</span> <span class="op">&lt;-</span> <span class="fl">9</span>
+<span class="va">n_questions</span> <span class="op">&lt;-</span> <span class="fl">10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We want to know: How likely is that to occur if the person was randomly guessing (<span class="math inline">\(\theta=0.5\)</span>)?</p>
 <p>We will assume a uniform prior over <span class="math inline">\(\theta\)</span>:</p>
@@ -428,16 +546,16 @@ Important
 p(\theta) = Beta(1, 1)
 \]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">01</span>),</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Prior =</span> <span class="fu">dbeta</span>(x, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pd, <span class="fu">aes</span>(x, Prior)) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">6</span>), <span class="at">expand =</span> <span class="fl">0.01</span>) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Density"</span>, <span class="at">x =</span> <span class="fu">bquote</span>(theta))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">pd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
+  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span>,
+  Prior <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">pd</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">Prior</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">6</span><span class="op">)</span>, expand <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Density"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/bquote.html">bquote</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The next step is to update our prior with the likelihood, in order to obtain the posterior distribution of <span class="math inline">\(\theta\)</span>:</p>
@@ -447,31 +565,31 @@ p(\theta|y) = Beta(1 + 9, 1 + 1)
 <p>Now we can evaluate both the prior and posterior at the value <span class="math inline">\(0.5\)</span>.</p>
 <p>Prior:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(dprior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="op">(</span><span class="va">dprior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>Posterior:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(dposterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="fl">0.5</span>, <span class="dv">10</span>, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="op">(</span><span class="va">dposterior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">10</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1074219</code></pre>
 </div>
 </div>
 <p>The BAyes factor $BF_{01} is then posterior density divided by the prior density:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>BF01 <span class="ot">&lt;-</span> dposterior <span class="sc">/</span> dprior</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">BF01</span> <span class="op">&lt;-</span> <span class="va">dposterior</span> <span class="op">/</span> <span class="va">dprior</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>BF01</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">BF01</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1074219</code></pre>
 </div>
 </div>
 <p>This is not so easy to interpret, so we calculate BF10 instead:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(BF10 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>BF01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="op">(</span><span class="va">BF10</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="va">BF01</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9.309091</code></pre>
 </div>
@@ -480,38 +598,38 @@ p(\theta|y) = Beta(1 + 9, 1 + 1)
 <p>The following figure is how Bayes factors are usually visualized in JASP. Plotted are the prior and posterior distributions, and the density under both evaulated at <span class="math inline">\(\theta_0 = 0.5\)</span>.</p>
 <p>The density of <span class="math inline">\(\theta_0\)</span> is smaller after having taking into account the data, or in other words: the probability of <span class="math inline">\(\theta_0\)</span> has decreased after observing the data. This allows us to conclude that the data (9 out of 10) are 9 times more likely to have occured under <span class="math inline">\(\mathcal{M1}\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> pd <span class="sc">|&gt;</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Posterior =</span> <span class="fu">dbeta</span>(x, <span class="dv">1</span> <span class="sc">+</span> n_correct, <span class="dv">1</span> <span class="sc">+</span> (n_questions<span class="sc">-</span>n_correct)))</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>pdw <span class="ot">&lt;-</span> pd <span class="sc">|&gt;</span> </span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"Type"</span>, </span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"density"</span>, </span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>               Prior<span class="sc">:</span>Posterior)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>pdw <span class="sc">|&gt;</span> </span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, density, <span class="at">col =</span> Type)) <span class="sc">+</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="fl">0.01</span>)) <span class="sc">+</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Density"</span>, <span class="at">x =</span> <span class="fu">bquote</span>(theta)) <span class="sc">+</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> <span class="fu">c</span>(.<span class="dv">5</span>, .<span class="dv">5</span>), </span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">c</span>(pdw<span class="sc">$</span>density[pdw<span class="sc">$</span>x <span class="sc">==</span> .<span class="dv">5</span>]),</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"label"</span>,</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">c</span>(.<span class="dv">5</span>, .<span class="dv">5</span>),</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> pdw<span class="sc">$</span>density[pdw<span class="sc">$</span>x <span class="sc">==</span> .<span class="dv">5</span>],</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">round</span>(pdw<span class="sc">$</span>density[pdw<span class="sc">$</span>x <span class="sc">==</span> .<span class="dv">5</span>], <span class="dv">3</span>),</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">vjust =</span> <span class="sc">-</span>.<span class="dv">5</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">pd</span> <span class="op">&lt;-</span> <span class="va">pd</span> |&gt; 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Posterior <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">+</span> <span class="va">n_correct</span>, <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="va">n_questions</span><span class="op">-</span><span class="va">n_correct</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">pdw</span> <span class="op">&lt;-</span> <span class="va">pd</span> |&gt; 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>names_to <span class="op">=</span> <span class="st">"Type"</span>, 
+               values_to <span class="op">=</span> <span class="st">"density"</span>, 
+               <span class="va">Prior</span><span class="op">:</span><span class="va">Posterior</span><span class="op">)</span>
+<span class="va">pdw</span> |&gt; 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">density</span>, col <span class="op">=</span> <span class="va">Type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0.5</span>, linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html">expansion</a></span><span class="op">(</span><span class="fl">0.01</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span>end <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Density"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/bquote.html">bquote</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"point"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.5</span><span class="op">)</span>, 
+           y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">pdw</span><span class="op">$</span><span class="va">density</span><span class="op">[</span><span class="va">pdw</span><span class="op">$</span><span class="va">x</span> <span class="op">==</span> <span class="fl">.5</span><span class="op">]</span><span class="op">)</span>,
+           size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"label"</span>,
+    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.5</span><span class="op">)</span>,
+    y <span class="op">=</span> <span class="va">pdw</span><span class="op">$</span><span class="va">density</span><span class="op">[</span><span class="va">pdw</span><span class="op">$</span><span class="va">x</span> <span class="op">==</span> <span class="fl">.5</span><span class="op">]</span>,
+    label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">pdw</span><span class="op">$</span><span class="va">density</span><span class="op">[</span><span class="va">pdw</span><span class="op">$</span><span class="va">x</span> <span class="op">==</span> <span class="fl">.5</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span>,
+    vjust <span class="op">=</span> <span class="op">-</span><span class="fl">.5</span>
+  <span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(pd, x <span class="sc">==</span> .<span class="dv">5</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">BF01 =</span> Posterior <span class="sc">/</span> Prior,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">BF10 =</span> <span class="dv">1</span> <span class="sc">/</span> BF01) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">pd</span>, <span class="va">x</span> <span class="op">==</span> <span class="fl">.5</span><span class="op">)</span> |&gt;
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
+    BF01 <span class="op">=</span> <span class="va">Posterior</span> <span class="op">/</span> <span class="va">Prior</span>,
+    BF10 <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">BF01</span><span class="op">)</span> </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 5
       x Prior Posterior  BF01  BF10
@@ -519,80 +637,81 @@ p(\theta|y) = Beta(1 + 9, 1 + 1)
 1   0.5     1     0.107 0.107  9.31</code></pre>
 </div>
 </div>
-</section>
-<section id="case-studies" class="level2">
-<h2 class="anchored" data-anchor-id="case-studies">Case studies</h2>
+</section><section id="case-studies" class="level2"><h2 class="anchored" data-anchor-id="case-studies">Case studies</h2>
 <p>You can generate the following datasets, and then import the <code>CSV</code> files into JASP.</p>
-<section id="card-game" class="level3">
-<h3 class="anchored" data-anchor-id="card-game">Card game</h3>
+<section id="card-game" class="level3"><h3 class="anchored" data-anchor-id="card-game">Card game</h3>
 <p>Player A wins 6 out of 9 games.</p>
 <ul>
 <li>Do the data provide evidence that player A is better than player B?</li>
 <li>What is the evidence that they are both equally good?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>wins <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> <span class="dv">9</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>cardgame <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, wins), <span class="fu">rep</span>(<span class="dv">0</span>, games<span class="sc">-</span>wins)) <span class="sc">|&gt;</span> </span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(games, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>cardgame <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">game =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">winner =</span> <span class="fu">if_else</span>(cardgame <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"A"</span>, <span class="st">"B"</span>),</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">indicator =</span> cardgame)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>cardgame <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"cardgame.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">wins</span> <span class="op">&lt;-</span> <span class="fl">6</span>
+<span class="va">games</span> <span class="op">&lt;-</span> <span class="fl">9</span>
+
+<span class="va">cardgame</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">wins</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">games</span><span class="op">-</span><span class="va">wins</span><span class="op">)</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">games</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="va">cardgame</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>game <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>,
+                   winner <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">cardgame</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,
+                   indicator <span class="op">=</span> <span class="va">cardgame</span><span class="op">)</span>
+
+<span class="va">cardgame</span> |&gt; <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="st">"cardgame.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="exam-questions" class="level3">
-<h3 class="anchored" data-anchor-id="exam-questions">Exam questions</h3>
+</section><section id="exam-questions" class="level3"><h3 class="anchored" data-anchor-id="exam-questions">Exam questions</h3>
 <p>A student correctly answer 9 questions out of 10.</p>
 <ul>
 <li>What is the evidence that the student was guessing (got lucky)?</li>
 <li>What is the evidence that the student’s ability is greater than <span class="math inline">\(0.5\)</span>?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>n_correct <span class="ot">&lt;-</span> <span class="dv">9</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>n_questions <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>questions <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, n_correct), <span class="fu">rep</span>(<span class="dv">0</span>, n_questions<span class="sc">-</span>n_correct)) <span class="sc">|&gt;</span> </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(n_questions, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>questions <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">question =</span> <span class="dv">1</span><span class="sc">:</span>n_questions,</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">correct =</span> <span class="fu">if_else</span>(questions <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"correct"</span>, <span class="st">"error"</span>),</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">indicator =</span> questions)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>questions <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"questions.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">n_correct</span> <span class="op">&lt;-</span> <span class="fl">9</span>
+<span class="va">n_questions</span> <span class="op">&lt;-</span> <span class="fl">10</span>
+
+<span class="va">questions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">n_correct</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">n_questions</span><span class="op">-</span><span class="va">n_correct</span><span class="op">)</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">n_questions</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="va">questions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>question <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_questions</span>,
+                   correct <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">questions</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"correct"</span>, <span class="st">"error"</span><span class="op">)</span>,
+                   indicator <span class="op">=</span> <span class="va">questions</span><span class="op">)</span>
+
+<span class="va">questions</span> |&gt; <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="st">"questions.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="smart-drug-t-test" class="level3">
-<h3 class="anchored" data-anchor-id="smart-drug-t-test">Smart drug t-test</h3>
+</section><section id="smart-drug-t-test" class="level3"><h3 class="anchored" data-anchor-id="smart-drug-t-test">Smart drug t-test</h3>
 <p>Generate this dataframe, and export it as <code>CSV</code> file. In this example, we want to compare two groups’ IQ scores. One of the groups has been given a drug to make them smart, the other is the control group.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>smart <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">IQ =</span> <span class="fu">c</span>(<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">102</span>,<span class="dv">104</span>,<span class="dv">102</span>,<span class="dv">97</span>,<span class="dv">105</span>,<span class="dv">105</span>,<span class="dv">98</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">123</span>,<span class="dv">105</span>,<span class="dv">103</span>,</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                      <span class="dv">100</span>,<span class="dv">95</span>,<span class="dv">102</span>,<span class="dv">106</span>,<span class="dv">109</span>,<span class="dv">102</span>,<span class="dv">82</span>,<span class="dv">102</span>,<span class="dv">100</span>,<span class="dv">102</span>,<span class="dv">102</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">102</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                      <span class="dv">103</span>,<span class="dv">103</span>,<span class="dv">97</span>,<span class="dv">97</span>,<span class="dv">103</span>,<span class="dv">101</span>,<span class="dv">97</span>,<span class="dv">104</span>,<span class="dv">96</span>,<span class="dv">103</span>,<span class="dv">124</span>,<span class="dv">101</span>,<span class="dv">101</span>,<span class="dv">100</span>,</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                      <span class="dv">101</span>,<span class="dv">101</span>,<span class="dv">104</span>,<span class="dv">100</span>,<span class="dv">101</span>),</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">Group =</span> <span class="st">"SmartDrug"</span>)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>placebo <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">IQ =</span> <span class="fu">c</span>(<span class="dv">99</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">100</span>,<span class="dv">97</span>,<span class="dv">101</span>,<span class="dv">104</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">102</span>,<span class="dv">100</span>,<span class="dv">105</span>,</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">88</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">104</span>,<span class="dv">100</span>,<span class="dv">100</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">103</span>,<span class="dv">97</span>,<span class="dv">101</span>,<span class="dv">101</span>,<span class="dv">100</span>,</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">101</span>, <span class="dv">99</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">99</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">102</span>,<span class="dv">99</span>,<span class="dv">100</span>,<span class="dv">99</span>),</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Group =</span> <span class="st">"Placebo"</span>)</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>SmartDrug <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(smart, placebo)  <span class="sc">|&gt;</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Group =</span> <span class="fu">fct_relevel</span>(<span class="fu">as.factor</span>(Group), <span class="st">"Placebo"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">smart</span> <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>IQ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">101</span>,<span class="fl">100</span>,<span class="fl">102</span>,<span class="fl">104</span>,<span class="fl">102</span>,<span class="fl">97</span>,<span class="fl">105</span>,<span class="fl">105</span>,<span class="fl">98</span>,<span class="fl">101</span>,<span class="fl">100</span>,<span class="fl">123</span>,<span class="fl">105</span>,<span class="fl">103</span>,
+                      <span class="fl">100</span>,<span class="fl">95</span>,<span class="fl">102</span>,<span class="fl">106</span>,<span class="fl">109</span>,<span class="fl">102</span>,<span class="fl">82</span>,<span class="fl">102</span>,<span class="fl">100</span>,<span class="fl">102</span>,<span class="fl">102</span>,<span class="fl">101</span>,<span class="fl">102</span>,<span class="fl">102</span>,
+                      <span class="fl">103</span>,<span class="fl">103</span>,<span class="fl">97</span>,<span class="fl">97</span>,<span class="fl">103</span>,<span class="fl">101</span>,<span class="fl">97</span>,<span class="fl">104</span>,<span class="fl">96</span>,<span class="fl">103</span>,<span class="fl">124</span>,<span class="fl">101</span>,<span class="fl">101</span>,<span class="fl">100</span>,
+                      <span class="fl">101</span>,<span class="fl">101</span>,<span class="fl">104</span>,<span class="fl">100</span>,<span class="fl">101</span><span class="op">)</span>,
+               Group <span class="op">=</span> <span class="st">"SmartDrug"</span><span class="op">)</span>
+
+<span class="va">placebo</span> <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>IQ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">99</span>,<span class="fl">101</span>,<span class="fl">100</span>,<span class="fl">101</span>,<span class="fl">102</span>,<span class="fl">100</span>,<span class="fl">97</span>,<span class="fl">101</span>,<span class="fl">104</span>,<span class="fl">101</span>,<span class="fl">102</span>,<span class="fl">102</span>,<span class="fl">100</span>,<span class="fl">105</span>,
+                        <span class="fl">88</span>,<span class="fl">101</span>,<span class="fl">100</span>,<span class="fl">104</span>,<span class="fl">100</span>,<span class="fl">100</span>,<span class="fl">100</span>,<span class="fl">101</span>,<span class="fl">102</span>,<span class="fl">103</span>,<span class="fl">97</span>,<span class="fl">101</span>,<span class="fl">101</span>,<span class="fl">100</span>,
+                        <span class="fl">101</span>, <span class="fl">99</span>,<span class="fl">101</span>,<span class="fl">100</span>,<span class="fl">100</span>,<span class="fl">101</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">101</span>,<span class="fl">100</span>,<span class="fl">102</span>,<span class="fl">99</span>,<span class="fl">100</span>,<span class="fl">99</span><span class="op">)</span>,
+                 Group <span class="op">=</span> <span class="st">"Placebo"</span><span class="op">)</span>
+
+<span class="va">SmartDrug</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">smart</span>, <span class="va">placebo</span><span class="op">)</span>  |&gt;
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span>, <span class="st">"Placebo"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(SmartDrug, <span class="at">file =</span> <span class="st">"SmartDrug.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">SmartDrug</span>, file <span class="op">=</span> <span class="st">"SmartDrug.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
-</section>
-</section>
+<!-- -->
 
-</main> <!-- /main -->
-<script type="application/javascript">
+
+</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{ellis2022,
+  author = {Andrew Ellis},
+  title = {Data Analysis: {II}},
+  date = {2022-05-17},
+  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/12_data-analysis-2.html},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-ellis2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Andrew Ellis. 2022. <span>“Data Analysis: II.”</span> May 17, 2022. <a href="https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/12_data-analysis-2.html">https://kogpsy.github.io/neuroscicomplabFS22//pages/chapters/12_data-analysis-2.html</a>.
+</div></div></section></div></main><!-- /main --><script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const disableStylesheet = (stylesheets) => {
     for (let i=0; i < stylesheets.length; i++) {
@@ -719,6 +838,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
@@ -767,24 +937,467 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     });
   }
 });
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb24" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Data analysis: II"</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> | </span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Bayesian hypothesis testing/model comparison.</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2022-05-17"</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Andrew Ellis</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: https://github.com/awellis</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern </span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation-url: https://www.kog.psy.unibe.ch</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-2788-936X</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="an">license:</span><span class="co"> CC BY</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="an">citation:</span><span class="co"> true</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> ../../bibliography.bib</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="an">citation-location:</span><span class="co"> margin</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co">    html:</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co">        toc: true</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="co">        code-link: true</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="co">        code-fold: false</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="co">        code-tools: true</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load-packages</span></span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## What have we done so far?</span></span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>We have briefly looked at how to estimate parameters in a very simple model, and we touched upon how to quantify uncertainty in our parameter estimates.</span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is Bayesian statistics?</span></span>
+<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-47"><a href="#cb24-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-48"><a href="#cb24-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>It is important to distinguish between parameter estimation and hypothesis</span>
+<span id="cb24-49"><a href="#cb24-49" aria-hidden="true" tabindex="-1"></a>testing.</span>
+<span id="cb24-50"><a href="#cb24-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hypothesis testing means comparing models - thus it is more complicated than estimation.</span>
+<span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-52"><a href="#cb24-52" aria-hidden="true" tabindex="-1"></a>A model can be is a set of parameters that we are using to predict the observeed data. For example, in the card game, we had several different prior assumptions about the abilities of players A and B. One prior expressed our belief that both players were equally good, whereas another prior expressed the belief that either player A or player was better. These priors, together with our assumptions about the distrisbution of the data, form a model.</span>
+<span id="cb24-53"><a href="#cb24-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bayesian parameter estimation</span></span>
+<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a>In Bayesian parameter estimation, we focus on one model $\mathcal{M}$. The inferential goal is the posterior distribution, and we can obtain this by applying Bayes' rule (using MCMC or other methods).</span>
+<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-59"><a href="#cb24-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-60"><a href="#cb24-60" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb24-61"><a href="#cb24-61" aria-hidden="true" tabindex="-1"></a>p(\theta | y) =  p(\theta) \cdot \frac{p(y | \theta)}{p(y)}</span>
+<span id="cb24-62"><a href="#cb24-62" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-63"><a href="#cb24-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-64"><a href="#cb24-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-65"><a href="#cb24-65" aria-hidden="true" tabindex="-1"></a>We can rewrite Bayes rule, including the dependency of the parameters $\mathbf{\theta}$ on the model $\mathcal{M}$):</span>
+<span id="cb24-66"><a href="#cb24-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-67"><a href="#cb24-67" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb24-68"><a href="#cb24-68" aria-hidden="true" tabindex="-1"></a>p(\theta | y, \mathcal{M}) = \frac{p(y|\theta, \mathcal{M}) p(\theta | \mathcal{M})}{p(y | \mathcal{M})}</span>
+<span id="cb24-69"><a href="#cb24-69" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-70"><a href="#cb24-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-71"><a href="#cb24-71" aria-hidden="true" tabindex="-1"></a>where $\mathcal{M}$ refers to a specific model. This model is determined by the prior distribution of the parameters $p(\theta | \mathcal{M}$ and the distribution of the data $\mathbf{y|\theta, \mathcal{M}$. </span>
+<span id="cb24-72"><a href="#cb24-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-73"><a href="#cb24-73" aria-hidden="true" tabindex="-1"></a>The marginal likelihood $p(y | \mathcal{M})$ now gives the probability of the data, averaged over all possible parameter values under prior in model $\mathcal{M}$.</span>
+<span id="cb24-74"><a href="#cb24-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-75"><a href="#cb24-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-76"><a href="#cb24-76" aria-hidden="true" tabindex="-1"></a>:::{.callout-important}</span>
+<span id="cb24-77"><a href="#cb24-77" aria-hidden="true" tabindex="-1"></a>The marginal likelihood $p(y | \mathcal{M})$ is usually neglected when looking at a single model, but becomes important when comparing models.</span>
+<span id="cb24-78"><a href="#cb24-78" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb24-79"><a href="#cb24-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-80"><a href="#cb24-80" aria-hidden="true" tabindex="-1"></a>Writing out the marginal likelihood $p(y | \mathcal{M})$:</span>
+<span id="cb24-81"><a href="#cb24-81" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb24-82"><a href="#cb24-82" aria-hidden="true" tabindex="-1"></a>p(y | \mathcal{M}) = \int{p(y | \theta, \mathcal{M}) p(\theta|\mathcal{M})d\theta}</span>
+<span id="cb24-83"><a href="#cb24-83" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-84"><a href="#cb24-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-85"><a href="#cb24-85" aria-hidden="true" tabindex="-1"></a>we see that this is averaged over all possible values of $\theta$ that the model will allow.</span>
+<span id="cb24-86"><a href="#cb24-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-87"><a href="#cb24-87" aria-hidden="true" tabindex="-1"></a>The priors on $\theta$ are important, because they determine the probability of possible values of $\theta$.</span>
+<span id="cb24-88"><a href="#cb24-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-89"><a href="#cb24-89" aria-hidden="true" tabindex="-1"></a>The model evidence will depend on what kind of predictions a model can make. This gives us a measure of complexity – **a complex model is a model that can make many predictions**.</span>
+<span id="cb24-90"><a href="#cb24-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-91"><a href="#cb24-91" aria-hidden="true" tabindex="-1"></a>The problem with making many predictions is that most of these predictions will turn out to be false. The complexity of a model depends on (among other things):</span>
+<span id="cb24-92"><a href="#cb24-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-93"><a href="#cb24-93" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>the number of parameters (as in frequentist model comparison)</span>
+<span id="cb24-94"><a href="#cb24-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>the prior distributions of the model's parameters</span>
+<span id="cb24-95"><a href="#cb24-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-96"><a href="#cb24-96" aria-hidden="true" tabindex="-1"></a>When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are assigned low probability. Intuitively, if one  hedges one's bets, one has to assign low probability to parameter values that make good predictions, because one has more possible parameter values.</span>
+<span id="cb24-97"><a href="#cb24-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-98"><a href="#cb24-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-99"><a href="#cb24-99" aria-hidden="true" tabindex="-1"></a>The following prior makes quite a strong prediction about the value of $\theta$ - it is centred on $0.5$, and the spread is small. Both small and large values are assigned very little probability.</span>
+<span id="cb24-100"><a href="#cb24-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-103"><a href="#cb24-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-104"><a href="#cb24-104" aria-hidden="true" tabindex="-1"></a>theta_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length =</span> <span class="dv">101</span>)</span>
+<span id="cb24-105"><a href="#cb24-105" aria-hidden="true" tabindex="-1"></a>prior1 <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta_grid, <span class="at">shape1 =</span> <span class="dv">200</span>, <span class="at">shape2 =</span> <span class="dv">200</span>)</span>
+<span id="cb24-106"><a href="#cb24-106" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(theta_grid, prior1, <span class="st">"l"</span>)</span>
+<span id="cb24-107"><a href="#cb24-107" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-108"><a href="#cb24-108" aria-hidden="true" tabindex="-1"></a>The next prior makes less strong predictions, in the sense that it assigns higher probability to small and large values of $\theta$. </span>
+<span id="cb24-109"><a href="#cb24-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-112"><a href="#cb24-112" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-113"><a href="#cb24-113" aria-hidden="true" tabindex="-1"></a>prior2 <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta_grid, <span class="at">shape1 =</span> <span class="dv">2</span>, <span class="at">shape2 =</span> <span class="dv">2</span>)</span>
+<span id="cb24-114"><a href="#cb24-114" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(theta_grid, prior2, <span class="st">"l"</span>)</span>
+<span id="cb24-115"><a href="#cb24-115" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-116"><a href="#cb24-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-117"><a href="#cb24-117" aria-hidden="true" tabindex="-1"></a>A model that makes more precise predictions, i.e. a model with a stronger prior, is considered less complex that a model that makes many predictions.</span>
+<span id="cb24-118"><a href="#cb24-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-119"><a href="#cb24-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-120"><a href="#cb24-120" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>the prior distributions of the model's parameters</span>
+<span id="cb24-121"><a href="#cb24-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-122"><a href="#cb24-122" aria-hidden="true" tabindex="-1"></a>When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are assigned low probability. Intuitively, if one  hedges one's bets, one has to assign low probability to parameter values that make good predictions, because one has more possible parameter values.</span>
+<span id="cb24-123"><a href="#cb24-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-124"><a href="#cb24-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-125"><a href="#cb24-125" aria-hidden="true" tabindex="-1"></a>The following prior makes quite a strong prediction about the value of $\theta$ - it is centred on $0.5$, and the spread is small. Both small and large values are assigned very little probability.</span>
+<span id="cb24-126"><a href="#cb24-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-129"><a href="#cb24-129" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-130"><a href="#cb24-130" aria-hidden="true" tabindex="-1"></a>theta_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length =</span> <span class="dv">101</span>)</span>
+<span id="cb24-131"><a href="#cb24-131" aria-hidden="true" tabindex="-1"></a>prior1 <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta_grid, <span class="at">shape1 =</span> <span class="dv">200</span>, <span class="at">shape2 =</span> <span class="dv">200</span>)</span>
+<span id="cb24-132"><a href="#cb24-132" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(theta_grid, prior1, <span class="st">"l"</span>)</span>
+<span id="cb24-133"><a href="#cb24-133" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-134"><a href="#cb24-134" aria-hidden="true" tabindex="-1"></a>THe next prior makes less strong predictions, in the sense that it assigns higher probability to small and large values of $\theta$. </span>
+<span id="cb24-135"><a href="#cb24-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-138"><a href="#cb24-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-139"><a href="#cb24-139" aria-hidden="true" tabindex="-1"></a>prior2 <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta_grid, <span class="at">shape1 =</span> <span class="dv">2</span>, <span class="at">shape2 =</span> <span class="dv">2</span>)</span>
+<span id="cb24-140"><a href="#cb24-140" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(theta_grid, prior2, <span class="st">"l"</span>)</span>
+<span id="cb24-141"><a href="#cb24-141" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-142"><a href="#cb24-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-143"><a href="#cb24-143" aria-hidden="true" tabindex="-1"></a>A model that makes more precise predictions, i.e. a model with a stronger prior, is considered less complex that a model that makes many predictions.</span>
+<span id="cb24-144"><a href="#cb24-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-145"><a href="#cb24-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-146"><a href="#cb24-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-147"><a href="#cb24-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-148"><a href="#cb24-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-149"><a href="#cb24-149" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bayesian hypothesis testing</span></span>
+<span id="cb24-150"><a href="#cb24-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-151"><a href="#cb24-151" aria-hidden="true" tabindex="-1"></a>Now consider that we have two models, $\mathcal{M1}$ and $\mathcal{M2}$. We would like to know which model explains the data better. Now we can use Bayes' rule to calculate the posterior probability of $\mathcal{M1}$ and $\mathcal{M2}$  (marginalized over all parameters within the model).</span>
+<span id="cb24-152"><a href="#cb24-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-153"><a href="#cb24-153" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb24-154"><a href="#cb24-154" aria-hidden="true" tabindex="-1"></a>p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)} </span>
+<span id="cb24-155"><a href="#cb24-155" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-156"><a href="#cb24-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-157"><a href="#cb24-157" aria-hidden="true" tabindex="-1"></a>and</span>
+<span id="cb24-158"><a href="#cb24-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-159"><a href="#cb24-159" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb24-160"><a href="#cb24-160" aria-hidden="true" tabindex="-1"></a>p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)} </span>
+<span id="cb24-161"><a href="#cb24-161" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-162"><a href="#cb24-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-163"><a href="#cb24-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-164"><a href="#cb24-164" aria-hidden="true" tabindex="-1"></a>One way of comparing the models is by taking the ratio $p(\mathcal{M}_1 | y) / p(\mathcal{M}_2 | y)$. </span>
+<span id="cb24-165"><a href="#cb24-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-166"><a href="#cb24-166" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb24-167"><a href="#cb24-167" aria-hidden="true" tabindex="-1"></a>\frac{p(\mathcal{M}_1 | y) = \frac{P(y | \mathcal{M}_1) p(\mathcal{M}_1)}{p(y)}} {p(\mathcal{M}_2 | y) = \frac{P(y | \mathcal{M}_2) p(\mathcal{M}_2)}{p(y)}}</span>
+<span id="cb24-168"><a href="#cb24-168" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-169"><a href="#cb24-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-170"><a href="#cb24-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-171"><a href="#cb24-171" aria-hidden="true" tabindex="-1"></a>The term $p(y)$ cancels out, giving us:</span>
+<span id="cb24-172"><a href="#cb24-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-173"><a href="#cb24-173" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb24-174"><a href="#cb24-174" aria-hidden="true" tabindex="-1"></a>\frac{p(\mathcal{M}_1 | y) = P(y | \mathcal{M}_1) p(\mathcal{M}_1)} {p(\mathcal{M}_2 | y) = P(y | \mathcal{M}_2) p(\mathcal{M}_2)}</span>
+<span id="cb24-175"><a href="#cb24-175" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-176"><a href="#cb24-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-177"><a href="#cb24-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-178"><a href="#cb24-178" aria-hidden="true" tabindex="-1"></a>On the left-hand side, we have the ratio of the posterior probabilities of the two models. On the right-hand side, we have the ratio of the marginal likelihoods of the two models, multiplied by the prior probabilities of each model. The  marginal likelihoods (also know as model evidence) tell how well each model explains the data.</span>
+<span id="cb24-179"><a href="#cb24-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-180"><a href="#cb24-180" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-181"><a href="#cb24-181" aria-hidden="true" tabindex="-1"></a>\underbrace{\frac{p(\mathcal{M}_1 | y)} {p(\mathcal{M}_2 | y)}}_\text{Posterior odds} = \underbrace{\frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}}_\text{Ratio of marginal likelihoods} \cdot \underbrace{ \frac{p(\mathcal{M}_1)}{p(\mathcal{M}_2)}}_\text{Prior odds}</span>
+<span id="cb24-182"><a href="#cb24-182" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-183"><a href="#cb24-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-184"><a href="#cb24-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-185"><a href="#cb24-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-186"><a href="#cb24-186" aria-hidden="true" tabindex="-1"></a>$\frac{p(\mathcal{M}_1)}{p(\mathcal{M}_2)}$ are the  **prior odds**, and $\frac{p(\mathcal{M}_1 | y)}{p(\mathcal{M}_2 | y)}$ are the **posterior odds**. These tell us which model we believe to be mode probable a priori and a posteriori.</span>
+<span id="cb24-187"><a href="#cb24-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-188"><a href="#cb24-188" aria-hidden="true" tabindex="-1"></a>We are particularly interested in the ratio of the marginal likelihoods:</span>
+<span id="cb24-189"><a href="#cb24-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-190"><a href="#cb24-190" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-191"><a href="#cb24-191" aria-hidden="true" tabindex="-1"></a>\frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}</span>
+<span id="cb24-192"><a href="#cb24-192" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-193"><a href="#cb24-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-194"><a href="#cb24-194" aria-hidden="true" tabindex="-1"></a>This is the **Bayes factor**, and it can be interpreted as the change from prior odds to posterior odds that is indicated by the data.</span>
+<span id="cb24-195"><a href="#cb24-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-196"><a href="#cb24-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-197"><a href="#cb24-197" aria-hidden="true" tabindex="-1"></a>If we consider the prior odds to be $1$, i.e. we do not favour one model over another a priori, then we are only interested in the Bayes factor. We write this as:</span>
+<span id="cb24-198"><a href="#cb24-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-199"><a href="#cb24-199" aria-hidden="true" tabindex="-1"></a>$$ BF_{12} = \frac{P(y | \mathcal{M}_1)}{P(y | \mathcal{M}_2)}$$</span>
+<span id="cb24-200"><a href="#cb24-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-201"><a href="#cb24-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-202"><a href="#cb24-202" aria-hidden="true" tabindex="-1"></a>Here, $BF_{12}$ indicates the extent to which the data support model $\mathcal{M}_1$ over model $\mathcal{M}_2$.</span>
+<span id="cb24-203"><a href="#cb24-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-204"><a href="#cb24-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-205"><a href="#cb24-205" aria-hidden="true" tabindex="-1"></a>As an example, if we obtain a $BF_{12} = 5$, this mean that the data are 5 times more likely to have occured under model 1 than under model 2. Conversely, if $BF_{12} = 0.2$, then the data are 5 times more likely to have occured under model 2.</span>
+<span id="cb24-206"><a href="#cb24-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-207"><a href="#cb24-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-208"><a href="#cb24-208" aria-hidden="true" tabindex="-1"></a>The following <span class="co">[</span><span class="ot">classification scheme</span><span class="co">](http://en.wikipedia.org/wiki/Bayes_factor#Interpretation)</span> is sometimes used, although it is not really necessary or helpful to classify Bayes factors.</span>
+<span id="cb24-209"><a href="#cb24-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-210"><a href="#cb24-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-211"><a href="#cb24-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-212"><a href="#cb24-212" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hypothesis testing</span></span>
+<span id="cb24-213"><a href="#cb24-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-214"><a href="#cb24-214" aria-hidden="true" tabindex="-1"></a>We usually perform model comparisons between a null hypothesis $\mathcal{H}_0$ and an alternative hypothesis $\mathcal{H}_1$. The terms "model" and "hypothesis" are used synonymously. A null hypothesis means that we fix the value of the parameter to a certain value, e.g. $\theta = 0.5$. The alternative hypothesis means that we do not fix the value of the parameter, e.g. we do not assume that the parameter is $0.5$. </span>
+<span id="cb24-215"><a href="#cb24-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-216"><a href="#cb24-216" aria-hidden="true" tabindex="-1"></a>:::{.callout-important}</span>
+<span id="cb24-217"><a href="#cb24-217" aria-hidden="true" tabindex="-1"></a>It is important to note that the alternative hypothesis needs to be specified. In other words, the parameter(s) need to given a prior distribution.</span>
+<span id="cb24-218"><a href="#cb24-218" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb24-219"><a href="#cb24-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-220"><a href="#cb24-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-221"><a href="#cb24-221" aria-hidden="true" tabindex="-1"></a>In JASP, we will see Bayes factors reported as either</span>
+<span id="cb24-222"><a href="#cb24-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-223"><a href="#cb24-223" aria-hidden="true" tabindex="-1"></a>$$ BF_{10} = \frac{P(y | \mathcal{H}_1)}{P(y | \mathcal{H}_0)}$$</span>
+<span id="cb24-224"><a href="#cb24-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-225"><a href="#cb24-225" aria-hidden="true" tabindex="-1"></a>which indicates a BF for an undirected alternative $\mathcal{H}_1$ versus the null, or</span>
+<span id="cb24-226"><a href="#cb24-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-227"><a href="#cb24-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-228"><a href="#cb24-228" aria-hidden="true" tabindex="-1"></a>$$ BF_{+0} = \frac{P(y | \mathcal{H}_+)}{P(y | \mathcal{H}_0)}$$</span>
+<span id="cb24-229"><a href="#cb24-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-230"><a href="#cb24-230" aria-hidden="true" tabindex="-1"></a>which indicates a BF for a directed alternative $\mathcal{H}_+$ versus $\mathcal{H}_0$.</span>
+<span id="cb24-231"><a href="#cb24-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-232"><a href="#cb24-232" aria-hidden="true" tabindex="-1"></a>If we want a BF for the null $\mathcal{H}_0$, we can simply take the inverse of $BF_{10}$:</span>
+<span id="cb24-233"><a href="#cb24-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-234"><a href="#cb24-234" aria-hidden="true" tabindex="-1"></a>$$ BF_{01} = \frac{1}{BF_{10}}$$</span>
+<span id="cb24-235"><a href="#cb24-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-236"><a href="#cb24-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-237"><a href="#cb24-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-238"><a href="#cb24-238" aria-hidden="true" tabindex="-1"></a><span class="fu">## Savage-Dickey Density Ratio</span></span>
+<span id="cb24-239"><a href="#cb24-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-240"><a href="#cb24-240" aria-hidden="true" tabindex="-1"></a>I f we are comparing two nested models, i.e. a model with 1 free parameter and null model (in which that parameter is fixed to a certain value) we can use the Savage-Dickey density ratio to calculate the Bayes factor.</span>
+<span id="cb24-241"><a href="#cb24-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-242"><a href="#cb24-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-243"><a href="#cb24-243" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Under the null model ($\mathcal{H_0}$ or $\mathcal{M_0}$): $\theta = \theta_0$</span>
+<span id="cb24-244"><a href="#cb24-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-245"><a href="#cb24-245" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>under the alternative model ($\mathcal{H_1}$ or $\mathcal{M_1}$): $\theta \neq \theta_0$</span>
+<span id="cb24-246"><a href="#cb24-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-247"><a href="#cb24-247" aria-hidden="true" tabindex="-1"></a>We need to specify a prior distribution of $\theta$ under $\mathcal{H_1}$). If we consider the card game example, e.g. $\theta \sim \text{Beta}(1, 1)$.</span>
+<span id="cb24-248"><a href="#cb24-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-249"><a href="#cb24-249" aria-hidden="true" tabindex="-1"></a>The Savage-Dickey Density Ratio  is a simplified manner of obtaining the Bayes factor - we simply need to consider $\mathcal{M_1}$, divide the posterior by the prior at the value $\theta_0$.</span>
+<span id="cb24-250"><a href="#cb24-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-251"><a href="#cb24-251" aria-hidden="true" tabindex="-1"></a>Let's look at an example from  @wagenmakersBayesianHypothesisTesting2010a:</span>
+<span id="cb24-252"><a href="#cb24-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-253"><a href="#cb24-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-254"><a href="#cb24-254" aria-hidden="true" tabindex="-1"></a>You observe that a person correctly answers 9 out of 10 yes-or-no questions.</span>
+<span id="cb24-255"><a href="#cb24-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-258"><a href="#cb24-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-259"><a href="#cb24-259" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb24-260"><a href="#cb24-260" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb24-261"><a href="#cb24-261" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb24-262"><a href="#cb24-262" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb24-263"><a href="#cb24-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-264"><a href="#cb24-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-267"><a href="#cb24-267" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-268"><a href="#cb24-268" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb24-269"><a href="#cb24-269" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: true</span></span>
+<span id="cb24-270"><a href="#cb24-270" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb24-271"><a href="#cb24-271" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-272"><a href="#cb24-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-273"><a href="#cb24-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-276"><a href="#cb24-276" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-277"><a href="#cb24-277" aria-hidden="true" tabindex="-1"></a>n_correct <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb24-278"><a href="#cb24-278" aria-hidden="true" tabindex="-1"></a>n_questions <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb24-279"><a href="#cb24-279" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-280"><a href="#cb24-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-281"><a href="#cb24-281" aria-hidden="true" tabindex="-1"></a>We want to know: How likely is that to occur if the person was randomly guessing ($\theta=0.5$)?</span>
+<span id="cb24-282"><a href="#cb24-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-283"><a href="#cb24-283" aria-hidden="true" tabindex="-1"></a>We will assume a uniform prior over $\theta$:</span>
+<span id="cb24-284"><a href="#cb24-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-285"><a href="#cb24-285" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-286"><a href="#cb24-286" aria-hidden="true" tabindex="-1"></a>p(\theta) = Beta(1, 1)</span>
+<span id="cb24-287"><a href="#cb24-287" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-288"><a href="#cb24-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-289"><a href="#cb24-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-292"><a href="#cb24-292" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-293"><a href="#cb24-293" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb24-294"><a href="#cb24-294" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">01</span>),</span>
+<span id="cb24-295"><a href="#cb24-295" aria-hidden="true" tabindex="-1"></a>  <span class="at">Prior =</span> <span class="fu">dbeta</span>(x, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb24-296"><a href="#cb24-296" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-297"><a href="#cb24-297" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pd, <span class="fu">aes</span>(x, Prior)) <span class="sc">+</span></span>
+<span id="cb24-298"><a href="#cb24-298" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb24-299"><a href="#cb24-299" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">6</span>), <span class="at">expand =</span> <span class="fl">0.01</span>) <span class="sc">+</span></span>
+<span id="cb24-300"><a href="#cb24-300" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Density"</span>, <span class="at">x =</span> <span class="fu">bquote</span>(theta))</span>
+<span id="cb24-301"><a href="#cb24-301" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-302"><a href="#cb24-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-303"><a href="#cb24-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-304"><a href="#cb24-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-305"><a href="#cb24-305" aria-hidden="true" tabindex="-1"></a>The next step is to update our prior with the likelihood, in order to obtain the posterior distribution of $\theta$:</span>
+<span id="cb24-306"><a href="#cb24-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-307"><a href="#cb24-307" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-308"><a href="#cb24-308" aria-hidden="true" tabindex="-1"></a>p(\theta|y) = Beta(1 + 9, 1 + 1)</span>
+<span id="cb24-309"><a href="#cb24-309" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb24-310"><a href="#cb24-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-311"><a href="#cb24-311" aria-hidden="true" tabindex="-1"></a>Now we can evaluate both the prior and posterior at the value $0.5$.</span>
+<span id="cb24-312"><a href="#cb24-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-313"><a href="#cb24-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-314"><a href="#cb24-314" aria-hidden="true" tabindex="-1"></a>Prior:</span>
+<span id="cb24-315"><a href="#cb24-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-318"><a href="#cb24-318" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-319"><a href="#cb24-319" aria-hidden="true" tabindex="-1"></a>(dprior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb24-320"><a href="#cb24-320" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-321"><a href="#cb24-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-322"><a href="#cb24-322" aria-hidden="true" tabindex="-1"></a>Posterior:</span>
+<span id="cb24-323"><a href="#cb24-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-326"><a href="#cb24-326" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-327"><a href="#cb24-327" aria-hidden="true" tabindex="-1"></a>(dposterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="fl">0.5</span>, <span class="dv">10</span>, <span class="dv">2</span>))</span>
+<span id="cb24-328"><a href="#cb24-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-329"><a href="#cb24-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-330"><a href="#cb24-330" aria-hidden="true" tabindex="-1"></a>The BAyes factor $BF_{01} is then posterior density divided by the prior density:</span>
+<span id="cb24-331"><a href="#cb24-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-334"><a href="#cb24-334" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-335"><a href="#cb24-335" aria-hidden="true" tabindex="-1"></a>BF01 <span class="ot">&lt;-</span> dposterior <span class="sc">/</span> dprior</span>
+<span id="cb24-336"><a href="#cb24-336" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-337"><a href="#cb24-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-340"><a href="#cb24-340" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-341"><a href="#cb24-341" aria-hidden="true" tabindex="-1"></a>BF01</span>
+<span id="cb24-342"><a href="#cb24-342" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-343"><a href="#cb24-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-344"><a href="#cb24-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-345"><a href="#cb24-345" aria-hidden="true" tabindex="-1"></a>This is not so easy to interpret, so we calculate BF10 instead:</span>
+<span id="cb24-346"><a href="#cb24-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-349"><a href="#cb24-349" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-350"><a href="#cb24-350" aria-hidden="true" tabindex="-1"></a>(BF10 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>BF01)</span>
+<span id="cb24-351"><a href="#cb24-351" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-352"><a href="#cb24-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-353"><a href="#cb24-353" aria-hidden="true" tabindex="-1"></a>This means that the data are $9.3$ times more likely to have occurred under the alternative than under the null model. </span>
+<span id="cb24-354"><a href="#cb24-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-355"><a href="#cb24-355" aria-hidden="true" tabindex="-1"></a>The following figure is how Bayes factors are usually visualized in JASP. Plotted are the prior and posterior distributions, and the density under both evaulated at $\theta_0 = 0.5$.</span>
+<span id="cb24-356"><a href="#cb24-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-357"><a href="#cb24-357" aria-hidden="true" tabindex="-1"></a>The density of $\theta_0$ is smaller after having taking into account the data, or in other words: the probability of $\theta_0$ has decreased after observing the data. This allows us to conclude that the data (9 out of 10) are 9 times more likely to have occured under $\mathcal{M1}$.</span>
+<span id="cb24-358"><a href="#cb24-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-361"><a href="#cb24-361" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-362"><a href="#cb24-362" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> pd <span class="sc">|&gt;</span> </span>
+<span id="cb24-363"><a href="#cb24-363" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Posterior =</span> <span class="fu">dbeta</span>(x, <span class="dv">1</span> <span class="sc">+</span> n_correct, <span class="dv">1</span> <span class="sc">+</span> (n_questions<span class="sc">-</span>n_correct)))</span>
+<span id="cb24-364"><a href="#cb24-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-365"><a href="#cb24-365" aria-hidden="true" tabindex="-1"></a>pdw <span class="ot">&lt;-</span> pd <span class="sc">|&gt;</span> </span>
+<span id="cb24-366"><a href="#cb24-366" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"Type"</span>, </span>
+<span id="cb24-367"><a href="#cb24-367" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"density"</span>, </span>
+<span id="cb24-368"><a href="#cb24-368" aria-hidden="true" tabindex="-1"></a>               Prior<span class="sc">:</span>Posterior)</span>
+<span id="cb24-369"><a href="#cb24-369" aria-hidden="true" tabindex="-1"></a>pdw <span class="sc">|&gt;</span> </span>
+<span id="cb24-370"><a href="#cb24-370" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, density, <span class="at">col =</span> Type)) <span class="sc">+</span></span>
+<span id="cb24-371"><a href="#cb24-371" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb24-372"><a href="#cb24-372" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb24-373"><a href="#cb24-373" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="fl">0.01</span>)) <span class="sc">+</span></span>
+<span id="cb24-374"><a href="#cb24-374" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb24-375"><a href="#cb24-375" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Density"</span>, <span class="at">x =</span> <span class="fu">bquote</span>(theta)) <span class="sc">+</span></span>
+<span id="cb24-376"><a href="#cb24-376" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> <span class="fu">c</span>(.<span class="dv">5</span>, .<span class="dv">5</span>), </span>
+<span id="cb24-377"><a href="#cb24-377" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">c</span>(pdw<span class="sc">$</span>density[pdw<span class="sc">$</span>x <span class="sc">==</span> .<span class="dv">5</span>]),</span>
+<span id="cb24-378"><a href="#cb24-378" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb24-379"><a href="#cb24-379" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"label"</span>,</span>
+<span id="cb24-380"><a href="#cb24-380" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">c</span>(.<span class="dv">5</span>, .<span class="dv">5</span>),</span>
+<span id="cb24-381"><a href="#cb24-381" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> pdw<span class="sc">$</span>density[pdw<span class="sc">$</span>x <span class="sc">==</span> .<span class="dv">5</span>],</span>
+<span id="cb24-382"><a href="#cb24-382" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">round</span>(pdw<span class="sc">$</span>density[pdw<span class="sc">$</span>x <span class="sc">==</span> .<span class="dv">5</span>], <span class="dv">3</span>),</span>
+<span id="cb24-383"><a href="#cb24-383" aria-hidden="true" tabindex="-1"></a>    <span class="at">vjust =</span> <span class="sc">-</span>.<span class="dv">5</span></span>
+<span id="cb24-384"><a href="#cb24-384" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-385"><a href="#cb24-385" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-386"><a href="#cb24-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-387"><a href="#cb24-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-388"><a href="#cb24-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-391"><a href="#cb24-391" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-392"><a href="#cb24-392" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(pd, x <span class="sc">==</span> .<span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-393"><a href="#cb24-393" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb24-394"><a href="#cb24-394" aria-hidden="true" tabindex="-1"></a>    <span class="at">BF01 =</span> Posterior <span class="sc">/</span> Prior,</span>
+<span id="cb24-395"><a href="#cb24-395" aria-hidden="true" tabindex="-1"></a>    <span class="at">BF10 =</span> <span class="dv">1</span> <span class="sc">/</span> BF01) </span>
+<span id="cb24-396"><a href="#cb24-396" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-397"><a href="#cb24-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-398"><a href="#cb24-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-399"><a href="#cb24-399" aria-hidden="true" tabindex="-1"></a><span class="fu">## Case studies</span></span>
+<span id="cb24-400"><a href="#cb24-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-401"><a href="#cb24-401" aria-hidden="true" tabindex="-1"></a>You can generate the following datasets, and then import the <span class="in">`CSV`</span> files into JASP.</span>
+<span id="cb24-402"><a href="#cb24-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-403"><a href="#cb24-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-404"><a href="#cb24-404" aria-hidden="true" tabindex="-1"></a><span class="fu">### Card game</span></span>
+<span id="cb24-405"><a href="#cb24-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-406"><a href="#cb24-406" aria-hidden="true" tabindex="-1"></a>Player A wins 6 out of 9 games. </span>
+<span id="cb24-407"><a href="#cb24-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-408"><a href="#cb24-408" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Do the data provide evidence that player A is better than player B?</span>
+<span id="cb24-409"><a href="#cb24-409" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What is the evidence that they are both equally good?</span>
+<span id="cb24-410"><a href="#cb24-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-411"><a href="#cb24-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-414"><a href="#cb24-414" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-415"><a href="#cb24-415" aria-hidden="true" tabindex="-1"></a>wins <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb24-416"><a href="#cb24-416" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb24-417"><a href="#cb24-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-418"><a href="#cb24-418" aria-hidden="true" tabindex="-1"></a>cardgame <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, wins), <span class="fu">rep</span>(<span class="dv">0</span>, games<span class="sc">-</span>wins)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-419"><a href="#cb24-419" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(games, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb24-420"><a href="#cb24-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-421"><a href="#cb24-421" aria-hidden="true" tabindex="-1"></a>cardgame <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">game =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,</span>
+<span id="cb24-422"><a href="#cb24-422" aria-hidden="true" tabindex="-1"></a>                   <span class="at">winner =</span> <span class="fu">if_else</span>(cardgame <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"A"</span>, <span class="st">"B"</span>),</span>
+<span id="cb24-423"><a href="#cb24-423" aria-hidden="true" tabindex="-1"></a>                   <span class="at">indicator =</span> cardgame)</span>
+<span id="cb24-424"><a href="#cb24-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-425"><a href="#cb24-425" aria-hidden="true" tabindex="-1"></a>cardgame <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"cardgame.csv"</span>)</span>
+<span id="cb24-426"><a href="#cb24-426" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-427"><a href="#cb24-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-428"><a href="#cb24-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-429"><a href="#cb24-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-430"><a href="#cb24-430" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exam questions</span></span>
+<span id="cb24-431"><a href="#cb24-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-432"><a href="#cb24-432" aria-hidden="true" tabindex="-1"></a>A student correctly answer 9 questions out of 10. </span>
+<span id="cb24-433"><a href="#cb24-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-434"><a href="#cb24-434" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What is the evidence that the student was guessing (got lucky)?</span>
+<span id="cb24-435"><a href="#cb24-435" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What is the evidence that the student's ability is greater than $0.5$?</span>
+<span id="cb24-436"><a href="#cb24-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-437"><a href="#cb24-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-440"><a href="#cb24-440" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-441"><a href="#cb24-441" aria-hidden="true" tabindex="-1"></a>n_correct <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb24-442"><a href="#cb24-442" aria-hidden="true" tabindex="-1"></a>n_questions <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb24-443"><a href="#cb24-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-444"><a href="#cb24-444" aria-hidden="true" tabindex="-1"></a>questions <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, n_correct), <span class="fu">rep</span>(<span class="dv">0</span>, n_questions<span class="sc">-</span>n_correct)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-445"><a href="#cb24-445" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(n_questions, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb24-446"><a href="#cb24-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-447"><a href="#cb24-447" aria-hidden="true" tabindex="-1"></a>questions <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">question =</span> <span class="dv">1</span><span class="sc">:</span>n_questions,</span>
+<span id="cb24-448"><a href="#cb24-448" aria-hidden="true" tabindex="-1"></a>                   <span class="at">correct =</span> <span class="fu">if_else</span>(questions <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"correct"</span>, <span class="st">"error"</span>),</span>
+<span id="cb24-449"><a href="#cb24-449" aria-hidden="true" tabindex="-1"></a>                   <span class="at">indicator =</span> questions)</span>
+<span id="cb24-450"><a href="#cb24-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-451"><a href="#cb24-451" aria-hidden="true" tabindex="-1"></a>questions <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"questions.csv"</span>)</span>
+<span id="cb24-452"><a href="#cb24-452" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-453"><a href="#cb24-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-454"><a href="#cb24-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-455"><a href="#cb24-455" aria-hidden="true" tabindex="-1"></a><span class="fu">### Smart drug t-test</span></span>
+<span id="cb24-456"><a href="#cb24-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-457"><a href="#cb24-457" aria-hidden="true" tabindex="-1"></a>Generate this dataframe, and export it as <span class="in">`CSV`</span> file. In this example, we want to compare two groups' IQ scores. One of the groups has been given a drug to make them smart, the other is the control group.</span>
+<span id="cb24-458"><a href="#cb24-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-459"><a href="#cb24-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-462"><a href="#cb24-462" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-463"><a href="#cb24-463" aria-hidden="true" tabindex="-1"></a>smart <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">IQ =</span> <span class="fu">c</span>(<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">102</span>,<span class="dv">104</span>,<span class="dv">102</span>,<span class="dv">97</span>,<span class="dv">105</span>,<span class="dv">105</span>,<span class="dv">98</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">123</span>,<span class="dv">105</span>,<span class="dv">103</span>,</span>
+<span id="cb24-464"><a href="#cb24-464" aria-hidden="true" tabindex="-1"></a>                      <span class="dv">100</span>,<span class="dv">95</span>,<span class="dv">102</span>,<span class="dv">106</span>,<span class="dv">109</span>,<span class="dv">102</span>,<span class="dv">82</span>,<span class="dv">102</span>,<span class="dv">100</span>,<span class="dv">102</span>,<span class="dv">102</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">102</span>,</span>
+<span id="cb24-465"><a href="#cb24-465" aria-hidden="true" tabindex="-1"></a>                      <span class="dv">103</span>,<span class="dv">103</span>,<span class="dv">97</span>,<span class="dv">97</span>,<span class="dv">103</span>,<span class="dv">101</span>,<span class="dv">97</span>,<span class="dv">104</span>,<span class="dv">96</span>,<span class="dv">103</span>,<span class="dv">124</span>,<span class="dv">101</span>,<span class="dv">101</span>,<span class="dv">100</span>,</span>
+<span id="cb24-466"><a href="#cb24-466" aria-hidden="true" tabindex="-1"></a>                      <span class="dv">101</span>,<span class="dv">101</span>,<span class="dv">104</span>,<span class="dv">100</span>,<span class="dv">101</span>),</span>
+<span id="cb24-467"><a href="#cb24-467" aria-hidden="true" tabindex="-1"></a>               <span class="at">Group =</span> <span class="st">"SmartDrug"</span>)</span>
+<span id="cb24-468"><a href="#cb24-468" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-469"><a href="#cb24-469" aria-hidden="true" tabindex="-1"></a>placebo <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">IQ =</span> <span class="fu">c</span>(<span class="dv">99</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">100</span>,<span class="dv">97</span>,<span class="dv">101</span>,<span class="dv">104</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">102</span>,<span class="dv">100</span>,<span class="dv">105</span>,</span>
+<span id="cb24-470"><a href="#cb24-470" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">88</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">104</span>,<span class="dv">100</span>,<span class="dv">100</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">102</span>,<span class="dv">103</span>,<span class="dv">97</span>,<span class="dv">101</span>,<span class="dv">101</span>,<span class="dv">100</span>,</span>
+<span id="cb24-471"><a href="#cb24-471" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">101</span>, <span class="dv">99</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">100</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">99</span>,<span class="dv">101</span>,<span class="dv">100</span>,<span class="dv">102</span>,<span class="dv">99</span>,<span class="dv">100</span>,<span class="dv">99</span>),</span>
+<span id="cb24-472"><a href="#cb24-472" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Group =</span> <span class="st">"Placebo"</span>)</span>
+<span id="cb24-473"><a href="#cb24-473" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-474"><a href="#cb24-474" aria-hidden="true" tabindex="-1"></a>SmartDrug <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(smart, placebo)  <span class="sc">|&gt;</span></span>
+<span id="cb24-475"><a href="#cb24-475" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Group =</span> <span class="fu">fct_relevel</span>(<span class="fu">as.factor</span>(Group), <span class="st">"Placebo"</span>))</span>
+<span id="cb24-476"><a href="#cb24-476" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-477"><a href="#cb24-477" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-478"><a href="#cb24-478" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-481"><a href="#cb24-481" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-482"><a href="#cb24-482" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(SmartDrug, <span class="at">file =</span> <span class="st">"SmartDrug.csv"</span>)</span>
+<span id="cb24-483"><a href="#cb24-483" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">© Copyright 2022, Andrew Ellis</div>   
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
-    <li class="nav-item compact">
+<li class="nav-item compact">
     <a class="nav-link" href="https://github.com/kogpsy/neuroscicomplabFS22">
       <i class="bi bi-github" role="img">
 </i> 
     </a>
   </li>  
 </ul>
-    </div>
+</div>
   </div>
 </footer>
-
 
 
 </body></html>

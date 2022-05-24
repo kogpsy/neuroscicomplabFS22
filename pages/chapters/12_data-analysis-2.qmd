@@ -111,28 +111,6 @@ plot(theta_grid, prior2, "l")
 A model that makes more precise predictions, i.e. a model with a stronger prior, is considered less complex that a model that makes many predictions.
 
 
-- the prior distributions of the model's parameters
-
-When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are assigned low probability. Intuitively, if one  hedges one's bets, one has to assign low probability to parameter values that make good predictions, because one has more possible parameter values.
-
-
-The following prior makes quite a strong prediction about the value of $\theta$ - it is centred on $0.5$, and the spread is small. Both small and large values are assigned very little probability.
-
-```{r}
-theta_grid <- seq(0, 1, length = 101)
-prior1 <- dbeta(theta_grid, shape1 = 200, shape2 = 200)
-plot(theta_grid, prior1, "l")
-```
-THe next prior makes less strong predictions, in the sense that it assigns higher probability to small and large values of $\theta$. 
-
-```{r}
-prior2 <- dbeta(theta_grid, shape1 = 2, shape2 = 2)
-plot(theta_grid, prior2, "l")
-```
-
-A model that makes more precise predictions, i.e. a model with a stronger prior, is considered less complex that a model that makes many predictions.
-
-
 
 
 

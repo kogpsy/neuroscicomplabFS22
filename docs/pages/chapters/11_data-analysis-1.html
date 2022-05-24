@@ -815,7 +815,7 @@ p(\theta|y) \propto  p(y|\theta) * p(\theta)
 <p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>To make this repeatable, we will write two functions. The first, <code>compute_posterior()</code>, will compute the posterior, given the prior and likelihood, and return a dataframe containg prior, likelihood and posterior. The second, <code>plot_posterior()</code>, will plot all three side-by-side. You can also pass in the maximum likelihood estimate, e.g.&nbsp;<code>6/9</code>, and this will be plotted as well.</p>
+<p>To make this repeatable, we will write two functions. The first, <code>compute_posterior()</code>, will compute the posterior, given the prior and likelihood, and return a dataframe containing prior, likelihood and posterior. The second, <code>plot_posterior()</code>, will plot all three side-by-side. You can also pass in the maximum likelihood estimate, e.g.&nbsp;<code>6/9</code>, and this will be plotted as well.</p>
 <div class="cell">
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">compute_posterior</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">likelihood</span>, <span class="va">prior</span><span class="op">)</span><span class="op">{</span>
   <span class="co"># compute product of likelihood and prior</span>
@@ -867,7 +867,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In this case, the maximum likelihood estimate coincides with the value that maximizes the posterior probability. This is the case because maximum likelihood estimate uses only the likelihood and does not consider prior knowledge. If we are are using a uniform prior, that amounts to saying that all values of <span class="math inline">\(\theta\)</span> are equally likely. In other words, we have no information as which values are more probable.z</p>
+<p>In this case, the maximum likelihood estimate coincides with the value that maximizes the posterior probability. This is the case because maximum likelihood estimate uses only the likelihood and does not consider prior knowledge. If we are are using a uniform prior, that amounts to saying that all values of <span class="math inline">\(\theta\)</span> are equally likely. In other words, we have no information as which values are more probable.</p>
 </div>
 </div>
 <p>Now let’s try out our prior expressing the belief that player A cannot be worse than player B:</p>
@@ -906,7 +906,7 @@ Tip
 <p>The posterior represents our belief about the the possible parameter values, after having observed the data. You can therefore think of Bayesian inference as a method for updating your beliefs, conditional on observed data. You are re-allocating probabilities over parameter values, depending on how well those parameter values predicted the data.</p>
 </section><section id="analytic-solution-for-the-bernoullibinomial-likelihood-and-beta-prior" class="level2"><h2 class="anchored" data-anchor-id="analytic-solution-for-the-bernoullibinomial-likelihood-and-beta-prior">Analytic solution for the Bernoulli/Binomial likelihood and Beta prior</h2>
 <p>In the above example, we used a technique called grid approximation to obtain the posterior distribution for a parameter. This means that we tried out various parameter values by constructing a grid, and then computed the posterior by applying Bayes’ rule. This technique was used merely for educational purposes, as it does not scale well to real-world problems. In the simple example of a sequence of binary observations, the parameter of interest (the probability of success <span class="math inline">\(\theta\)</span> in a Bernoulli trial) is bounded between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> (<span class="math inline">\(\theta \in [0, 1]\)</span>). Furthermore, there is only <span class="math inline">\(1\)</span> parameter to estimate. In more complex models, with many parameters, using grid approximation can be very inefficient, or even impossible. In such cases, we usually use numerical methods to approximate the posterior distribution. These methods are know collectively as <em>Monte Carlo sampling</em>, or <em>Markov Chain Monte Carlo</em> (MCMC). Using MCMC, we will not obtain an analytical description of posterior distributions, but instead a collection of random numbers (samples), that are drawn from the posterior distribution. We will use these samples to represent the posterior distribution.</p>
-<p>In this particular case, however, we also obtain the posterior distribution $ p(|y) $ analytically. By this, I mean that if we use a Beta distribution to describe our prior belief over the <span class="math inline">\(\theta\)</span> parameter, and the likelihood is Bernoulli or Binomial, the posterior distribution is also a Beta distribution.</p>
+<p>In this particular case, however, we also obtain the posterior distribution <span class="math inline">\(p(\theta|y)\)</span> analytically. By this, I mean that if we use a Beta distribution to describe our prior belief over the <span class="math inline">\(\theta\)</span> parameter, and the likelihood is Bernoulli or Binomial, the posterior distribution is also a Beta distribution.</p>
 <p>This is shown here for the Binomial likelihood:</p>
 <p><span class="math display">\[
 p(\theta|z, N) = \frac{p(y|\theta) \cdot p(\theta) = \theta^z (1-\theta)^{N-z} \cdot beta(\theta|a, b)}{p(z, N)}
@@ -919,7 +919,20 @@ p(\theta|a, b) = beta(\theta|a, b) = \frac{\theta^{a-1} (1-\theta)^{b-1}} {B(a, 
 <p><span class="math display">\[
 p(\theta|z, N) = \frac{\theta^{(a+z)-1} (1-\theta)^{(b+N-z)-1}} { B(a+z, b+N-z) }
 \]</span></p>
-<p>Put more simply: If the prior distribution is <span class="math inline">\(beta(\theta|a, b)\)</span>, and the data have <span class="math inline">\(z\)</span> heads in <span class="math inline">\(N\)</span> flips, then the posterior distribution is <span class="math inline">\(beta(\theta|a + z, b + N − z)\)</span>.</p>
+<p>Put more simply:</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If the prior distribution is <span class="math inline">\(beta(\theta|a, b)\)</span>, and the data have <span class="math inline">\(z\)</span> heads in <span class="math inline">\(N\)</span> flips, then the posterior distribution is <span class="math inline">\(beta(\theta|a + z, b + N − z)\)</span>.</p>
+</div>
+</div>
 <p>You can therefore think of the parameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> as the prior successes and failures in <span class="math inline">\(N\)</span> trials, and these parameters are updated by observing <span class="math inline">\(z\)</span> heads in <span class="math inline">\(N\)</span> flips.</p>
 <section id="example" class="level3"><h3 class="anchored" data-anchor-id="example">Example</h3>
 <p>This time, we are using <code>theta_grid</code> merely so we can plot the prior and posterior. Suppose that we have observed 8 games, and that player A has won 4 of those. Our prior should therefore be <span class="math inline">\(p(\theta|4,4)\)</span></p>
@@ -1793,7 +1806,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb64-572"><a href="#cb64-572" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-573"><a href="#cb64-573" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-574"><a href="#cb64-574" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-575"><a href="#cb64-575" aria-hidden="true" tabindex="-1"></a>To make this repeatable, we will write two functions. The first, <span class="in">`compute_posterior()`</span>, will compute the posterior, given the prior and likelihood, and return a dataframe containg prior, likelihood and posterior. The second, <span class="in">`plot_posterior()`</span>, will plot all three side-by-side. You can also pass in the maximum likelihood estimate, e.g. <span class="in">`6/9`</span>, and this will be plotted as well.</span>
+<span id="cb64-575"><a href="#cb64-575" aria-hidden="true" tabindex="-1"></a>To make this repeatable, we will write two functions. The first, <span class="in">`compute_posterior()`</span>, will compute the posterior, given the prior and likelihood, and return a dataframe containing prior, likelihood and posterior. The second, <span class="in">`plot_posterior()`</span>, will plot all three side-by-side. You can also pass in the maximum likelihood estimate, e.g. <span class="in">`6/9`</span>, and this will be plotted as well.</span>
 <span id="cb64-576"><a href="#cb64-576" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-579"><a href="#cb64-579" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb64-580"><a href="#cb64-580" aria-hidden="true" tabindex="-1"></a>compute_posterior <span class="ot">=</span> <span class="cf">function</span>(likelihood, prior){</span>
@@ -1846,7 +1859,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb64-635"><a href="#cb64-635" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb64-636"><a href="#cb64-636" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-637"><a href="#cb64-637" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
-<span id="cb64-638"><a href="#cb64-638" aria-hidden="true" tabindex="-1"></a>In this case, the maximum likelihood estimate coincides with the value that maximizes the posterior probability. This is the case because maximum likelihood estimate uses only the likelihood and does not consider prior knowledge. If we are are using a uniform prior, that amounts to saying that all values of $\theta$ are equally likely. In other words, we have no information as which values are more probable.z</span>
+<span id="cb64-638"><a href="#cb64-638" aria-hidden="true" tabindex="-1"></a>In this case, the maximum likelihood estimate coincides with the value that maximizes the posterior probability. This is the case because maximum likelihood estimate uses only the likelihood and does not consider prior knowledge. If we are are using a uniform prior, that amounts to saying that all values of $\theta$ are equally likely. In other words, we have no information as which values are more probable.</span>
 <span id="cb64-639"><a href="#cb64-639" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb64-640"><a href="#cb64-640" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-641"><a href="#cb64-641" aria-hidden="true" tabindex="-1"></a>Now let's try out our prior expressing the belief that player A cannot be worse than player B:</span>
@@ -1884,7 +1897,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb64-679"><a href="#cb64-679" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-680"><a href="#cb64-680" aria-hidden="true" tabindex="-1"></a>In the above example, we used a technique called grid approximation to obtain the posterior distribution for a parameter. This means that we tried out various parameter values by constructing a grid, and then computed the posterior by applying Bayes' rule. This technique was used merely for educational purposes, as it does not scale well to real-world problems. In the simple example of a sequence of binary observations, the parameter of interest (the probability of success $\theta$ in a Bernoulli trial) is bounded between $0$ and $1$ ($\theta \in <span class="co">[</span><span class="ot">0, 1</span><span class="co">]</span>$). Furthermore, there is only $1$ parameter to estimate. In more complex models, with many parameters, using grid approximation can be very inefficient, or even impossible. In such cases, we usually use numerical methods to approximate the posterior distribution. These methods are know collectively as *Monte Carlo sampling*, or *Markov Chain Monte Carlo* (MCMC). Using MCMC, we will not obtain an analytical description of posterior distributions, but instead a collection of random numbers (samples), that are drawn from the posterior distribution. We will use these samples to represent the posterior distribution.</span>
 <span id="cb64-681"><a href="#cb64-681" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-682"><a href="#cb64-682" aria-hidden="true" tabindex="-1"></a>In this particular case, however, we also obtain the posterior distribution $ p(\theta|y) $ analytically. By this, I mean that if we use a Beta distribution to describe our prior belief over the $\theta$ parameter, and the likelihood is Bernoulli or Binomial, the posterior distribution is also a Beta distribution.</span>
+<span id="cb64-682"><a href="#cb64-682" aria-hidden="true" tabindex="-1"></a>In this particular case, however, we also obtain the posterior distribution $p(\theta|y)$ analytically. By this, I mean that if we use a Beta distribution to describe our prior belief over the $\theta$ parameter, and the likelihood is Bernoulli or Binomial, the posterior distribution is also a Beta distribution.</span>
 <span id="cb64-683"><a href="#cb64-683" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-684"><a href="#cb64-684" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-685"><a href="#cb64-685" aria-hidden="true" tabindex="-1"></a>This is shown here for the Binomial likelihood:</span>
@@ -1907,134 +1920,138 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb64-702"><a href="#cb64-702" aria-hidden="true" tabindex="-1"></a>p(\theta|z, N) = \frac{\theta^{(a+z)-1} (1-\theta)^{(b+N-z)-1}} { B(a+z, b+N-z) }</span>
 <span id="cb64-703"><a href="#cb64-703" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb64-704"><a href="#cb64-704" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-705"><a href="#cb64-705" aria-hidden="true" tabindex="-1"></a>Put more simply: If the prior distribution is $beta(\theta|a, b)$, and the data have $z$ heads in $N$ flips, then the posterior distribution is $beta(\theta|a + z, b + N − z)$.</span>
+<span id="cb64-705"><a href="#cb64-705" aria-hidden="true" tabindex="-1"></a>Put more simply: </span>
 <span id="cb64-706"><a href="#cb64-706" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-707"><a href="#cb64-707" aria-hidden="true" tabindex="-1"></a>You can therefore think of the parameters $a$ and $b$ as the prior successes and failures in $N$ trials, and these parameters are updated by observing $z$ heads in $N$ flips.</span>
-<span id="cb64-708"><a href="#cb64-708" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-709"><a href="#cb64-709" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
+<span id="cb64-707"><a href="#cb64-707" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
+<span id="cb64-708"><a href="#cb64-708" aria-hidden="true" tabindex="-1"></a>If the prior distribution is $beta(\theta|a, b)$, and the data have $z$ heads in $N$ flips, then the posterior distribution is $beta(\theta|a + z, b + N − z)$.</span>
+<span id="cb64-709"><a href="#cb64-709" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb64-710"><a href="#cb64-710" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-711"><a href="#cb64-711" aria-hidden="true" tabindex="-1"></a>This time, we are using <span class="in">`theta_grid`</span> merely so we can plot the prior and posterior. Suppose that we have observed 8 games, and that player A has won 4 of those. Our prior should therefore be $p(\theta|4,4)$</span>
+<span id="cb64-711"><a href="#cb64-711" aria-hidden="true" tabindex="-1"></a>You can therefore think of the parameters $a$ and $b$ as the prior successes and failures in $N$ trials, and these parameters are updated by observing $z$ heads in $N$ flips.</span>
 <span id="cb64-712"><a href="#cb64-712" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-715"><a href="#cb64-715" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-716"><a href="#cb64-716" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="at">x =</span> theta_grid, <span class="at">shape1 =</span> <span class="dv">4</span>, <span class="at">shape2 =</span> <span class="dv">4</span>)</span>
-<span id="cb64-717"><a href="#cb64-717" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-718"><a href="#cb64-718" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-719"><a href="#cb64-719" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-722"><a href="#cb64-722" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-723"><a href="#cb64-723" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(theta_grid, prior, <span class="st">"l"</span>)</span>
-<span id="cb64-724"><a href="#cb64-724" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-725"><a href="#cb64-725" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-726"><a href="#cb64-726" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-727"><a href="#cb64-727" aria-hidden="true" tabindex="-1"></a>If we now observe that player A wins 3 out of the next 4 games, our posterior should be $p(\theta|4+3,4+1)$</span>
-<span id="cb64-728"><a href="#cb64-728" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-713"><a href="#cb64-713" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
+<span id="cb64-714"><a href="#cb64-714" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-715"><a href="#cb64-715" aria-hidden="true" tabindex="-1"></a>This time, we are using <span class="in">`theta_grid`</span> merely so we can plot the prior and posterior. Suppose that we have observed 8 games, and that player A has won 4 of those. Our prior should therefore be $p(\theta|4,4)$</span>
+<span id="cb64-716"><a href="#cb64-716" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-719"><a href="#cb64-719" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-720"><a href="#cb64-720" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="at">x =</span> theta_grid, <span class="at">shape1 =</span> <span class="dv">4</span>, <span class="at">shape2 =</span> <span class="dv">4</span>)</span>
+<span id="cb64-721"><a href="#cb64-721" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-722"><a href="#cb64-722" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-723"><a href="#cb64-723" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-726"><a href="#cb64-726" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-727"><a href="#cb64-727" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(theta_grid, prior, <span class="st">"l"</span>)</span>
+<span id="cb64-728"><a href="#cb64-728" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb64-729"><a href="#cb64-729" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-730"><a href="#cb64-730" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-733"><a href="#cb64-733" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-734"><a href="#cb64-734" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="at">x =</span> theta_grid, <span class="at">shape1 =</span> <span class="dv">7</span>, <span class="at">shape2 =</span> <span class="dv">5</span>)</span>
-<span id="cb64-735"><a href="#cb64-735" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-736"><a href="#cb64-736" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-737"><a href="#cb64-737" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-740"><a href="#cb64-740" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-741"><a href="#cb64-741" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">prior =</span> prior, </span>
-<span id="cb64-742"><a href="#cb64-742" aria-hidden="true" tabindex="-1"></a>       <span class="at">posterior =</span> posterior, </span>
-<span id="cb64-743"><a href="#cb64-743" aria-hidden="true" tabindex="-1"></a>       <span class="at">theta =</span> theta_grid) <span class="sc">|&gt;</span> </span>
-<span id="cb64-744"><a href="#cb64-744" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(prior, posterior), <span class="at">names_to =</span> <span class="st">"distribution"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb64-745"><a href="#cb64-745" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(theta, value, <span class="at">color =</span> distribution)) <span class="sc">+</span></span>
-<span id="cb64-746"><a href="#cb64-746" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb64-747"><a href="#cb64-747" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb64-748"><a href="#cb64-748" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">""</span>)</span>
-<span id="cb64-749"><a href="#cb64-749" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-750"><a href="#cb64-750" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-751"><a href="#cb64-751" aria-hidden="true" tabindex="-1"></a>We can write a function that updates a Beta prior, given $k$ successes in $N$ trials:</span>
-<span id="cb64-752"><a href="#cb64-752" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-755"><a href="#cb64-755" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-756"><a href="#cb64-756" aria-hidden="true" tabindex="-1"></a>update_beta <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, k, N) {</span>
-<span id="cb64-757"><a href="#cb64-757" aria-hidden="true" tabindex="-1"></a>  theta_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length =</span> <span class="dv">101</span>)</span>
-<span id="cb64-758"><a href="#cb64-758" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dbeta</span>(<span class="at">x =</span> theta_grid, <span class="at">shape1 =</span> a <span class="sc">+</span> k, <span class="at">shape2 =</span> b <span class="sc">+</span> N<span class="sc">-</span>k)</span>
-<span id="cb64-759"><a href="#cb64-759" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb64-760"><a href="#cb64-760" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-761"><a href="#cb64-761" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-762"><a href="#cb64-762" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-765"><a href="#cb64-765" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-766"><a href="#cb64-766" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">update_beta</span>(<span class="at">a =</span> <span class="dv">4</span>, <span class="at">b =</span> <span class="dv">4</span>, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">N =</span> <span class="dv">4</span>)</span>
-<span id="cb64-767"><a href="#cb64-767" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-768"><a href="#cb64-768" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-769"><a href="#cb64-769" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-772"><a href="#cb64-772" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-773"><a href="#cb64-773" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">prior =</span> prior, </span>
-<span id="cb64-774"><a href="#cb64-774" aria-hidden="true" tabindex="-1"></a>       <span class="at">posterior =</span> posterior, </span>
-<span id="cb64-775"><a href="#cb64-775" aria-hidden="true" tabindex="-1"></a>       <span class="at">theta =</span> theta_grid) <span class="sc">|&gt;</span> </span>
-<span id="cb64-776"><a href="#cb64-776" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(prior, posterior), <span class="at">names_to =</span> <span class="st">"distribution"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb64-777"><a href="#cb64-777" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(theta, value, <span class="at">color =</span> distribution)) <span class="sc">+</span></span>
-<span id="cb64-778"><a href="#cb64-778" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb64-779"><a href="#cb64-779" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb64-780"><a href="#cb64-780" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">""</span>)</span>
-<span id="cb64-781"><a href="#cb64-781" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-782"><a href="#cb64-782" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-783"><a href="#cb64-783" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-784"><a href="#cb64-784" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summarizing the posterior</span></span>
-<span id="cb64-785"><a href="#cb64-785" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-786"><a href="#cb64-786" aria-hidden="true" tabindex="-1"></a>We now need one last step: we need to summarize the posterior distribution. We can do this, for example by computing the mean and standard deviation of the posterior distribution. </span>
+<span id="cb64-731"><a href="#cb64-731" aria-hidden="true" tabindex="-1"></a>If we now observe that player A wins 3 out of the next 4 games, our posterior should be $p(\theta|4+3,4+1)$</span>
+<span id="cb64-732"><a href="#cb64-732" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-733"><a href="#cb64-733" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-734"><a href="#cb64-734" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-737"><a href="#cb64-737" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-738"><a href="#cb64-738" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="at">x =</span> theta_grid, <span class="at">shape1 =</span> <span class="dv">7</span>, <span class="at">shape2 =</span> <span class="dv">5</span>)</span>
+<span id="cb64-739"><a href="#cb64-739" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-740"><a href="#cb64-740" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-741"><a href="#cb64-741" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-744"><a href="#cb64-744" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-745"><a href="#cb64-745" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">prior =</span> prior, </span>
+<span id="cb64-746"><a href="#cb64-746" aria-hidden="true" tabindex="-1"></a>       <span class="at">posterior =</span> posterior, </span>
+<span id="cb64-747"><a href="#cb64-747" aria-hidden="true" tabindex="-1"></a>       <span class="at">theta =</span> theta_grid) <span class="sc">|&gt;</span> </span>
+<span id="cb64-748"><a href="#cb64-748" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(prior, posterior), <span class="at">names_to =</span> <span class="st">"distribution"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb64-749"><a href="#cb64-749" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(theta, value, <span class="at">color =</span> distribution)) <span class="sc">+</span></span>
+<span id="cb64-750"><a href="#cb64-750" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb64-751"><a href="#cb64-751" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb64-752"><a href="#cb64-752" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">""</span>)</span>
+<span id="cb64-753"><a href="#cb64-753" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-754"><a href="#cb64-754" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-755"><a href="#cb64-755" aria-hidden="true" tabindex="-1"></a>We can write a function that updates a Beta prior, given $k$ successes in $N$ trials:</span>
+<span id="cb64-756"><a href="#cb64-756" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-759"><a href="#cb64-759" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-760"><a href="#cb64-760" aria-hidden="true" tabindex="-1"></a>update_beta <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, k, N) {</span>
+<span id="cb64-761"><a href="#cb64-761" aria-hidden="true" tabindex="-1"></a>  theta_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length =</span> <span class="dv">101</span>)</span>
+<span id="cb64-762"><a href="#cb64-762" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dbeta</span>(<span class="at">x =</span> theta_grid, <span class="at">shape1 =</span> a <span class="sc">+</span> k, <span class="at">shape2 =</span> b <span class="sc">+</span> N<span class="sc">-</span>k)</span>
+<span id="cb64-763"><a href="#cb64-763" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-764"><a href="#cb64-764" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-765"><a href="#cb64-765" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-766"><a href="#cb64-766" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-769"><a href="#cb64-769" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-770"><a href="#cb64-770" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">update_beta</span>(<span class="at">a =</span> <span class="dv">4</span>, <span class="at">b =</span> <span class="dv">4</span>, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">N =</span> <span class="dv">4</span>)</span>
+<span id="cb64-771"><a href="#cb64-771" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-772"><a href="#cb64-772" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-773"><a href="#cb64-773" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-776"><a href="#cb64-776" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-777"><a href="#cb64-777" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">prior =</span> prior, </span>
+<span id="cb64-778"><a href="#cb64-778" aria-hidden="true" tabindex="-1"></a>       <span class="at">posterior =</span> posterior, </span>
+<span id="cb64-779"><a href="#cb64-779" aria-hidden="true" tabindex="-1"></a>       <span class="at">theta =</span> theta_grid) <span class="sc">|&gt;</span> </span>
+<span id="cb64-780"><a href="#cb64-780" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(prior, posterior), <span class="at">names_to =</span> <span class="st">"distribution"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb64-781"><a href="#cb64-781" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(theta, value, <span class="at">color =</span> distribution)) <span class="sc">+</span></span>
+<span id="cb64-782"><a href="#cb64-782" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb64-783"><a href="#cb64-783" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb64-784"><a href="#cb64-784" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">""</span>)</span>
+<span id="cb64-785"><a href="#cb64-785" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-786"><a href="#cb64-786" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-787"><a href="#cb64-787" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-788"><a href="#cb64-788" aria-hidden="true" tabindex="-1"></a>To show how this works, we can draw a thousand samples from the posterior distribution. First, we'll create a posterior.</span>
+<span id="cb64-788"><a href="#cb64-788" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summarizing the posterior</span></span>
 <span id="cb64-789"><a href="#cb64-789" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-792"><a href="#cb64-792" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-793"><a href="#cb64-793" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="at">x =</span> theta_grid, <span class="at">shape1 =</span> <span class="dv">1</span>, <span class="at">shape2 =</span> <span class="dv">1</span>)</span>
-<span id="cb64-794"><a href="#cb64-794" aria-hidden="true" tabindex="-1"></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(wins, <span class="at">size =</span> games , <span class="at">prob =</span> theta_grid)</span>
-<span id="cb64-795"><a href="#cb64-795" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-796"><a href="#cb64-796" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-797"><a href="#cb64-797" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-800"><a href="#cb64-800" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-801"><a href="#cb64-801" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">compute_posterior</span>(likelihood, prior)</span>
-<span id="cb64-802"><a href="#cb64-802" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-803"><a href="#cb64-803" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-806"><a href="#cb64-806" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-807"><a href="#cb64-807" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_posterior</span>(df)</span>
-<span id="cb64-808"><a href="#cb64-808" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-809"><a href="#cb64-809" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-810"><a href="#cb64-810" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-811"><a href="#cb64-811" aria-hidden="true" tabindex="-1"></a>Now we'll draw 1000 random numbers from the posterior.</span>
-<span id="cb64-812"><a href="#cb64-812" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-815"><a href="#cb64-815" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-816"><a href="#cb64-816" aria-hidden="true" tabindex="-1"></a>n_samples <span class="ot">&lt;-</span> <span class="fl">1e3</span></span>
-<span id="cb64-817"><a href="#cb64-817" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-818"><a href="#cb64-818" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> theta_grid <span class="sc">|&gt;</span> <span class="fu">sample</span>(<span class="at">size =</span> n_samples, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> df<span class="sc">$</span>posterior)</span>
-<span id="cb64-819"><a href="#cb64-819" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-820"><a href="#cb64-820" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-823"><a href="#cb64-823" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-824"><a href="#cb64-824" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(samples, <span class="dv">10</span>)</span>
-<span id="cb64-825"><a href="#cb64-825" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-826"><a href="#cb64-826" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-827"><a href="#cb64-827" aria-hidden="true" tabindex="-1"></a>Now we can summarize the samples, e.g. by computing the mean or quantiles.</span>
-<span id="cb64-828"><a href="#cb64-828" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-831"><a href="#cb64-831" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-832"><a href="#cb64-832" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(samples)</span>
-<span id="cb64-833"><a href="#cb64-833" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-834"><a href="#cb64-834" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-835"><a href="#cb64-835" aria-hidden="true" tabindex="-1"></a>The following will give us the median, and a 50% **credible interval**, i.e. an interval that contains 50% of the mass of the distribution.</span>
-<span id="cb64-836"><a href="#cb64-836" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-837"><a href="#cb64-837" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-840"><a href="#cb64-840" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-841"><a href="#cb64-841" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples, <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))</span>
-<span id="cb64-842"><a href="#cb64-842" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-843"><a href="#cb64-843" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-844"><a href="#cb64-844" aria-hidden="true" tabindex="-1"></a>We can also use this approach to compute a 95% credible interval.</span>
-<span id="cb64-845"><a href="#cb64-845" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-848"><a href="#cb64-848" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-849"><a href="#cb64-849" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb64-850"><a href="#cb64-850" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-851"><a href="#cb64-851" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples, <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>))</span>
-<span id="cb64-852"><a href="#cb64-852" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-853"><a href="#cb64-853" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-790"><a href="#cb64-790" aria-hidden="true" tabindex="-1"></a>We now need one last step: we need to summarize the posterior distribution. We can do this, for example by computing the mean and standard deviation of the posterior distribution. </span>
+<span id="cb64-791"><a href="#cb64-791" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-792"><a href="#cb64-792" aria-hidden="true" tabindex="-1"></a>To show how this works, we can draw a thousand samples from the posterior distribution. First, we'll create a posterior.</span>
+<span id="cb64-793"><a href="#cb64-793" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-796"><a href="#cb64-796" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-797"><a href="#cb64-797" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(<span class="at">x =</span> theta_grid, <span class="at">shape1 =</span> <span class="dv">1</span>, <span class="at">shape2 =</span> <span class="dv">1</span>)</span>
+<span id="cb64-798"><a href="#cb64-798" aria-hidden="true" tabindex="-1"></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(wins, <span class="at">size =</span> games , <span class="at">prob =</span> theta_grid)</span>
+<span id="cb64-799"><a href="#cb64-799" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-800"><a href="#cb64-800" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-801"><a href="#cb64-801" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-804"><a href="#cb64-804" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-805"><a href="#cb64-805" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">compute_posterior</span>(likelihood, prior)</span>
+<span id="cb64-806"><a href="#cb64-806" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-807"><a href="#cb64-807" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-810"><a href="#cb64-810" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-811"><a href="#cb64-811" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_posterior</span>(df)</span>
+<span id="cb64-812"><a href="#cb64-812" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-813"><a href="#cb64-813" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-814"><a href="#cb64-814" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-815"><a href="#cb64-815" aria-hidden="true" tabindex="-1"></a>Now we'll draw 1000 random numbers from the posterior.</span>
+<span id="cb64-816"><a href="#cb64-816" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-819"><a href="#cb64-819" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-820"><a href="#cb64-820" aria-hidden="true" tabindex="-1"></a>n_samples <span class="ot">&lt;-</span> <span class="fl">1e3</span></span>
+<span id="cb64-821"><a href="#cb64-821" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-822"><a href="#cb64-822" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> theta_grid <span class="sc">|&gt;</span> <span class="fu">sample</span>(<span class="at">size =</span> n_samples, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> df<span class="sc">$</span>posterior)</span>
+<span id="cb64-823"><a href="#cb64-823" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-824"><a href="#cb64-824" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-827"><a href="#cb64-827" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-828"><a href="#cb64-828" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(samples, <span class="dv">10</span>)</span>
+<span id="cb64-829"><a href="#cb64-829" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-830"><a href="#cb64-830" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-831"><a href="#cb64-831" aria-hidden="true" tabindex="-1"></a>Now we can summarize the samples, e.g. by computing the mean or quantiles.</span>
+<span id="cb64-832"><a href="#cb64-832" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-835"><a href="#cb64-835" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-836"><a href="#cb64-836" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(samples)</span>
+<span id="cb64-837"><a href="#cb64-837" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-838"><a href="#cb64-838" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-839"><a href="#cb64-839" aria-hidden="true" tabindex="-1"></a>The following will give us the median, and a 50% **credible interval**, i.e. an interval that contains 50% of the mass of the distribution.</span>
+<span id="cb64-840"><a href="#cb64-840" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-841"><a href="#cb64-841" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-844"><a href="#cb64-844" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-845"><a href="#cb64-845" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples, <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))</span>
+<span id="cb64-846"><a href="#cb64-846" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-847"><a href="#cb64-847" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-848"><a href="#cb64-848" aria-hidden="true" tabindex="-1"></a>We can also use this approach to compute a 95% credible interval.</span>
+<span id="cb64-849"><a href="#cb64-849" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-852"><a href="#cb64-852" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-853"><a href="#cb64-853" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
 <span id="cb64-854"><a href="#cb64-854" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-855"><a href="#cb64-855" aria-hidden="true" tabindex="-1"></a>:::{.callout-warning}</span>
-<span id="cb64-856"><a href="#cb64-856" aria-hidden="true" tabindex="-1"></a>This should not be confused with the 95% confidence interval. Can you remember how a confidence interval is defined? What is the difference between a confidence interval and a credible interval?</span>
-<span id="cb64-857"><a href="#cb64-857" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb64-855"><a href="#cb64-855" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples, <span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>))</span>
+<span id="cb64-856"><a href="#cb64-856" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-857"><a href="#cb64-857" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-858"><a href="#cb64-858" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-859"><a href="#cb64-859" aria-hidden="true" tabindex="-1"></a>What we have done so far is to look at Bayesian inference for parameter estimation (in a very simple model). Let's call this model $\mathcal{M}$. We have only considered one model at a time, but in the next session we will consider two or models $\mathcal{M_j}, which differ in the prior distributions they use. We will then look at methods for comparing models, in order to perform hypothesis testing in a Bayesian framework.</span>
-<span id="cb64-860"><a href="#cb64-860" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-861"><a href="#cb64-861" aria-hidden="true" tabindex="-1"></a>In particular, we will look at how Bayesian model comparison can help, in the case that we have no significant results (see @sec-fancyhat).</span>
+<span id="cb64-859"><a href="#cb64-859" aria-hidden="true" tabindex="-1"></a>:::{.callout-warning}</span>
+<span id="cb64-860"><a href="#cb64-860" aria-hidden="true" tabindex="-1"></a>This should not be confused with the 95% confidence interval. Can you remember how a confidence interval is defined? What is the difference between a confidence interval and a credible interval?</span>
+<span id="cb64-861"><a href="#cb64-861" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb64-862"><a href="#cb64-862" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-863"><a href="#cb64-863" aria-hidden="true" tabindex="-1"></a>What we have done so far is to look at Bayesian inference for parameter estimation (in a very simple model). Let's call this model $\mathcal{M}$. We have only considered one model at a time, but in the next session we will consider two or models $\mathcal{M_j}, which differ in the prior distributions they use. We will then look at methods for comparing models, in order to perform hypothesis testing in a Bayesian framework.</span>
+<span id="cb64-864"><a href="#cb64-864" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-865"><a href="#cb64-865" aria-hidden="true" tabindex="-1"></a>In particular, we will look at how Bayesian model comparison can help, in the case that we have no significant results (see @sec-fancyhat).</span>
+<span id="cb64-866"><a href="#cb64-866" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

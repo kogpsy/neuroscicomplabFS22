@@ -510,7 +510,7 @@ plot(theta_grid, posterior, type = "l", yaxt = 'n', ylab = 'Probability',
 
 
 
-To make this repeatable, we will write two functions. The first, `compute_posterior()`, will compute the posterior, given the prior and likelihood, and return a dataframe containg prior, likelihood and posterior. The second, `plot_posterior()`, will plot all three side-by-side. You can also pass in the maximum likelihood estimate, e.g. `6/9`, and this will be plotted as well.
+To make this repeatable, we will write two functions. The first, `compute_posterior()`, will compute the posterior, given the prior and likelihood, and return a dataframe containing prior, likelihood and posterior. The second, `plot_posterior()`, will plot all three side-by-side. You can also pass in the maximum likelihood estimate, e.g. `6/9`, and this will be plotted as well.
 
 ```{r}
 compute_posterior = function(likelihood, prior){
@@ -563,7 +563,7 @@ plot_posterior(df)
 ```
 
 :::{.callout-note}
-In this case, the maximum likelihood estimate coincides with the value that maximizes the posterior probability. This is the case because maximum likelihood estimate uses only the likelihood and does not consider prior knowledge. If we are are using a uniform prior, that amounts to saying that all values of $\theta$ are equally likely. In other words, we have no information as which values are more probable.z
+In this case, the maximum likelihood estimate coincides with the value that maximizes the posterior probability. This is the case because maximum likelihood estimate uses only the likelihood and does not consider prior knowledge. If we are are using a uniform prior, that amounts to saying that all values of $\theta$ are equally likely. In other words, we have no information as which values are more probable.
 :::
 
 Now let's try out our prior expressing the belief that player A cannot be worse than player B:
@@ -601,7 +601,7 @@ The posterior represents our belief about the the possible parameter values, aft
 
 In the above example, we used a technique called grid approximation to obtain the posterior distribution for a parameter. This means that we tried out various parameter values by constructing a grid, and then computed the posterior by applying Bayes' rule. This technique was used merely for educational purposes, as it does not scale well to real-world problems. In the simple example of a sequence of binary observations, the parameter of interest (the probability of success $\theta$ in a Bernoulli trial) is bounded between $0$ and $1$ ($\theta \in [0, 1]$). Furthermore, there is only $1$ parameter to estimate. In more complex models, with many parameters, using grid approximation can be very inefficient, or even impossible. In such cases, we usually use numerical methods to approximate the posterior distribution. These methods are know collectively as *Monte Carlo sampling*, or *Markov Chain Monte Carlo* (MCMC). Using MCMC, we will not obtain an analytical description of posterior distributions, but instead a collection of random numbers (samples), that are drawn from the posterior distribution. We will use these samples to represent the posterior distribution.
 
-In this particular case, however, we also obtain the posterior distribution $ p(\theta|y) $ analytically. By this, I mean that if we use a Beta distribution to describe our prior belief over the $\theta$ parameter, and the likelihood is Bernoulli or Binomial, the posterior distribution is also a Beta distribution.
+In this particular case, however, we also obtain the posterior distribution $p(\theta|y)$ analytically. By this, I mean that if we use a Beta distribution to describe our prior belief over the $\theta$ parameter, and the likelihood is Bernoulli or Binomial, the posterior distribution is also a Beta distribution.
 
 
 This is shown here for the Binomial likelihood:
@@ -624,7 +624,11 @@ $$
 p(\theta|z, N) = \frac{\theta^{(a+z)-1} (1-\theta)^{(b+N-z)-1}} { B(a+z, b+N-z) }
 $$
 
-Put more simply: If the prior distribution is $beta(\theta|a, b)$, and the data have $z$ heads in $N$ flips, then the posterior distribution is $beta(\theta|a + z, b + N − z)$.
+Put more simply: 
+
+:::{.callout-tip}
+If the prior distribution is $beta(\theta|a, b)$, and the data have $z$ heads in $N$ flips, then the posterior distribution is $beta(\theta|a + z, b + N − z)$.
+:::
 
 You can therefore think of the parameters $a$ and $b$ as the prior successes and failures in $N$ trials, and these parameters are updated by observing $z$ heads in $N$ flips.
 

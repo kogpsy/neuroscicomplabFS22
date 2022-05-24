@@ -342,7 +342,7 @@ $$
 p(y) = \sum_{\theta}p(y|\theta) * p(\theta) 
 $$
 
-When we are interested in estimating the parameters of a given model, we can often neglect the (constant for a model) normalizing term $p(y)$. This term, often called the evidence, reflects the prbability of the data, averaged over all parameter values. Written without the normalizing constant, Bayes rule is often written as:
+When we are interested in estimating the parameters of a given model, we can often neglect the (constant for a model) normalizing term $p(y)$. This term, often called the evidence, reflects the probability of the data, averaged over all parameter values. Written without the normalizing constant, Bayes rule is often written as:
 
 $$ 
 p(\theta|y) \propto  p(y|\theta) * p(\theta) 
@@ -385,7 +385,7 @@ plot(theta_grid, prior_1, "type" = "l")
 We could also express the belief that player is at least as good as player B, i.e. they are equally good or A is better than B. One way of doing this is to assign a probability of $1$ to parameter values greater than or equal to $0.5$, and the value $0$ to parameter values less than $0.5$.
 
 ```{r}
-prior_2 <- ifelse(theta_grid < 0.5, 0, 1)
+prior_2 <- ifelse(theta_grid < 0.5, 0, 2)
 ```
 
 ```{r}
@@ -397,7 +397,7 @@ A more systematic way of doing this is to use a parameterized probability distri
 
 :::{.callout-note}
 A family of probability distributions that are suitable for parameters that lie in the interval $[0,1]$ is the [Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution). This distribution has $2$ parameters $\alpha$ und $\beta$, 
-which can be interpreted as the prior number of successes and the number of failures, respectively. The number of trials is therefore $\alpha + \beta$. @ref(fig:betadists) shows a number of possible Beta distributions for various settings of $\alpha$ and $\beta$.
+which can be interpreted as the prior number of successes and the number of failures, respectively. The number of trials is therefore $\alpha + \beta$. @ref(fig:betadist) shows a number of possible Beta distributions for various settings of $\alpha$ and $\beta$.
 
 
 ```{r}

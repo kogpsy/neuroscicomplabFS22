@@ -667,7 +667,7 @@ p(\theta|y) = \frac{ p(y|\theta) * p(\theta) } {p(y)}
 <p><span class="math display">\[
 p(y) = \sum_{\theta}p(y|\theta) * p(\theta)
 \]</span></p>
-<p>When we are interested in estimating the parameters of a given model, we can often neglect the (constant for a model) normalizing term <span class="math inline">\(p(y)\)</span>. This term, often called the evidence, reflects the prbability of the data, averaged over all parameter values. Written without the normalizing constant, Bayes rule is often written as:</p>
+<p>When we are interested in estimating the parameters of a given model, we can often neglect the (constant for a model) normalizing term <span class="math inline">\(p(y)\)</span>. This term, often called the evidence, reflects the probability of the data, averaged over all parameter values. Written without the normalizing constant, Bayes rule is often written as:</p>
 <p><span class="math display">\[
 p(\theta|y) \propto  p(y|\theta) * p(\theta)
 \]</span></p>
@@ -699,7 +699,7 @@ p(\theta|y) \propto  p(y|\theta) * p(\theta)
 </div>
 <p>We could also express the belief that player is at least as good as player B, i.e.&nbsp;they are equally good or A is better than B. One way of doing this is to assign a probability of <span class="math inline">\(1\)</span> to parameter values greater than or equal to <span class="math inline">\(0.5\)</span>, and the value <span class="math inline">\(0\)</span> to parameter values less than <span class="math inline">\(0.5\)</span>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">theta_grid</span> <span class="op">&lt;</span> <span class="fl">0.5</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">theta_grid</span> <span class="op">&lt;</span> <span class="fl">0.5</span>, <span class="fl">0</span>, <span class="fl">2</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior_2</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -718,7 +718,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A family of probability distributions that are suitable for parameters that lie in the interval <span class="math inline">\([0,1]\)</span> is the <a href="https://en.wikipedia.org/wiki/Beta_distribution">Beta distribution</a>. This distribution has <span class="math inline">\(2\)</span> parameters <span class="math inline">\(\alpha\)</span> und <span class="math inline">\(\beta\)</span>, which can be interpreted as the prior number of successes and the number of failures, respectively. The number of trials is therefore <span class="math inline">\(\alpha + \beta\)</span>. <span class="citation" data-cites="ref">(<a href="#ref-ref" role="doc-biblioref"><strong>ref?</strong></a>)</span>(fig:betadists) shows a number of possible Beta distributions for various settings of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>.</p>
+<p>A family of probability distributions that are suitable for parameters that lie in the interval <span class="math inline">\([0,1]\)</span> is the <a href="https://en.wikipedia.org/wiki/Beta_distribution">Beta distribution</a>. This distribution has <span class="math inline">\(2\)</span> parameters <span class="math inline">\(\alpha\)</span> und <span class="math inline">\(\beta\)</span>, which can be interpreted as the prior number of successes and the number of failures, respectively. The number of trials is therefore <span class="math inline">\(\alpha + \beta\)</span>. <span class="citation" data-cites="ref">(<a href="#ref-ref" role="doc-biblioref"><strong>ref?</strong></a>)</span>(fig:betadist) shows a number of possible Beta distributions for various settings of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>.</p>
 <div class="cell">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 
@@ -1625,7 +1625,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb64-372"><a href="#cb64-372" aria-hidden="true" tabindex="-1"></a>p(y) = \sum_{\theta}p(y|\theta) * p(\theta) </span>
 <span id="cb64-373"><a href="#cb64-373" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb64-374"><a href="#cb64-374" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-375"><a href="#cb64-375" aria-hidden="true" tabindex="-1"></a>When we are interested in estimating the parameters of a given model, we can often neglect the (constant for a model) normalizing term $p(y)$. This term, often called the evidence, reflects the prbability of the data, averaged over all parameter values. Written without the normalizing constant, Bayes rule is often written as:</span>
+<span id="cb64-375"><a href="#cb64-375" aria-hidden="true" tabindex="-1"></a>When we are interested in estimating the parameters of a given model, we can often neglect the (constant for a model) normalizing term $p(y)$. This term, often called the evidence, reflects the probability of the data, averaged over all parameter values. Written without the normalizing constant, Bayes rule is often written as:</span>
 <span id="cb64-376"><a href="#cb64-376" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-377"><a href="#cb64-377" aria-hidden="true" tabindex="-1"></a>$$ </span>
 <span id="cb64-378"><a href="#cb64-378" aria-hidden="true" tabindex="-1"></a>p(\theta|y) \propto  p(y|\theta) * p(\theta) </span>
@@ -1668,7 +1668,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb64-421"><a href="#cb64-421" aria-hidden="true" tabindex="-1"></a>We could also express the belief that player is at least as good as player B, i.e. they are equally good or A is better than B. One way of doing this is to assign a probability of $1$ to parameter values greater than or equal to $0.5$, and the value $0$ to parameter values less than $0.5$.</span>
 <span id="cb64-422"><a href="#cb64-422" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-425"><a href="#cb64-425" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-426"><a href="#cb64-426" aria-hidden="true" tabindex="-1"></a>prior_2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(theta_grid <span class="sc">&lt;</span> <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb64-426"><a href="#cb64-426" aria-hidden="true" tabindex="-1"></a>prior_2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(theta_grid <span class="sc">&lt;</span> <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
 <span id="cb64-427"><a href="#cb64-427" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb64-428"><a href="#cb64-428" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-431"><a href="#cb64-431" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
@@ -1680,7 +1680,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb64-437"><a href="#cb64-437" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-438"><a href="#cb64-438" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
 <span id="cb64-439"><a href="#cb64-439" aria-hidden="true" tabindex="-1"></a>A family of probability distributions that are suitable for parameters that lie in the interval $<span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>$ is the <span class="co">[</span><span class="ot">Beta distribution</span><span class="co">](https://en.wikipedia.org/wiki/Beta_distribution)</span>. This distribution has $2$ parameters $\alpha$ und $\beta$, </span>
-<span id="cb64-440"><a href="#cb64-440" aria-hidden="true" tabindex="-1"></a>which can be interpreted as the prior number of successes and the number of failures, respectively. The number of trials is therefore $\alpha + \beta$. @ref(fig:betadists) shows a number of possible Beta distributions for various settings of $\alpha$ and $\beta$.</span>
+<span id="cb64-440"><a href="#cb64-440" aria-hidden="true" tabindex="-1"></a>which can be interpreted as the prior number of successes and the number of failures, respectively. The number of trials is therefore $\alpha + \beta$. @ref(fig:betadist) shows a number of possible Beta distributions for various settings of $\alpha$ and $\beta$.</span>
 <span id="cb64-441"><a href="#cb64-441" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-442"><a href="#cb64-442" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-445"><a href="#cb64-445" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>

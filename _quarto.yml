@@ -76,7 +76,7 @@ website:
           - pages/exercises/exercise_04.qmd
           - pages/exercises/exercise_05.qmd
           - pages/exercises/exercise_06.qmd
-          # - pages/exercises/exercise_07.qmd
+          - pages/exercises/exercise_07.qmd
 
       - text: Lösungen
         menu:

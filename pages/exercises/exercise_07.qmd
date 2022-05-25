@@ -1,0 +1,137 @@
+---
+title: "Übung 7"
+description: |
+  Group-level Analyse von DDM Parametern.
+date: "2022-05-10"
+author:
+  - name: Andrew Ellis
+    url: https://github.com/awellis
+    affiliation: Kognitive Psychologie, Wahrnehmung und Methodenlehre, Universität Bern
+    affiliation-url: https://www.kog.psy.unibe.ch
+    orcid: 0000-0002-2788-936X
+license: CC BY
+citation: true
+bibliography: ../../bibliography.bib
+format:
+    html:
+        toc: true
+        code-link: true
+---
+```{r}
+#| include: false
+
+# Set working directory of R
+knitr::opts_knit$set(root.dir = '../../data/exercise-07/data')
+```
+
+:::{.callout-note}
+## Abgabefrist
+Die Daten für diese Übung finden Sie hier: 
+
+👉 [Download Data](../../data/exercise-07/data/estimated-ddm-params.csv)
+
+Laden Sie bitte Ihre Lösung als JASP Dokument bis **Mittwoch, 01.06.2022, um 00:30 Uhr**, in den Order für Übung 7 auf ILIAS.
+
+
+Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-7.jasp*.
+:::
+
+# Aufgabenstellung
+
+In dieser Aufgabe geht es darum, die den Einfluss einer experimentellen Manipulation auf die 4 Parameter des DDM zu untersuchen. Es handelt sich hier um dasselbe (simulierte) Experiment wie in Übung 6, diesmal mit 24 Versuchspersonen. Jede Person wurde in 2 Bedingungen ("A" und "B") getestet. Die experimentelle Manipulation sollte sich  selektiv auf den _drift rate_ Parameter auswirken, ohne die anderen Parameter zu beeinflussen. 
+
+In dieser Übung geht es darum, zu zeigen, dass sich die _drift rates_ (`v`) zwischen den Bedingungen unterscheiden, die _bias_, _boundary separation_ und _non-decision time_ Parameter (`z`, `a`, `t0`) jedoch nicht.
+
+:::{.callout-important}
+## Aufgaben
+Führen Sie mit jedem der 4 (repeated-measures) **Parameter einen Paired Samples T-Test** in JASP durch. Wählen Sie sowohl die frequentistische als auch die Bayesianische Variante, und beschreiben Sie die Resultate. 
+:::
+
+
+Um eine Beschreibung einzufügen, können Sie bei den Resultaten auf das Dropdown-Menu klicken, um "Notes" hinzuzufügen.
+
+::: {layout-ncol=2}
+![](../../assets/images/jasp-add-notes-1.png)
+![](../../assets/images/jasp-add-notes-2.png)
+:::
+
+
+## Daten einlesen
+
+Laden Sie die Daten in ein DataFrame.
+
+```{r}
+#| eval: true
+#| echo: true
+#| warning: false
+
+library(tidyverse)
+
+d <- read_csv("estimated-ddm-params.csv")
+```
+
+
+## Daten vorbereiten
+
+Der Dataframe ist im _long_-Format, das heisst eine Zeile pro Person und Bedingung. 
+
+
+```{r}
+head(d, 10)
+```
+
+Für einen messwiederholten T-Test in JASP brauchen Sie jedoch eine Spalte für jede Kombination von Parameter und Bedingung. Mit `pivot_wider()` geht dies ganz einfach.
+
+
+
+```{r}
+d_wide <- d |> 
+  pivot_wider(names_from = "condition", values_from = c(a, v, z, t0))
+```
+
+
+
+```{r}
+head(d_wide, 10)
+```
+
+Nun können Sie den _wide_ Dataframe als `CSV` File exportieren. Dieses File können Sie wiederum in JASP importieren.
+
+```{r}
+d_wide |> write_csv(file = "estimated-ddm-params-wide.csv")
+```
+
+
+
+## JASP
+
+
+In JASP können Sie für einen Test(z.B. Bayesian Paired Samples T-Test) alle Variablenpaare, welche Sie vergleichen wollen, in das rechte Textfeld ziehen.
+
+
+![](../../assets/images/jasp-add-variables.png)
+Sie können aber auch für jeden Parameter einen eigenen Test durchführen. Dies macht dann Sinn, wenn Sie für die Tests unterschiedliche Einstellungen benutzen.
+
+
+
+Anschliessend können Sie Ihre $\mathcal{H}_1$ bestimmen, und welche Plots Sie im Output haben möchten.
+    
+<!-- ![](../../assets/images/jasp-add-plots.png) -->
+<img src="../../assets/images/jasp-add-plots.png" height="400">
+
+Wenn Sie eine Alternativhypothese benutzen, bedeutet dies, dass Sie einen Parameter schätzen müssen (unter der $\mathcal{H}_0$ ist dieser auf der Wert $0$ fixiert). In JASP wird die Effektgrösse geschätzt. Jeder Paramter, welcher geschätzt wird, braucht eine _prior distribution_. Die Standardeinstellung in JASP ist eine zentrierte [Cauchy Verteilung](https://en.wikipedia.org/wiki/Cauchy_distribution). Unter dem Dropdown-Menu **Prior** unten können Sie den `scale` Parameter ändern. Standardmässig ist dieser $0.707$.
+
+![](../../assets/images/cauchy-prior.png)
+
+:::{.callout-note}
+## Cauchy Prior
+Diese Verteilung ist in unten dargestellt, und hat die Eigenschaft, dass 50% der Verteilung zwischen $\pm 0.707$ liegen. Dies bedeutet, dass wir erwarten, dass die Effektgrösse unter der $\mathcal{H}_1$ ungefähr in diesem Bereich liegt. Die Cauchy-Verteilung lässt aber auch zu, dass grosse Effekt auftretten können - unter dieser Verteilung sind extreme Werte wahrscheinlicher als unter z.B. einer Normalverteilung. Eine Standardnormalverteilung ist zum Vergleich ebenfalls dargestellt (gestrichelte Linie).
+:::
+
+```{r}
+xrange <- seq(-8, 8, length = 201)
+plot(xrange, dcauchy(xrange, 0, 0.707), "l", lwd = 3, 
+     col = "steelblue3", xlab = "", ylab = "")
+lines(xrange, dnorm(xrange, 0, 1), lty = "dashed", lwd = 2)
+```
+Sie haben auch die Möglichkeit, einen anderen Prior zu wählen. Wir werden dies in der nächsten Sitzung anschauen. In dieser Übung sollten Sie die Default-Einstellung verwenden.

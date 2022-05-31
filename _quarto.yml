@@ -65,8 +65,8 @@ website:
             file: slides/11_data-analysis-1.qmd
           - text: "12. Sitzung (24.05.2022)"
             file: slides/12_data-analysis-2.qmd
-          # - text: "13. Sitzung (24.05.2022)"
-          #   file: slides/13_adv-data-analysis.qmd
+          - text: "13. Sitzung (31.05.2022)"
+            file: slides/13_jasp.qmd
 
       - text: Übungen
         menu:

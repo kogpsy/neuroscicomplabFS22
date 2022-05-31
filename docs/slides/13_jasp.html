@@ -4,8 +4,8 @@
   <meta name="generator" content="quarto-0.9.301">
 
   <meta name="author" content="Andrew Ellis">
-  <meta name="dcterms.date" content="2022-05-03">
-  <title>Neurowissenschaft Computerlab - 10. Sitzung</title>
+  <meta name="dcterms.date" content="2022-05-24">
+  <title>Neurowissenschaft Computerlab - 13. Sitzung</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -18,69 +18,6 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css" id="theme">
   <link href="..//assets/logo_landing.png" rel="icon" type="image/png">
@@ -389,11 +326,11 @@
     <div class="slides">
 
 <section id="title-slide" class="center">
-  <h1 class="title">10. Sitzung</h1>
-  <p class="subtitle">Evidence accumulation models: II</p>
+  <h1 class="title">13. Sitzung</h1>
+  <p class="subtitle">Using JASP</p>
   <p class="author">Andrew Ellis</p>
   <p class="institute">Neurowissenschaft Computerlab FS 22</p>
-  <p class="date">2022-05-03</p>
+  <p class="date">2022-05-24</p>
 </section>
 
 <section class="slide level2">
@@ -405,125 +342,18 @@
 </div>
 </div><div class="column" style="width:65%;">
 <div class="topic-text">
-<p>Simulating RT and choice data</p>
+<p>Why behaviour?</p>
 </div>
 </div>
 </div>
 </section>
-<section id="simulating-rt-and-choice-data" class="slide level2">
-<h2>Simulating RT and choice data</h2>
-<h3 id="load-library">Load library</h3>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(rtdists)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="parameters" class="slide level2">
-<h2>Parameters</h2>
-<p>Mit <code>rdiffusion()</code> können wir ein Experiment simulieren, bei dem die Fehler im Schnitt schneller als die korrekten Antworten sind, indem wir eine A Priori Präferenz für die Untergrenze definieren (<code>z = 0.2</code>).</p>
-<p>Die 5 wichtigsten Argumente der Funktion sind:</p>
-<pre><code>n: Anzahl Zufallszahlen
-a: boundary separation
-v: drift rate
-t0: non-decision time
-z: bias</code></pre>
-</section>
-<section id="simulate" class="slide level2">
-<h2>Simulate</h2>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>rts <span class="ot">&lt;-</span> <span class="fu">rdiffusion</span>(<span class="dv">500</span>, <span class="at">a =</span> <span class="dv">1</span>, <span class="at">v =</span> <span class="dv">2</span>, <span class="at">t0 =</span> <span class="fl">0.5</span>, <span class="at">z =</span> <span class="fl">0.2</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">glimpse</span>(rts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 500
-Columns: 2
-$ rt       &lt;dbl&gt; 0.5149229, 0.8491839, 0.9178776, 0.5636749, 0.7539232, 0.6859…
-$ response &lt;fct&gt; lower, upper, upper, upper, lower, upper, upper, lower, lower…</code></pre>
-</div>
-</div>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">head</span>(rts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>         rt response
-1 0.5149229    lower
-2 0.8491839    upper
-3 0.9178776    upper
-4 0.5636749    upper
-5 0.7539232    lower
-6 0.6859781    upper</code></pre>
-</div>
-</div>
-</section>
-<section id="grafisch-darstellen" class="slide level2">
-<h2>Grafisch darstellen</h2>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>rts <span class="sc">|&gt;</span> </span>
-<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(rt, response, <span class="at">fill =</span> response)) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>  <span class="fu">geom_jitter</span>(<span class="at">height =</span> <span class="fl">0.1</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"B"</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, </span>
-<span id="cb7-6"><a href="#cb7-6"></a>                       <span class="at">begin =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">end =</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-
-</div>
-<img data-src="10_fitting_ddm_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
-<section id="effect-of-bias" class="slide level2">
-<h2>Effect of Bias</h2>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>d <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">rdiffusion</span>(<span class="dv">500</span>, <span class="at">a =</span> <span class="dv">2</span>, <span class="at">v =</span> <span class="fl">1.5</span>, <span class="at">t0 =</span> <span class="fl">0.2</span>, <span class="at">z =</span> <span class="fl">0.5</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb8-3"><a href="#cb8-3"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"unbiased"</span>),</span>
-<span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">rdiffusion</span>(<span class="dv">500</span>, <span class="at">a =</span> <span class="dv">2</span>, <span class="at">v =</span> <span class="fl">1.5</span>, <span class="at">t0 =</span> <span class="fl">0.2</span>, <span class="at">z =</span> <span class="fl">0.2</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb8-5"><a href="#cb8-5"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"biased"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>d <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(rt, response, <span class="at">fill =</span> response)) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">geom_jitter</span>(<span class="at">height =</span> <span class="fl">0.1</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"B"</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, </span>
-<span id="cb9-6"><a href="#cb9-6"></a>                       <span class="at">begin =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">end =</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>type, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-
-</div>
-<img data-src="10_fitting_ddm_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
-<section id="zusammenfassen" class="slide level2">
-<h2>Zusammenfassen</h2>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>rts <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="#cb10-2"></a>    <span class="fu">group_by</span>(response) <span class="sc">|&gt;</span> </span>
-<span id="cb10-3"><a href="#cb10-3"></a>    <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(rt),</span>
-<span id="cb10-4"><a href="#cb10-4"></a>              <span class="at">median =</span> <span class="fu">median</span>(rt),</span>
-<span id="cb10-5"><a href="#cb10-5"></a>              <span class="at">sd =</span> <span class="fu">sd</span>(rt))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 4
-  response  mean median    sd
-  &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-1 lower    0.585  0.540 0.102
-2 upper    0.776  0.728 0.170</code></pre>
-</div>
-</div>
+<section id="why-behaviour" class="slide level2">
+<h2>Why behaviour?</h2>
+<p>Krakauer, J. W., Ghazanfar, A. A., Gomez-Marin, A., MacIver, M. A., &amp; Poeppel, D. (2017). Neuroscience Needs Behavior: Correcting a Reductionist Bias. Neuron, 93(3), 480–490. <a href="https://doi.org/10.1016/j.neuron.2016.12.041">https://doi.org/10.1016/j.neuron.2016.12.041</a></p>
+<ul>
+<li><p>“…understanding through careful theoretical and experimental decomposition of behavior. Specifically, the detailed analysis of tasks and of the behavior they elicit is best suited for discovering component processes and their underlying algorithms…”</p></li>
+<li><p>“Behavioral work provides understanding, whereas neural interventions test causality.”</p></li>
+</ul>
 </section>
 <section class="slide level2">
 
@@ -534,187 +364,77 @@ $ response &lt;fct&gt; lower, upper, upper, upper, lower, upper, upper, lower, l
 </div>
 </div><div class="column" style="width:65%;">
 <div class="topic-text">
-<p>Maximum likelihood estimation</p>
+<p>Bayesian data analysis using JASP</p>
 </div>
 </div>
 </div>
 </section>
-<section id="maximum-likelihood-schätzung" class="slide level2 smaller">
-<h2>Maximum Likelihood Schätzung</h2>
+<section id="jasp-resources" class="slide level2">
+<h2>JASP Resources</h2>
 <ul>
-<li><p>Die Likelihood - genauer gesagt die Likelihood-Funktion - ist eine Funktion, die angibt, wie wahrscheinlich es ist, einen bestimmten Satz von Beobachtungen mit einem bestimmten Modell zu erhalten.</p></li>
-<li><p>Wir betrachten die Menge der Beobachtungen (Daten) als gegeben.</p></li>
-<li><p>Nun überlegen wir, bei welchem Satz von Modellparametern wir die Daten am wahrscheinlichsten beobachten würden.</p></li>
+<li><p><a href="https://www.youtube.com/channel/UCSulowI4mXFyBkw3bmp7pXg">JASP on YouTube</a></p></li>
+<li><p><a href="https://jasp-stats.org/how-to-use-jasp/">How to use JASP</a>: Overview of tutorials, videos, etc.</p></li>
 </ul>
 </section>
-<section id="wahrscheinlichkeit-der-daten" class="slide level2">
-<h2>Wahrscheinlichkeit der Daten</h2>
-<p>Wenn wir eine Reihe von Datenpunkten haben (wie es in der Regel bei psychologischen Experimenten der Fall ist), können wir eine gemeinsame Wahrscheinlichkeit oder Wahrscheinlichkeitsdichte für die Daten in einem Datenvektor y erhalten, indem wir die einzelnen Wahrscheinlichkeiten oder Wahrscheinlichkeitsdichten miteinander multiplizieren, wobei wir davon ausgehen, dass die Beobachtungen in y unabhängig sind:</p>
-<p><span class="math display">\[
-f(\bf{y}|\bf{\theta} = \prod^k{f(y_k | \bf{\theta})})
-\]</span></p>
-<ul>
-<li><span class="math inline">\(k\)</span> indiziert die Datenpunkte <span class="math inline">\(y_k\)</span> im Vektor <span class="math inline">\(\bf{y}\)</span>.</li>
-</ul>
-</section>
-<section id="likelihood-funktion" class="slide level2">
-<h2>Likelihood Funktion</h2>
-<p>Der Unterschied zwischen Wahrscheinlichkeit und Likelihood besteht darin, dass wir uns hier für die verschiedenen mögliche Parameterwerte beziehen, und die Likelihood-Funktion sagt uns, wie wahrscheinlich jeder dieser Parameterwerte angesichts der von uns beobachteten Daten ist.</p>
-<p><span class="math display">\[
-L(\bf{\theta} | \bf{y}) = \prod^k{L(\bf{\theta} | y_k})
-\]</span></p>
-</section>
-<section id="beisiel-binomial-likelihood" class="slide level2">
-<h2>Beisiel: Binomial likelihood</h2>
-<p>Wir werfen eine Münze:</p>
-<ul>
-<li>zwei mögliche Ergebnisse (Kopf und Zahl),</li>
-<li>feste Anzahl von “Versuchen” (100 Münzwürfe)</li>
-<li>feste Wahrscheinlichkeit für “Erfolg” (d.&nbsp;h. Kopf)</li>
-</ul>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">set.seed</span>(<span class="dv">91</span>)</span>
-<span id="cb12-2"><a href="#cb12-2"></a></span>
-<span id="cb12-3"><a href="#cb12-3"></a>heads <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="fl">0.5</span>)</span>
-<span id="cb12-4"><a href="#cb12-4"></a>heads</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 48</code></pre>
-</div>
-</div>
-<p>Wahrschienlichkeit der Daten gegeben <span class="math inline">\(p = 0.6\)</span></p>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>biased_prob <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="co"># Using R's dbinom function (density function for a given binomial distribution)</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="fu">dbinom</span>(heads, <span class="dv">100</span>, biased_prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.004244495</code></pre>
-</div>
-</div>
-</section>
-<section id="beispiel-kartenspiel-zwischen-2-spielern" class="slide level2">
-<h2>Beispiel Kartenspiel zwischen 2 Spielern</h2>
-<ul>
-<li>Spieler <em>A</em> gewinnt 6 Mal in 9 Spielen:</li>
-</ul>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>wins <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>games <span class="ot">&lt;-</span> <span class="dv">9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<ul>
-<li>Wir definieren einen Vektor mit 100 möglichen Parameterwerten:</li>
-</ul>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>n_points <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>p_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>( <span class="at">from=</span><span class="fl">0.001</span> , <span class="at">to=</span><span class="fl">0.999</span> , <span class="at">length.out =</span> n_points )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<ul>
-<li>Nun berechnen wir die Wahrscheinlichkeit der Daten, gegeben die Parameterwerte:</li>
-</ul>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(wins, <span class="at">size =</span> games , <span class="at">prob =</span> p_grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="beispiel-kartenspiel-zwischen-2-spielern-1" class="slide level2">
-<h2>Beispiel Kartenspiel zwischen 2 Spielern</h2>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">plot</span>(p_grid , likelihood, <span class="at">type=</span><span class="st">"l"</span>, <span class="at">main=</span><span class="st">"Likelihood"</span>, <span class="at">col =</span> <span class="st">"firebrick3"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<section class="slide level2">
 
+<div class="columns">
+<div class="column" style="width:35%;">
+<div class="topic-number">
+<p>3</p>
 </div>
-<img data-src="10_fitting_ddm_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"><ul>
-<li>Index des Parameterwertes, welcher die Likelihood maximiert:</li>
-</ul>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">which.max</span>(likelihood)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 67</code></pre>
+</div><div class="column" style="width:65%;">
+<div class="topic-text">
+<p>Repeated-measures ANOVA</p>
 </div>
 </div>
+</div>
+</section>
+<section id="repeated-measures-anova" class="slide level2">
+<h2>Repeated-measures ANOVA</h2>
+<ol type="1">
+<li>Open JASP</li>
+<li>Open <code>Bugs</code> dataset from <code>Open &gt; Data Library &gt; ANOVA</code> Menu</li>
+</ol>
 <ul>
-<li>Parameterwert andiesem Index:</li>
+<li><p>This data set, Bugs, provides the extent to which people want to kill arthropods that vary in freighteningness (low, high) and disgustingness (low, high).</p></li>
+<li><p>Images of arthropods were divided in four categories (amount of fear and disgust they were expected to induce).</p></li>
+<li><p>Participants had to rate the amount of hostility they felt towards the arthropods.</p></li>
+<li><p><a href="https://jasp-stats.org/wp-content/uploads/2020/05/The_JASP_Data_Library_1st_Edition.pdf">JASP Data Library</a>, p.&nbsp;154</p></li>
+<li><p><a href="https://static.jasp-stats.org/presentations/ICPS2015/ICPS15RM/talk.html#1">Slides</a></p></li>
 </ul>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>p_grid[<span class="fu">which.max</span>(likelihood)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6663333</code></pre>
+</section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:35%;">
+<div class="topic-number">
+<p>4</p>
+</div>
+</div><div class="column" style="width:65%;">
+<div class="topic-text">
+<p>JASP in Neuroscience</p>
+</div>
 </div>
 </div>
 </section>
-<section id="mle-negative-log-likelihood-minimieren" class="slide level2">
-<h2>MLE: Negative Log Likelihood minimieren</h2>
+<section id="jasp-in-neuroscience" class="slide level2">
+<h2>JASP in Neuroscience</h2>
 <ul>
-<li>Definiere eine Funktion, welche die <strong>negative log</strong> Wahrscheinlichkeitsfunktion für einen bestimmten Wert von p berechnet.</li>
-<li>Suche nach dem Wert von p, für den diese Funktion minimiert wird.</li>
+<li>Keysers, C., Gazzola, V., &amp; Wagenmakers, E.-J. (2020). Using Bayes factor hypothesis testing in neuroscience to establish evidence of absence. Nature Neuroscience, 23(7), 788–799. <a href="https://doi.org/10.1038/s41593-020-0660-4">https://doi.org/10.1038/s41593-020-0660-4</a></li>
+<li><a href="https://osf.io/md9kp/">Data &amp; code</a></li>
 </ul>
 </section>
-<section id="binomial-likelihood" class="slide level2">
-<h2>Binomial Likelihood</h2>
-<p><span class="math display">\[
-f(k | p_{heads}, N) = \binom{N}{k} p_{heads}^k (1-p_{heads}^{N-k})
-\]</span> <span class="math display">\[
-lnL(\bf{\theta} | \bf{y}) = \sum^k_{k=1}{ln L(\bf{\theta} | y_k})
-\]</span></p>
-</section>
-<section id="funktion-definieren" class="slide level2">
-<h2>Funktion definieren</h2>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>loglik <span class="ot">&lt;-</span> <span class="cf">function</span>(p){</span>
-<span id="cb24-2"><a href="#cb24-2"></a>  likelihoods <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(heads, <span class="dv">100</span>, p)</span>
-<span id="cb24-3"><a href="#cb24-3"></a>   <span class="fu">return</span>(<span class="sc">-</span><span class="fu">sum</span>(<span class="fu">log</span>(likelihoods)))</span>
-<span id="cb24-4"><a href="#cb24-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="minimieren" class="slide level2">
-<h2>Minimieren</h2>
-<div class="cell">
-<details>
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">nlm</span>(loglik, <span class="fl">0.1</span>, <span class="at">stepmax=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>$minimum
-[1] 2.530081
-
-$estimate
-[1] 0.4799995
-
-$gradient
-[1] 0
-
-$code
-[1] 1
-
-$iterations
-[1] 8</code></pre>
-</div>
-</div>
+<section id="six-advantages-of-bayesian-analysis-for-pragmatic-neuroscientists" class="slide level2">
+<h2>Six advantages of Bayesian analysis for pragmatic neuroscientists</h2>
+<ol type="1">
+<li>Bayesian hypothesis testing enables researchers to discriminate evidence of absence from absence of evidence.</li>
+<li>Bayesian results are relatively straightforward to interpret and communicate.</li>
+<li>Bayes factor hypothesis testing encourages researchers to quantify evidence on a continuous scale.</li>
+<li>For most statistical scenarios, Bayes factor hypothesis testing is now relatively easy.</li>
+<li>Bayesian inference allows researchers to monitor the results as the data accumulate.</li>
+<li>Bayes factor hypothesis testing allows researchers to include prior knowledge for a more diagnostic test.</li>
+</ol>
 
 
 <img src="../assets/logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
@@ -934,48 +654,6 @@ $iterations
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        function fireSlideChanged(previousSlide, currentSlide) {
-
-          // dispatch for htmlwidgets
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for reveal
-        if (window.Reveal) {
-          window.Reveal.addEventListener("slidechanged", function(event) {
-            fireSlideChanged(event.previousSlide, event.currentSlide);
-          });
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

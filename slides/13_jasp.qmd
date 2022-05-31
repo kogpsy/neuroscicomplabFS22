@@ -1,0 +1,135 @@
+---
+title: "13. Sitzung"
+subtitle: "Using JASP"
+author: "Andrew Ellis"
+institute: "Neurowissenschaft Computerlab FS 22"
+format:
+  revealjs:
+    theme: [simple, ../styles/reveal.scss]
+    logo: ../assets/logo.png
+    footer: <a href="/">🏠 Neurowissenschaft Computerlab FS22</a>
+    # smaller: true
+    slide-number: c/t
+    chalkboard: true
+    scrollable: true 
+    code-fold: true
+    code-summary: "Show code"
+    code-tools: true
+execute:
+  echo: true
+  include: true
+date: "2022-05-24"
+---
+
+
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="35%"}
+::: topic-number
+1
+:::
+:::
+
+::: {.column width="65%"}
+::: topic-text
+Why behaviour?
+:::
+:::
+:::
+
+## Why behaviour?
+
+Krakauer, J. W., Ghazanfar, A. A., Gomez-Marin, A., MacIver, M. A., & Poeppel, D. (2017). Neuroscience Needs Behavior: Correcting a Reductionist Bias. Neuron, 93(3), 480–490. [https://doi.org/10.1016/j.neuron.2016.12.041](https://doi.org/10.1016/j.neuron.2016.12.041)
+
+
+- "...understanding through careful theoretical and experimental decomposition of behavior. Specifically, the detailed analysis of tasks and of the behavior they elicit is best suited for discovering component processes and their underlying algorithms..."
+
+- "Behavioral work provides understanding, whereas neural interventions test causality."
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="35%"}
+::: topic-number
+2
+:::
+:::
+
+::: {.column width="65%"}
+::: topic-text
+Bayesian data analysis using JASP
+:::
+:::
+:::
+
+## JASP Resources
+    
+- [JASP on YouTube](https://www.youtube.com/channel/UCSulowI4mXFyBkw3bmp7pXg)
+
+- [How to use JASP](https://jasp-stats.org/how-to-use-jasp/): Overview of tutorials, videos, etc.
+
+-----------------------------------------------------------------------
+
+
+::: columns
+::: {.column width="35%"}
+::: topic-number
+3
+:::
+:::
+
+::: {.column width="65%"}
+::: topic-text
+Repeated-measures ANOVA
+:::
+:::
+:::
+
+## Repeated-measures ANOVA
+
+1) Open JASP
+2) Open `Bugs` dataset from `Open > Data Library > ANOVA` Menu
+
+- This data set, Bugs, provides the extent to which people want to
+kill arthropods that vary in freighteningness (low, high) and disgustingness (low, high).
+- Images of arthropods were divided in four categories (amount of fear and disgust they were expected to induce). 
+- Participants had to rate the amount of hostility they felt towards the arthropods.
+
+- [JASP Data Library](https://jasp-stats.org/wp-content/uploads/2020/05/The_JASP_Data_Library_1st_Edition.pdf), p. 154
+- [Slides](https://static.jasp-stats.org/presentations/ICPS2015/ICPS15RM/talk.html#1)
+
+
+------------------------------------------------------------------------
+
+
+::: columns
+::: {.column width="35%"}
+::: topic-number
+4
+:::
+:::
+
+::: {.column width="65%"}
+::: topic-text
+JASP in Neuroscience
+:::
+:::
+:::
+
+## JASP in Neuroscience
+
+- Keysers, C., Gazzola, V., & Wagenmakers, E.-J. (2020). Using Bayes factor hypothesis testing in neuroscience to establish evidence of absence. Nature Neuroscience, 23(7), 788–799. [https://doi.org/10.1038/s41593-020-0660-4](https://doi.org/10.1038/s41593-020-0660-4)
+- [Data & code](https://osf.io/md9kp/)
+
+
+
+## Six advantages of Bayesian analysis for pragmatic neuroscientists
+
+1) Bayesian hypothesis testing enables researchers to discriminate evidence of absence from absence of evidence.
+2) Bayesian results are relatively straightforward to interpret and communicate.
+3) Bayes factor hypothesis testing encourages researchers to quantify evidence on a continuous scale.
+4) For most statistical scenarios, Bayes factor hypothesis testing is now relatively easy.
+5) Bayesian inference allows researchers to monitor the results as the data accumulate.
+6) Bayes factor hypothesis testing allows researchers to include prior knowledge for a more diagnostic test.

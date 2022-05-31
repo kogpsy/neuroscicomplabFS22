@@ -70,6 +70,8 @@ Bayesian data analysis using JASP
 
 - [How to use JASP](https://jasp-stats.org/how-to-use-jasp/): Overview of tutorials, videos, etc.
 
+- Bergh, et al. (2020). A tutorial on conducting and interpreting a Bayesian ANOVA in JASP. L'Année Psychologique, 120(1), 73–96. [https://doi.org/10.3917/anpsy1.201.0073](https://doi.org/10.3917/anpsy1.201.0073)
+
 -----------------------------------------------------------------------
 
 
@@ -133,3 +135,4 @@ JASP in Neuroscience
 4) For most statistical scenarios, Bayes factor hypothesis testing is now relatively easy.
 5) Bayesian inference allows researchers to monitor the results as the data accumulate.
 6) Bayes factor hypothesis testing allows researchers to include prior knowledge for a more diagnostic test.
+

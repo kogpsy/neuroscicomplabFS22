@@ -1061,7 +1061,7 @@
     "href": "slides/10_fitting_ddm.html#simulate",
     "title": "10. Sitzung",
     "section": "Simulate",
-    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.5149229, 0.8491839, 0.9178776, 0.5636749, 0.7539232, 0.6859…\n$ response <fct> lower, upper, upper, upper, lower, upper, upper, lower, lower…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.5149229    lower\n2 0.8491839    upper\n3 0.9178776    upper\n4 0.5636749    upper\n5 0.7539232    lower\n6 0.6859781    upper"
+    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.5841521, 0.7878426, 0.6268780, 0.5301610, 0.6397051, 0.5190…\n$ response <fct> lower, upper, upper, lower, lower, lower, upper, upper, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.5841521    lower\n2 0.7878426    upper\n3 0.6268780    upper\n4 0.5301610    lower\n5 0.6397051    lower\n6 0.5190469    lower"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#grafisch-darstellen",
@@ -1082,7 +1082,7 @@
     "href": "slides/10_fitting_ddm.html#zusammenfassen",
     "title": "10. Sitzung",
     "section": "Zusammenfassen",
-    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.585  0.540 0.102\n2 upper    0.776  0.728 0.170"
+    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.591  0.555 0.115\n2 upper    0.750  0.714 0.158"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#maximum-likelihood-schätzung",
@@ -1180,7 +1180,7 @@
     "href": "slides/13_jasp.html#jasp-resources",
     "title": "13. Sitzung",
     "section": "JASP Resources",
-    "text": "JASP Resources\n\nJASP on YouTube\nHow to use JASP: Overview of tutorials, videos, etc."
+    "text": "JASP Resources\n\nJASP on YouTube\nHow to use JASP: Overview of tutorials, videos, etc.\nBergh, et al. (2020). A tutorial on conducting and interpreting a Bayesian ANOVA in JASP. L’Année Psychologique, 120(1), 73–96. https://doi.org/10.3917/anpsy1.201.0073"
   },
   {
     "objectID": "slides/13_jasp.html#repeated-measures-anova",
@@ -1411,7 +1411,7 @@
     "href": "pages/exercises/exercise_06.html#geschätzte-parameterwerte",
     "title": "Übung 6",
     "section": "Geschätzte Parameterwerte",
-    "text": "Geschätzte Parameterwerte\nDie geschätzten Parameter sind in einer List gespeichert.\n\np\n\n[[1]]\n      a     v     z    t0\nA 0.680 0.759 0.520 0.282\nB 1.513 1.231 0.495 0.190\n\n[[2]]\n      a     v     z    t0\nA 1.462 0.293 0.505 0.200\nB 1.427 1.180 0.499 0.202\n\n[[3]]\n      a     v     z    t0\nA 1.631 0.284 0.484 0.188\nB 0.932 0.000 0.488 0.268\n\n[[4]]\n      a     v     z    t0\nA 1.436 0.237 0.517 0.203\nB 1.439 1.207 0.497 0.196"
+    "text": "Geschätzte Parameterwerte\nDie geschätzten Parameter sind in einer List gespeichert.\n\np\n\n[[1]]\n      a     v     z    t0\nA 1.439 0.261 0.523 0.206\nB 1.513 1.231 0.495 0.190\n\n[[2]]\n      a     v     z    t0\nA 1.462 0.293 0.505 0.200\nB 1.427 1.180 0.499 0.202\n\n[[3]]\n      a     v     z    t0\nA 1.631 0.284 0.484 0.188\nB 1.057 1.384 0.457 0.245\n\n[[4]]\n      a     v     z    t0\nA 1.024 0.041 0.534 0.258\nB 1.439 1.207 0.497 0.196"
   },
   {
     "objectID": "pages/exercises/exercise_06.html#vergleich-mit-wahren-werten",

@@ -185,7 +185,7 @@ summary |>
   scale_color_viridis_d(end = 0.8)
 ```
 
-In der Grafik sehen wir, dass die Accuracy in Bedingung "A" höher ist. Gleichzeitig ist die mittlere RT niedriger. Das ist ein Hinweis, dass hier kein Speed-Accuracy Tradeoff vorliegt.
+In der Grafik sehen wir, dass die Accuracy in Bedingung "B" höher ist. Gleichzeitig ist die mittlere RT niedriger. Das ist ein Hinweis, dass hier kein Speed-Accuracy Tradeoff vorliegt.
 
 
 

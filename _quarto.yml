@@ -38,7 +38,7 @@ website:
           - pages/chapters/10_evidence_accumulation_2.qmd
           - pages/chapters/11_data-analysis-1.qmd
           - pages/chapters/12_data-analysis-2.qmd
-          # - pages/chapters/13_adv-data-analysis.qmd
+
       - text: Slides
         menu:
           - text: "1. Sitzung (22.02.2022)"
@@ -83,7 +83,7 @@ website:
             - pages/solutions/solution_03.qmd
             - pages/solutions/solution_04.qmd
             - pages/solutions/solution_05.qmd
-            # - pages/solutions/solution_06.qmd
+            - pages/solutions/solution_06.qmd
             # - pages/solutions/solution_07.qmd
 
   page-footer:

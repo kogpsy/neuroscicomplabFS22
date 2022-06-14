@@ -296,6 +296,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../pages/solutions/solution_05.html">
  <span class="dropdown-text">Übung 5: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_06.html">
+ <span class="dropdown-text">Übung 6: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -485,7 +489,7 @@ argument.</code></pre>
 <p><img src="solution_06_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>In der Grafik sehen wir, dass die Accuracy in Bedingung “A” höher ist. Gleichzeitig ist die mittlere RT niedriger. Das ist ein Hinweis, dass hier kein Speed-Accuracy Tradeoff vorliegt.</p>
+<p>In der Grafik sehen wir, dass die Accuracy in Bedingung “B” höher ist. Gleichzeitig ist die mittlere RT niedriger. Das ist ein Hinweis, dass hier kein Speed-Accuracy Tradeoff vorliegen kann. Dies bedeutet, dass die Vpn in der Bedingung “B” sich nicht mehr Zeit nehmen, um die Anzahl korrekter Antworten zu erhöhen.</p>
 </section><section id="negative-loglikelihood-funktion-definieren" class="level2"><h2 class="anchored" data-anchor-id="negative-loglikelihood-funktion-definieren">Negative loglikelihood Funktion definieren</h2>
 <p>Nun wollen wir für jede Person in den beiden Bedingungen die Parameter des DDM fitten. Wir definieren dafür eine Funktion, welche die <em>negative log likelihood</em> als Output hat.</p>
 <div class="cell" data-hash="solution_06_cache/html/unnamed-chunk-9_e693f6fe6c599274acaca9f99f3f39cc">
@@ -581,10 +585,23 @@ A 1.436 0.237 0.517 0.203
 B 1.439 1.207 0.497 0.196</code></pre>
 </div>
 </div>
+<p>In dieser Liste finden wir die geschätzten Parameter (<code>a</code>, <code>v</code>, <code>z</code>, <code>t0</code>) in den Bedingungen “A” und “B”. Jede Person ist ein Element dieser Liste, d.h. <code>p[[1]]</code> ist die erste Person.</p>
+<div class="cell" data-hash="solution_06_cache/html/unnamed-chunk-14_4d0aa124c22fdf15d38dad9e6b57e49b">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">p</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      a     v     z    t0
+A 1.439 0.261 0.523 0.206
+B 0.633 1.993 0.518 0.279</code></pre>
+</div>
+</div>
+<p>Bei der ersten Versuchsperson lässt sich folgendes Muster erkennen: zwischen den Bedingungen “A” und “B” unterscheidet sich die Drift Rate <code>v</code> ziemlich stark (0.261 vs 1.993). Die anderen Parameter unterscheiden sich wenig zwischen den Bedingungen. Wir müssen hier aber vorsichtig sein: unser DDM braucht sehr viele Daten, um die Parameter zu schätzen. Es kann vorkommen, dass das Model zu flexibel ist, und “glaubt”, Merkmale der RT Verteilungen beispielsweise durch eine Kombination von Bias and Boundary Separation erklären zu können, obwohl der eigentlich verantwortliche Parameter die Drift Rate wäre (so wie hier). Deshalb habe ich die Anweisung gegeben, die Parameterschätzung mehrmals durchzuführen.</p>
+<p>Wenn wir alle Vpn anschauen, scheint der Drift Rate-Unterschied zwischen den Bedingungen systematisch zu sein, die Parameter variieren wenig (ausser manchmal <code>a</code>; <code>z</code> und <code>t0</code> variieren kaum). Vor allem sind die Unterschiede nicht systematisch. Wenn wir mehr als nur 4 Personen hätten, könnten wir dies statistisch untersuchen (siehe Übung 7).</p>
+<p>Idealerweise würden wir hier ein Model verwenden, in welchem nur die Drift Rate zwischen den Bedingungen variieren kann, während die anderen Parameter konstant bleiben; dies wäre aber Programmiertechnisch ein wenig anspruchsvoller.</p>
 </section><section id="vergleich-mit-wahren-werten" class="level2"><h2 class="anchored" data-anchor-id="vergleich-mit-wahren-werten">Vergleich mit wahren Werten</h2>
-<p>Die geschätzten Parameter können nun mit den “wahren” Werten verglichen werden.</p>
-<div class="cell" data-hash="solution_06_cache/html/unnamed-chunk-14_245036ade51a03dffc8dba05ef6a68d0">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">participant_params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Die “wahren” Parameterwerte, das heisst die Werte mit denen die Daten erzeugt wurden, sehen für die 4 Vpn so aus. <code>v1</code> und <code>v2</code> entsprechen hier den Drift Rates in den Bedingungen “A” (<code>v1</code>) und “B” (<code>v2</code>).</p>
+<p>Die wahren Werte der anderen Parameter unterscheiden sich nicht zwischen den Bedingungen. Dies bedeudet, dass die unterschiedlichen Schätzungen natürlich nur auf Schätzfehler und andere Fehlerquellen zurückzuführen sind.</p>
+<div class="cell" data-hash="solution_06_cache/html/unnamed-chunk-15_3a759f5b002ddc1fa7f1da340f60abaa">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">participant_params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 6
      ID     a    v1    v2     z    t0
@@ -595,6 +612,7 @@ B 1.439 1.207 0.497 0.196</code></pre>
 4     4  1.47 0.296  1.23 0.498 0.195</code></pre>
 </div>
 </div>
+<p>In der Bedingung “B” ist die Drift Rate viel höher als in der Bedingung “A”. Dies führt dazu, dass die RTs in der Bedingung “B” kürzer sind, und gleichzeitig die Fehlerrate kleiner.</p>
 
 
 </section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{ellis2022,

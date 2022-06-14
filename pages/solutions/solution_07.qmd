@@ -1,5 +1,5 @@
 ---
-title: "Übung 7"
+title: "Übung 7: Lösung"
 description: |
   Group-level Analyse von DDM Parametern.
 date: "2022-05-10"
@@ -23,18 +23,6 @@ format:
 # Set working directory of R
 knitr::opts_knit$set(root.dir = '../../data/exercise-07/data')
 ```
-
-:::{.callout-note}
-## Abgabefrist
-Die Daten für diese Übung finden Sie hier: 
-
-👉 [Download Data](../../data/exercise-07/data/estimated-ddm-params.csv)
-
-Laden Sie bitte Ihre Lösung als JASP Dokument bis **Mittwoch, 01.06.2022, um 00:30 Uhr**, in den Order für Übung 7 auf ILIAS.
-
-
-Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-7.jasp*.
-:::
 
 # Aufgabenstellung
 
@@ -135,3 +123,12 @@ plot(xrange, dcauchy(xrange, 0, 0.707), "l", lwd = 3,
 lines(xrange, dnorm(xrange, 0, 1), lty = "dashed", lwd = 2)
 ```
 Sie haben auch die Möglichkeit, einen anderen Prior zu wählen. Wir werden dies in der nächsten Sitzung anschauen. In dieser Übung sollten Sie die Default-Einstellung verwenden.
+
+
+:::{.callout-note}
+## JASP Analyse
+Sie können hier ein JASP File mit einer Beispielanalyse downloaden.
+
+👉 [Download JASP File](../../downloadable_files/ddm-params.jasp)
+:::
+

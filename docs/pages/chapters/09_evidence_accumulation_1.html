@@ -288,6 +288,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../pages/solutions/solution_03.html">
  <span class="dropdown-text">Übung 3: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_04.html">
+ <span class="dropdown-text">Übung 4: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -385,10 +389,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">evidence</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span>, mean <span class="op">=</span> <span class="va">driftrate</span>, sd <span class="op">=</span> <span class="va">sd</span><span class="op">)</span>
 <span class="va">evidence</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5283908</code></pre>
+<pre><code>[1] 0.5487698</code></pre>
 </div>
 </div>
-<p>Dies bedeutet, dass zum Zeitpunkt <span class="math inline">\(t\)</span> die Evidenz ungefähr 0.53 beträgt. Da die Evidenz die durchschnittliche Steigung repräsentiert, wird Evidenz <span class="math inline">\(&gt;0\)</span> dazu führen, dass ein Schritt in Richtung der oberen Grenze gemacht wird. Wäre die Evidenz negativ, wird ein Schritt nach unten gemacht. Da die Evidenz aus einer Normalverteilung gezogen wird, ist es also möglich, dass die Evidenz zufällig negativ wird, obwohl die drift rate, d.h. die Repräsentation der Stimulusstärke, positiv ist.</p>
+<p>Dies bedeutet, dass zum Zeitpunkt <span class="math inline">\(t\)</span> die Evidenz ungefähr 0.55 beträgt. Da die Evidenz die durchschnittliche Steigung repräsentiert, wird Evidenz <span class="math inline">\(&gt;0\)</span> dazu führen, dass ein Schritt in Richtung der oberen Grenze gemacht wird. Wäre die Evidenz negativ, wird ein Schritt nach unten gemacht. Da die Evidenz aus einer Normalverteilung gezogen wird, ist es also möglich, dass die Evidenz zufällig negativ wird, obwohl die drift rate, d.h. die Repräsentation der Stimulusstärke, positiv ist.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">

@@ -1061,7 +1061,7 @@
     "href": "slides/10_fitting_ddm.html#simulate",
     "title": "10. Sitzung",
     "section": "Simulate",
-    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.5841521, 0.7878426, 0.6268780, 0.5301610, 0.6397051, 0.5190…\n$ response <fct> lower, upper, upper, lower, lower, lower, upper, upper, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.5841521    lower\n2 0.7878426    upper\n3 0.6268780    upper\n4 0.5301610    lower\n5 0.6397051    lower\n6 0.5190469    lower"
+    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.8248342, 0.6459396, 0.6495291, 0.5550261, 0.7909700, 0.8164…\n$ response <fct> upper, upper, upper, lower, upper, upper, lower, upper, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.8248342    upper\n2 0.6459396    upper\n3 0.6495291    upper\n4 0.5550261    lower\n5 0.7909700    upper\n6 0.8164629    upper"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#grafisch-darstellen",
@@ -1082,7 +1082,7 @@
     "href": "slides/10_fitting_ddm.html#zusammenfassen",
     "title": "10. Sitzung",
     "section": "Zusammenfassen",
-    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.591  0.555 0.115\n2 upper    0.750  0.714 0.158"
+    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.590  0.557 0.105\n2 upper    0.754  0.723 0.164"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#maximum-likelihood-schätzung",
@@ -1236,7 +1236,7 @@
     "href": "pages/exercises/exercise_04.html",
     "title": "Übung 4",
     "section": "",
-    "text": "In dieser Übung berechnen aus den Daten von 15 Versuchspersonen aus dem PsychoPy Experiment die Signal Detection Kennzahlen \\(d'\\), \\(k\\) und \\(c\\). Anschliessen berechnen Sie Mittelwerte der drei Bedingungen für \\(d'\\) und \\(c\\) unter Berücksichtigung der Messwiederholung."
+    "text": "In dieser Übung berechnen Sie aus den Daten von 15 Versuchspersonen aus dem PsychoPy Experiment die Signal Detection Kennzahlen \\(d'\\), \\(k\\) und \\(c\\). Anschliessen berechnen Sie Mittelwerte der drei Bedingungen für \\(d'\\) und \\(c\\) unter Berücksichtigung der Messwiederholung."
   },
   {
     "objectID": "pages/exercises/exercise_04.html#variablen-bearbeiten",
@@ -1411,7 +1411,7 @@
     "href": "pages/exercises/exercise_06.html#geschätzte-parameterwerte",
     "title": "Übung 6",
     "section": "Geschätzte Parameterwerte",
-    "text": "Geschätzte Parameterwerte\nDie geschätzten Parameter sind in einer List gespeichert.\n\np\n\n[[1]]\n      a     v     z    t0\nA 1.439 0.261 0.523 0.206\nB 1.513 1.231 0.495 0.190\n\n[[2]]\n      a     v     z    t0\nA 1.462 0.293 0.505 0.200\nB 1.427 1.180 0.499 0.202\n\n[[3]]\n      a     v     z    t0\nA 1.631 0.284 0.484 0.188\nB 1.057 1.384 0.457 0.245\n\n[[4]]\n      a     v     z    t0\nA 1.024 0.041 0.534 0.258\nB 1.439 1.207 0.497 0.196"
+    "text": "Geschätzte Parameterwerte\nDie geschätzten Parameter sind in einer List gespeichert.\n\np\n\n[[1]]\n      a     v     z    t0\nA 1.439 0.261 0.523 0.206\nB 1.513 1.231 0.495 0.190\n\n[[2]]\n      a     v     z    t0\nA 1.462 0.293 0.505 0.200\nB 1.427 1.180 0.499 0.202\n\n[[3]]\n      a     v     z    t0\nA 1.631 0.284 0.484 0.188\nB 1.583 1.268 0.469 0.192\n\n[[4]]\n      a     v     z    t0\nA 1.436 0.237 0.517 0.203\nB 0.999 0.923 0.531 0.251"
   },
   {
     "objectID": "pages/exercises/exercise_06.html#vergleich-mit-wahren-werten",
@@ -1454,5 +1454,82 @@
     "title": "Übung 3: Lösung",
     "section": "",
     "text": "Reusehttps://creativecommons.org/licenses/by/4.0/CitationBibTeX citation:@online{ellis2022,\n  author = {Andrew Ellis},\n  title = {Übung 3: {Lösung}},\n  date = {04/03/2022},\n  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/solutions/solution_03.html},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nAndrew Ellis. 4AD–3AD. “Übung 3: Lösung.” 4AD–3AD. https://kogpsy.github.io/neuroscicomplabFS22//pages/solutions/solution_03.html."
+  },
+  {
+    "objectID": "pages/solutions/solution_04.html",
+    "href": "pages/solutions/solution_04.html",
+    "title": "Übung 4: Lösung",
+    "section": "",
+    "text": "In dieser Übung berechnen Sie aus den Daten von 15 Versuchspersonen aus dem PsychoPy Experiment die Signal Detection Kennzahlen \\(d'\\), \\(k\\) und \\(c\\). Anschliessen berechnen Sie Mittelwerte der drei Bedingungen für \\(d'\\) und \\(c\\) unter Berücksichtigung der Messwiederholung."
+  },
+  {
+    "objectID": "pages/solutions/solution_04.html#variablen-bearbeiten",
+    "href": "pages/solutions/solution_04.html#variablen-bearbeiten",
+    "title": "Übung 4: Lösung",
+    "section": "Variablen bearbeiten",
+    "text": "Variablen bearbeiten\nZu factor konvertieren, etc.\n\nd <- d |>\n    select(ID, condition, cue, direction, choice) |>\n    mutate(across(where(is.character), ~as_factor(.)),\n           cue = fct_relevel(cue, \"left\", \"none\", \"right\")) |>\n    drop_na()\n\nWir definieren nun eine Antowrt als “Hit”, wenn die Vp “rechts” gesagt, und die Richtung war tatsächlich “rechts” (also eine korrekte “rechts” Antowrt). Ein “False Alarm” ist dann eine inkorrekte “rechts” Antwort.\n\nsdt <- d |>\n    mutate(type = case_when(\n        direction == \"right\" & choice == \"right\" ~ \"Hit\",\n        direction == \"right\" & choice == \"left\" ~ \"Miss\",\n        direction == \"left\" & choice == \"left\" ~ \"CR\",\n        direction == \"left\" & choice == \"right\" ~ \"FA\"))\n\nFür jede Vpn in jeder der drei cue Bedingungen die verschiedenen Antworttypen zählen.\n\nsdt_summary <- sdt |>\n    group_by(ID, cue) |>\n    count(type)\n\n\nsdt_summary\n\n# A tibble: 170 × 4\n# Groups:   ID, cue [45]\n   ID     cue   type      n\n   <fct>  <fct> <chr> <int>\n 1 chch04 left  CR       29\n 2 chch04 left  FA        3\n 3 chch04 left  Hit       7\n 4 chch04 left  Miss      1\n 5 chch04 none  CR       38\n 6 chch04 none  FA        2\n 7 chch04 none  Hit      34\n 8 chch04 none  Miss      6\n 9 chch04 right CR        5\n10 chch04 right FA        3\n# … with 160 more rows"
+  },
+  {
+    "objectID": "pages/solutions/solution_04.html#von-wide-zu-long-konvertieren",
+    "href": "pages/solutions/solution_04.html#von-wide-zu-long-konvertieren",
+    "title": "Übung 4: Lösung",
+    "section": "Von wide zu long konvertieren",
+    "text": "Von wide zu long konvertieren\nNun wollen wir die 4 Antworttypen in jeweils eigenen Variablen.\n\nsdt_summary <- sdt_summary |>\n    pivot_wider(names_from = type, values_from = n)\n\n\nsdt_summary\n\n# A tibble: 45 × 6\n# Groups:   ID, cue [45]\n   ID     cue      CR    FA   Hit  Miss\n   <fct>  <fct> <int> <int> <int> <int>\n 1 chch04 left     29     3     7     1\n 2 chch04 none     38     2    34     6\n 3 chch04 right     5     3    25     7\n 4 chmi14 left     21    10     5     3\n 5 chmi14 none     18    19    29     7\n 6 chmi14 right     3     4    26     4\n 7 J      left     19    12     5     3\n 8 J      none     23    16    33     6\n 9 J      right     6     2    20    12\n10 jh     left     32    NA     5     3\n# … with 35 more rows"
+  },
+  {
+    "objectID": "pages/solutions/solution_04.html#funktionen-definieren",
+    "href": "pages/solutions/solution_04.html#funktionen-definieren",
+    "title": "Übung 4: Lösung",
+    "section": "Funktionen definieren",
+    "text": "Funktionen definieren\nDie erste Funktion ersetzt alle fehlenden Werte (NA) durch 0, die zweite Funktion ersetzt bei den Hit und False Alarm Rates alle 0 und 1 Werte durch 0.001 oder 0.999. Dies machen wir, damit wir bei der Berechnung der z-Werte nicht \\(\\pm \\infty\\) erhalten.\n\nreplace_NA <- function(x) {\n    x = ifelse(is.na(x), 0, x)\n    x\n}\n\ncorrect_zero_one <- function(x) {\n    if (identical(x, 0)) {\n        x = x + 0.001\n    } else if (identical(x, 1)) {\n        x = x - 0.001\n    }\n    x\n}"
+  },
+  {
+    "objectID": "pages/solutions/solution_04.html#nas-ersetzen",
+    "href": "pages/solutions/solution_04.html#nas-ersetzen",
+    "title": "Übung 4: Lösung",
+    "section": "NAs ersetzen",
+    "text": "NAs ersetzen\n\nsdt_summary <- sdt_summary |>\n    mutate(across(c(Hit, Miss, FA, CR), replace_NA))\n\n\nsdt_summary\n\n# A tibble: 45 × 6\n# Groups:   ID, cue [45]\n   ID     cue      CR    FA   Hit  Miss\n   <fct>  <fct> <int> <dbl> <int> <dbl>\n 1 chch04 left     29     3     7     1\n 2 chch04 none     38     2    34     6\n 3 chch04 right     5     3    25     7\n 4 chmi14 left     21    10     5     3\n 5 chmi14 none     18    19    29     7\n 6 chmi14 right     3     4    26     4\n 7 J      left     19    12     5     3\n 8 J      none     23    16    33     6\n 9 J      right     6     2    20    12\n10 jh     left     32     0     5     3\n# … with 35 more rows"
+  },
+  {
+    "objectID": "pages/solutions/solution_04.html#hit-rate-und-false-alarm-rate-berechnen",
+    "href": "pages/solutions/solution_04.html#hit-rate-und-false-alarm-rate-berechnen",
+    "title": "Übung 4: Lösung",
+    "section": "Hit Rate und False Alarm Rate berechnen",
+    "text": "Hit Rate und False Alarm Rate berechnen\n\nsdt_summary <- sdt_summary |>\n    mutate(hit_rate = Hit/(Hit + Miss),\n           fa_rate = FA/(FA + CR))"
+  },
+  {
+    "objectID": "pages/solutions/solution_04.html#werte-0-und-1-korrigieren",
+    "href": "pages/solutions/solution_04.html#werte-0-und-1-korrigieren",
+    "title": "Übung 4: Lösung",
+    "section": "Werte 0 und 1 korrigieren",
+    "text": "Werte 0 und 1 korrigieren\n\nsdt_summary <- sdt_summary |>\n    mutate(across(c(hit_rate, fa_rate), correct_zero_one))\n\n\nsdt_summary\n\n# A tibble: 45 × 8\n# Groups:   ID, cue [45]\n   ID     cue      CR    FA   Hit  Miss hit_rate fa_rate\n   <fct>  <fct> <int> <dbl> <int> <dbl>    <dbl>   <dbl>\n 1 chch04 left     29     3     7     1    0.875  0.0938\n 2 chch04 none     38     2    34     6    0.85   0.05  \n 3 chch04 right     5     3    25     7    0.781  0.375 \n 4 chmi14 left     21    10     5     3    0.625  0.323 \n 5 chmi14 none     18    19    29     7    0.806  0.514 \n 6 chmi14 right     3     4    26     4    0.867  0.571 \n 7 J      left     19    12     5     3    0.625  0.387 \n 8 J      none     23    16    33     6    0.846  0.410 \n 9 J      right     6     2    20    12    0.625  0.25  \n10 jh     left     32     0     5     3    0.625  0.001 \n# … with 35 more rows"
+  },
+  {
+    "objectID": "pages/solutions/solution_04.html#z-transformation",
+    "href": "pages/solutions/solution_04.html#z-transformation",
+    "title": "Übung 4: Lösung",
+    "section": "Z-Transformation",
+    "text": "Z-Transformation\nAls nächstes berechnen wir die z-Werte der Hit Rate und der False Alarm Rate.\n\nsdt_summary <- sdt_summary |>\n    mutate(zhr = qnorm(hit_rate),\n           zfa = qnorm(fa_rate))\n\n\nsdt_summary\n\n# A tibble: 45 × 10\n# Groups:   ID, cue [45]\n   ID     cue      CR    FA   Hit  Miss hit_rate fa_rate   zhr     zfa\n   <fct>  <fct> <int> <dbl> <int> <dbl>    <dbl>   <dbl> <dbl>   <dbl>\n 1 chch04 left     29     3     7     1    0.875  0.0938 1.15  -1.32  \n 2 chch04 none     38     2    34     6    0.85   0.05   1.04  -1.64  \n 3 chch04 right     5     3    25     7    0.781  0.375  0.776 -0.319 \n 4 chmi14 left     21    10     5     3    0.625  0.323  0.319 -0.460 \n 5 chmi14 none     18    19    29     7    0.806  0.514  0.862  0.0339\n 6 chmi14 right     3     4    26     4    0.867  0.571  1.11   0.180 \n 7 J      left     19    12     5     3    0.625  0.387  0.319 -0.287 \n 8 J      none     23    16    33     6    0.846  0.410  1.02  -0.227 \n 9 J      right     6     2    20    12    0.625  0.25   0.319 -0.674 \n10 jh     left     32     0     5     3    0.625  0.001  0.319 -3.09  \n# … with 35 more rows"
+  },
+  {
+    "objectID": "pages/solutions/solution_04.html#sdt-kennzahlen-berechnen",
+    "href": "pages/solutions/solution_04.html#sdt-kennzahlen-berechnen",
+    "title": "Übung 4: Lösung",
+    "section": "SDT Kennzahlen berechnen",
+    "text": "SDT Kennzahlen berechnen\n\nsdt_summary <- sdt_summary |>\n    mutate(dprime = zhr - zfa,\n           k = -zfa,\n           c = -0.5 * (zhr + zfa)) |>\n    mutate(across(c(dprime, k, c), round, 2))"
+  },
+  {
+    "objectID": "pages/solutions/solution_04.html#variablen-auswählen",
+    "href": "pages/solutions/solution_04.html#variablen-auswählen",
+    "title": "Übung 4: Lösung",
+    "section": "Variablen auswählen",
+    "text": "Variablen auswählen\n\nsdt_final <- sdt_summary |>\n    select(ID, cue, dprime, k, c)\n\nIm finalen Datensatz haben wir nun d', k und c für jede Person in jeder Bedingung.\n\nsdt_final\n\n# A tibble: 45 × 5\n# Groups:   ID, cue [45]\n   ID     cue   dprime     k     c\n   <fct>  <fct>  <dbl> <dbl> <dbl>\n 1 chch04 left    2.47  1.32  0.08\n 2 chch04 none    2.68  1.64  0.3 \n 3 chch04 right   1.1   0.32 -0.23\n 4 chmi14 left    0.78  0.46  0.07\n 5 chmi14 none    0.83 -0.03 -0.45\n 6 chmi14 right   0.93 -0.18 -0.65\n 7 J      left    0.61  0.29 -0.02\n 8 J      none    1.25  0.23 -0.4 \n 9 J      right   0.99  0.67  0.18\n10 jh     left    3.41  3.09  1.39\n# … with 35 more rows\n\n\n\n\n\n\n\n\nNote\n\n\n\nWir erwarten, dass sich d' zwischen den Bedingungen nicht unterscheidet. k und c (bias) sollte sich hingegen zwischen den cue Bedingungen unterscheiden. Uns interessiert hier vor allem c: in der neutralen Bedingung sollte c etwa 0 sein, in der ‘left’ Bedingung sollte \\(c > 0\\) sein, und in der ‘right’ Bedingung sollte \\(c < 0\\) sein.\nVersuchen Sie die untenstehende Grafiken für d' und c zu reproduzieren.\n\n\n\n\n\n\n\nSie brauchen zuerst eine (separate) Zusammenfassung der d' und c Werte, welche die Messwiederholung respektiert. Sie können dazu die Funktion summarySEwithin aus dem Rmisc Package verwenden.\nDie Funktion braucht die Argumente measurevar, withinvars und idvar.\n\n\n\n\n\n\nArgument\nBeschreibung\n\n\n\nmeasurevar\nVariable, für welche eine Messwiederholung vorliegt\n\n\nwithinvars\nMesswiederholung\n\n\nidvar\nIdentität der messwiederholten Einheit\n\n\n\n\ncs <- sdt_final |>\n    select(ID, cue, c) |>\n    Rmisc::summarySEwithin(measurevar = \"c\",\n                           withinvars = \"cue\",\n                           idvar = \"ID\",\n                           na.rm = FALSE,\n                           conf.interval = 0.95)\n\n\ndprimes <- sdt_final |>\n    select(ID, cue, dprime) |>\n    Rmisc::summarySEwithin(measurevar = \"dprime\",\n                           withinvars = \"cue\",\n                           idvar = \"ID\",\n                           na.rm = FALSE,\n                           conf.interval = 0.95)\n\nWenn Sie, wie ich, die Datensätze mit den Mittelwerten, Standardfehlern und \\(95%\\) Konfidenzintervallen primes und cs genannt haben, können Sie die Plots beispielsweise so erstellen.\n\ncs |>\n    ggplot(aes(x = cue, y = c, group = 1)) + \n    geom_hline(yintercept = 0, \n               linetype = \"dashed\",\n               color = \"grey60\") +\n    geom_line() +\n    geom_errorbar(width = 0.1, aes(ymin = c - ci,\n                                   ymax = c + ci)) +\n    geom_point(shape = 21, size = 3, fill = \"white\") +\n    ggtitle(\"c (bias)\")\n\n\n\n\nFalls Sie wollen, können Sie die individuellen c Schätzungen dem Plot hinzufügen, mit folgendem Code:\ngeom_jitter(aes(cue, c), data = sdt_final, width = 0.05)\n\ncs |>\n    ggplot(aes(x = cue, y = c, group = 1)) + \n    geom_hline(yintercept = 0, \n               linetype = \"dashed\",\n               color = \"grey60\") +\n    geom_jitter(aes(cue, c), data = sdt_final, width = 0.05) +\n    geom_line() +\n    geom_errorbar(width = 0.1, aes(ymin = c - ci,\n                                   ymax = c + ci)) +\n    geom_point(shape = 21, size = 3, fill = \"white\") +\n    ggtitle(\"c (bias)\")\n\n\n\n\nDie beiden Plots können mit dem patchwork Package so zusammengefügt werden.\n\nlibrary(patchwork)\n\np1 <- dprimes |>\n    ggplot(aes(x = cue, y = dprime, group = 1)) +\n    geom_line() +\n    geom_errorbar(width = 0.1, aes(ymin = dprime - ci,\n                                   ymax = dprime + ci)) +\n    geom_point(shape = 21, size = 3, fill = \"white\") +\n  ggtitle(\"D'\")\n\np2 <- cs |>\n    ggplot(aes(x = cue, y = c, group = 1)) + \n    geom_hline(yintercept = 0, \n               linetype = \"dashed\",\n               color = \"grey60\") +\n    geom_line() +\n    geom_errorbar(width = 0.1, aes(ymin = c - ci,\n                                   ymax = c + ci)) +\n    geom_point(shape = 21, size = 3, fill = \"white\") +\n    ggtitle(\"Bias\")\n\np1 / p2\n\n\n\n\np1 / p2 bedeutet hier, dass Plot p1 oben, p2 unten dargestellt wird. Mit p1 + p2 können Sie die Plots nebeneinander zusammenfügen (was hier aber nicht sehr nützlich ist).\n\np1 + p2"
+  },
+  {
+    "objectID": "pages/solutions/solution_05.html",
+    "href": "pages/solutions/solution_05.html",
+    "title": "Übung 5: Lösung",
+    "section": "",
+    "text": "References\n\nPratte, Michael S., Jeffrey N. Rouder, Richard D. Morey, and Chuning Feng. 2010. “Exploring the Differences in Distributional Properties Between Stroop and Simon Effects Using Delta Plots.” Attention, Perception, & Psychophysics 72 (7): 2013–25. https://doi.org/10.3758/APP.72.7.2013.\n\n\nVerstynen, Timothy D. 2014. “The Organization and Dynamics of Corticostriatal Pathways Link the Medial Orbitofrontal Cortex to Future Behavioral Responses.” Journal of Neurophysiology 112 (10): 2457–69. https://doi.org/10.1152/jn.00221.2014.\n\nReusehttps://creativecommons.org/licenses/by/4.0/CitationBibTeX citation:@online{ellis2022,\n  author = {Andrew Ellis},\n  title = {Übung 5: {Lösung}},\n  date = {2022-04-13},\n  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/solutions/solution_05.html},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nAndrew Ellis. 2022. “Übung 5: Lösung.” April 13, 2022. https://kogpsy.github.io/neuroscicomplabFS22//pages/solutions/solution_05.html."
   }
 ]

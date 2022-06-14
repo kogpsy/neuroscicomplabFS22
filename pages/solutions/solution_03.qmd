@@ -20,7 +20,6 @@ format:
 
 ```{r}
 #| include: false
-
 # Set working directory of R
 knitr::opts_knit$set(root.dir = '../../data/exercise_03')
 ```

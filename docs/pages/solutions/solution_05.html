@@ -7,7 +7,7 @@
 <meta name="author" content="Andrew Ellis">
 <meta name="dcterms.date" content="2022-04-13">
 <meta name="description" content="Reaktionszeitverteilungen in einem Simon Task.">
-<title>Neurowissenschaft Computerlab - Übung 5</title>
+<title>Neurowissenschaft Computerlab - Übung 5: Lösung</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -348,7 +348,7 @@ div.csl-indent {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Übung 5</h1>
+<h1 class="title">Übung 5: Lösung</h1>
 </div>
 
 <div>
@@ -388,24 +388,7 @@ div.csl-indent {
   </div>
   
 
-</header><div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Die Daten für diese Übung finden Sie hier: 👉 <a href="../../data/exercise-05/data/stroop-data.csv">Download Data</a></p>
-<p>Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen.</p>
-<p>In diesem File finden Sie Beispielscode. Manche Zeilen enthalten <code>___</code>. Hier müssen Sie den Code vervollständigen.</p>
-<p>Laden Sie bitte Ihre Lösung als R Skript bis <strong>Mittwoch, 27.4.2022, um 00:30 Uhr</strong>, in den Order für Übung 5 auf ILIAS.</p>
-<p>Nennen Sie Ihr File <em>Matrikelnummer_Nachname_uebung-5.R</em>.</p>
-</div>
-</div>
-<section id="aufgabenstellung" class="level1"><h1>Aufgabenstellung</h1>
+</header><section id="aufgabenstellung" class="level1"><h1>Aufgabenstellung</h1>
 <p>In dieser Übung analysieren Sie Verhaltensdaten einer Studie, in welcher der Einfluss der kortikalen Aktivität im medial orbitofrontal cortex (mOFC) bei einer Konfliktsituation auf die Geschwindigkeit nachfolgender Antworten untersucht wurde <span class="citation" data-cites="verstynenOrganizationDynamicsCorticostriatal2014a">(<a href="#ref-verstynenOrganizationDynamicsCorticostriatal2014a" role="doc-biblioref">Verstynen 2014</a>)</span>. Ein Konflikt wurde mittels eines colour-word Stroop Tasks induziert. Der Hauptbefund in Bezug auf die behavioralen Daten:</p>
 <blockquote class="blockquote">
 <p>In a conflict-related region of the medial orbitofrontal cortex (mOFC), stronger BOLD responses predicted faster response times (RTs) on the next trial.</p>
@@ -519,7 +502,7 @@ argument.</code></pre>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">condition</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="exercise_05_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="solution_05_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Es sieht aus, als sei die Fehlerrate im Mittel in der inkongruenten Bedingung grösser als in den kongruenten neutralen Bedingungen. Dies ist zu erwarten.</p>
@@ -550,7 +533,7 @@ argument.</code></pre>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">ID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span> |&gt; 
   <span class="fu">plot_hist</span><span class="op">(</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="exercise_05_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<p><img src="solution_05_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section><section id="aufgaben" class="level2"><h2 class="anchored" data-anchor-id="aufgaben">Aufgaben</h2>
@@ -620,13 +603,13 @@ Verstynen, Timothy D. 2014. <span>“The Organization and Dynamics of Corticostr
 </div>
 </div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{ellis2022,
   author = {Andrew Ellis},
-  title = {Übung 5},
+  title = {Übung 5: {Lösung}},
   date = {2022-04-13},
-  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/exercises/exercise_05.html},
+  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/solutions/solution_05.html},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-ellis2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Andrew Ellis. 2022. <span>“Übung 5.”</span> April 13, 2022. <a href="https://kogpsy.github.io/neuroscicomplabFS22//pages/exercises/exercise_05.html">https://kogpsy.github.io/neuroscicomplabFS22//pages/exercises/exercise_05.html</a>.
+Andrew Ellis. 2022. <span>“Übung 5: Lösung.”</span> April 13, 2022. <a href="https://kogpsy.github.io/neuroscicomplabFS22//pages/solutions/solution_05.html">https://kogpsy.github.io/neuroscicomplabFS22//pages/solutions/solution_05.html</a>.
 </div></div></section></div></main><!-- /main --><script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const disableStylesheet = (stylesheets) => {

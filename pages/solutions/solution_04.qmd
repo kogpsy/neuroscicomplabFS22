@@ -1,5 +1,5 @@
 ---
-title: "Übung 4"
+title: "Übung 4: Lösung"
 description: | 
     Signal Detection Kennzahlen zusammenfassen.
 date: "2022-04-05"
@@ -27,15 +27,7 @@ knitr::opts_knit$set(root.dir = '../../data/session_6')
 
 In dieser Übung berechnen Sie aus den Daten von 15 Versuchspersonen aus dem PsychoPy Experiment die Signal Detection Kennzahlen $d'$, $k$ und $c$. Anschliessen berechnen Sie Mittelwerte der drei Bedingungen für $d'$ und $c$ unter Berücksichtigung der Messwiederholung.
 
-:::{.callout-note}
-Die Aufgaben, die Sie bearbeiten sollen, finden Sie in einem gelben Kasten. Optionale Aufgaben sind in orangen Kästen. 
 
-In diesem File finden Sie Beispielscode. Manche Zeilen enthalten ` ___ `. Hier müssen Sie den Code vervollständigen.
-
-Laden Sie bitte Ihre Lösung als R Skript bis **Dienstag, 12.4.2022, um 00:30 Uhr**, in den Order für Übung 4 auf ILIAS.
-
-Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-4.R*.
-:::
 
 # Vorbereitung
 
@@ -59,6 +51,8 @@ d <- d |>
     drop_na()
 ```
 
+Wir definieren nun eine Antowrt als "Hit", wenn die Vp "rechts" gesagt, und die Richtung war tatsächlich "rechts" (also eine korrekte "rechts" Antowrt). Ein "False Alarm" ist dann eine inkorrekte "rechts" Antwort.
+
 ```{r}
 sdt <- d |>
     mutate(type = case_when(
@@ -66,7 +60,6 @@ sdt <- d |>
         direction == "right" & choice == "left" ~ "Miss",
         direction == "left" & choice == "left" ~ "CR",
         direction == "left" & choice == "right" ~ "FA"))
-
 ```
 
 Für jede Vpn in jeder der drei `cue` Bedingungen die verschiedenen Antworttypen zählen.
@@ -83,6 +76,8 @@ sdt_summary
 
 ## Von `wide` zu `long` konvertieren
 
+Nun wollen wir die 4 Antworttypen in jeweils eigenen Variablen.
+
 ```{r}
 sdt_summary <- sdt_summary |>
     pivot_wider(names_from = type, values_from = n)
@@ -93,6 +88,8 @@ sdt_summary
 ```
 
 ## Funktionen definieren
+
+Die erste Funktion ersetzt alle fehlenden Werte (`NA`) durch 0, die zweite Funktion ersetzt bei den Hit und False Alarm Rates alle 0 und 1 Werte durch 0.001 oder 0.999. Dies machen wir, damit wir bei der Berechnung der z-Werte nicht $\pm \infty$ erhalten. 
 
 ```{r}
 replace_NA <- function(x) {
@@ -117,24 +114,17 @@ sdt_summary <- sdt_summary |>
     mutate(across(c(Hit, Miss, FA, CR), replace_NA))
 ```
 
-## Hit Rate und False Alarm Rate berechnen
-
 ```{r}
-#| eval: false
-
-sdt_summary <- sdt_summary |>
-    mutate(hit_rate = ___,
-           fa_rate = ___)
-
+sdt_summary
 ```
 
-```{r eval = TRUE, include = FALSE}
-#| include: false
+## Hit Rate und False Alarm Rate berechnen
 
+
+```{r}
 sdt_summary <- sdt_summary |>
     mutate(hit_rate = Hit/(Hit + Miss),
            fa_rate = FA/(FA + CR))
-
 ```
 
 ## Werte 0 und 1 korrigieren
@@ -144,7 +134,13 @@ sdt_summary <- sdt_summary |>
     mutate(across(c(hit_rate, fa_rate), correct_zero_one))
 ```
 
+```{r}
+sdt_summary
+```
+
 ## Z-Transformation
+
+Als nächstes berechnen wir die z-Werte der Hit Rate und der False Alarm Rate.
 
 ```{r}
 sdt_summary <- sdt_summary |>
@@ -159,18 +155,6 @@ sdt_summary
 ## SDT Kennzahlen berechnen
 
 ```{r}
-#| eval: false
-
-sdt_summary <- sdt_summary |>
-    mutate(dprime = ___,
-           k = ___,
-           c = ___) |>
-    mutate(across(c(dprime, k, c), round, 2))
-```
-
-```{r}
-#| include: false
-
 sdt_summary <- sdt_summary |>
     mutate(dprime = zhr - zfa,
            k = -zfa,
@@ -207,13 +191,7 @@ dprimes <- sdt_final |>
                            idvar = "ID",
                            na.rm = FALSE,
                            conf.interval = 0.95)
-ks <- sdt_final |>
-    select(ID, cue, k) |>
-    Rmisc::summarySEwithin(measurevar = "k",
-                           withinvars = "cue",
-                           idvar = "ID",
-                           na.rm = FALSE,
-                           conf.interval = 0.95)
+
 cs <- sdt_final |>
     select(ID, cue, c) |>
     Rmisc::summarySEwithin(measurevar = "c",
@@ -231,14 +209,6 @@ p1 <- dprimes |>
                                    ymax = dprime + ci)) +
     geom_point(shape = 21, size = 3, fill = "white") +
   ggtitle("D'")
-
-
-# p2 <- ks |>
-#     ggplot(aes(x = cue, y = k, group = 1)) +
-#     geom_line() +
-#     geom_errorbar(width = 0.1, aes(ymin = k - ci,
-#                                    ymax = k + ci)) +
-#     geom_point(shape = 21, size = 3, fill = "white")
 
 p3 <- cs |>
     ggplot(aes(x = cue, y = c, group = 1)) + 
@@ -267,28 +237,30 @@ Die Funktion braucht die Argumente `measurevar`, `withinvars` und `idvar`.
 
 
 ```{r}
-#| eval: false
-
 cs <- sdt_final |>
     select(ID, cue, c) |>
-    ___
+    Rmisc::summarySEwithin(measurevar = "c",
+                           withinvars = "cue",
+                           idvar = "ID",
+                           na.rm = FALSE,
+                           conf.interval = 0.95)
 ```
 
 
 ```{r}
-#| eval: false
-
 dprimes <- sdt_final |>
-    select(ID, cue, ___) |>
-    ___
+    select(ID, cue, dprime) |>
+    Rmisc::summarySEwithin(measurevar = "dprime",
+                           withinvars = "cue",
+                           idvar = "ID",
+                           na.rm = FALSE,
+                           conf.interval = 0.95)
 ```
 
 
 Wenn Sie, wie ich, die Datensätze mit den Mittelwerten, Standardfehlern und $95%$ Konfidenzintervallen `primes` und  `cs` genannt haben, können Sie die Plots beispielsweise so erstellen.
 
 ```{r}
-#| eval: false
-
 cs |>
     ggplot(aes(x = cue, y = c, group = 1)) + 
     geom_hline(yintercept = 0, 
@@ -308,8 +280,6 @@ geom_jitter(aes(cue, c), data = sdt_final, width = 0.05)
 ```
 
 ```{r}
-#| echo: false
-
 cs |>
     ggplot(aes(x = cue, y = c, group = 1)) + 
     geom_hline(yintercept = 0, 
@@ -322,3 +292,39 @@ cs |>
     geom_point(shape = 21, size = 3, fill = "white") +
     ggtitle("c (bias)")
 ```
+
+
+Die beiden Plots können mit dem `patchwork` Package so zusammengefügt werden. 
+
+
+```{r}
+library(patchwork)
+
+p1 <- dprimes |>
+    ggplot(aes(x = cue, y = dprime, group = 1)) +
+    geom_line() +
+    geom_errorbar(width = 0.1, aes(ymin = dprime - ci,
+                                   ymax = dprime + ci)) +
+    geom_point(shape = 21, size = 3, fill = "white") +
+  ggtitle("D'")
+
+p2 <- cs |>
+    ggplot(aes(x = cue, y = c, group = 1)) + 
+    geom_hline(yintercept = 0, 
+               linetype = "dashed",
+               color = "grey60") +
+    geom_line() +
+    geom_errorbar(width = 0.1, aes(ymin = c - ci,
+                                   ymax = c + ci)) +
+    geom_point(shape = 21, size = 3, fill = "white") +
+    ggtitle("Bias")
+
+p1 / p2
+```
+
+`p1 / p2` bedeutet hier, dass Plot `p1` oben, `p2` unten dargestellt wird. Mit `p1 + p2` können Sie die Plots nebeneinander zusammenfügen (was hier aber nicht sehr nützlich ist).
+
+```{r}
+p1 + p2
+```
+

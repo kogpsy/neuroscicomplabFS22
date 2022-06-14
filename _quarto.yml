@@ -80,7 +80,12 @@ website:
 
       - text: Lösungen
         menu:
-          - pages/solutions/solution_03.qmd
+            - pages/solutions/solution_03.qmd
+            - pages/solutions/solution_04.qmd
+            # - pages/solutions/solution_05.qmd
+            # - pages/solutions/solution_06.qmd
+            # - pages/solutions/solution_07.qmd
+
   page-footer:
     left: "© Copyright 2022, Andrew Ellis"
     right:
@@ -93,3 +98,6 @@ format:
       light: [flatly, styles/light.scss]
       dark: [darkly, styles/dark.scss]
     css: /styles/global.css
+
+execute:
+  cache: true

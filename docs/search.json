@@ -1061,7 +1061,7 @@
     "href": "slides/10_fitting_ddm.html#simulate",
     "title": "10. Sitzung",
     "section": "Simulate",
-    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.8248342, 0.6459396, 0.6495291, 0.5550261, 0.7909700, 0.8164…\n$ response <fct> upper, upper, upper, lower, upper, upper, lower, upper, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.8248342    upper\n2 0.6459396    upper\n3 0.6495291    upper\n4 0.5550261    lower\n5 0.7909700    upper\n6 0.8164629    upper"
+    "text": "Simulate\n\n\nShow code\nrts <- rdiffusion(500, a = 1, v = 2, t0 = 0.5, z = 0.2)\n\nglimpse(rts)\n\n\nRows: 500\nColumns: 2\n$ rt       <dbl> 0.8207971, 0.5871117, 0.8568052, 0.5875147, 0.5460999, 0.5883…\n$ response <fct> lower, upper, upper, upper, lower, lower, upper, upper, upper…\n\n\n\n\nShow code\nhead(rts)\n\n\n         rt response\n1 0.8207971    lower\n2 0.5871117    upper\n3 0.8568052    upper\n4 0.5875147    upper\n5 0.5460999    lower\n6 0.5883296    lower"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#grafisch-darstellen",
@@ -1082,7 +1082,7 @@
     "href": "slides/10_fitting_ddm.html#zusammenfassen",
     "title": "10. Sitzung",
     "section": "Zusammenfassen",
-    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median    sd\n  <fct>    <dbl>  <dbl> <dbl>\n1 lower    0.590  0.557 0.105\n2 upper    0.754  0.723 0.164"
+    "text": "Zusammenfassen\n\n\nShow code\nrts |> \n    group_by(response) |> \n    summarise(mean = mean(rt),\n              median = median(rt),\n              sd = sd(rt))\n\n\n# A tibble: 2 × 4\n  response  mean median     sd\n  <fct>    <dbl>  <dbl>  <dbl>\n1 lower    0.574  0.543 0.0913\n2 upper    0.779  0.720 0.181"
   },
   {
     "objectID": "slides/10_fitting_ddm.html#maximum-likelihood-schätzung",
@@ -1348,7 +1348,7 @@
     "href": "pages/exercises/exercise_05.html#aufgaben",
     "title": "Übung 5",
     "section": "Aufgaben",
-    "text": "Aufgaben\nAufgabe 1\n\n\nBerechnen Sie die mittlere RT pro Peron/Bedingung, und stellen Sie die mittlere RT pro Bedingung, gemittelt über Personen, mit Fehlerbalken grafisch dar.\nBeschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.\n\n\n\nby_subject <- d |> \n  group_by(___) |> \n  summarise(RT = ___)\n\nagg <- Rmisc::summarySEwithin(by_subject,\n                       measurevar = \"RT\",\n                       withinvars = \"condition\",\n                       idvar = \"ID\",\n                       na.rm = FALSE,\n                       conf.interval = .95)\n\n\nagg |> \n  ggplot(aes(condition, RT)) +\n  geom_line(aes(group = 1), linetype = 3) +   \n  geom_errorbar(aes(ymin = RT-se, ymax = RT+se),\n                width = 0.1, size=1, color=\"black\") +\n  geom_point(size = 4) +\n  theme(legend.position = \"none\")\n\nAufgabe 2\n\n\nUntersuchen Sie mittels einer Shift Function den Unterschied zwischen den Bedingungen congruent und incongruent.\nBeschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.\nPratte et al. (2010) haben festgestellt, dass Stroop Effekte bei längeren Reaktionszeiten ansteigen. Ist diese Aussage mit Ihren Befunden vereinbar?\n\n\nZuerst entfernen wir die Faktorstufe neutral:\n\ndd <- d |> \n  filter(!(condition %in% \"neutral\")) |> \n  mutate(condition = fct_drop(condition))\n\nNun verwenden wir die Funktion hsf() aus dem rogme Package, um Shift Functions für jede Person in den beiden Bedingungen zu berechnen, und die gemittelten Differenzen der Dezile zu erhalten.\nDie Formel, welche Sie für die Funktion brauchen, lautet\nRT ~ condition + ID \nDiese Formel ist so zu lesen: RT Quantile werden durch condition und ID vorhergesagt.\n\nout <- dd |> \n  rogme::hsf(___)\n\nStellen Sie die Shift Function grafisch dar.\n\nrogme::plot_hsf(out)"
+    "text": "Aufgaben\nAufgabe 1\n\n\nBerechnen Sie die mittlere RT pro Person/Bedingung, und stellen Sie die mittlere RT pro Bedingung, gemittelt über Personen, mit Fehlerbalken grafisch dar.\nBeschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.\n\n\n\nby_subject <- d |> \n  group_by(___) |> \n  summarise(RT = ___)\n\nagg <- Rmisc::summarySEwithin(by_subject,\n                       measurevar = \"RT\",\n                       withinvars = \"condition\",\n                       idvar = \"ID\",\n                       na.rm = FALSE,\n                       conf.interval = .95)\n\n\nagg |> \n  ggplot(aes(condition, RT)) +\n  geom_line(aes(group = 1), linetype = 3) +   \n  geom_errorbar(aes(ymin = RT-se, ymax = RT+se),\n                width = 0.1, size=1, color=\"black\") +\n  geom_point(size = 4) +\n  theme(legend.position = \"none\")\n\nAufgabe 2\n\n\nUntersuchen Sie mittels einer Shift Function den Unterschied zwischen den Bedingungen congruent und incongruent.\nBeschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.\nPratte et al. (2010) haben festgestellt, dass Stroop Effekte bei längeren Reaktionszeiten ansteigen. Ist diese Aussage mit Ihren Befunden vereinbar?\n\n\nZuerst entfernen wir die Faktorstufe neutral:\n\ndd <- d |> \n  filter(!(condition %in% \"neutral\")) |> \n  mutate(condition = fct_drop(condition))\n\nNun verwenden wir die Funktion hsf() aus dem rogme Package, um Shift Functions für jede Person in den beiden Bedingungen zu berechnen, und die gemittelten Differenzen der Dezile zu erhalten.\nDie Formel, welche Sie für die Funktion brauchen, lautet\nRT ~ condition + ID \nDiese Formel ist so zu lesen: RT Quantile werden durch condition und ID vorhergesagt.\n\nout <- dd |> \n  rogme::hsf(___)\n\nStellen Sie die Shift Function grafisch dar.\n\nrogme::plot_hsf(out)"
   },
   {
     "objectID": "pages/exercises/exercise_06.html",
@@ -1411,7 +1411,7 @@
     "href": "pages/exercises/exercise_06.html#geschätzte-parameterwerte",
     "title": "Übung 6",
     "section": "Geschätzte Parameterwerte",
-    "text": "Geschätzte Parameterwerte\nDie geschätzten Parameter sind in einer List gespeichert.\n\np\n\n[[1]]\n      a     v     z    t0\nA 1.439 0.261 0.523 0.206\nB 1.513 1.231 0.495 0.190\n\n[[2]]\n      a     v     z    t0\nA 1.462 0.293 0.505 0.200\nB 1.427 1.180 0.499 0.202\n\n[[3]]\n      a     v     z    t0\nA 1.631 0.284 0.484 0.188\nB 1.583 1.268 0.469 0.192\n\n[[4]]\n      a     v     z    t0\nA 1.436 0.237 0.517 0.203\nB 0.999 0.923 0.531 0.251"
+    "text": "Geschätzte Parameterwerte\nDie geschätzten Parameter sind in einer List gespeichert.\n\np\n\n[[1]]\n      a     v     z    t0\nA 1.439 0.261 0.523 0.206\nB 1.513 1.231 0.495 0.190\n\n[[2]]\n      a     v     z    t0\nA 1.462 0.293 0.505 0.200\nB 1.427 1.180 0.499 0.202\n\n[[3]]\n      a     v     z    t0\nA 1.631 0.284 0.484 0.188\nB 1.583 1.268 0.469 0.192\n\n[[4]]\n      a     v     z    t0\nA 0.664 0.259 0.519 0.292\nB 0.514 0.751 0.527 0.285"
   },
   {
     "objectID": "pages/exercises/exercise_06.html#vergleich-mit-wahren-werten",
@@ -1531,5 +1531,40 @@
     "title": "Übung 5: Lösung",
     "section": "",
     "text": "References\n\nPratte, Michael S., Jeffrey N. Rouder, Richard D. Morey, and Chuning Feng. 2010. “Exploring the Differences in Distributional Properties Between Stroop and Simon Effects Using Delta Plots.” Attention, Perception, & Psychophysics 72 (7): 2013–25. https://doi.org/10.3758/APP.72.7.2013.\n\n\nVerstynen, Timothy D. 2014. “The Organization and Dynamics of Corticostriatal Pathways Link the Medial Orbitofrontal Cortex to Future Behavioral Responses.” Journal of Neurophysiology 112 (10): 2457–69. https://doi.org/10.1152/jn.00221.2014.\n\nReusehttps://creativecommons.org/licenses/by/4.0/CitationBibTeX citation:@online{ellis2022,\n  author = {Andrew Ellis},\n  title = {Übung 5: {Lösung}},\n  date = {2022-04-13},\n  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/solutions/solution_05.html},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nAndrew Ellis. 2022. “Übung 5: Lösung.” April 13, 2022. https://kogpsy.github.io/neuroscicomplabFS22//pages/solutions/solution_05.html."
+  },
+  {
+    "objectID": "pages/solutions/solution_06.html",
+    "href": "pages/solutions/solution_06.html",
+    "title": "Übung 6: Lösung",
+    "section": "",
+    "text": "Reusehttps://creativecommons.org/licenses/by/4.0/CitationBibTeX citation:@online{ellis2022,\n  author = {Andrew Ellis},\n  title = {Übung 6: {Lösung}},\n  date = {2022-05-10},\n  url = {https://kogpsy.github.io/neuroscicomplabFS22//pages/solutions/solution_06.html},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nAndrew Ellis. 2022. “Übung 6: Lösung.” May 10, 2022. https://kogpsy.github.io/neuroscicomplabFS22//pages/solutions/solution_06.html."
+  },
+  {
+    "objectID": "pages/solutions/solution_07.html",
+    "href": "pages/solutions/solution_07.html",
+    "title": "Übung 7",
+    "section": "",
+    "text": "Abgabefrist\n\n\n\nDie Daten für diese Übung finden Sie hier:\n👉 Download Data\nLaden Sie bitte Ihre Lösung als JASP Dokument bis Mittwoch, 01.06.2022, um 00:30 Uhr, in den Order für Übung 7 auf ILIAS.\nNennen Sie Ihr File Matrikelnummer_Nachname_uebung-7.jasp."
+  },
+  {
+    "objectID": "pages/solutions/solution_07.html#daten-einlesen",
+    "href": "pages/solutions/solution_07.html#daten-einlesen",
+    "title": "Übung 7",
+    "section": "Daten einlesen",
+    "text": "Daten einlesen\nLaden Sie die Daten in ein DataFrame.\n\nlibrary(tidyverse)\n\nd <- read_csv(\"estimated-ddm-params.csv\")"
+  },
+  {
+    "objectID": "pages/solutions/solution_07.html#daten-vorbereiten",
+    "href": "pages/solutions/solution_07.html#daten-vorbereiten",
+    "title": "Übung 7",
+    "section": "Daten vorbereiten",
+    "text": "Daten vorbereiten\nDer Dataframe ist im long-Format, das heisst eine Zeile pro Person und Bedingung.\n\nhead(d, 10)\n\n# A tibble: 10 × 6\n      ID condition     a     v     z    t0\n   <dbl> <chr>     <dbl> <dbl> <dbl> <dbl>\n 1     1 A         1.44  0.261 0.523 0.206\n 2     1 B         1.51  1.23  0.495 0.19 \n 3     2 A         1.46  0.293 0.505 0.2  \n 4     2 B         1.43  1.18  0.499 0.202\n 5     3 A         1.63  0.284 0.484 0.188\n 6     3 B         1.58  1.27  0.469 0.192\n 7     4 A         1.44  0.237 0.517 0.203\n 8     4 B         1.44  1.21  0.497 0.196\n 9     5 A         0.593 0.517 0.481 0.28 \n10     5 B         1.34  1.23  0.531 0.203\n\n\nFür einen messwiederholten T-Test in JASP brauchen Sie jedoch eine Spalte für jede Kombination von Parameter und Bedingung. Mit pivot_wider() geht dies ganz einfach.\n\nd_wide <- d |> \n  pivot_wider(names_from = \"condition\", values_from = c(a, v, z, t0))\n\n\nhead(d_wide, 10)\n\n# A tibble: 10 × 9\n      ID   a_A   a_B   v_A   v_B   z_A   z_B  t0_A  t0_B\n   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>\n 1     1 1.44  1.51  0.261 1.23  0.523 0.495 0.206 0.19 \n 2     2 1.46  1.43  0.293 1.18  0.505 0.499 0.2   0.202\n 3     3 1.63  1.58  0.284 1.27  0.484 0.469 0.188 0.192\n 4     4 1.44  1.44  0.237 1.21  0.517 0.497 0.203 0.196\n 5     5 0.593 1.34  0.517 1.23  0.481 0.531 0.28  0.203\n 6     6 0.379 1.52  0.466 1.20  0.462 0.565 0.249 0.207\n 7     7 1.53  0.251 0.324 0.53  0.524 0.506 0.187 0.237\n 8     8 1.41  1.39  0.329 1.17  0.483 0.488 0.189 0.184\n 9     9 1.54  0.554 0.305 0.362 0.507 0.474 0.191 0.263\n10    10 0.416 0.977 0.174 0.247 0.474 0.455 0.292 0.296\n\n\nNun können Sie den wide Dataframe als CSV File exportieren. Dieses File können Sie wiederum in JASP importieren.\n\nd_wide |> write_csv(file = \"estimated-ddm-params-wide.csv\")"
+  },
+  {
+    "objectID": "pages/solutions/solution_07.html#jasp",
+    "href": "pages/solutions/solution_07.html#jasp",
+    "title": "Übung 7",
+    "section": "JASP",
+    "text": "JASP\nIn JASP können Sie für einen Test(z.B. Bayesian Paired Samples T-Test) alle Variablenpaare, welche Sie vergleichen wollen, in das rechte Textfeld ziehen.\n Sie können aber auch für jeden Parameter einen eigenen Test durchführen. Dies macht dann Sinn, wenn Sie für die Tests unterschiedliche Einstellungen benutzen.\nAnschliessend können Sie Ihre \\(\\mathcal{H}_1\\) bestimmen, und welche Plots Sie im Output haben möchten.\n\n\nWenn Sie eine Alternativhypothese benutzen, bedeutet dies, dass Sie einen Parameter schätzen müssen (unter der \\(\\mathcal{H}_0\\) ist dieser auf der Wert \\(0\\) fixiert). In JASP wird die Effektgrösse geschätzt. Jeder Paramter, welcher geschätzt wird, braucht eine prior distribution. Die Standardeinstellung in JASP ist eine zentrierte Cauchy Verteilung. Unter dem Dropdown-Menu Prior unten können Sie den scale Parameter ändern. Standardmässig ist dieser \\(0.707\\).\n\n\n\n\n\n\n\nCauchy Prior\n\n\n\nDiese Verteilung ist in unten dargestellt, und hat die Eigenschaft, dass 50% der Verteilung zwischen \\(\\pm 0.707\\) liegen. Dies bedeutet, dass wir erwarten, dass die Effektgrösse unter der \\(\\mathcal{H}_1\\) ungefähr in diesem Bereich liegt. Die Cauchy-Verteilung lässt aber auch zu, dass grosse Effekt auftretten können - unter dieser Verteilung sind extreme Werte wahrscheinlicher als unter z.B. einer Normalverteilung. Eine Standardnormalverteilung ist zum Vergleich ebenfalls dargestellt (gestrichelte Linie).\n\n\n\nxrange <- seq(-8, 8, length = 201)\nplot(xrange, dcauchy(xrange, 0, 0.707), \"l\", lwd = 3, \n     col = \"steelblue3\", xlab = \"\", ylab = \"\")\nlines(xrange, dnorm(xrange, 0, 1), lty = \"dashed\", lwd = 2)\n\n\n\n\nSie haben auch die Möglichkeit, einen anderen Prior zu wählen. Wir werden dies in der nächsten Sitzung anschauen. In dieser Übung sollten Sie die Default-Einstellung verwenden."
   }
 ]

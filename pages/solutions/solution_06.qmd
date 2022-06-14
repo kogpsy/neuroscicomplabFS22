@@ -1,5 +1,5 @@
 ---
-title: "Übung 6"
+title: "Übung 6: Lösung"
 description: |
   DDM Parameter schätzen.
 date: "2022-05-10"
@@ -24,18 +24,6 @@ format:
 knitr::opts_knit$set(root.dir = '../../data/exercise-06/data')
 ```
 
-:::{.callout-note}
-Die Daten für diese Übung finden Sie hier: 
-
-👉 [Download Data](../../data/exercise-06/data/ddm-data.csv)
-
-👉 [Download True Parameters](../../data/exercise-06/data/participant-params.csv)
-
-Laden Sie bitte Ihre Lösung als Word Dokument oder R Skript bis **Dienstag, 24.5.2022, um 00:30 Uhr**, in den Order für Übung 6 auf ILIAS.
-
-
-Nennen Sie Ihr File *Matrikelnummer_Nachname_uebung-6.R* oder *Matrikelnummer_Nachname_uebung-6.docx*.
-:::
 
 # Aufgabenstellung
 

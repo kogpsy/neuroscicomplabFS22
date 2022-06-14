@@ -82,7 +82,7 @@ website:
         menu:
             - pages/solutions/solution_03.qmd
             - pages/solutions/solution_04.qmd
-            # - pages/solutions/solution_05.qmd
+            - pages/solutions/solution_05.qmd
             # - pages/solutions/solution_06.qmd
             # - pages/solutions/solution_07.qmd
 

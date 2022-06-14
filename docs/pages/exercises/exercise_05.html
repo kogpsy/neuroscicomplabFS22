@@ -311,6 +311,10 @@ div.csl-indent {
     <a class="dropdown-item" href="../../pages/solutions/solution_04.html">
  <span class="dropdown-text">Übung 4: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_05.html">
+ <span class="dropdown-text">Übung 5: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -425,7 +429,7 @@ Note
 <p>Behavioral analysis. The primary behavioral variable of interest was response time (RT), recorded as the time between cue onset and registered key press (in milliseconds). All first-level analyses were restricted to correct responses. To determine condition-level effects, a one-way repeated-measures ANOVA was used, as were post hoc one-sample t-tests.</p>
 </blockquote>
 </section><section id="daten-importieren" class="level2"><h2 class="anchored" data-anchor-id="daten-importieren">Daten importieren</h2>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-2_6c78df1df245c8f82141c40f0e3e9c75">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
@@ -447,7 +451,7 @@ Note
 </div>
 </div>
 <p>Angenommen, Sie haben das CSV File in einem Subordner namens <code>data</code> gespeichert:</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-3_d2bd965f8d2c63c8fee8af2d8b5dad31">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/stroop-data.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 3337 Columns: 4
@@ -460,7 +464,7 @@ dbl (1): RT
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-4_dbc62cfcf1a56eae3aee47877ff1e51a">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 3,337
@@ -471,26 +475,26 @@ $ correct   &lt;chr&gt; "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "
 $ RT        &lt;dbl&gt; 1.186, 0.667, 0.614, 0.696, 0.752, 0.864, 0.793, 0.662, 0.71…</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-5_30a26be01bcfe840485371edb8fce642">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt; 
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.character</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>,
            condition <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel</a></span><span class="op">(</span><span class="va">condition</span>, <span class="st">"congruent"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Im Datensatz befinden sich die Daten 28 Personen:</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-6_8f1ad2d35bf2f3660807f33e33dfb070">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 28</code></pre>
 </div>
 </div>
 <p>Die Variable <code>correct</code> ist mit “Y” und “N” codiert. Wir bevorzugen die Werte <code>1</code> und <code>0</code>.</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-7_c197155d20564d71918a9b4561f38a95">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>correct <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">correct</span> <span class="op">==</span> <span class="st">"Y"</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="mittlere-rt-vs-fehlerrate" class="level2"><h2 class="anchored" data-anchor-id="mittlere-rt-vs-fehlerrate">Mittlere RT vs Fehlerrate</h2>
 <p>Wir plotten zuerst median RT versus Fehlerrate (beides pro VP/Bedingung), um uns einen Überblick zu verschaffen.</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-8_6558dbec1f19f539ba1627571be66c0c">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_individual_summary</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">condition</span><span class="op">)</span> |&gt;        
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>RT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">RT</span><span class="op">)</span>,
@@ -513,7 +517,7 @@ argument.</code></pre>
 6 002   incongruent 0.908     0.389 </code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-9_4f8b0e5b38ad206c6a542203c8dc73bc">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_individual_summary</span> |&gt; 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">RT</span>, y <span class="op">=</span> <span class="va">error_rate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -524,13 +528,13 @@ argument.</code></pre>
 </div>
 <p>Es sieht aus, als sei die Fehlerrate im Mittel in der inkongruenten Bedingung grösser als in den kongruenten neutralen Bedingungen. Dies ist zu erwarten.</p>
 <p>Wir wollen hier nur die Reaktionszeiten korrekter Antworten analysieren. Filtern Sie den Datensatz, so dass nur noch die korrekten Antworten bleiben.</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-10_380397ef82b6bbb07493e073a1d9ace2">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">correct</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="rt-histogramme" class="level2"><h2 class="anchored" data-anchor-id="rt-histogramme">RT Histogramme</h2>
 <p>Plotten Sie mit folgender Funktion die RT Histogramme zufällig ausgewählter Personen (28 VP sind zuviele, um sie so in einer Grafik darzustellen).</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-11_de8331ca86dcbed18224983fed13f50d">
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">plot_hist</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">d</span> |&gt; 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">RT</span>,
@@ -545,7 +549,7 @@ argument.</code></pre>
     <span class="fu"><a href="https://sjmgarnier.github.io/viridis/reference/scale_viridis.html">scale_color_viridis</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">TRUE</span>, option <span class="op">=</span> <span class="st">"E"</span><span class="op">)</span>
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-12_89c7d6373a5e255215f3f5dc31db8803">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">ID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span> |&gt; 
   <span class="fu">plot_hist</span><span class="op">(</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -557,11 +561,11 @@ argument.</code></pre>
 <section id="aufgabe-1" class="level3"><h3 class="anchored" data-anchor-id="aufgabe-1">Aufgabe 1</h3>
 <div class="exercise">
 <ol type="1">
-<li><p>Berechnen Sie die mittlere RT pro Peron/Bedingung, und stellen Sie die mittlere RT pro Bedingung, gemittelt über Personen, mit Fehlerbalken grafisch dar.</p></li>
+<li><p>Berechnen Sie die mittlere RT pro Person/Bedingung, und stellen Sie die mittlere RT pro Bedingung, gemittelt über Personen, mit Fehlerbalken grafisch dar.</p></li>
 <li><p>Beschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.</p></li>
 </ol>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-13_d44275dcb11db29971204a331c64fd13">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>by_subject <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(___) <span class="sc">|&gt;</span> </span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">RT =</span> ___)</span>
@@ -573,7 +577,7 @@ argument.</code></pre>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">na.rm =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">conf.interval =</span> .<span class="dv">95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-14_cdc704ccd60b9d8d0a633cd4ca706a0f">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">agg</span> |&gt; 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">condition</span>, <span class="va">RT</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>   
@@ -591,7 +595,7 @@ argument.</code></pre>
 </ol>
 </div>
 <p>Zuerst entfernen wir die Faktorstufe <code>neutral</code>:</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-17_808bcf76b1628b2bb8008368a56f1c06">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">dd</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">condition</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="st">"neutral"</span><span class="op">)</span><span class="op">)</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>condition <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_drop.html">fct_drop</a></span><span class="op">(</span><span class="va">condition</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -600,12 +604,12 @@ argument.</code></pre>
 <p>Die Formel, welche Sie für die Funktion brauchen, lautet</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">RT</span> <span class="op">~</span> <span class="va">condition</span> <span class="op">+</span> <span class="va">ID</span> </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Diese Formel ist so zu lesen: RT Quantile werden durch <code>condition</code> und <code>ID</code> vorhergesagt.</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-18_dd904abc5a6ddbcca868636a8adb4fc5">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> dd <span class="sc">|&gt;</span> </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  rogme<span class="sc">::</span><span class="fu">hsf</span>(___)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Stellen Sie die <em>Shift Function</em> grafisch dar.</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_05_cache/html/unnamed-chunk-20_4b5bfd78e2a0c9b37b3b6fe9fa21769a">
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu">rogme</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rogme/man/plot_hsf.html">plot_hsf</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 

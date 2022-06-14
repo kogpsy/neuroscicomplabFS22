@@ -132,9 +132,12 @@ plot_hist <- function(d) {
 }
 ```
 
+Wir plotten hier die RT Histogramme 9 zufällig ausgewählter Personen.
 ```{r}
+n_persons <- 9
+
 d |> 
-  filter(ID %in% sample(levels(ID), 4)) |> 
+  filter(ID %in% sample(levels(ID), n_persons)) |> 
   plot_hist()
 ```
 
@@ -143,35 +146,12 @@ d |>
 ### Aufgabe 1
 
 ::: exercise
-1)  Berechnen Sie die mittlere RT pro Peron/Bedingung, und stellen Sie die mittlere RT pro Bedingung, gemittelt über Personen, mit Fehlerbalken grafisch dar.
+1)  Berechnen Sie die mittlere RT pro Person/Bedingung, und stellen Sie die mittlere RT pro Bedingung, gemittelt über Personen, mit Fehlerbalken grafisch dar.
 
 2)  Beschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.
 :::
 
-```{r eval = FALSE}
-by_subject <- d |> 
-  group_by(___) |> 
-  summarise(RT = ___)
-
-agg <- Rmisc::summarySEwithin(by_subject,
-                       measurevar = "RT",
-                       withinvars = "condition",
-                       idvar = "ID",
-                       na.rm = FALSE,
-                       conf.interval = .95)
-```
-
-```{r eval = FALSE}
-agg |> 
-  ggplot(aes(condition, RT)) +
-  geom_line(aes(group = 1), linetype = 3) +   
-  geom_errorbar(aes(ymin = RT-se, ymax = RT+se),
-                width = 0.1, size=1, color="black") +
-  geom_point(size = 4) +
-  theme(legend.position = "none")
-```
-
-```{r include=FALSE}
+```{r}
 by_subject <- d |> 
   group_by(ID, condition) |> 
   summarise(RT = mean(RT))
@@ -184,7 +164,7 @@ agg <- Rmisc::summarySEwithin(by_subject,
                        conf.interval = .95)
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 agg |> 
   ggplot(aes(condition, RT)) +
   geom_line(aes(group = 1), linetype = 3) +   
@@ -193,6 +173,20 @@ agg |>
   geom_point(size = 4) +
   theme(legend.position = "none")
 ```
+
+Die mittlere Reaktionszeit für korrekte Entscheidungen ist in der inkongruenten Bedingung grösser als in der neutralen Bedingungen, währens die mittlere RT in der kongruenten Bedingung kleiner als in der neutralen Bedingung. Wenn wir anstelle der Standardfehler die Konfidenzintervalle plotten, sehen wir, dass diese Unterschiede signifikant wären, wenn wir dies testen wollten (die 95% Konfidenzintervalle überlappen nicht).
+
+
+```{r}
+agg |> 
+  ggplot(aes(condition, RT)) +
+  geom_line(aes(group = 1), linetype = 3) +   
+  geom_errorbar(aes(ymin = RT-ci, ymax = RT+ci),
+                width = 0.1, size=1, color="black") +
+  geom_point(size = 4) +
+  theme(legend.position = "none")
+```
+
 
 ### Aufgabe 2
 
@@ -222,18 +216,15 @@ RT ~ condition + ID
 
 Diese Formel ist so zu lesen: RT Quantile werden durch `condition` und `ID` vorhergesagt.
 
-```{r eval=FALSE, include=TRUE}
-out <- dd |> 
-  rogme::hsf(___)
-```
-
-```{r eval=TRUE, include=FALSE}
+```{r}
 out <- dd |> 
   rogme::hsf(RT ~ condition + ID)
 ```
 
 Stellen Sie die *Shift Function* grafisch dar.
 
-```{r eval=FALSE, include=TRUE}
+```{r}
 rogme::plot_hsf(out)
 ```
+
+Auf der X-Achse sind die Dezile der `congruent` Bedingung und auf der Y-Achse die Differenz `congruent - incongruent`. Die Differenz ist bei jedem Dezil negativ und scheint stetig stärker negativ zu werden. Die `incongruent` Bedingung führt zu längeren und variableren Reaktionszeiten. Der Stroop-Effekt, das heisst längere RTs bei inkongruenten Trials, ist bei langsamen Antworten stärker ausgeprägt. Dies ist mit dem Befund von @pratteExploringDifferencesDistributional2010  vereinbar.

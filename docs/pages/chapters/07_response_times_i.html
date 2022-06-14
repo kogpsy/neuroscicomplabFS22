@@ -292,6 +292,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../pages/solutions/solution_04.html">
  <span class="dropdown-text">Übung 4: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_05.html">
+ <span class="dropdown-text">Übung 5: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -383,13 +387,13 @@ Note
 </div>
 </div>
 <section id="adhd" class="level1"><h1>ADHD</h1>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-2_20f658ea59e7557cdfcbfccf14136e9b">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-4_26b95fe5448e713b83259f76d679bffd">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/session-7.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-5_236bcb0663dddcf6f1f12b9ef4eeb825">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 300
@@ -398,14 +402,14 @@ $ control &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.80
 $ adhd    &lt;dbl&gt; 1457.7710, 736.0453, 1230.0827, 995.3828, 763.0127, 737.8560, …</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-6_3eb2cfa055fcab5673497b79e8a1c32c">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt;
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span>, 
                names_to <span class="op">=</span> <span class="st">"group"</span>, values_to <span class="op">=</span> <span class="st">"rt"</span><span class="op">)</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span><span class="op">)</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-7_62f01f16d33763f4b12344fd554668a4">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 600
@@ -414,7 +418,7 @@ $ group &lt;fct&gt; control, control, control, control, control, control, contro
 $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018, 83…</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-8_176cb6d24169844f6b87d1414a39b8c4">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt; 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">..density..</span><span class="op">)</span>, 
@@ -426,7 +430,7 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Response time [ms]"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2200</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-9_50b388d7f3eec03ebf59c3344ae4ac0c">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="07_response_times_i_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
@@ -434,7 +438,7 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
 </div>
 <section id="zusammenfassen-zentrale-tendenz-und-dispersion" class="level2"><h2 class="anchored" data-anchor-id="zusammenfassen-zentrale-tendenz-und-dispersion">Zusammenfassen: zentrale Tendenz und Dispersion</h2>
 <section id="mittelwert-und-standardabweichung" class="level3"><h3 class="anchored" data-anchor-id="mittelwert-und-standardabweichung">Mittelwert und Standardabweichung</h3>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-10_28f8c3c50aae9ee54d34f3da24c316eb">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span>,
@@ -449,7 +453,7 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
 </div>
 </section><section id="median-und-interquartilsbereich" class="level3"><h3 class="anchored" data-anchor-id="median-und-interquartilsbereich">Median und Interquartilsbereich</h3>
 <p>Der Interquartilsbereich repräntiert den Unterschied zwischen dem ersten (25. Perzentil) und dritten (75. Perzentil) Quartil. In diesem Bereich befinden sich 50% der Datenpunkte.</p>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-11_f6e3e06efc3afca220948ceeda18f327">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span>,
@@ -464,7 +468,7 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
 2 adhd     784.  694.  923.  228.</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-12_dc20a3a9b61701adead750fb6ca02e5f">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span>,
@@ -477,7 +481,7 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
 2 adhd     784.  228.</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-13_7f81dd526f09ac3a3131f2710254615b">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">funs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="va">mean</span>, median <span class="op">=</span> <span class="va">median</span>, 
              sd <span class="op">=</span> <span class="va">sd</span>, IQR <span class="op">=</span> <span class="va">IQR</span><span class="op">)</span>
 
@@ -486,7 +490,7 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="va">rt</span>, <span class="va">funs</span>, .names <span class="op">=</span> <span class="st">"{.fn}"</span><span class="op">)</span><span class="op">)</span> |&gt;
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">.</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-14_0a810f6cbd6771833cbff057a08ba738">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">by_group</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
@@ -496,7 +500,7 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
 2 adhd     839.   784.  214.  228.</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-15_b888a06a4a4a1a38e82fe497856ade7b">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">p1</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">mean</span><span class="op">)</span>, 
              data <span class="op">=</span> <span class="va">by_group</span>,
@@ -514,20 +518,20 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
 <p>Sowohl Mittelwert als auch Median sind jedoch problematisch als Masse der zentralen Tendenz für asymmetrische Verteilungen. Der Mittelwert kann durch eine hohe Schiefe und Ausreissern verschoben werden, und repräsentiert die zentrale Tendenz der Verteilung nicht besonders gut.</p>
 <p>Der Median ist ein besseres Mass für eine typische Beobachtung aus dieser Verteilung, ist jedoch nicht erwartungstreu, das heisst der Median überschätzt den Populationsmedian. Der Grad der Überschätzung steigt mit sinkender Anzahl Beobachtungen (d.h. vor allem bei kleinen Stichproben).</p>
 </section><section id="quantile" class="level3"><h3 class="anchored" data-anchor-id="quantile">Quantile</h3>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-16_93bf3ee257753d91615e64f24b0b414f">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">deciles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.9</span>, length.out <span class="op">=</span> <span class="fl">9</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-17_aaea8319fa490c8ab99626798ac4853c">
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">quantile_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">probs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>rt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">probs</span>, type <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>, quantile <span class="op">=</span> <span class="va">probs</span><span class="op">)</span>
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-18_2c56665fc687c3dcc34c9cc8b419619b">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_quantiles</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu">quantile_fun</span><span class="op">(</span><span class="va">rt</span>, probs <span class="op">=</span> <span class="va">deciles</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-19_bfeed9f73ed920835f8996f6d08492e2">
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_quantiles</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 18 × 3
@@ -556,11 +560,11 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
 </div>
 </section><section id="shift-function" class="level3"><h3 class="anchored" data-anchor-id="shift-function">Shift function</h3>
 <p>Wir müssen nun den Dataframe mit den Quantilen ins “wide” Format konvertieren, um zwei Spalten für die <code>control</code> und <code>adhd</code> Gruppen zu erhalten. Danach können wir die Differenzen zwischen den Gruppen für jedes Quantil berechnen.</p>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-20_7b191f5cc3e0b286aa1dbf9cd1915cb8">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_quantile_differences</span> <span class="op">&lt;-</span> <span class="va">d_quantiles</span> |&gt; 
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="st">"group"</span>, values_from <span class="op">=</span> <span class="st">"rt"</span><span class="op">)</span> </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-21_e040b3937150041b9d6601c79a40b642">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_quantile_differences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 9 × 3
@@ -577,11 +581,11 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
 9      0.9   1045. 1108.</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-22_c4d8d7982bc7a3309de9d9f0cda946a1">
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_quantile_differences</span> <span class="op">&lt;-</span> <span class="va">d_quantile_differences</span> |&gt; 
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>`control - adhd` <span class="op">=</span> <span class="va">control</span> <span class="op">-</span> <span class="va">adhd</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-23_5128884ec938e4082fa6ddc5e7d0f7ef">
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_quantile_differences</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 9 × 4
@@ -599,7 +603,7 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
 </div>
 </div>
 </section><section id="shift-function-grafisch-darstellen" class="level3"><h3 class="anchored" data-anchor-id="shift-function-grafisch-darstellen">Shift function grafisch darstellen</h3>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-24_a64252de6e40e5cdd11e2fb0f23c0f3c">
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_quantile_differences</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">control</span>, y <span class="op">=</span> <span class="va">`control - adhd`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
@@ -614,17 +618,17 @@ $ rt    &lt;dbl&gt; 700.2404, 1034.3323, 675.8451, 1027.1913, 781.4268, 637.8018
 <p><img src="07_response_times_i_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-25_d7e36dd6655048962be3521fa8490180">
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"GRousselet/rogme"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-26_8f8882a1845e47ab984ba71414456e3a">
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># library(rogme)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-27_68f87a709a36c31bf24df13545548369">
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">rogme</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rogme/man/shifthd.html">shifthd</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">rt</span> <span class="op">~</span> <span class="va">group</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="07_response_times_i_cache/html/unnamed-chunk-28_aa51fc6979a749d06e161180dff7e8b6">
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu">rogme</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rogme/man/plot_sf.html">plot_sf</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]</code></pre>

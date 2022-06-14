@@ -291,6 +291,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../pages/solutions/solution_04.html">
  <span class="dropdown-text">Übung 4: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_05.html">
+ <span class="dropdown-text">Übung 5: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -376,14 +380,14 @@ rt: Reaktionszeit in Sekunden
 <li><p>Konvertieren Sie die Gruppierungsvariablen <code>subject</code> und <code>condition</code> zu Faktoren.</p></li>
 </ol>
 </div>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-2_1eec164fed4c1e06279732cd64d101c9">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-3_925436b1dfda6bb68ee3dc356ba2f13d">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/data-exercise-03.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Schauen Sie sich die Variablen an:</p>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-4_432e7277ee6f2563145cbe05fa8592c0">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 5,756
@@ -397,7 +401,7 @@ $ trial_num      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
 </div>
 </div>
 <p>Konvertieren Sie die Gruppierungsvariablen zu Faktoren:</p>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-5_9eec9a21289b6f86297f09db5af92cfe">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>subject <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">subject</span><span class="op">)</span>,
            condition <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">condition</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -406,14 +410,14 @@ $ trial_num      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
 <p><strong>Aufgabe 2</strong></p>
 <p>Gibt es Versuchspersonen die in einer der Bedingungen Reaktionszeiten hat, welche mehr als zwei Standardabweichungen <strong>über</strong> dem Bedingungsmittelwert liegen?</p>
 </div>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-6_35ae0b4191580dbbec80c536238fd2fb">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># summary stats (means) for subjects/conditions</span>
 <span class="va">sum_stats_participants</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">subject</span>, <span class="va">condition</span><span class="op">)</span> |&gt;
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>
         mean_P <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-7_0535a3338d10605cb7db08709fde1ae8">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># summary stats (means and SDs) for conditions</span>
 <span class="va">sum_stats_conditions</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">condition</span><span class="op">)</span> |&gt;
@@ -421,7 +425,7 @@ $ trial_num      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
         mean_C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span>,
         sd_C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-8_15eb69137bf564dcb334198bf4cde31a">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sum_stats_participants</span> <span class="op">&lt;-</span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span>
         <span class="va">sum_stats_participants</span>,
@@ -429,7 +433,7 @@ $ trial_num      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
         by <span class="op">=</span> <span class="st">"condition"</span><span class="op">)</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>outlier_P <span class="op">=</span> <span class="op">(</span><span class="va">mean_P</span> <span class="op">-</span> <span class="va">mean_C</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">sd_C</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-9_c39f5f64054d50863391d3bc68cb6ec3">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># show outlier participants</span>
 <span class="va">sum_stats_participants</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">outlier_P</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> |&gt;
@@ -442,7 +446,7 @@ $ trial_num      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
 </div>
 </div>
 <p>Es gibt keine Versuchsperson, deren mittlere Reaktionszeit in einer Bedingung mehr als zwei Standardabweichungen <strong>über</strong> dem Bedingungsmittelwert liegt. Dies bedeutet, dass sich in <code>excluded</code> keine Personen befinden, und der Dataframe folglich <span class="math inline">\(0\)</span> Zeilen hat.</p>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-10_43f25018a05ef5419055d2494169c696">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">excluded</span> <span class="op">&lt;-</span> <span class="va">sum_stats_participants</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">outlier_P</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
 
@@ -455,7 +459,7 @@ $ trial_num      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
 </div>
 </div>
 <p>Der nächste Schritt wäre also nicht unbedingt notwendig.</p>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-11_72818c7d518a8c2cf3a8a13002e27757">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_cleaned</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">subject</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">excluded</span><span class="op">$</span><span class="va">subject</span><span class="op">)</span><span class="op">)</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>subject <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_drop.html">fct_drop</a></span><span class="op">(</span><span class="va">subject</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -472,7 +476,7 @@ $ trial_num      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
 <p>Wir wollen Trials identifizieren, bei denen Vpn länger gebraucht haben, als 4 Standardabweichungen über dem Bedingungsmittelwert. Das bedeutet <code>(rt - mean_C) &gt; 4 * sd_C</code>, und nicht <code>abs(rt - mean_C) &gt; 4 * sd_C</code>. Letzteres würde auch Trials als Ausreisser identifizieren, welche 4 Standardabweichungen unter dem Bedingungsmittelwert liegen.</p>
 <p><strong>Zu Aufgabe 3.b)</strong></p>
 <p>Die Reaktionszeiten sind hier in Sekunden, nicht Millisekunden. Dies bedeutet, wir brauchen <code>rt &lt; 0.100</code>, und nicht <code>rt &lt; 100</code>.</p>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-12_059bf4cbb0a8f2c72cf4e0cd8a081fbe">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_cleaned</span> <span class="op">&lt;-</span> <span class="va">d_cleaned</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span>
         <span class="va">sum_stats_conditions</span>,
@@ -484,7 +488,7 @@ $ trial_num      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
             <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"OK"</span><span class="op">)</span> |&gt;
             <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span>levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"OK"</span>, <span class="st">"too fast"</span>, <span class="st">"too slow"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-13_b25419df50c3796b662deaeabec94ffc">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_cleaned</span> |&gt;
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">trial_num</span>, y <span class="op">=</span> <span class="va">rt</span>, color <span class="op">=</span> <span class="va">trial_type</span>, shape <span class="op">=</span> <span class="va">trial_type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span>
@@ -494,7 +498,7 @@ $ trial_num      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
 <p><img src="solution_03_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-14_eb74f6314f94b769d25c35bd8e96967d">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_cleaned</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">trial_type</span> <span class="op">!=</span> <span class="st">"OK"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -515,25 +519,25 @@ $ trial_num      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
 </div>
 </div>
 <p>Vor dem Entfernen der Ausreisser Trials haben wir 5756 Datenpunkte.</p>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-15_b229455085b91668fc8c13f640830e39">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">d_cleaned</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5756</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-16_a0e75455e5ba36356379b327d6c59a4a">
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_cleaned</span> <span class="op">&lt;-</span> <span class="va">d_cleaned</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">trial_type</span> <span class="op">==</span> <span class="st">"OK"</span><span class="op">)</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">subject</span>, <span class="va">trial_num</span>, <span class="va">condition</span>, <span class="va">signal_present</span>, <span class="va">correct</span>, <span class="va">rt</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Nach dem Entfernen haben wir noch 5591.</p>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-17_75668feb393108a091388ce350a739fd">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">d_cleaned</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5591</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-18_a42022e01c6d7150bcf3dbe1c9547b0e">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_cleaned</span> |&gt;
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">trial_num</span>, y <span class="op">=</span> <span class="va">rt</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span>
@@ -543,7 +547,7 @@ $ trial_num      &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
 <p><img src="solution_03_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="solution_03_cache/html/unnamed-chunk-19_55a52ef38e8b5a9c3628d15a9fd5868e">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d_cleaned</span> |&gt; <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="st">"data/data-cleaned.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 

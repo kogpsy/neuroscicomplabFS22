@@ -292,6 +292,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../pages/solutions/solution_04.html">
  <span class="dropdown-text">Übung 4: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_05.html">
+ <span class="dropdown-text">Übung 5: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -359,28 +363,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
-</header><!-- :::{.callout-note} --><!-- 👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/evidence-accumulation-1.R) --><!-- ::: --><div class="cell">
+</header><!-- :::{.callout-note} --><!-- 👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/evidence-accumulation-1.R) --><!-- ::: --><div class="cell" data-hash="10_evidence_accumulation_2_cache/html/load-packages_dcfb957d47e484b52aa903a328315c29">
 
 </div>
 <section id="fitting-models-to-data-parameter-estimation" class="level2"><h2 class="anchored" data-anchor-id="fitting-models-to-data-parameter-estimation">Fitting models to data: Parameter estimation</h2>
 <p>The goal of fitting a model to data is to find the best-fitting parameter values. In other words, we want to find parameters of the model for which the probability of observing the data is maximized. i.e.&nbsp;we want to estimate parameters from the data. This is done by minimizing the error between the model’s predictions and the data.</p>
 <p>Here, we will look at <strong>maximum likelihood estimation (MLE)</strong>. The likelihood function is a function that represents how likely it is to obtain a certain set of observations from a given model. We’re considering the set of observations as fixed, and now we’re considering under which set of model parameters we would be most likely to observe those data.</p>
 <p>Due to the fact that computers have numerical issues when calculating with very small numbers, i.e.&nbsp;probabilities, we don’t work with probabilities, but instead the natural logarithm of the probabilities (in R this is the <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code> function).</p>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-2_fd549f92aa5f6838dcbff1cfac1b9f0b">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">very_small_number</span> <span class="op">&lt;-</span> <span class="fl">1e-6</span>
 <span class="va">very_small_number</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1e-06</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-3_251527799586d1a2aca024f0c6b07f15">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">very_small_number</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -13.81551</code></pre>
 </div>
 </div>
 <p>A further point is that, by convention, most existing routines for optimizing functions perform minimization, instead of maximization. Therefore, if we want to use functions, such as e.g.&nbsp;<code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> in R, we need to minimize the negative log likelihood. This is equivalent to maximizing the likelihood; minimizing the negative log likelihood results in finding the set of parameters for which the probability of the data is maximal.</p>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-4_581fe4aab7f46d0634f65b6e960cf35d">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu">tibble</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length <span class="op">=</span> <span class="fl">1e3</span><span class="op">)</span><span class="op">)</span> |&gt; 
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">+</span> 
   <span class="fu">stat_function</span><span class="op">(</span>fun<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,
@@ -392,7 +396,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="generate-some-data-with-known-parameters" class="level2"><h2 class="anchored" data-anchor-id="generate-some-data-with-known-parameters">Generate some data with known parameters</h2>
 <p>Generate RTs from the diffusion model as data.</p>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-5_8e7c0538c2613d097784052cc9691d5e">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rtdists/rtdists/">rtdists</a></span><span class="op">)</span>
 
 <span class="va">drift</span> <span class="op">&lt;-</span> <span class="fl">0.2</span>
@@ -407,7 +411,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">genparams</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"v"</span>, <span class="st">"z"</span>, <span class="st">"t0"</span><span class="op">)</span> </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It is important to note that the <code>*diffusion()</code> functions take the absolute starting as an argument, instead of the relative starting point. For this reason, we need to compute the absolute starting as <span class="math inline">\(z = bias * a\)</span>. If the relative bias is <code>0.5</code>, meaning that it is halfway between the boundaries, then the absolute starting point is <code>z = 0.5 * a</code>.</p>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-6_cca3d0219fc7288914c9d0619c001379">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">54</span><span class="op">)</span>
 <span class="va">rts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rtdists/man/Diffusion.html">rdiffusion</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">500</span>,
                   a<span class="op">=</span><span class="va">genparams</span><span class="op">[</span><span class="st">"a"</span><span class="op">]</span>,
@@ -416,7 +420,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                   z<span class="op">=</span><span class="va">genparams</span><span class="op">[</span><span class="st">"z"</span><span class="op">]</span>,
                   s<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span>  </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-7_bdbd66d8b43092b5b6405b3e93d72fc9">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">rts</span> |&gt;
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">rt</span>, <span class="va">response</span>, fill <span class="op">=</span> <span class="va">response</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_violin</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -430,7 +434,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="define-log-likelihood-function" class="level2"><h2 class="anchored" data-anchor-id="define-log-likelihood-function">Define log likelihood function</h2>
 <p>This function returns the negative log probability of the data, given the parameters.</p>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-8_0221ce4a7c0fd0080e792e5bde37c12b">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">diffusionloglik</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">pars</span>, <span class="va">rt</span>, <span class="va">response</span><span class="op">)</span> 
 <span class="op">{</span>
   <span class="va">likelihoods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rtdists/man/Diffusion.html">ddiffusion</a></span><span class="op">(</span><span class="va">rt</span>, response<span class="op">=</span><span class="va">response</span>,                 
@@ -443,7 +447,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="op">}</span>  </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="generate-starting-values-for-parameters" class="level2"><h2 class="anchored" data-anchor-id="generate-starting-values-for-parameters">Generate starting values for parameters</h2>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-9_bd6c070226fd0a394529a32a8993a209">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">342</span><span class="op">)</span>
 <span class="va">init_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.01</span>, <span class="fl">0.4</span><span class="op">)</span>,
                 <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span><span class="op">)</span>,
@@ -454,7 +458,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="estimate-parameters" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="estimate-parameters">Estimate parameters</h2>
 <p>Now, we can evaluate the density function for the DDM, given, the initial parameters:</p>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-10_2bbb71a705e37d2e84b014b8dd96dfdc">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">pars</span> <span class="op">&lt;-</span> <span class="va">init_params</span>
 
 <span class="va">lik</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rtdists/man/Diffusion.html">ddiffusion</a></span><span class="op">(</span>rt <span class="op">=</span> <span class="va">rts</span><span class="op">$</span><span class="va">rt</span>, 
@@ -469,11 +473,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p>This means that we should try to make our function robust; we will do so in the next exercise.</p>
-</div></div><div class="cell">
+</div></div><div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-11_3ab53d5082529259578671cf79712218">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">loglik</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">lik</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can also use our function to calculate the negative log likelihood.</p>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-12_eaf20ec8ab4829878755595c90ef65c6">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu">diffusionloglik</span><span class="op">(</span><span class="va">init_params</span>, rt <span class="op">=</span> <span class="va">rts</span><span class="op">$</span><span class="va">rt</span>, 
            response <span class="op">=</span> <span class="va">rts</span><span class="op">$</span><span class="va">response</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -481,14 +485,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Now, we can repeatedly evaluate the log likelihood, and adjust the parameters so that the negative log likelihood becomes successively smaller. To do this, we use the R function <code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code>.</p>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-13_0a76013f9299bcf6d65a46c546630168">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/optim.html">optim</a></span><span class="op">(</span><span class="va">init_params</span>, 
              <span class="va">diffusionloglik</span>, 
              gr <span class="op">=</span> <span class="cn">NULL</span>, 
              rt <span class="op">=</span> <span class="va">rts</span><span class="op">$</span><span class="va">rt</span>, 
              response <span class="op">=</span> <span class="va">rts</span><span class="op">$</span><span class="va">response</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-14_f2be3c45db41d7d7eb983c7ca545a007">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$par
@@ -510,14 +514,14 @@ NULL</code></pre>
 </div>
 </div>
 </section><section id="compare-estimated-parameters-to-true-parameters" class="level2"><h2 class="anchored" data-anchor-id="compare-estimated-parameters-to-true-parameters">Compare estimated parameters to true parameters</h2>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-15_851109cec623e498318f1357c30265a3">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">par</span>, <span class="fl">3</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    a     v     z    t0 
 0.099 0.185 0.049 0.051 </code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-16_d7da9bd0f1ca0b974008136afefd9a33">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">genparams</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    v    z   t0 
@@ -525,7 +529,7 @@ NULL</code></pre>
 </div>
 </div>
 </section><section id="example-full-ddm" class="level2"><h2 class="anchored" data-anchor-id="example-full-ddm">Example: full DDM</h2>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-17_6c69ddc33e6ea0539d38a71a34fb0901">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">diffusionloglik</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">pars</span>, <span class="va">rt</span>, <span class="va">response</span><span class="op">)</span> 
 <span class="op">{</span>
   <span class="va">likelihoods</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/rtdists/man/Diffusion.html">ddiffusion</a></span><span class="op">(</span><span class="va">rt</span>, response<span class="op">=</span><span class="va">response</span>,                 
@@ -542,11 +546,11 @@ NULL</code></pre>
   <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">likelihoods</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>  </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-18_4bedfb0e5ca85d36c9727510c0b9f260">
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">genparms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="fl">.05</span>, <span class="fl">.2</span>, <span class="fl">.05</span><span class="op">)</span>           
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">genparms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"v"</span>, <span class="st">"t0"</span>, <span class="st">"sz"</span>, <span class="st">"st0"</span>, <span class="st">"sv"</span><span class="op">)</span> </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-19_751d97702d707f4bbd6e418dc70725bb">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">rts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rtdists/man/Diffusion.html">rdiffusion</a></span><span class="op">(</span><span class="fl">500</span>, a<span class="op">=</span><span class="va">genparms</span><span class="op">[</span><span class="st">"a"</span><span class="op">]</span>,
                        v<span class="op">=</span><span class="va">genparms</span><span class="op">[</span><span class="st">"v"</span><span class="op">]</span>, 
                        t0<span class="op">=</span><span class="va">genparms</span><span class="op">[</span><span class="st">"t0"</span><span class="op">]</span>, 
@@ -557,7 +561,7 @@ NULL</code></pre>
                        st0<span class="op">=</span><span class="va">genparms</span><span class="op">[</span><span class="st">"st0"</span><span class="op">]</span>,
                        s<span class="op">=</span><span class="fl">.1</span><span class="op">)</span>   </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-20_dcfa2ae192fc8bd7d02c3b13696e0359">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co">#generate starting values for parameters     </span>
 <span class="va">sparms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.01</span>, <span class="fl">0.4</span><span class="op">)</span>, 
            <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.01</span>, <span class="fl">0.5</span><span class="op">)</span>,
@@ -567,19 +571,19 @@ NULL</code></pre>
            <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">sparms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"v"</span>, <span class="st">"t0"</span>, <span class="st">"sz"</span>, <span class="st">"st0"</span>, <span class="st">"sv"</span><span class="op">)</span> </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-21_340877083d66f0f74589550bc2268eb4">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co">#now estimate parameters</span>
 <span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/optim.html">optim</a></span><span class="op">(</span><span class="va">sparms</span>, <span class="va">diffusionloglik</span>, gr <span class="op">=</span> <span class="cn">NULL</span>, 
                rt<span class="op">=</span><span class="va">rts</span><span class="op">$</span><span class="va">rt</span>, response<span class="op">=</span><span class="va">rts</span><span class="op">$</span><span class="va">response</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-22_5e57a42f000684b3ac462616e0b24af7">
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit2</span><span class="op">$</span><span class="va">par</span>, <span class="fl">3</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    a     v    t0    sz   st0    sv 
 0.107 0.230 0.500 0.066 0.189 0.073 </code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="10_evidence_accumulation_2_cache/html/unnamed-chunk-23_3bc8e99d5cf2e09b8fc833b707beafd1">
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">genparms</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    v   t0   sz  st0   sv 

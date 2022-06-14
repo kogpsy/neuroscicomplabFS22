@@ -311,6 +311,10 @@ div.csl-indent {
     <a class="dropdown-item" href="../../pages/solutions/solution_04.html">
  <span class="dropdown-text">Übung 4: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_05.html">
+ <span class="dropdown-text">Übung 5: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -393,7 +397,7 @@ Note
 <p>👉 <a href="../../downloadable_files/data-cleaning.R">R Code für dieses Kapitel downloaden</a></p>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-1_7676c312819869640b5357829c3c3036">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/">viridis</a></span><span class="op">)</span>
 
@@ -429,7 +433,7 @@ Note
 <p>Die Konsequenz daraus ist, dass Reaktionszeiten nicht normalverteilt sind. In folgender Grafik sind zwei Verteilungen dargestellt. Die gelbe Verteilung ist eine Normalverteilung mit <span class="math inline">\(\mu = 1\)</span> und <span class="math inline">\(\sigma = 0.4\)</span>, während die graue Verteilung eine LogNormal Verteilung darstellt.</p>
 <aside>
 Eine LogNormal-Verteilung bedeutet, dass der Logarithmus einer Zufallsvariablen normalverteilt ist.
-</aside><div class="cell">
+</aside><div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-2_8123141d0347ee61718aad1326e0062e">
 <div class="cell-output-display">
 <p><img src="03_data_cleaning_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -451,7 +455,7 @@ Eine LogNormal-Verteilung bedeutet, dass der Logarithmus einer Zufallsvariablen 
 </ol>
 <p>Versuchspersonen drücken F-Taste wenn ein Quadrat erscheint, J-Taste wenn ein Kreis erscheint. Abhängige Variablen sind Reaktionszeit und Antwort.</p>
 <p><strong>Annahme</strong>: Versuchspersonen brauchen im Reaction Task am wenigsten Zeit, um eine korrekte Antwort zu geben, gefolgt vom Go/No-Go Task. Im Discrimination Task brauchen Versuchspersonen länger, um korrekte Antworten zu geben.</p>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-3_4dec11999fc95c886431d3af76873757">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 
 <span class="va">URL</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/kogpsy/neuroscicomplab/main/data/mental-chronometry.csv"</span>
@@ -469,7 +473,7 @@ dbl (3): subj, trial_number, RT
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-4_8a12218efc674f86934db2a3c780cc9c">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">mentalchronometry</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 2,519
@@ -483,7 +487,7 @@ $ handedness   &lt;fct&gt; Right, Right, Right, Right, Right, Right, Right, Righ
 $ gender       &lt;fct&gt; female, female, female, female, female, female, female, f…</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-5_e824de2be3e037e5398bf27a03689b94">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">mentalchronometry</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2,519 × 7
@@ -503,7 +507,7 @@ $ gender       &lt;fct&gt; female, female, female, female, female, female, femal
 </div>
 </div>
 <p>Hier sind die Daten von 5 zufällig ausgewählten Personen:</p>
-<div class="cell page-columns page-full">
+<div class="cell page-columns page-full" data-hash="03_data_cleaning_cache/html/unnamed-chunk-6_5edc8159331d56e94437c92cfc5ee331">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">98</span><span class="op">)</span>
 <span class="va">subjects</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">mentalchronometry</span><span class="op">$</span><span class="va">subj</span><span class="op">)</span>, <span class="fl">6</span><span class="op">)</span>
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="va">mentalchronometry</span> |&gt;
@@ -519,7 +523,7 @@ $ gender       &lt;fct&gt; female, female, female, female, female, female, femal
 <p><img src="03_data_cleaning_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="1152"></p>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-7_9325663e3872e20ca8e1aac0f8d8b164">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">df</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">subj</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">subjects</span><span class="op">)</span> |&gt; 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">RT</span>, x <span class="op">=</span> <span class="va">block</span>, fill <span class="op">=</span> <span class="va">block</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -535,7 +539,7 @@ $ gender       &lt;fct&gt; female, female, female, female, female, female, femal
 <p>Wir können versuchen Ausreisser zu identifizieren.</p>
 </section><section id="cleaning-by-subject" class="level1"><h1>Cleaning by subject</h1>
 <p>Unser Ziel ist es, die Daten einer Versuchsperson zu entfernen, falls diese Person in einer experimentellen Bedingung eine mittlere RT hat, welche mehr als 2 Standardabweichungen vom Gesamtmittelwert liegt.</p>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-8_d45a32dacd17bea1003323047a9c2a5f">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># summary stats (means) for participants</span>
 <span class="va">sum_stats_participants</span> <span class="op">&lt;-</span> <span class="va">mentalchronometry</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">subj</span>, <span class="va">block</span><span class="op">)</span> |&gt; 
@@ -571,7 +575,7 @@ $ gender       &lt;fct&gt; female, female, female, female, female, female, femal
 </div>
 <p>Wir haben also eine Person, welche in einer Bedingung (<code>discrimination</code>) eine mittlere RT hat, welche mehr als 2 Standardabweichungen vom Gesamtmittelwert dieser Bedingung liegt.</p>
 <p>Weiter können wir die RT für jeden Trial in jeder Bedingung plotten. Es ist klar, dass die mittlere RT im <code>discrimination</code> aufgrund mehrerer Ausreisser zustande kommt.</p>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-9_a3364edd615c79424abac6221c85168f">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">mentalchronometry</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="va">sum_stats_participants</span> |&gt; <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">outlier_P</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>, 
     by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"subj"</span><span class="op">)</span><span class="op">)</span> |&gt; 
@@ -583,7 +587,7 @@ $ gender       &lt;fct&gt; female, female, female, female, female, female, femal
 </div>
 </div>
 <p>Wir könnten diese Person ganz ausschliessen.</p>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-10_173d3250c501b195d0e5554622e0e08f">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">excluded</span> <span class="op">&lt;-</span> <span class="va">sum_stats_participants</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">outlier_P</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
 
@@ -596,14 +600,14 @@ $ gender       &lt;fct&gt; female, female, female, female, female, female, femal
 1 8505  discrimination  1078.   518.  185. TRUE     </code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-11_8039e940e2eb0009aa5e233380f73707">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">mentalchronometry_cleaned</span> <span class="op">&lt;-</span> <span class="va">mentalchronometry</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">subj</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">excluded</span><span class="op">$</span><span class="va">subj</span><span class="op">)</span><span class="op">)</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>subj <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_drop.html">fct_drop</a></span><span class="op">(</span><span class="va">subj</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="cleaning-by-trial" class="level1 page-columns page-full"><h1>Cleaning by trial</h1>
 <p>Nun wollen alle Trials identifizieren, welche mehr als 2 Standardabweichungen vom Bedingungs-Gesamtmittelwert liegen. Ausserdem entfernen wir alle RTs, welche unter 100 Millisekunden liegen.</p>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-12_fd130aa47d7358578ad7c7705a9e7ea5">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># mark individual trials as outliers</span>
 <span class="va">mentalchronometry_cleaned</span> <span class="op">&lt;-</span> <span class="va">mentalchronometry_cleaned</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span>
@@ -617,7 +621,7 @@ $ gender       &lt;fct&gt; female, female, female, female, female, female, femal
       <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span>levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"OK"</span>, <span class="st">"&lt; 100ms"</span>, <span class="st">"zu weit vom Mittelwert"</span><span class="op">)</span><span class="op">)</span>,
     trial <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/ranking.html">row_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell page-columns page-full">
+<div class="cell page-columns page-full" data-hash="03_data_cleaning_cache/html/unnamed-chunk-13_49d48fdf1103256a89d058116350e73e">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># visualize outlier trials</span>
 <span class="va">mentalchronometry_cleaned</span> |&gt; 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">trial</span>, y <span class="op">=</span> <span class="va">RT</span>, color <span class="op">=</span> <span class="va">trial_type</span>, shape <span class="op">=</span> <span class="va">trial_type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -631,7 +635,7 @@ $ gender       &lt;fct&gt; female, female, female, female, female, female, femal
 </div>
 </div>
 <p>Wir haben insgesamt 63 Trials, welche nach unseren Kriterien Ausreisser sein könnten.</p>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-14_12e1d229f4dbce09603cd51bcef5daaa">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">mentalchronometry_cleaned</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">trial_type</span> <span class="op">!=</span> <span class="st">"OK"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -652,11 +656,11 @@ $ gender       &lt;fct&gt; female, female, female, female, female, female, femal
 </div>
 </div>
 <p>Diese 63 Trials entfernen wir nun.</p>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-15_4c32034c382279b945dd72d204a6341f">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">mentalchronometry_cleaned</span> <span class="op">&lt;-</span> <span class="va">mentalchronometry_cleaned</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">trial_type</span> <span class="op">==</span> <span class="st">"OK"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="03_data_cleaning_cache/html/unnamed-chunk-16_791754e984b0b4723ba1f6b4f95f1995">
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">mentalchronometry_cleaned</span> |&gt; 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">RT</span>, color <span class="op">=</span> <span class="va">block</span>, fill <span class="op">=</span> <span class="va">block</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span> <span class="op">+</span>

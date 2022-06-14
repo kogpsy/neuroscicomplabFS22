@@ -154,7 +154,7 @@ d |>
 ### Aufgabe 1
 
 ::: exercise
-1)  Berechnen Sie die mittlere RT pro Peron/Bedingung, und stellen Sie die mittlere RT pro Bedingung, gemittelt über Personen, mit Fehlerbalken grafisch dar.
+1)  Berechnen Sie die mittlere RT pro Person/Bedingung, und stellen Sie die mittlere RT pro Bedingung, gemittelt über Personen, mit Fehlerbalken grafisch dar.
 
 2)  Beschreiben Sie in 1-2 Sätzen, was Sie gefunden haben.
 :::

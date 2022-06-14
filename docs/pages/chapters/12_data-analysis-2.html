@@ -311,6 +311,10 @@ div.csl-indent {
     <a class="dropdown-item" href="../../pages/solutions/solution_04.html">
  <span class="dropdown-text">Übung 4: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_05.html">
+ <span class="dropdown-text">Übung 5: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -389,7 +393,7 @@ div.csl-indent {
   </div>
   
 
-</header><div class="cell">
+</header><div class="cell" data-hash="12_data-analysis-2_cache/html/load-packages_88138b14efcddf9f414836dc5dc39a77">
 
 </div>
 <section id="what-have-we-done-so-far" class="level2"><h2 class="anchored" data-anchor-id="what-have-we-done-so-far">What have we done so far?</h2>
@@ -437,7 +441,7 @@ p(y | \mathcal{M}) = \int{p(y | \theta, \mathcal{M}) p(\theta|\mathcal{M})d\thet
 </ul>
 <p>When a parameter priors are broad (uninformative), those parts of the parameter space where the likelihood is high are comparatively assigned low probability (because the probability is spread out over the whole parameter space). Intuitively, if one hedges one’s bets, one has to assign low probability to parameter values that make good predictions.</p>
 <p>The following prior makes quite a strong prediction about the value of <span class="math inline">\(\theta\)</span> - it is centred on <span class="math inline">\(0.5\)</span>, and the spread is small. Both small and large values are assigned very little probability.</p>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-2_345bff13564ecc55a65f328054bc4695">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">theta_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length <span class="op">=</span> <span class="fl">101</span><span class="op">)</span>
 <span class="va">prior1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">200</span>, shape2 <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior1</span>, <span class="st">"l"</span>, lwd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -446,7 +450,7 @@ p(y | \mathcal{M}) = \int{p(y | \theta, \mathcal{M}) p(\theta|\mathcal{M})d\thet
 </div>
 </div>
 <p>The next prior makes less strong predictions, in the sense that it assigns higher probability to small and large values of <span class="math inline">\(\theta\)</span> (compared to the previous prior, shown as a dashed line).</p>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-3_f615618712c36f8d5ac9e0ee9a6f29f8">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">2</span>, shape2 <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior1</span>, <span class="st">"l"</span>, lty<span class="op">=</span><span class="st">"dashed"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior2</span>, <span class="st">"l"</span>, lwd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -523,13 +527,13 @@ Important
 <div class="no-row-height column-margin column-container"><div id="ref-wagenmakersBayesianHypothesisTesting2010a" class="csl-entry" role="doc-biblioentry">
 Wagenmakers, Eric-Jan, Tom Lodewyckx, Himanshu Kuriyal, and Raoul Grasman. 2010. <span>“Bayesian Hypothesis Testing for Psychologists: <span>A</span> Tutorial on the <span>Savage</span>–<span>Dickey</span> Method.”</span> <em>Cognitive Psychology</em> 60 (3): 158–89. <a href="https://doi.org/10.1016/j.cogpsych.2009.12.001">https://doi.org/10.1016/j.cogpsych.2009.12.001</a>.
 </div></div><p>You observe that a person correctly answers 9 out of 10 yes-or-no questions.</p>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-4_2d10b62dc05c84a93973ecd5ee6bfab1">
 
 </div>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-5_aec3b103856988fcf41eadfd2005d508">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-6_90570123919af48a17dedeebf2797aee">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">n_correct</span> <span class="op">&lt;-</span> <span class="fl">9</span>
 <span class="va">n_questions</span> <span class="op">&lt;-</span> <span class="fl">10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -538,7 +542,7 @@ Wagenmakers, Eric-Jan, Tom Lodewyckx, Himanshu Kuriyal, and Raoul Grasman. 2010.
 <p><span class="math display">\[
 p(\theta) = Beta(1, 1)
 \]</span></p>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-7_767e8f04a862fe1a7963e0ddd09a0587">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">pd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
   x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span>,
   Prior <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>
@@ -557,31 +561,31 @@ p(\theta|y) = Beta(1 + 9, 1 + 1)
 \]</span></p>
 <p>Now we can evaluate both the prior and posterior at the value <span class="math inline">\(0.5\)</span>.</p>
 <p>Prior:</p>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-8_873b1e3088e77056e19464814c880393">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="op">(</span><span class="va">dprior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>Posterior:</p>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-9_9a287b9445fa8bbb506bbc3efc9b34f4">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="op">(</span><span class="va">dposterior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">10</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1074219</code></pre>
 </div>
 </div>
 <p>The Bayes factor <span class="math inline">\(BF_{01}\)</span> is the posterior density divided by the prior density:</p>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-10_5bcfc6349a481e46fd94a246c228e040">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">BF01</span> <span class="op">&lt;-</span> <span class="va">dposterior</span> <span class="op">/</span> <span class="va">dprior</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-11_22b353941311027671abd88f3308408d">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">BF01</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1074219</code></pre>
 </div>
 </div>
 <p>This is not so easy to interpret, so we calculate BF10 instead:</p>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-12_dbd9d7008b50f6e45ee270e3782b6000">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="op">(</span><span class="va">BF10</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="va">BF01</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9.309091</code></pre>
@@ -590,7 +594,7 @@ p(\theta|y) = Beta(1 + 9, 1 + 1)
 <p>This means that the data are <span class="math inline">\(9.3\)</span> times more likely to have occurred under the alternative than under the null model.</p>
 <p>The following figure is how Bayes factors are usually visualized in JASP. We plot both the prior and posterior distributions, and the density under both, evaluated at <span class="math inline">\(\theta_0 = 0.5\)</span>.</p>
 <p>The density of <span class="math inline">\(\theta_0\)</span> is smaller after having taking into account the data, or in other words: the probability of <span class="math inline">\(\theta_0\)</span> has decreased after observing the data. This allows us to conclude that the data (9 out of 10) are approximately 9 times more likely to have occured under <span class="math inline">\(\mathcal{M1}\)</span>.</p>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-13_6d84b3a6aaaa6fb7cb5d016092742475">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">pd</span> <span class="op">&lt;-</span> <span class="va">pd</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Posterior <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">+</span> <span class="va">n_correct</span>, <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="va">n_questions</span><span class="op">-</span><span class="va">n_correct</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
@@ -618,7 +622,7 @@ p(\theta|y) = Beta(1 + 9, 1 + 1)
 <p><img src="12_data-analysis-2_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-14_404590b67387d192fdc0a65edf5ca7a9">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">pd</span>, <span class="va">x</span> <span class="op">==</span> <span class="fl">.5</span><span class="op">)</span> |&gt;
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
     BF01 <span class="op">=</span> <span class="va">Posterior</span> <span class="op">/</span> <span class="va">Prior</span>,
@@ -638,7 +642,7 @@ p(\theta|y) = Beta(1 + 9, 1 + 1)
 <li>Do the data provide evidence that player A is better than player B?</li>
 <li>What is the evidence that they are both equally good?</li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-15_3232c624a757a2ccff3f100e0e9e47bd">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">wins</span> <span class="op">&lt;-</span> <span class="fl">6</span>
 <span class="va">games</span> <span class="op">&lt;-</span> <span class="fl">9</span>
 
@@ -657,7 +661,7 @@ p(\theta|y) = Beta(1 + 9, 1 + 1)
 <li>What is the evidence that the student was guessing (got lucky)?</li>
 <li>What is the evidence that the student’s ability is greater than <span class="math inline">\(0.5\)</span>?</li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-16_9086b2090149817bb368c00d2492e92b">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">n_correct</span> <span class="op">&lt;-</span> <span class="fl">9</span>
 <span class="va">n_questions</span> <span class="op">&lt;-</span> <span class="fl">10</span>
 
@@ -672,7 +676,7 @@ p(\theta|y) = Beta(1 + 9, 1 + 1)
 </div>
 </section><section id="smart-drug-t-test" class="level3"><h3 class="anchored" data-anchor-id="smart-drug-t-test">Smart drug t-test</h3>
 <p>Generate this dataframe, and export it as <code>CSV</code> file. In this example, we want to compare two groups’ IQ scores. One of the groups has been given a drug to make them smart, the other is the control group.</p>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-17_72a51f795650b310a8edfb5c8bc4646a">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">smart</span> <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>IQ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">101</span>,<span class="fl">100</span>,<span class="fl">102</span>,<span class="fl">104</span>,<span class="fl">102</span>,<span class="fl">97</span>,<span class="fl">105</span>,<span class="fl">105</span>,<span class="fl">98</span>,<span class="fl">101</span>,<span class="fl">100</span>,<span class="fl">123</span>,<span class="fl">105</span>,<span class="fl">103</span>,
                       <span class="fl">100</span>,<span class="fl">95</span>,<span class="fl">102</span>,<span class="fl">106</span>,<span class="fl">109</span>,<span class="fl">102</span>,<span class="fl">82</span>,<span class="fl">102</span>,<span class="fl">100</span>,<span class="fl">102</span>,<span class="fl">102</span>,<span class="fl">101</span>,<span class="fl">102</span>,<span class="fl">102</span>,
                       <span class="fl">103</span>,<span class="fl">103</span>,<span class="fl">97</span>,<span class="fl">97</span>,<span class="fl">103</span>,<span class="fl">101</span>,<span class="fl">97</span>,<span class="fl">104</span>,<span class="fl">96</span>,<span class="fl">103</span>,<span class="fl">124</span>,<span class="fl">101</span>,<span class="fl">101</span>,<span class="fl">100</span>,
@@ -687,7 +691,7 @@ p(\theta|y) = Beta(1 + 9, 1 + 1)
 <span class="va">SmartDrug</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">smart</span>, <span class="va">placebo</span><span class="op">)</span>  |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span>, <span class="st">"Placebo"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="12_data-analysis-2_cache/html/unnamed-chunk-18_609a06a807e47ecd3b2cc8e8a120cf0f">
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">SmartDrug</span>, file <span class="op">=</span> <span class="st">"SmartDrug.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 

@@ -292,6 +292,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../pages/solutions/solution_04.html">
  <span class="dropdown-text">Übung 4: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_05.html">
+ <span class="dropdown-text">Übung 5: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -375,24 +379,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
-</header><!-- :::{.callout-note} --><!-- 👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/evidence-accumulation-1.R) --><!-- ::: --><div class="cell">
+</header><!-- :::{.callout-note} --><!-- 👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/evidence-accumulation-1.R) --><!-- ::: --><div class="cell" data-hash="09_evidence_accumulation_1_cache/html/load-packages_fe0e9d775d3b6e764541354f9aa2231f">
 
 </div>
 <section id="model-in-r" class="level1"><h1>Model in R</h1>
 <p>Wir versuchen, nun eine Entscheidung in R zu simulieren. Wir gehen davon aus, dass wir die Zeit in ganz kleine Schritten <span class="math inline">\(\Delta_t\)</span> unterteilen (diskrete Zeit).</p>
 <p>Wir modellieren die aktuelle Decision Variable zu Zeitpunkt <span class="math inline">\(t\)</span> als normalverteilte Zufallszahl, bei der die <code>driftrate</code> den Mittelwert der Evidenz repräsentiert, und <code>sd</code> die Standardabweichung.</p>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-2_2e1225577f795ff1bae7ba9cff83ac7e">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">driftrate</span> <span class="op">&lt;-</span> <span class="fl">0.5</span>
 <span class="va">sd</span> <span class="op">&lt;-</span> <span class="fl">0.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-3_7b2a17bb8dbb775d9e75609384ed987b">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">evidence</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span>, mean <span class="op">=</span> <span class="va">driftrate</span>, sd <span class="op">=</span> <span class="va">sd</span><span class="op">)</span>
 <span class="va">evidence</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5487698</code></pre>
+<pre><code>[1] 0.604934</code></pre>
 </div>
 </div>
-<p>Dies bedeutet, dass zum Zeitpunkt <span class="math inline">\(t\)</span> die Evidenz ungefähr 0.55 beträgt. Da die Evidenz die durchschnittliche Steigung repräsentiert, wird Evidenz <span class="math inline">\(&gt;0\)</span> dazu führen, dass ein Schritt in Richtung der oberen Grenze gemacht wird. Wäre die Evidenz negativ, wird ein Schritt nach unten gemacht. Da die Evidenz aus einer Normalverteilung gezogen wird, ist es also möglich, dass die Evidenz zufällig negativ wird, obwohl die drift rate, d.h. die Repräsentation der Stimulusstärke, positiv ist.</p>
+<p>Dies bedeutet, dass zum Zeitpunkt <span class="math inline">\(t\)</span> die Evidenz ungefähr 0.6 beträgt. Da die Evidenz die durchschnittliche Steigung repräsentiert, wird Evidenz <span class="math inline">\(&gt;0\)</span> dazu führen, dass ein Schritt in Richtung der oberen Grenze gemacht wird. Wäre die Evidenz negativ, wird ein Schritt nach unten gemacht. Da die Evidenz aus einer Normalverteilung gezogen wird, ist es also möglich, dass die Evidenz zufällig negativ wird, obwohl die drift rate, d.h. die Repräsentation der Stimulusstärke, positiv ist.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -410,7 +414,7 @@ Note
 <section id="random-walk-simulieren" class="level2"><h2 class="anchored" data-anchor-id="random-walk-simulieren">Random walk simulieren</h2>
 <p>Ein random walk ist das Resultat der Aufsummierung von Zufallszahlen. Probieren Sie es selber aus; simulieren Sie einen random walk mit 100 Zeitschritten. Fangen Sie bei <span class="math inline">\(0\)</span> an, ziehen Sie 99 normalverteilte Zufallszahlen und berechnen Sie die kumulierte Summe. Plotten Sie das Resultat.</p>
 <p>Dieser random walk hat keinen Trend, weil wir immer aus einer Normalverteilung mit Mittelwert <span class="math inline">\(\mu=0\)</span> ziehen. Wenn wir stattdessen aus einer Verteilung mit <span class="math inline">\(\mu=0.1\)</span> ziehen, erhalten wir einen positiven Trend.</p>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-4_78d3d3a4593bbbfbb1a6c2fea7346b40">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">546</span><span class="op">)</span>
 
 <span class="co"># hier z.B&gt; standardnormalverteilte Zahlen</span>
@@ -424,7 +428,7 @@ Note
 <p><img src="09_evidence_accumulation_1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-5_d291cdca8345ef689856a9ff5a8308d3">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">zufallszahlen_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">99</span>, <span class="fl">0.3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 <span class="va">random_walk_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">zufallszahlen_2</span><span class="op">)</span>
 
@@ -442,7 +446,7 @@ Note
 </div>
 </section><section id="evidenzakkumulierung" class="level2"><h2 class="anchored" data-anchor-id="evidenzakkumulierung">Evidenzakkumulierung</h2>
 <p>Die Evidenzakkumulierung wird analog modelliert. Wenn wir explizit die Zeitschritte als Iterationen aufschreiben, können wir dies in R mit einer <code>for</code> Loop machen.</p>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-6_bcabfc89df90f4627d94be647b910a63">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">driftrate</span> <span class="op">&lt;-</span> <span class="fl">0.5</span>
 <span class="va">sd</span> <span class="op">&lt;-</span> <span class="fl">0.1</span>
 
@@ -463,7 +467,7 @@ Note
     <span class="va">dv</span><span class="op">[</span><span class="va">t</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">dv</span><span class="op">[</span><span class="va">t</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">evidence</span><span class="op">[</span><span class="va">t</span><span class="op">]</span>
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-7_09878af4adf27796aa3fd7000a4afa8e">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu">tibble</span><span class="op">(</span><span class="va">time_steps</span>, <span class="va">evidence</span>, <span class="va">dv</span><span class="op">)</span> |&gt; 
     <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">evidence</span>, <span class="va">dv</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"type"</span>, values_to <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span> |&gt; 
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">time_steps</span>, <span class="va">value</span>, linetype <span class="op">=</span> <span class="va">type</span>, color <span class="op">=</span> <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -476,7 +480,7 @@ Note
 </div>
 <p>Die Decision Variable <code>dv</code> repräsentiert nun die kumulierten Evidenz, aufgrund dessen das Gehirn eine Entscheiung treffen kann. Wenn die Decision Variable entweder grösser als die ober Grenze ist, oder kleiner als die untere Grenze, wird die Evidenzakkumulierung abgebrochen, und eine Antwort wird ausgelöst. Wir können nun noch die “non-decision time” hinzufügen, und den Anfangspunkt der Evidenzakkumulierung. Dieser Anfangspunkt ist ein sehr wichtiger Parameter, denn wenn der Anfagnspunkt nicht genau in der Mitte zwischen den beiden Grenzen liegt, dann braucht es natürlich weniger Evindenz, um die Grenze zu erreichen, welche näher beim Anfangspunkt liegt.</p>
 <p>Anhand der folgenden Funktion lässt sich ein simpler Entscheidungsprozess simulieren, welcher alle wesentlichen Komponenten enthält: die <code>drift rate</code>, <code>boundary separation</code>, <code>bias</code> und die non-decision time <code>ndt</code>.</p>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-8_c367d892139ff904a351e8bf589b4e7d">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <colgroup>
@@ -516,42 +520,42 @@ Note
 </div>
 </section><section id="ddm-function" class="level2"><h2 class="anchored" data-anchor-id="ddm-function">DDM Function</h2>
 <p>Um den Code zu verstehen, brauchen wir ein paar neue R Funktionen.</p>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-9_41e3ddbf832f859cda635801e793eba8">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-10_ccda7a100564b11ac318058279b4a130">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -2</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-11_0a7acf2693deb8661765b8a60400e491">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-12_0f5d8b7db57cdde13dd0e56a7c3745d4">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-13_370eccc316bd1a736805c8749211ac66">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span>dim <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] NA NA</code></pre>
 </div>
 </div>
 <p>Aus einer <em>for</em> Loop ausbrechen:</p>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-14_3a6b3bac93b3ebc2f4d3d8d765aec93e">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw">break</span><span class="op">(</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Zeitangaben in Sekunden:</p>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-15_cc45655229adece515c1f0391f3a3ce9">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">bias</span> <span class="op">&lt;-</span> <span class="fl">0.5</span>
 <span class="va">driftrate</span> <span class="op">&lt;-</span> <span class="fl">0.8</span>
 <span class="va">decision_boundary</span> <span class="op">&lt;-</span> <span class="fl">2</span>
@@ -561,22 +565,22 @@ Note
 <span class="va">max_time</span> <span class="op">&lt;-</span> <span class="fl">6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Bias muss zwischen den decisioon boundaries liegen.</p>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-16_940df2f226ce224f7f383869adf03383">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># rescale bias so that 0.5 lies halfway between upper and lower bound</span>
 <span class="va">bias</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">decision_boundary</span> <span class="op">*</span> <span class="va">bias</span> <span class="op">-</span> <span class="va">decision_boundary</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Zeitschritte:</p>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-17_29a6d925ab3f188a170e9e914254f545">
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># initialize time_steps and dv</span>
 <span class="va">time_steps</span> <span class="op">&lt;-</span> <span class="va">max_time</span><span class="op">/</span><span class="va">dt</span>
 <span class="va">dv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span>dim <span class="op">=</span> <span class="va">time_steps</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Evidenzakkumulierung, ausgehend vom <em>bias</em>:</p>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-18_a1e1dee78085587bac333b01247c341d">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># start accumulating from bias (starting point)</span>
 <span class="va">dv</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, mean <span class="op">=</span> <span class="va">bias</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-19_aa8d00e0a9c461703d01f44086cccb1a">
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw">for</span> <span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="va">time_steps</span><span class="op">)</span> <span class="op">{</span>
 
     <span class="co"># non-decision time</span>
@@ -600,7 +604,7 @@ Note
     <span class="op">}</span>
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-20_4e2e6504ef9fa20d70bc2c41d0a0ecf5">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">dv</span><span class="op">)</span> <span class="op">*</span> <span class="va">dt</span>, <span class="fl">3</span><span class="op">)</span>,
                      dv <span class="op">=</span> <span class="va">dv</span>,
                      steps <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">dv</span><span class="op">)</span>,
@@ -609,7 +613,7 @@ Note
                      bias <span class="op">=</span> <span class="va">bias</span>,
                      ndt <span class="op">=</span> <span class="va">ndt</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-21_dfb86140dfca31111d00cecf7bf8bd5f">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> |&gt; 
     <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">time</span>, <span class="va">dv</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
@@ -624,7 +628,7 @@ Note
 </div>
 </div>
 <section id="function" class="level3"><h3 class="anchored" data-anchor-id="function">Function</h3>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-22_f0cebb444a808d7b999af409e427a72e">
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">drift_diffusion</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bias</span> <span class="op">=</span> <span class="fl">0.5</span>,
                             <span class="va">driftrate</span> <span class="op">=</span> <span class="fl">0.8</span>,
                             <span class="va">decision_boundary</span> <span class="op">=</span> <span class="fl">2</span>,
@@ -676,7 +680,7 @@ Note
 <p>Wir können nun einige Trials plotten, um den Effekt dieser Parameter zu visualisieren.</p>
 <section id="drift-rate" class="level3"><h3 class="anchored" data-anchor-id="drift-rate">Drift rate</h3>
 <p>Wir fangen an mit der drift rate. Wenn diese <span class="math inline">\(&gt;&gt; 0\)</span> ist, wird die Obergrenze schnell erreicht, und es wir wenige Fehler geben. Ist die drift rate kleiner, aber immer noch <span class="math inline">\(&gt; 0\)</span>, wird die durschnittliche Zeit länger, um eine korrekte Antwort zu geben.</p>
-<div class="cell" data-code_folding="true">
+<div class="cell" data-code_folding="true" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-23_8015af69f2615bc22ee9556f6787965d">
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">829</span><span class="op">)</span>
 
 <span class="va">slow</span> <span class="op">&lt;-</span> <span class="fu">drift_diffusion</span><span class="op">(</span>driftrate <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> |&gt; <span class="fu">mutate</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"slow"</span><span class="op">)</span>
@@ -697,7 +701,7 @@ Note
 </div>
 </section><section id="bias" class="level3"><h3 class="anchored" data-anchor-id="bias">Bias</h3>
 <p>Wenn der bias <span class="math inline">\(&gt;0.5\)</span> ist, wird die Obergrenze schneller erreicht. Hier gibt es nun eine Interaktion mit der drift rate—ist diese klein, und der bias <span class="math inline">\(&lt;0.5\)</span>, ist die Chance, schnelle Fehler zu machen erhöht.</p>
-<div class="cell" data-code_folding="true">
+<div class="cell" data-code_folding="true" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-24_b5c174aed0f70117adca76e2f1b6ed34">
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">29</span><span class="op">)</span>
 
 <span class="va">unbiased</span> <span class="op">&lt;-</span> <span class="fu">drift_diffusion</span><span class="op">(</span>bias <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> |&gt; <span class="fu">mutate</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"unbiased"</span><span class="op">)</span>
@@ -724,7 +728,7 @@ Note
 </div>
 </section><section id="boundary-separation" class="level3"><h3 class="anchored" data-anchor-id="boundary-separation">Boundary separation</h3>
 <p>Liegen die Grenzen weiter auseinander, braucht es mehr akkumulierte Evidenz, um eine der Grenzen zu erreichen. Dies führt dazu, dass weniger Fehler gemacht werden, da die zufällige Fluktuation über längere Zeit hinweg einen weniger starken Einfluss hat. Deshalb kann eine Verschiebung der Grenzen den Speed-Accuracy Trade-off erklären.</p>
-<div class="cell" data-code_folding="true">
+<div class="cell" data-code_folding="true" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-25_813fa87411a4d12c0adb91d6c72b264a">
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">84</span><span class="op">)</span>
 
 <span class="va">carefree</span> <span class="op">&lt;-</span> <span class="fu">drift_diffusion</span><span class="op">(</span>decision_boundary <span class="op">=</span> <span class="fl">1.6</span><span class="op">)</span> |&gt; <span class="fu">mutate</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"carefree"</span><span class="op">)</span>
@@ -752,7 +756,7 @@ Note
 </div>
 </section><section id="non-decision-time" class="level3"><h3 class="anchored" data-anchor-id="non-decision-time">Non-decision time</h3>
 <p>Eine Veränderung der non-decision time hat eine Auswirkung auf die durschnittliche Reaktionszeit, hat aber keinen Einfluss auf die Fehlerrate.</p>
-<div class="cell" data-code_folding="true">
+<div class="cell" data-code_folding="true" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-26_865194edb145e09dc0b5a5b864f5da88">
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">4534</span><span class="op">)</span>
 
 <span class="va">longndt</span> <span class="op">&lt;-</span> <span class="fu">drift_diffusion</span><span class="op">(</span>ndt <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> |&gt; <span class="fu">mutate</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"longndt"</span><span class="op">)</span>
@@ -781,7 +785,7 @@ Note
 </div>
 </section></section><section id="simulationen" class="level2"><h2 class="anchored" data-anchor-id="simulationen">Simulationen</h2>
 <p>Die Verteilungsfunktion sind im R Package <code>rtdists</code> enthalten. Damit können zum Beispiel Zufallszahlen aus der DDM Verteilung ziehen, ohne dass wir den Prozess wie oben Schritt für Schritt modellieren müssen.</p>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-27_819187181340326fc500ced92b32f114">
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rtdists/rtdists/">rtdists</a></span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Wir können so ein Experiment simulieren, bei dem die Fehler im Schnitt schneller als die korrekten Antworten sind, indem wir eine A Priori Präferenz für die Untergrenze definieren (<code>z = 0.2</code>).</p>
@@ -791,7 +795,7 @@ a: boundary separation
 v: drift rate
 t0: non-decision time
 z: bias</code></pre>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-28_1305e2e0ecbe423e56fa46a56959acf2">
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">rts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rtdists/man/Diffusion.html">rdiffusion</a></span><span class="op">(</span><span class="fl">500</span>, a <span class="op">=</span> <span class="fl">1</span>, v <span class="op">=</span> <span class="fl">2</span>, t0 <span class="op">=</span> <span class="fl">0.5</span>, z <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>
 
 <span class="fu">glimpse</span><span class="op">(</span><span class="va">rts</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -802,7 +806,7 @@ $ rt       &lt;dbl&gt; 0.9946603, 0.6598096, 0.5840942, 0.8145105, 0.7448141, 0.
 $ response &lt;fct&gt; upper, upper, lower, upper, upper, upper, upper, upper, upper…</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-29_8f4ea9098dd14d726dd40a3bf599bd67">
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">rts</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         rt response
@@ -814,7 +818,7 @@ $ response &lt;fct&gt; upper, upper, lower, upper, upper, upper, upper, upper, u
 6 0.6305719    upper</code></pre>
 </div>
 </div>
-<div class="cell" data-code_folding="true">
+<div class="cell" data-code_folding="true" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-30_69bc910eaf60dcce11a4e8f4c0e8aa7a">
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">rts</span> |&gt; 
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">rt</span>, <span class="va">response</span>, fill <span class="op">=</span> <span class="va">response</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_violin</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -826,7 +830,7 @@ $ response &lt;fct&gt; upper, upper, lower, upper, upper, upper, upper, upper, u
 <p><img src="09_evidence_accumulation_1_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="09_evidence_accumulation_1_cache/html/unnamed-chunk-31_65dc93e693dfd4b70414117ce2677102">
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">rts</span> |&gt; 
     <span class="fu">group_by</span><span class="op">(</span><span class="va">response</span><span class="op">)</span> |&gt; 
     <span class="fu">summarise</span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">rt</span><span class="op">)</span>,

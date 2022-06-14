@@ -469,7 +469,7 @@
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Uniform shift</a></li><li><a href="#tabset-1-2">Shift function</a></li><li><a href="#tabset-1-3">Plot shift function</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-2_3e0cd7145021ae0a72ca1cdf0d2027a8">
 <div class="cell-output-display">
 <p><img data-src="08_response_times_ii_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
 </div>
@@ -477,7 +477,7 @@
 </div>
 <div id="tabset-1-2">
 <div class="larger">
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-3_a5b3ddbc841023987d2ee40991d5ed62">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>out <span class="ot">&lt;-</span> <span class="fu">shifthd_pbci</span>(df, <span class="at">nboot =</span> <span class="dv">200</span>, <span class="at">adj_ci =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a>p <span class="ot">&lt;-</span> <span class="fu">plot_sf</span>(out, <span class="at">plot_theme =</span> <span class="dv">1</span>)[[<span class="dv">1</span>]] <span class="sc">+</span> </span>
 <span id="cb1-3"><a href="#cb1-3"></a>     <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">colour=</span><span class="st">"black"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -485,7 +485,7 @@
 </div>
 </div>
 <div id="tabset-1-3">
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-4_84d603e1be22071eff069d5cb0b12acf">
 <div class="cell-output-display">
 <p><img data-src="08_response_times_ii_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
 </div>
@@ -519,7 +519,7 @@
 </section>
 <section id="hierarchical-shift-function-1" class="slide level2">
 <h2>Hierarchical Shift Function</h2>
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-5_cbb2e2da699a76ca79aa8bd341018218">
 
 </div>
 <div class="panel-tabset">
@@ -527,14 +527,14 @@
 <div class="tab-content">
 <div id="tabset-2-1">
 <div class="larger">
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-6_485af8db4858bc6e096d420b533cc8b1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>out <span class="ot">&lt;-</span> <span class="fu">hsf</span>(df, rt <span class="sc">~</span> cond <span class="sc">+</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 <div id="tabset-2-2">
 <div class="width-80">
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-7_11072a8109caf6d69406f9ad047b3549">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plot_hsf</span>(out)</span>
 <span id="cb3-2"><a href="#cb3-2"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -545,7 +545,7 @@
 </div>
 <div id="tabset-2-3">
 <p><strong>Participants with all quantile differences &gt; 0</strong></p>
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-8_84e0febe0f3fdae4a937994b233a2fe9">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>nq <span class="ot">&lt;-</span> <span class="fu">length</span>(out<span class="sc">$</span>quantiles)</span>
 <span id="cb4-2"><a href="#cb4-2"></a>pdmt0 <span class="ot">&lt;-</span> <span class="fu">apply</span>(out<span class="sc">$</span>individual_sf <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">2</span>, sum)</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">'In '</span>,<span class="fu">sum</span>(pdmt0 <span class="sc">==</span> nq),<span class="st">' participants ('</span>,<span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(pdmt0 <span class="sc">==</span> nq) <span class="sc">/</span> np, <span class="at">digits =</span> <span class="dv">1</span>),<span class="st">'%), all quantile differences are more than to zero'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -554,7 +554,7 @@
 </div>
 </div>
 <p><strong>Participants with all quantile differences &lt; 0</strong></p>
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-9_44b69c1814e8d8d7a3a6f6c85974fde2">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>pdlt0 <span class="ot">&lt;-</span> <span class="fu">apply</span>(out<span class="sc">$</span>individual_sf <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">2</span>, sum)</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">'In '</span>,<span class="fu">sum</span>(pdlt0 <span class="sc">==</span> nq),<span class="st">' participants ('</span>,<span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(pdlt0 <span class="sc">==</span> nq) <span class="sc">/</span> np, <span class="at">digits =</span> <span class="dv">1</span>),<span class="st">'%), all quantile differences are less than to zero'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -568,11 +568,11 @@
 <section id="hierarchical-shift-function-2" class="slide level2">
 <h2>Hierarchical Shift Function</h2>
 <p>Alternative bootstrapping method: <code>hsf_pb()</code></p>
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-10_68a30389259bd1cbff9ec4b7ead55a46">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">set.seed</span>(<span class="dv">8899</span>)</span>
 <span id="cb8-2"><a href="#cb8-2"></a>out <span class="ot">&lt;-</span> rogme<span class="sc">::</span><span class="fu">hsf_pb</span>(df, rt <span class="sc">~</span> cond <span class="sc">+</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-11_c639e3ebf8904022543fdca3b76a899d">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>rogme<span class="sc">::</span><span class="fu">plot_hsf_pb</span>(out, <span class="at">interv =</span> <span class="st">"ci"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
@@ -607,17 +607,17 @@
 </section>
 <section id="bootstrapping-1" class="slide level2">
 <h2>Bootstrapping</h2>
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-12_46e585e9a01acb49be6a5296899c8bed">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">183</span>, <span class="dv">192</span>, <span class="dv">182</span>, <span class="dv">183</span>, <span class="dv">177</span>, <span class="dv">185</span>, <span class="dv">188</span>, <span class="dv">188</span>, <span class="dv">182</span>, <span class="dv">185</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-13_bce4903074af59926e5c962a58b86a26">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(heights, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb11-2"><a href="#cb11-2"></a>v1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 188 183 188 183 182 177 188 188 188 192</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-14_0b87f1fbf7dcac8297fe133bbd333faf">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(heights, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb13-2"><a href="#cb13-2"></a>v2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -633,7 +633,7 @@
 <ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Function to resample and compute mean</a></li><li><a href="#tabset-3-2">Repeat N times</a></li><li><a href="#tabset-3-3">Visualize</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1">
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-15_c3dbc57f690f817f4f5753c9cc875a7f">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(v) {</span>
 <span id="cb15-2"><a href="#cb15-2"></a>  vv <span class="ot">&lt;-</span> <span class="fu">sample</span>(v, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb15-3"><a href="#cb15-3"></a>  <span class="fu">mean</span>(vv)</span>
@@ -641,24 +641,24 @@
 </div>
 </div>
 <div id="tabset-3-2">
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-16_63ad994a8805dc9b7f9e401b1072a37d">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>N <span class="ot">&lt;-</span> <span class="dv">4000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-17_205d0c75e271bacec0aec651178dfa07">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>b1 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> N, <span class="fu">f</span>(heights))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-18_812a10b22f83dc03d98bc99956a4db9d">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">library</span>(purrr)</span>
 <span id="cb18-2"><a href="#cb18-2"></a>b2 <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span>N, <span class="sc">~</span><span class="fu">f</span>(heights))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-19_9edb546435ef24f1314a9e3de058ed89">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">b1 =</span> b1, <span class="at">b2 =</span> b2) <span class="sc">|&gt;</span> </span>
 <span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"bootstrap"</span>, <span class="at">values_to =</span> <span class="st">"mean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-3-3">
 <div class="width-80">
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-20_cc15d84d8ca6e3a44a9b4c92ba81c86d">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>d <span class="sc">|&gt;</span> </span>
 <span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(mean, <span class="at">fill =</span> bootstrap)) <span class="sc">+</span> </span>
 <span id="cb20-3"><a href="#cb20-3"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span></span>
@@ -679,7 +679,7 @@
 <ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Method 1</a></li><li><a href="#tabset-4-2">Method 2</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1">
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-21_3837ce0d1410be5bdabc127f98db3700">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>d <span class="sc">|&gt;</span> </span>
 <span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">group_by</span>(bootstrap) <span class="sc">|&gt;</span> </span>
 <span id="cb21-3"><a href="#cb21-3"></a>  tidybayes<span class="sc">::</span><span class="fu">mean_qi</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -693,7 +693,7 @@
 </div>
 </div>
 <div id="tabset-4-2">
-<div class="cell">
+<div class="cell" data-hash="08_response_times_ii_cache/revealjs/unnamed-chunk-22_63af81f22dce63ccc2fa51887f2277c5">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>d <span class="sc">|&gt;</span> </span>
 <span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">group_by</span>(bootstrap) <span class="sc">|&gt;</span> </span>
 <span id="cb23-3"><a href="#cb23-3"></a>  <span class="fu">summarize</span>(<span class="at">estimate =</span> <span class="fu">mean</span>(mean), </span>

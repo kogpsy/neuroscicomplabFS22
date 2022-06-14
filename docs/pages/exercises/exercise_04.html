@@ -292,6 +292,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../pages/solutions/solution_04.html">
  <span class="dropdown-text">Übung 4: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_05.html">
+ <span class="dropdown-text">Übung 5: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -384,20 +388,20 @@ Note
 </div>
 </div>
 <section id="vorbereitung" class="level1"><h1>Vorbereitung</h1>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-2_01e58d941a8f5335d0bdaeb28a96be43">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/session-6.csv"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="variablen-bearbeiten" class="level2"><h2 class="anchored" data-anchor-id="variablen-bearbeiten">Variablen bearbeiten</h2>
 <p>Zu <code>factor</code> konvertieren, etc.</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-3_8655c4c3449ef8a25f709a485ae194ff">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">condition</span>, <span class="va">cue</span>, <span class="va">direction</span>, <span class="va">choice</span><span class="op">)</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.character</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>,
            cue <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel</a></span><span class="op">(</span><span class="va">cue</span>, <span class="st">"left"</span>, <span class="st">"none"</span>, <span class="st">"right"</span><span class="op">)</span><span class="op">)</span> |&gt;
     <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-4_e8fe1e28f6ce552255a205b807a3bb77">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt</span> <span class="op">&lt;-</span> <span class="va">d</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span>
         <span class="va">direction</span> <span class="op">==</span> <span class="st">"right"</span> <span class="op">&amp;</span> <span class="va">choice</span> <span class="op">==</span> <span class="st">"right"</span> <span class="op">~</span> <span class="st">"Hit"</span>,
@@ -406,12 +410,12 @@ Note
         <span class="va">direction</span> <span class="op">==</span> <span class="st">"left"</span> <span class="op">&amp;</span> <span class="va">choice</span> <span class="op">==</span> <span class="st">"right"</span> <span class="op">~</span> <span class="st">"FA"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Für jede Vpn in jeder der drei <code>cue</code> Bedingungen die verschiedenen Antworttypen zählen.</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-5_56fcd025244224a0360fe8797c12ccdf">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">cue</span><span class="op">)</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">type</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-6_cfac367666151ffd04e2b86d44398c30">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 170 × 4
@@ -432,11 +436,11 @@ Note
 </div>
 </div>
 </section><section id="von-wide-zu-long-konvertieren" class="level2"><h2 class="anchored" data-anchor-id="von-wide-zu-long-konvertieren">Von <code>wide</code> zu <code>long</code> konvertieren</h2>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-7_ac5c711c06b46291fc75648cbc8ed80f">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">type</span>, values_from <span class="op">=</span> <span class="va">n</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-8_fe075fc8c18b5bcfb2344f9226ffe9bb">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 45 × 6
@@ -457,7 +461,7 @@ Note
 </div>
 </div>
 </section><section id="funktionen-definieren" class="level2"><h2 class="anchored" data-anchor-id="funktionen-definieren">Funktionen definieren</h2>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-9_5663a5976b3ccf0b1001539dd13557c5">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">replace_NA</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
     <span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0</span>, <span class="va">x</span><span class="op">)</span>
     <span class="va">x</span>
@@ -473,28 +477,28 @@ Note
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="nas-ersetzen" class="level2"><h2 class="anchored" data-anchor-id="nas-ersetzen">NAs ersetzen</h2>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-10_3f4478fef055ccfb250229290a53f792">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Hit</span>, <span class="va">Miss</span>, <span class="va">FA</span>, <span class="va">CR</span><span class="op">)</span>, <span class="va">replace_NA</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="hit-rate-und-false-alarm-rate-berechnen" class="level2"><h2 class="anchored" data-anchor-id="hit-rate-und-false-alarm-rate-berechnen">Hit Rate und False Alarm Rate berechnen</h2>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-11_378dd254cc465593c0ad16cf2dd699d2">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sdt_summary <span class="ot">&lt;-</span> sdt_summary <span class="sc">|&gt;</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">hit_rate =</span> ___,</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">fa_rate =</span> ___)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="werte-0-und-1-korrigieren" class="level2"><h2 class="anchored" data-anchor-id="werte-0-und-1-korrigieren">Werte 0 und 1 korrigieren</h2>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-13_630d0d3c2660f06c5d5063101729772f">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">hit_rate</span>, <span class="va">fa_rate</span><span class="op">)</span>, <span class="va">correct_zero_one</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="z-transformation" class="level2"><h2 class="anchored" data-anchor-id="z-transformation">Z-Transformation</h2>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-14_5a9d5b514d391371ceb4956c9933485e">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>zhr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">hit_rate</span><span class="op">)</span>,
            zfa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">fa_rate</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-15_1671dff01c31f8a5125cc70907b9db8c">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 45 × 10
@@ -515,7 +519,7 @@ Note
 </div>
 </div>
 </section><section id="sdt-kennzahlen-berechnen" class="level2"><h2 class="anchored" data-anchor-id="sdt-kennzahlen-berechnen">SDT Kennzahlen berechnen</h2>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-16_36267ae2dbbb0f3c7b585287e9705260">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sdt_summary <span class="ot">&lt;-</span> sdt_summary <span class="sc">|&gt;</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">dprime =</span> ___,</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">k =</span> ___,</span>
@@ -523,12 +527,12 @@ Note
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(dprime, k, c), round, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="variablen-auswählen" class="level2"><h2 class="anchored" data-anchor-id="variablen-auswählen">Variablen auswählen</h2>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-18_3716ae4558d6b996f12a3c5a7267ea2e">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_final</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">cue</span>, <span class="va">dprime</span>, <span class="va">k</span>, <span class="va">c</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Im finalen Datensatz haben wir nun <code>d'</code>, <code>k</code> und <code>c</code> für jede Person in jeder Bedingung.</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-19_cf24780229b5be2a45c1404d8b4859ac">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_final</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 45 × 5
@@ -562,7 +566,7 @@ Note
 <p>Versuchen Sie die untenstehende Grafiken für <code>d'</code> und <code>c</code> zu reproduzieren.</p>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-20_8a4bb8fd8bc6395c58ca13c25a2ea240">
 <div class="cell-output-display">
 <p><img src="exercise_04_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -593,18 +597,18 @@ Note
 </tr>
 </tbody>
 </table>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-21_1a3fe7ae1f0f2ddf9f549a4dc6f006aa">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>cs <span class="ot">&lt;-</span> sdt_final <span class="sc">|&gt;</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(ID, cue, c) <span class="sc">|&gt;</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    ___</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-22_1866731ebeeda26464ba1e9cef12ae2f">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dprimes <span class="ot">&lt;-</span> sdt_final <span class="sc">|&gt;</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(ID, cue, ___) <span class="sc">|&gt;</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    ___</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Wenn Sie, wie ich, die Datensätze mit den Mittelwerten, Standardfehlern und <span class="math inline">\(95%\)</span> Konfidenzintervallen <code>primes</code> und <code>cs</code> genannt haben, können Sie die Plots beispielsweise so erstellen.</p>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-23_4da586f098f15ef03596e296946078a6">
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">cs</span> |&gt;
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">cue</span>, y <span class="op">=</span> <span class="va">c</span>, group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, 
@@ -618,7 +622,7 @@ Note
 </div>
 <p>Falls Sie wollen, können Sie die individuellen <code>c</code> Schätzungen dem Plot hinzufügen, mit folgendem Code:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">cue</span>, <span class="va">c</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sdt_final</span>, width <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell">
+<div class="cell" data-hash="exercise_04_cache/html/unnamed-chunk-24_262f396597310a22aea951a54065dcbf">
 <div class="cell-output-display">
 <p><img src="exercise_04_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
 </div>

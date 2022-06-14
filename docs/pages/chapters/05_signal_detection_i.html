@@ -292,6 +292,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../pages/solutions/solution_04.html">
  <span class="dropdown-text">Übung 4: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_05.html">
+ <span class="dropdown-text">Übung 5: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -443,14 +447,14 @@ SDT does not require any particular distributions, but in practise, Gaussians ar
 <li><p>From your behavioural data, the number of <code>hits</code> and <code>false alarms</code>, we want to estimate your hit rate and false alarm rate, and then compute your internal (latent) quantities that guided your behaviour.</p></li>
 </ol>
 <p>The internal signal evoked by old and new items is often shown like this:</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-1_987329cd0db3590b5beba0dab44e28a5">
 <div class="cell-output-display">
 <p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>New items produce less familiarity than old items, but the internal representation is noisy.</p>
 <p>In order to classify the presented stimulus, based on the evoked familiarity (decision variable), we need a decision rule:</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-2_5abc89a433f7c0ecad9825b8abb03305">
 <div class="cell-output-display">
 <p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -468,7 +472,7 @@ SDT does not require any particular distributions, but in practise, Gaussians ar
 <li>requires taking the difference on a transformed (probit) scale</li>
 <li>this is equivalent to a contrast between levels of a factor with two levels as the linear predictor for a response in a GLM</li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-3_98bf59e480d17be51a9a4c26af5c8b95">
 <div class="cell-output-display">
 <p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -484,13 +488,13 @@ SDT does not require any particular distributions, but in practise, Gaussians ar
 <p>We can also write this the other way round:</p>
 <p>When the stimulus is <code>new</code>, we will produce false alarms with probability:</p>
 <p><span class="math display">\[ p_{FA} = P(y = 1 | X = 0) = 1 - \Phi(k) \]</span></p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-4_275885e7fe5935fe358e8c7f43763ca1">
 <div class="cell-output-display">
 <p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>When the stimulus is <code>old</code>, we will produce hits with probability: <span class="math display">\[ p_{H} = P(y = 1 | X=1) = 1 - \Phi(k-d') \]</span></p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-5_55540472928472456022c6b9d57885a1">
 <div class="cell-output-display">
 <p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -500,7 +504,7 @@ SDT does not require any particular distributions, but in practise, Gaussians ar
 </ul>
 <p><span class="math display">\[ P(y = 1 | X = x) = 1 - \Phi(k-d'X) = \Phi(-k + d'X) \]</span> where <span class="math inline">\(X\)</span> is an indicator variable, i.e.&nbsp;takes the value <code>1</code> for <code>old</code> and <code>0</code> for <code>new</code>.</p>
 <p>This produces the probability of giving an <code>old</code> response, given the stimulus. If the stimulus is <code>old</code>, this is the probability of a <code>hit</code>, if the stimulus is <code>new</code>, this is the probability of a <code>false alarm</code>.</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-6_4cde4a030dddcd66f91c4145517ecf3f">
 <div class="cell-output-display">
 <p><img src="05_signal_detection_i_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -515,7 +519,7 @@ SDT does not require any particular distributions, but in practise, Gaussians ar
 </ul></section><section id="parameter-recovery" class="level1 page-columns page-full"><h1>Parameter recovery</h1>
 <p>To get a feel for how the parameters <code>c</code> and <code>d'</code> relate to observed hit and false alarm rates, we will do the following: we first simulate an observer performing a classification experiment with known parameters, i.e.&nbsp;<code>c</code> and <code>d'</code> are known to us and used to generate the data. We then attempt to recover <code>c</code> and <code>d'</code> from the observed hit and false alarm rates.</p>
 <p>To do this, we can define a function that takes <code>c</code> and <code>d'</code> as input, and then simulates <span class="math inline">\(N\)</span> signal and <span class="math inline">\(N\)</span> noise trials, giving a total of <span class="math inline">\(2\cdot N\)</span> trials.</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-7_8a89005c72f8f883f40a6998cdda65af">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sim_sdt</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dp</span> <span class="op">=</span> <span class="fl">1</span>, <span class="va">c</span> <span class="op">=</span> <span class="fl">0</span>, <span class="va">N</span> <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">nS</span> <span class="op">&lt;-</span> <span class="va">nN</span> <span class="op">&lt;-</span> <span class="va">N</span>
 
@@ -547,7 +551,7 @@ SDT does not require any particular distributions, but in practise, Gaussians ar
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">CR</span> <span class="op">&lt;-</span> <span class="va">nN</span><span class="op">-</span><span class="va">FA</span>
 <span class="va">Miss</span> <span class="op">&lt;-</span> <span class="va">nS</span><span class="op">-</span><span class="va">Hit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Now, we can simulate the behaviour of an observer. An ideal observer would be unbiased, i.e.&nbsp;use a value of <span class="math inline">\(c=0\)</span>:</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-8_b4903b12674c433699d6f05a918e4d6a">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">89</span><span class="op">)</span>
 <span class="va">ideal_observer</span> <span class="op">&lt;-</span> <span class="fu">sim_sdt</span><span class="op">(</span>d <span class="op">=</span> <span class="fl">1</span>, c <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="va">ideal_observer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -560,7 +564,7 @@ SDT does not require any particular distributions, but in practise, Gaussians ar
 </div>
 <p>One thing to note is that, even an unbiased, ideal observer cannot achieve perfect performance given that <span class="math inline">\(d=1\)</span>.</p>
 <p>We can compute the observer’s accuracy as:</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-9_f6c7900939b36c2c7d62c19535fd3493">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">ideal_observer</span> |&gt; 
   <span class="fu">summarise</span><span class="op">(</span>accuracy <span class="op">=</span> <span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">CR</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">CR</span> <span class="op">+</span> <span class="va">Miss</span> <span class="op">+</span> <span class="va">FA</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -586,7 +590,7 @@ Note
 </div>
 </div>
 <p>We can also simulate the behaviour of an observer that is biased to toward giving <code>yes</code> responses, i.e.&nbsp;an observer with a value of <span class="math inline">\(c&lt;0\)</span>:</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-10_35ac3bbdaa567c2059b9da464d90b34e">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">89</span><span class="op">)</span>
 <span class="va">yes_observer</span> <span class="op">&lt;-</span> <span class="fu">sim_sdt</span><span class="op">(</span>d <span class="op">=</span> <span class="fl">1</span>, c <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
 <span class="va">yes_observer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -597,7 +601,7 @@ Note
 1    92     8    74    26</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-11_d31ad22447dbe64beff7a81799f421ec">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">yes_observer</span> |&gt; 
   <span class="fu">summarise</span><span class="op">(</span>accuracy <span class="op">=</span> <span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">CR</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">CR</span> <span class="op">+</span> <span class="va">Miss</span> <span class="op">+</span> <span class="va">FA</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -622,7 +626,7 @@ Tip
 </div>
 <section id="parameter-recovery-1" class="level2"><h2 class="anchored" data-anchor-id="parameter-recovery-1">Parameter recovery</h2>
 <p>We can now attempt to recover the <em>known</em> parameters <code>c</code> and <code>d'</code> from the observed hit and false alarm rates.</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-13_8e1ec3ed751358c815f817cd956b0561">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">yes_observer</span> <span class="op">&lt;-</span> <span class="va">yes_observer</span> |&gt;
     <span class="fu">mutate</span><span class="op">(</span>hit_rate <span class="op">=</span> <span class="va">Hit</span><span class="op">/</span><span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">Miss</span><span class="op">)</span>,
            fa_rate <span class="op">=</span> <span class="va">FA</span><span class="op">/</span><span class="op">(</span><span class="va">FA</span> <span class="op">+</span> <span class="va">CR</span><span class="op">)</span><span class="op">)</span>
@@ -637,7 +641,7 @@ Tip
            c <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> <span class="op">(</span><span class="va">zhr</span> <span class="op">+</span> <span class="va">zfa</span><span class="op">)</span><span class="op">)</span> |&gt;
     <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">dprime</span>, <span class="va">c</span><span class="op">)</span>, <span class="va">round</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-14_053efa8d8f15b16ec68dfa92df481afd">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">yes_observer</span> </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 11
@@ -647,7 +651,7 @@ Tip
 </div>
 </div>
 <p>For the biased observer, the valuues we used were <span class="math inline">\(d' = 1\)</span> and <span class="math inline">\(c = -1\)</span>. Are we able to recover these?</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-15_0ebb7b3fcdc2954cff5bbe3ee74be7d5">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">yes_observer</span> |&gt; <span class="fu">pull</span><span class="op">(</span><span class="va">c</span>, <span class="va">dprime</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> 0.76 
@@ -670,7 +674,7 @@ Note
 </section></section><section id="memory-experiment" class="level1"><h1>Memory experiment</h1>
 <p>Let’s look at an example (borrowing heavily from this <a href="https://vuorre.netlify.com/post/2017/10/09/bayesian-estimation-of-signal-detection-theory-models-part-1/">blog post</a>).</p>
 <p>The data are from a recognition memory experiment:</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-16_8fc1ee2dad4482cfd45e044328300c13">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="co"># You might first need to install the `remotes` package</span>
 <span class="co"># install.packages("remotes")</span>
 <span class="co"># install sdtalt</span>
@@ -685,7 +689,7 @@ Note
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>subno <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">subno</span><span class="op">)</span>,
          item <span class="op">=</span> <span class="va">isold</span> <span class="op">-</span> <span class="fl">0.5</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-17_956f9c620fddcdf19000b07c52c77d97">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">confcontr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3,100 × 4
@@ -705,7 +709,7 @@ Note
 </div>
 </div>
 <p>First we classify each response as hit, miss, correct rejection (cr) or false alarm (fa):</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-18_d8be6771c845e19f30647e50ae1d2087">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt</span> <span class="op">&lt;-</span> <span class="va">confcontr</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span>
         <span class="va">isold</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">sayold</span><span class="op">==</span><span class="fl">1</span> <span class="op">~</span> <span class="st">"Hit"</span>,
@@ -714,21 +718,21 @@ Note
         <span class="va">isold</span><span class="op">==</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">sayold</span><span class="op">==</span><span class="fl">1</span> <span class="op">~</span> <span class="st">"FA"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And then count the number of hits, etc.</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-19_cdd779adabe9567a5f2b440274622f9b">
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">subno</span><span class="op">)</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">type</span><span class="op">)</span> |&gt; 
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">type</span>, values_from <span class="op">=</span> <span class="va">n</span><span class="op">)</span> </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will need the following two functions later on. The first replaces all instances of <code>NA</code> with <code>0</code>; i.e.&nbsp;if there is a count of zero, then we have the value <code>NA</code> in the data.</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-20_513093a390d550d4c091ebcacfa1b616">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">replace_NA</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
     <span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0</span>, <span class="va">x</span><span class="op">)</span>
     <span class="va">x</span>
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The second function provides a minor correction in case we have hit or false alarm rates of either <code>0</code> or <code>1</code>. Since a <em>rate</em> <span class="math inline">\(r\)</span> is a relative frequency, which we interpret as a probability, it must lie within the range <code>0:1</code>: <span class="math inline">\(0 &lt; r &lt; 1\)</span>. The function adds or subtracts a small number, depending on whether the rate is <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>. In this case, neither function is necessary; we apply them anyway, for demonstration.</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-21_e88a90249f9957c4c0bcf69ff2532392">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">correct_zero_one</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">rate</span>, <span class="va">e</span> <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span> <span class="op">{</span>
     <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">rate</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
         <span class="va">rate</span> <span class="op">=</span> <span class="va">rate</span> <span class="op">+</span> <span class="va">e</span>
@@ -738,7 +742,7 @@ Note
     <span class="va">rate</span>
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-22_f59145607ae2b5a9509efb375eae102e">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 31 × 5
@@ -758,7 +762,7 @@ Note
 # … with 21 more rows</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-23_80ad498e78396c9ada47450ee9d4fc91">
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Hit</span>, <span class="va">Miss</span>, <span class="va">FA</span>, <span class="va">CR</span><span class="op">)</span>, <span class="va">replace_NA</span><span class="op">)</span><span class="op">)</span>
 
@@ -782,7 +786,7 @@ Note
 </div>
 </div>
 <p>Next, we <strong>estimate</strong> the hit and false alarm rates, based on the observed number of hits and false alarms.</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-24_18ee17242f64e44aa343d3079f89a682">
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>hit_rate <span class="op">=</span> <span class="va">Hit</span><span class="op">/</span><span class="op">(</span><span class="va">Hit</span> <span class="op">+</span> <span class="va">Miss</span><span class="op">)</span>,
            fa_rate <span class="op">=</span> <span class="va">FA</span><span class="op">/</span><span class="op">(</span><span class="va">FA</span> <span class="op">+</span> <span class="va">CR</span><span class="op">)</span><span class="op">)</span>
@@ -805,7 +809,7 @@ Note
 # … with 21 more rows</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-25_f2fdc1b946b89e1b7e9d93ae0e2ba302">
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">hit_rate</span>, <span class="va">fa_rate</span><span class="op">)</span>, <span class="va">correct_zero_one</span><span class="op">)</span><span class="op">)</span>
 <span class="va">sdt_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -828,7 +832,7 @@ Note
 </div>
 </div>
 <p>Given the hit and false alarm rates, we can calculate the value on the <em>latent strength</em> variable that must result in the hit and false alarm rate.</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-26_99c5ba1d820a96b0eea05da3721794b9">
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>zhr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">hit_rate</span><span class="op">)</span>,
            zfa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">fa_rate</span><span class="op">)</span><span class="op">)</span>
@@ -852,7 +856,7 @@ Note
 </div>
 </div>
 <p>Finally, we compute <span class="math inline">\(d'\)</span>, <span class="math inline">\(k\)</span> and <span class="math inline">\(c\)</span> using the formulae given above.</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-27_2d18abed1a0bc52df6716824d3a768ea">
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> <span class="op">&lt;-</span> <span class="va">sdt_summary</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>dprime <span class="op">=</span> <span class="va">zhr</span> <span class="op">-</span> <span class="va">zfa</span>,
          k <span class="op">=</span> <span class="op">-</span><span class="va">zfa</span>,
@@ -880,7 +884,7 @@ Note
 </div>
 </section><section id="memory-experiment-single-subject" class="level1"><h1>Memory experiment: single subject</h1>
 <p>For simplicity, we first look at the data from subject <code>53</code> only:</p>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-28_585355c064d9e36df60d4a1b418f7298">
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">subno</span> <span class="op">==</span> <span class="fl">53</span><span class="op">)</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">subno</span>, <span class="va">hit_rate</span>, <span class="va">fa_rate</span>, <span class="va">zhr</span>, <span class="va">zfa</span>, <span class="va">dprime</span>, <span class="va">k</span>, <span class="va">c</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -900,7 +904,7 @@ Note
 <li>a parameter for the indicator <code>isold</code>: this corresponds to <code>d'</code>
 </li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-29_3dccb5e60e8a63157a867033e19e73d3">
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">subno53</span> <span class="op">&lt;-</span> <span class="va">confcontr</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">subno</span> <span class="op">==</span> <span class="fl">53</span><span class="op">)</span>
 
@@ -934,7 +938,7 @@ AIC: 139.22
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-30_99ba6ce664587c526c7bf3370124b798">
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">fit_glm_53_c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">sayold</span> <span class="op">~</span> <span class="va">item</span>, 
                   family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"probit"</span><span class="op">)</span>,
                   data <span class="op">=</span> <span class="va">subno53</span><span class="op">)</span>
@@ -963,7 +967,7 @@ AIC: 139.22
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="05_signal_detection_i_cache/html/unnamed-chunk-31_51ff27e12eef6ccb5ea7bde699443bf0">
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">sdt_summary</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">subno</span> <span class="op">==</span> <span class="fl">53</span><span class="op">)</span> |&gt; 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">subno</span>, <span class="va">dprime</span>, <span class="va">k</span>, <span class="va">c</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

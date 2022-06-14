@@ -311,6 +311,10 @@ div.csl-indent {
     <a class="dropdown-item" href="../../pages/solutions/solution_04.html">
  <span class="dropdown-text">Übung 4: Lösung</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/solutions/solution_05.html">
+ <span class="dropdown-text">Übung 5: Lösung</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -404,7 +408,7 @@ div.csl-indent {
   </div>
   
 
-</header><!-- :::{.callout-note} --><!-- 👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/evidence-accumulation-1.R) --><!-- ::: --><!-- t-test --><!--     - Lee --><!-- Signal detection --><!--     - Lee --><!--     - Farrell --><div class="cell">
+</header><!-- :::{.callout-note} --><!-- 👉 [R Code für dieses Kapitel downloaden](../../downloadable_files/evidence-accumulation-1.R) --><!-- ::: --><!-- t-test --><!--     - Lee --><!-- Signal detection --><!--     - Lee --><!--     - Farrell --><div class="cell" data-hash="11_data-analysis-1_cache/html/load-packages_af456366be5edffc87b3e42f8de7f279">
 
 </div>
 <section id="data-analysis" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="data-analysis">Data analysis</h2>
@@ -482,7 +486,7 @@ Gigerenzer, Gerd. 2004. <span>“Mindless Statistics.”</span> <em>The Journal 
 </ol>
 <section id="sec-fancyhat" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="sec-fancyhat">T-test</h3>
 <p>This example uses simulated data, but is based on an actual study. In the code below, we simulate creativity scores from two groups. One group was instructed to wear a fancy hat, the other, woth no head gear, serves as a control group. We would like to know whether the fancy hat group and the control group differ in their mean creativity.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-2_e1f12406bdaa656cf8023260997b0ccf">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span>
@@ -514,7 +518,7 @@ Gigerenzer, Gerd. 2004. <span>“Mindless Statistics.”</span> <em>The Journal 
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span>, <span class="st">"No Fancy Hat"</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We have created a dataframe called <code>FancyHat</code>.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-3_25f8e8a16e265e9476ce7d07a7e10cac">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">FancyHat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 100 × 2
@@ -534,7 +538,7 @@ Gigerenzer, Gerd. 2004. <span>“Mindless Statistics.”</span> <em>The Journal 
 </div>
 </div>
 <p>We can now pretend that we don’t know how the data were generated, and treat them as data from an experiment.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-4_1a07e3bdd7ed1bef2f26d3ca895ab716">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">FancyHat</span> |&gt; 
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">Creativity</span>, x <span class="op">=</span> <span class="va">Group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -545,15 +549,15 @@ Gigerenzer, Gerd. 2004. <span>“Mindless Statistics.”</span> <em>The Journal 
 </div>
 </div>
 <p>Assuming that both groups are normally distributed with the same variance, we can use the t-test to determine whether the mean of the two groups is different.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-5_757411670cafc74101d329228de9e1f6">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">fancyhat_ttest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">Creativity</span> <span class="op">~</span> <span class="va">Group</span>,
        var.equal <span class="op">=</span> <span class="cn">TRUE</span>,
        data <span class="op">=</span> <span class="va">FancyHat</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-6_a1c00eb329bbb60ae3f31dbc0fd49044">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">fancyhat_ttest_tab</span> <span class="op">&lt;-</span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">fancyhat_ttest</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-7_018b91da957adee18eb936c28b3416eb">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">fancyhat_ttest_tab</span> |&gt;
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">estimate</span>, <span class="va">estimate1</span>, <span class="va">estimate2</span>, <span class="va">statistic</span>, <span class="va">p.value</span>, <span class="va">conf.low</span>, <span class="va">conf.high</span><span class="op">)</span> |&gt;
     <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -603,17 +607,17 @@ y_i \sim \mathcal{Bernoulli}(\theta)
 </div>
 <p><span class="math inline">\(y_i\)</span> is the <span class="math inline">\(i\)</span> th observation in the data, meaning that it tells us whether player A won the game or not on trial <span class="math inline">\(i\)</span>. <span class="math inline">\(\theta\)</span> is the probability of success for each individual game; this is a parameter of our model (<span class="math inline">\(\mathcal{M}\)</span>).</p>
 <p>Previously, we used maximum likelihood to estimate <span class="math inline">\(\theta\)</span> - we will repeat this briefly here.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-8_47f40ded9b570dae8a7129d9022c68de">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">wins</span> <span class="op">&lt;-</span> <span class="fl">6</span>
 <span class="va">games</span> <span class="op">&lt;-</span> <span class="fl">9</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The goal is to figure out the “best” value of <span class="math inline">\(\theta\)</span>, i.e.&nbsp;the value that maximizes the likelihood of observing the data. To do this, we need to consider a range of possible values of <span class="math inline">\(\theta\)</span> (we already know that this range is <span class="math inline">\([0, 1]\)</span>, so that part is easy). We will consider 101 values of <span class="math inline">\(\theta\)</span> between 0 and 1, and compute the likelihood of observing the data for each value of <span class="math inline">\(\theta\)</span>.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-9_4ef491dbd06f3206962587b45a7e9203">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">n_points</span> <span class="op">&lt;-</span> <span class="fl">101</span>
 <span class="va">theta_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span> from<span class="op">=</span><span class="fl">0</span> , to<span class="op">=</span><span class="fl">1</span> , length.out <span class="op">=</span> <span class="va">n_points</span> <span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Assuming that both players have an equal chance of winning, the parameter should be <span class="math inline">\(\theta = 0.5\)</span>. The probability of the data given <span class="math inline">\(\theta = 0.5\)</span> is:</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-10_a57de810573b0fefb561b52418aa7c75">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wins</span>, size <span class="op">=</span> <span class="va">games</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1640625</code></pre>
@@ -621,14 +625,14 @@ y_i \sim \mathcal{Bernoulli}(\theta)
 </div>
 <p>The probability of winning 6 out of 9 games, given that both players are equally likely to win, is 0.1640625.</p>
 <p>We can also compute the probability of A winning 6, 7, 8 or 9 games, using the cumulative distribution function of the binomial distribution.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-11_73ef069d0d5786ffa619af52846d8168">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">5</span>, size <span class="op">=</span> <span class="va">games</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2539063</code></pre>
 </div>
 </div>
 <p>or</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-12_2a2eecc8712a747bec955dc196a70520">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">5</span>, size <span class="op">=</span> <span class="va">games</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2539063</code></pre>
@@ -652,17 +656,17 @@ p-value
 </div>
 </div>
 <p>Now we compute the probability of the data under all parameter values under consideration. In R, this is very simple, since all functions are vectorized.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-13_ae93ec0f31edabf0680ab3d2c984b9bb">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">likelihood</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">wins</span> , size <span class="op">=</span> <span class="va">games</span> , prob <span class="op">=</span> <span class="va">theta_grid</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-14_30f64ea7f01ebf66fcc5859cd28dee3b">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">likelihood</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We can see in the above figure that the probability of observing the data is small for a lot of values of <span class="math inline">\(\theta\)</span>. The probability of observing the data, or the likelihood, is maximal for the value 0.6666667:</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-15_f7eeca17b4305b4edb0db7a8fcdb9fb4">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">theta_grid</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.max</a></span><span class="op">(</span><span class="va">likelihood</span><span class="op">)</span><span class="op">]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.67</code></pre>
@@ -695,25 +699,25 @@ p(\theta|y) \propto  p(y|\theta) * p(\theta)
 </div>
 </section><section id="bayesian-inference-in-the-card-game-a-numerical-example" class="level2"><h2 class="anchored" data-anchor-id="bayesian-inference-in-the-card-game-a-numerical-example">Bayesian inference in the card game: a numerical example</h2>
 <p>Recall that we defined a sequence of 101 points between 0 and 1, which represented the possible <span class="math inline">\(\theta\)</span> values.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-16_7f5308240c00b2eef1a3a02aa618128b">
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">n_points</span> <span class="op">&lt;-</span> <span class="fl">101</span>
 <span class="va">theta_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span> from<span class="op">=</span><span class="fl">0</span> , to<span class="op">=</span><span class="fl">1</span> , length.out <span class="op">=</span> <span class="va">n_points</span> <span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For each of these, we computed the likelihood, that is the probability of observing the (fixed) data, given the parameter. Now, we can make our knowledge about the probability of each parameter value explicit. At first, we will assume that all parameters are equally likely. We will assign the probability of 1 to each parameter value. This is our prior distribution.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-17_a2622ea8d14e24e4775f22d8e511ff4d">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">theta_grid</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-18_6cdb82c103bd3857bfa64278f927bac1">
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior_1</span>, <span class="st">"type"</span> <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We could also express the belief that player is at least as good as player B, i.e.&nbsp;they are equally good or A is better than B. One way of doing this is to assign a probability of <span class="math inline">\(1\)</span> to parameter values greater than or equal to <span class="math inline">\(0.5\)</span>, and the value <span class="math inline">\(0\)</span> to parameter values less than <span class="math inline">\(0.5\)</span>.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-19_81acf92692f756c615c3d3237e74f7b1">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">theta_grid</span> <span class="op">&lt;</span> <span class="fl">0.5</span>, <span class="fl">0</span>, <span class="fl">2</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-20_8cd8db604b8cb9df0c6b6aeaff772dd8">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior_2</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
@@ -731,7 +735,7 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>A family of probability distributions that are suitable for parameters that lie in the interval <span class="math inline">\([0,1]\)</span> is the <a href="https://en.wikipedia.org/wiki/Beta_distribution">Beta distribution</a>. This distribution has <span class="math inline">\(2\)</span> parameters <span class="math inline">\(\alpha\)</span> und <span class="math inline">\(\beta\)</span>, which can be interpreted as the prior number of successes and the number of failures, respectively. The number of trials is therefore <span class="math inline">\(\alpha + \beta\)</span>. <strong>?@fig-betadist</strong> shows a number of possible Beta distributions for various settings of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/fig-betadist_d654d62e74afb0ea7db9f16a64b27147">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 
 <span class="va">length</span> <span class="op">&lt;-</span> <span class="fl">1e4</span>
@@ -743,7 +747,7 @@ Note
          b <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="st">"b = "</span>, <span class="va">shape2</span><span class="op">)</span>,
          group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">length</span>, each <span class="op">=</span> <span class="fl">25</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-22_e11dc451bf93db76bb91289abbcd3573">
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">d</span> |&gt; 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   
@@ -762,20 +766,20 @@ Note
 </div>
 </div>
 <p>If we want to use a Beta distribution to express the belief that all values of <span class="math inline">\(\theta\)</span> are equally likely (uniform prior), we can a Beta distribution with <span class="math inline">\(\alpha = 1\)</span> and <span class="math inline">\(\beta = 1\)</span>.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-23_8fd86a06e418e0ca8b40fb736bdf02f1">
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">1</span>, shape2 <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-24_b3c546da807dfd4eafe3690eea4f9c9e">
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior_3</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Finally, we could express the following prior information as a Beta distribution: imagine you had previously observed <span class="math inline">\(100\)</span> games between A and B, and each won half of the games. You can set <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> to the number of games won by A, and the number of games won by B, respectively. A won <span class="math inline">\(50\)</span>, and B won <span class="math inline">\(50\)</span>:</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-25_4821c2e0ec45f87585ddd9c522673912">
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">50</span>, shape2 <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-26_d0f30b46e5613e6b54d3c8b560b473fc">
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
@@ -799,15 +803,15 @@ p(\theta|y) = \frac{ p(y|\theta) * p(\theta) } {p(y)}
 </div>
 </div>
 <p>In R, this is simply:</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-27_8e33d63cc780ab507e86f72e3059761b">
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">wins</span> <span class="op">&lt;-</span> <span class="fl">6</span>
 <span class="va">games</span> <span class="op">&lt;-</span> <span class="fl">9</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-28_54c8bc6fb06111dbeec6a143324968df">
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">4</span>, shape2 <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
 <span class="va">likelihood</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">wins</span> , size <span class="op">=</span> <span class="va">games</span> , prob <span class="op">=</span> <span class="va">theta_grid</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-29_fc36f9c222eb3dce7a965d32a06faf23">
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">unstandardized_posterior</span> <span class="op">&lt;-</span> <span class="va">likelihood</span> <span class="op">*</span> <span class="va">prior</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This gives us the unnormalized posterior:</p>
@@ -816,11 +820,11 @@ p(\theta|y) \propto  p(y|\theta) * p(\theta)
 \]</span></p>
 <p>We can then normalize the posterior distribution by dividing it by <span class="math inline">\(p(y) = \sum_{\theta}p(y|\theta) * p(\theta)\)</span>.</p>
 <p>In R we can use the <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code> function: <code>sum(unstandardized_posterior)</code>.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-30_f58abccdcc4bce953209dd900c89657c">
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">posterior</span> <span class="op">&lt;-</span> <span class="va">unstandardized_posterior</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">unstandardized_posterior</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now plot the resulting normalized posterior distribution.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-31_b3bee19ee5001fb57ded5b82275798ec">
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">posterior</span>, type <span class="op">=</span> <span class="st">"l"</span>, yaxt <span class="op">=</span> <span class="st">'n'</span>, ylab <span class="op">=</span> <span class="st">'Probability'</span>, 
         main <span class="op">=</span> <span class="st">"Posterior"</span>, cex.lab <span class="op">=</span> <span class="fl">1.5</span>, cex.main <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -828,7 +832,7 @@ p(\theta|y) \propto  p(y|\theta) * p(\theta)
 </div>
 </div>
 <p>To make this repeatable, we will write two functions. The first, <code>compute_posterior()</code>, will compute the posterior, given the prior and likelihood, and return a dataframe containing prior, likelihood and posterior. The second, <code>plot_posterior()</code>, will plot all three side-by-side. You can also pass in the maximum likelihood estimate, e.g.&nbsp;<code>6/9</code>, and this will be plotted as well.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-32_d174567d270b92fd87a530ba31416145">
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">compute_posterior</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">likelihood</span>, <span class="va">prior</span><span class="op">)</span><span class="op">{</span>
   <span class="co"># compute product of likelihood and prior</span>
   <span class="va">unstandardized_posterior</span> <span class="op">&lt;-</span> <span class="va">likelihood</span> <span class="op">*</span> <span class="va">prior</span>
@@ -840,7 +844,7 @@ p(\theta|y) \propto  p(y|\theta) * p(\theta)
   <span class="va">out</span>
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-33_e5754977024ced7f7d2ae1179f6754a7">
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">plot_posterior</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span>, <span class="va">mle</span> <span class="op">=</span> <span class="fl">6</span><span class="op">/</span><span class="fl">9</span><span class="op">)</span><span class="op">{</span>
 <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">df</span>, <span class="op">{</span>
     <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
@@ -856,14 +860,14 @@ p(\theta|y) \propto  p(y|\theta) * p(\theta)
 </div>
 <p>You can now try out various prior distributions, and observe the effect on the posterior.</p>
 <p>Let’s try out a uniform prior first:</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-34_14d73630d1a6d742fca6bfd370bdbe9b">
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">1</span>, shape2 <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="va">likelihood</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">wins</span> , size <span class="op">=</span> <span class="va">games</span> , prob <span class="op">=</span> <span class="va">theta_grid</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-35_29075f62188a00aded5754ee55206508">
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">compute_posterior</span><span class="op">(</span><span class="va">likelihood</span>, <span class="va">prior</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-36_6b27773f78f90e49ff1772cb84fe7181">
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu">plot_posterior</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
@@ -883,14 +887,14 @@ Note
 </div>
 </div>
 <p>Now let’s try out our prior expressing the belief that player A cannot be worse than player B:</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-37_001b2a8356064bef4bbe4b0ebdcdeab7">
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">theta_grid</span> <span class="op">&lt;</span> <span class="fl">0.5</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>
 <span class="va">likelihood</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">wins</span> , size <span class="op">=</span> <span class="va">games</span> , prob <span class="op">=</span> <span class="va">theta_grid</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-38_e0518132d4eda90bb12ef1a8b19b11e0">
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">compute_posterior</span><span class="op">(</span><span class="va">likelihood</span>, <span class="va">prior</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-39_f4e5139642f1ac1f706093e29ec433ec">
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu">plot_posterior</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
@@ -948,20 +952,20 @@ Tip
 <p>You can therefore think of the parameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> as the prior successes and failures in <span class="math inline">\(N\)</span> trials, and these parameters are updated by observing <span class="math inline">\(k\)</span> heads in <span class="math inline">\(N\)</span> flips.</p>
 <section id="example" class="level3"><h3 class="anchored" data-anchor-id="example">Example</h3>
 <p>This time, we are using <code>theta_grid</code> merely so we can plot the prior and posterior. Suppose that we have observed 8 games, and that player A has won 4 of those. Our prior should therefore be <span class="math inline">\(p(\theta|4,4)\)</span></p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-40_0f47426bbc0a30ad044ca349dfa72330">
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">4</span>, shape2 <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-41_c29450e8de06cb301a1e680c554240ba">
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">prior</span>, <span class="st">"l"</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>If we now observe that player A wins 3 out of the next 4 games, our posterior should be <span class="math inline">\(p(\theta|4+3,4+1)\)</span></p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-42_ef208ec3c6bba00621d8ee0621ef52dd">
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">posterior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">7</span>, shape2 <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-43_46f279cb3469525a72a23295de628d17">
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>prior <span class="op">=</span> <span class="va">prior</span>, 
        posterior <span class="op">=</span> <span class="va">posterior</span>, 
        theta <span class="op">=</span> <span class="va">theta_grid</span><span class="op">)</span> |&gt; 
@@ -975,16 +979,16 @@ Tip
 </div>
 </div>
 <p>We can write a function that updates a Beta prior, given <span class="math inline">\(k\)</span> successes in <span class="math inline">\(N\)</span> trials:</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-44_348ec22de8fa79c3ed5f05302430b2ba">
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">update_beta</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">k</span>, <span class="va">N</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">theta_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length <span class="op">=</span> <span class="fl">101</span><span class="op">)</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="va">a</span> <span class="op">+</span> <span class="va">k</span>, shape2 <span class="op">=</span> <span class="va">b</span> <span class="op">+</span> <span class="va">N</span><span class="op">-</span><span class="va">k</span><span class="op">)</span>
 <span class="op">}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-45_3e68638b80fb6f98e36f734a82c479a6">
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">posterior</span> <span class="op">&lt;-</span> <span class="fu">update_beta</span><span class="op">(</span>a <span class="op">=</span> <span class="fl">4</span>, b <span class="op">=</span> <span class="fl">4</span>, k <span class="op">=</span> <span class="fl">3</span>, N <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-46_612088d9ec68757c2ee63f56dd7e02fe">
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>prior <span class="op">=</span> <span class="va">prior</span>, 
        posterior <span class="op">=</span> <span class="va">posterior</span>, 
        theta <span class="op">=</span> <span class="va">theta_grid</span><span class="op">)</span> |&gt; 
@@ -1000,40 +1004,40 @@ Tip
 </section></section><section id="summarizing-the-posterior" class="level2"><h2 class="anchored" data-anchor-id="summarizing-the-posterior">Summarizing the posterior</h2>
 <p>We now need one last step: we need to summarize the posterior distribution. We can do this, for example by computing the mean and standard deviation of the posterior distribution.</p>
 <p>To show how this works, we can draw a thousand samples from the posterior distribution. First, we’ll create a posterior.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-47_1886ad734da4b1fd1b91fe9f3ac2110b">
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">prior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta_grid</span>, shape1 <span class="op">=</span> <span class="fl">1</span>, shape2 <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="va">likelihood</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">wins</span>, size <span class="op">=</span> <span class="va">games</span> , prob <span class="op">=</span> <span class="va">theta_grid</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-48_79f8008bd65989847aeb6f2c6a1e04ba">
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">compute_posterior</span><span class="op">(</span><span class="va">likelihood</span>, <span class="va">prior</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-49_33b7d2fd0c07e2d21906ae41a7245c20">
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu">plot_posterior</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="11_data-analysis-1_files/figure-html/unnamed-chunk-49-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Now we’ll draw 1000 random numbers from the posterior.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-50_2631aec4c5fa3d678cdac91ec7c28cdf">
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">n_samples</span> <span class="op">&lt;-</span> <span class="fl">1e3</span>
 
 <span class="va">samples</span> <span class="op">&lt;-</span> <span class="va">theta_grid</span> |&gt; <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">n_samples</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="va">df</span><span class="op">$</span><span class="va">posterior</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-51_d81eb90036f3b0e3a838a76650bfea8a">
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">samples</span>, <span class="fl">10</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 0.33 0.71 0.56 0.84 0.35 0.53 0.72 0.66 0.77 0.72</code></pre>
 </div>
 </div>
 <p>Now we can summarize the samples, e.g.&nbsp;by computing the mean or quantiles.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-52_b352ff7f1dba635337e658c303dee607">
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">samples</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.63476</code></pre>
 </div>
 </div>
 <p>The following will give us the median, and a 50% <strong>credible interval</strong>, i.e.&nbsp;an interval that contains 50% of the mass of the distribution.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-53_b002c039b50f6481ac9cd4611c8fa11b">
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">samples</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> 25%  50%  75% 
@@ -1041,7 +1045,7 @@ Tip
 </div>
 </div>
 <p>We can also use this approach to compute a 95% credible interval.</p>
-<div class="cell">
+<div class="cell" data-hash="11_data-analysis-1_cache/html/unnamed-chunk-54_4400b25bb65391c23b9c31236110fe47">
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span>
 
 <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">samples</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">alpha</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">-</span><span class="va">alpha</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
